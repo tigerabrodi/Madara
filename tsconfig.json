@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2018",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "baseUrl": "src",
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -16,7 +20,10 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "allowJs": true
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }

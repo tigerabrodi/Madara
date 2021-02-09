@@ -1,7 +1,5 @@
 {
   "extends": [
-    "airbnb-typescript",
-    "airbnb/hooks",
     "plugin:@typescript-eslint/recommended",
     "plugin:jest/recommended",
     "prettier",
@@ -29,12 +27,6 @@
     "project": ["./tsconfig.json"]
   },
   "rules": {
-    "import/no-extraneous-dependencies": [
-      "error",
-      {
-        "devDependencies": true
-      }
-    ],
     "no-nested-ternary": 0,
     "no-plusplus": 0,
     "jest/expect-expect": 0,

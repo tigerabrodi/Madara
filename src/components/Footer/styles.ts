@@ -15,11 +15,16 @@ export const FooterWrapper = styled.footer`
 export const FooterText = styled.span`
   color: ${theme.LightBlue};
   font-family: ${theme.SourceSansPro};
+  font-size: 2rem;
 `
 
 export const FooterLink = styled.a`
   text-decoration: underline;
-  color: inherit;
+  color: ${theme.White};
 `
 
-export const Heart = styled(HeartSVG)``
+export const Heart = styled(HeartSVG)`
+  height: 3rem;
+  position: relative;
+  top: 0.2rem;
+`

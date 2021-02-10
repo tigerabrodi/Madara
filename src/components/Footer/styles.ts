@@ -26,5 +26,6 @@ export const FooterLink = styled.a`
 export const Heart = styled(HeartSVG)`
   height: 3rem;
   position: relative;
-  top: 0.2rem;
+  top: 0.5rem;
+  margin: 0 0.2rem 0 0.5rem;
 `

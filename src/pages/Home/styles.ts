@@ -10,7 +10,8 @@ export const HomeMain = styled.main`
     'title'
     'subtitle'
     'form';
-  grid-template-rows: 15% 15% 70%;
+  justify-items: center;
+  grid-template-rows: 15% 10% 75%;
 `
 
 export const Title = styled.h1`
@@ -30,8 +31,9 @@ export const Subtitle = styled.h2`
 
 export const Form = styled.form`
   grid-area: form;
-  height: 60%;
-  width: 50%;
   background-color: ${theme.Blue};
   border-radius: 0.2rem;
+  height: 80%;
+  width: 65%;
+  max-width: 85rem;
 `

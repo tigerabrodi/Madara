@@ -147,8 +147,10 @@ export const SubmitButton = styled.button`
   font-size: 2rem;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.4s;
+  box-shadow: 0 0.1rem 0.2rem black;
   ${focusStyles};
   ${media.tablet} {
+    box-shadow: none;
     &:hover {
       transform: translateY(-0.3rem);
       box-shadow: 0 0.2rem 0.5rem ${theme.Black};
@@ -169,7 +171,9 @@ export const SwitchButton = styled.button`
   cursor: pointer;
   transition: 0.2s;
   ${focusStyles};
+  text-decoration: underline;
   ${media.tablet} {
+    text-decoration: none;
     &:hover {
       text-decoration: underline;
     }

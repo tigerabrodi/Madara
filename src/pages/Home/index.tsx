@@ -32,9 +32,10 @@ export const Home = () => {
             <Label htmlFor="name" id="name">
               Name
             </Label>
-            <Input type="text" id="name" />
+            <Input type="text" id="name" aria-describedby="nameInputError" />
             <ErrorMessage
               role="alert"
+              id="nameInputError"
               aria-label="Name must be at least two characters long."
             >
               Name must be at least two characters long.
@@ -46,8 +47,12 @@ export const Home = () => {
           <Label htmlFor="email" id="email">
             Email
           </Label>
-          <Input type="email" id="email" />
-          <ErrorMessage role="alert" aria-label="Email is not valid.">
+          <Input type="email" id="email" aria-describedby="emailInputError" />
+          <ErrorMessage
+            role="alert"
+            aria-label="Email is not valid."
+            id="emailInputError"
+          >
             Email is not valid.
           </ErrorMessage>
         </FormGroup>
@@ -56,10 +61,15 @@ export const Home = () => {
           <Label htmlFor="password" id="password">
             Password
           </Label>
-          <Input type="password" id="password" />
+          <Input
+            type="password"
+            id="password"
+            aria-describedby="passwordInputError"
+          />
           <ErrorMessage
             role="alert"
             aria-label="Password must be at least 6 characters long."
+            id="passwordInputError"
           >
             Password must be at least 6 characters long.
           </ErrorMessage>

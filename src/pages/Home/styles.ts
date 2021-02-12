@@ -1,34 +1,50 @@
 import styled from 'styled-components/macro'
+import { focusStyles } from 'styles'
+import { media } from 'theme/media'
 import { theme } from '../../theme/theme'
 
 export const HomeMain = styled.main`
   grid-area: main;
   display: grid;
-  height: calc(100vh - 8rem);
   width: 100%;
   grid-template-areas:
     'title'
     'subtitle'
     'form';
   justify-items: center;
-  align-items: center;
-  grid-template-rows: 15% 7% 78%;
+  min-height: calc(100vh - 8rem);
+  row-gap: 1rem;
+  grid-template-rows: 11% 3% 86%;
+  padding-bottom: 5rem;
+  align-items: flex-end;
+  ${media.phone} {
+    height: calc(100vh - 8rem);
+    grid-template-rows: 15% 7% 78%;
+    align-items: flex-start;
+  }
 `
 
 export const Title = styled.h1`
+  font-size: 5.6rem;
   grid-area: title;
   font-family: ${theme.LibreBaskerville};
   color: ${theme.Blue};
-  font-size: 9.6rem;
+  align-self: flex-end;
+  ${media.phone} {
+    font-size: 9.6rem;
+  }
 `
 
 export const Subtitle = styled.h2`
   grid-area: subtitle;
   font-family: ${theme.SourceSansPro};
-  font-size: 3.5rem;
+  font-size: 2.5rem;
   font-weight: 600;
   color: ${theme.Blue};
   text-decoration: underline;
+  ${media.phone} {
+    font-size: 3.5rem;
+  }
 `
 
 export const Form = styled.form`
@@ -40,25 +56,40 @@ export const Form = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  height: 95%;
-  width: 85rem;
+  height: 65rem;
+  width: 95%;
+  ${media.phone} {
+    height: 95%;
+  }
+  ${media.custom(900)} {
+    width: 85rem;
+  }
 `
 
 export const FormTitle = styled.h1`
+  font-size: 3rem;
   font-family: ${theme.LibreBaskerville};
   color: ${theme.White};
-  font-size: 4rem;
+  ${media.phone} {
+    font-size: 4rem;
+  }
 `
 
 export const FormGroup = styled.div`
-  height: 13rem;
-  width: 60%;
+  width: 90%;
+  height: 14rem;
   display: grid;
   grid-template-areas:
     'label'
     'input'
     'errorMessage';
   justify-items: center;
+  ${media.phone} {
+    width: 80%;
+  }
+  ${media.custom(700)} {
+    width: 60%;
+  }
 `
 
 export const Label = styled.label`
@@ -72,21 +103,37 @@ export const Label = styled.label`
 `
 
 export const Input = styled.input`
+  height: 80%;
+  align-self: center;
   border: none;
   border-radius: 0.2rem;
   grid-area: input;
   background-color: ${theme.White};
   width: 100%;
-  height: 100%;
+  color: ${theme.Blue};
+  padding-left: 2rem;
+  font-size: 2rem;
+  font-family: ${theme.SourceSansPro};
+  font-weight: bold;
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0.5rem ${theme.Black};
+  }
+  ${media.phone} {
+    height: 100%;
+  }
 `
 
 export const ErrorMessage = styled.span`
+  font-size: 1.4rem;
   font-family: ${theme.SourceSansPro};
   font-weight: bold;
-  font-size: 1.7rem;
   grid-area: errorMessage;
   color: ${theme.Pink};
   align-self: center;
+  ${media.phone} {
+    font-size: 1.7rem;
+  }
 `
 
 export const SubmitButton = styled.button`
@@ -98,17 +145,38 @@ export const SubmitButton = styled.button`
   height: 4.5rem;
   font-weight: bold;
   font-size: 2rem;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.4s;
+  ${focusStyles};
+  ${media.tablet} {
+    &:hover {
+      transform: translateY(-0.3rem);
+      box-shadow: 0 0.2rem 0.5rem ${theme.Black};
+    }
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 0 0.5rem ${theme.Black};
+    }
+  }
 `
 
 export const SwitchButton = styled.button`
-  text-decoration: underline;
   color: ${theme.White};
   font-family: ${theme.SourceSansPro};
-  font-weight: bold;
+  font-size: 1.5rem;
   background-color: transparent;
   border: none;
+  cursor: pointer;
+  transition: 0.2s;
+  ${focusStyles};
+  ${media.tablet} {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 `
 
 export const SwitchButtonHighlight = styled.span`
-  font-size: 1.5rem;
+  font-size: 1.7rem;
+  font-weight: bold;
 `

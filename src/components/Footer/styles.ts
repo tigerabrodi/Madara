@@ -1,6 +1,7 @@
 import styled from 'styled-components/macro'
 import { theme } from '../../theme/theme'
 import { ReactComponent as HeartSVG } from '../../assets/hearts.svg'
+import { media } from 'theme/media'
 
 export const FooterWrapper = styled.footer`
   grid-area: footer;
@@ -16,7 +17,10 @@ export const FooterWrapper = styled.footer`
 export const FooterText = styled.span`
   color: ${theme.LightBlue};
   font-family: ${theme.SourceSansPro};
-  font-size: 2rem;
+  font-size: 1.8rem;
+  ${media.phone} {
+    font-size: 2rem;
+  }
 `
 
 export const FooterLink = styled.a`
@@ -25,8 +29,11 @@ export const FooterLink = styled.a`
 `
 
 export const Heart = styled(HeartSVG)`
-  height: 3rem;
   position: relative;
   top: 0.5rem;
   margin: 0 0.2rem 0 0.5rem;
+  height: 2.5rem;
+  ${media.phone} {
+    height: 3rem;
+  }
 `

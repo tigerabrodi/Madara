@@ -77,7 +77,7 @@ export const Home = () => {
             ? 'Do not have an account yet?'
             : 'Already have an account?'}{' '}
           <SwitchButtonHighlight>
-            {isLoginMode ? 'Sign Up' : 'Sign In!'}
+            {isLoginMode ? 'Sign Up!' : 'Sign In!'}
           </SwitchButtonHighlight>
         </SwitchButton>
       </Form>

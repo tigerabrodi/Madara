@@ -72,7 +72,12 @@ export const Home = () => {
     <HomeMain>
       <Title>Madara</Title>
       <Subtitle>Manage Your Daily Tasks</Subtitle>
-      <Form onSubmit={(event) => onSubmit(event)} autoComplete="off" noValidate>
+      <Form
+        onSubmit={(event) => onSubmit(event)}
+        autoComplete="off"
+        isLoginMode={isLoginMode}
+        noValidate
+      >
         <FormTitle> {isLoginMode ? 'Sign In' : 'Sign Up'} </FormTitle>
 
         {!isLoginMode && (

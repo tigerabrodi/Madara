@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components/macro'
+import styled, { keyframes, css } from 'styled-components/macro'
 import { focusStyles } from 'styles'
 import { media } from 'theme/media'
 import { theme } from '../../theme/theme'
@@ -47,7 +47,7 @@ export const Subtitle = styled.h2`
   }
 `
 
-export const Form = styled.form`
+export const Form = styled.form<{ isLoginMode: boolean }>`
   grid-area: form;
   background-color: ${theme.Blue};
   border-radius: 0.2rem;
@@ -58,6 +58,11 @@ export const Form = styled.form`
   justify-content: space-evenly;
   height: 65rem;
   width: 95%;
+  ${(props) =>
+    props.isLoginMode &&
+    css`
+      height: 50rem;
+    `}
   ${media.phone} {
     height: 95%;
   }

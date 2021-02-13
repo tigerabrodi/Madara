@@ -9,15 +9,16 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: inherit;
   }
+
   html {
     font-size: 62.5%;
-    --white: #FFFFFF;
     --light-blue: #DDE1F4;
     --blue: #36458F;
     --pink: #E9B7B7;
     --libre-baskerville: 'Libre Baskerville';
     --source-sans-pro: 'Source Sans Pro';
   }
+
   body {
     box-sizing: border-box;
     background: ${theme.LightBlue};

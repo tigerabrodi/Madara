@@ -1,4 +1,4 @@
-import styled from 'styled-components/macro'
+import styled, { keyframes } from 'styled-components/macro'
 import { focusStyles } from 'styles'
 import { media } from 'theme/media'
 import { theme } from '../../theme/theme'
@@ -83,6 +83,7 @@ export const FormGroup = styled.div`
     'label'
     'input'
     'errorMessage';
+  grid-template-rows: 1fr 1fr 1fr;
   justify-items: center;
   ${media.phone} {
     width: 80%;
@@ -124,6 +125,12 @@ export const Input = styled.input`
   }
 `
 
+const errorAnim = keyframes`
+  to {
+    transform: translateY(0rem);
+  }
+`
+
 export const ErrorMessage = styled.span`
   font-size: 1.4rem;
   font-family: ${theme.SourceSansPro};
@@ -131,6 +138,8 @@ export const ErrorMessage = styled.span`
   grid-area: errorMessage;
   color: ${theme.Pink};
   align-self: center;
+  transform: translateY(-0.5rem);
+  animation: ${errorAnim} 0.2s forwards;
   ${media.phone} {
     font-size: 1.7rem;
   }

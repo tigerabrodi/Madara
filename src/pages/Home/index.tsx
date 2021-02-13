@@ -13,6 +13,17 @@ import {
   Title,
   SwitchButtonHighlight,
 } from './styles'
+
+interface FormElements extends HTMLFormControlsCollection {
+  name: HTMLInputElement
+  email: HTMLInputElement
+  password: HTMLInputElement
+}
+
+interface UserFormElement extends HTMLFormElement {
+  readonly elements: FormElements
+}
+
 export const Home = () => {
   const [isLoginMode, setIsLoginMode] = React.useState(false)
   const [isNameError, setIsNameError] = React.useState(false)
@@ -21,50 +32,36 @@ export const Home = () => {
 
   const [isEmailInvalid, setIsEmailInvalid] = React.useState(false)
 
-  const onSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.SyntheticEvent<UserFormElement>) => {
     event.preventDefault()
 
-    type EventWithElements = typeof event.target & {
-      elements: {
-        name: {
-          value?: string
-        }
-        password: {
-          value?: string
-        }
-      }
-    }
-
-    const target = event.target as EventWithElements
-
-    const { name, password } = target.elements
+    const { name, password } = event.currentTarget.elements
 
     if (!isLoginMode) {
       const isNameInvalid = !name.value || (name.value && name.value.length < 2)
-
       if (isNameInvalid) {
         setIsNameError(true)
         return setTimeout(() => {
           setIsNameError(false)
         }, 2500)
       }
-    }
 
-    if (isEmailInvalid) {
-      setIsEmailError(true)
-      return setTimeout(() => {
-        setIsEmailError(false)
-      }, 2500)
-    }
+      if (isEmailInvalid) {
+        setIsEmailError(true)
+        return setTimeout(() => {
+          setIsEmailError(false)
+        }, 2500)
+      }
 
-    const isPasswordInvalid =
-      !password.value || (password.value && password.value.length < 6)
+      const isPasswordInvalid =
+        !password.value || (password.value && password.value.length < 6)
 
-    if (isPasswordInvalid) {
-      setIsPasswordError(true)
-      return setTimeout(() => {
-        setIsPasswordError(false)
-      }, 2500)
+      if (isPasswordInvalid) {
+        setIsPasswordError(true)
+        return setTimeout(() => {
+          setIsPasswordError(false)
+        }, 2500)
+      }
     }
   }
 
@@ -73,7 +70,7 @@ export const Home = () => {
       <Title>Madara</Title>
       <Subtitle>Manage Your Daily Tasks</Subtitle>
       <Form
-        onSubmit={(event) => onSubmit(event)}
+        onSubmit={handleSubmit}
         autoComplete="off"
         isLoginMode={isLoginMode}
         noValidate

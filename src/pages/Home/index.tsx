@@ -27,13 +27,10 @@ export const Home = () => {
     type EventWithElements = typeof event.target & {
       elements: {
         name: {
-          value: string
-        }
-        email: {
-          value: string
+          value?: string
         }
         password: {
-          value: string
+          value?: string
         }
       }
     }
@@ -42,12 +39,15 @@ export const Home = () => {
 
     const { name, password } = target.elements
 
-    const isNameInvalid = name.value.length < 2
-    if (isNameInvalid) {
-      setIsNameError(true)
-      return setTimeout(() => {
-        setIsNameError(false)
-      }, 2500)
+    if (!isLoginMode) {
+      const isNameInvalid = !name.value || (name.value && name.value.length < 2)
+
+      if (isNameInvalid) {
+        setIsNameError(true)
+        return setTimeout(() => {
+          setIsNameError(false)
+        }, 2500)
+      }
     }
 
     if (isEmailInvalid) {
@@ -57,7 +57,9 @@ export const Home = () => {
       }, 2500)
     }
 
-    const isPasswordInvalid = password.value.length < 6
+    const isPasswordInvalid =
+      !password.value || (password.value && password.value.length < 6)
+
     if (isPasswordInvalid) {
       setIsPasswordError(true)
       return setTimeout(() => {

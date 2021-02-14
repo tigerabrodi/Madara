@@ -142,7 +142,19 @@ const errorAnim = keyframes`
   }
 `
 
-export const ErrorMessage = styled.span`
+const errorAnim2 = keyframes`
+  to {
+    transform: translateY(1rem);
+  }
+`
+
+const errorAnim2Tablet = keyframes`
+  to {
+    transform: translateY(2rem);
+  }
+`
+
+export const ErrorMessage = styled.span<{ isLoginMode?: boolean }>`
   font-size: 1.4rem;
   font-family: ${theme.SourceSansPro};
   font-weight: bold;
@@ -151,8 +163,22 @@ export const ErrorMessage = styled.span`
   align-self: center;
   transform: translateY(-0.5rem);
   animation: ${errorAnim} 0.2s forwards;
+  ${(props) =>
+    props.isLoginMode &&
+    css`
+      transform: translate(0);
+      font-size: 1.7rem;
+      animation: ${errorAnim2} 0.2s forwards;
+    `}
+
   ${media.phone} {
     font-size: 1.7rem;
+    ${(props) =>
+      props.isLoginMode &&
+      css`
+        font-size: 2rem;
+        animation: ${errorAnim2Tablet} 0.2s forwards;
+      `}
   }
 `
 

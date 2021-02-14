@@ -32,6 +32,8 @@ export const Home = () => {
 
   const [isEmailInvalid, setIsEmailInvalid] = React.useState(false)
 
+  const [isLoginNotAllowed] = React.useState(false)
+
   const handleSubmit = (event: React.SyntheticEvent<UserFormElement>) => {
     event.preventDefault()
 
@@ -65,13 +67,13 @@ export const Home = () => {
       return true
     }
 
-    if (!isLoginMode) {
+    if (isLoginMode) {
+      console.log('User can sign in')
+    } else {
       if (handleFormValidation() === true) {
         console.log('User can Sign Up')
       }
     }
-
-    console.log('User can Sign In')
   }
 
   return (
@@ -144,9 +146,17 @@ export const Home = () => {
             <ErrorMessage
               role="alert"
               aria-label="Password must be at least 6 characters long."
-              id="passwordInputError"
             >
               Password must be at least 6 characters long.
+            </ErrorMessage>
+          )}
+          {isLoginNotAllowed && (
+            <ErrorMessage
+              role="alert"
+              aria-label="Password or email is invalid."
+              isLoginMode={isLoginMode}
+            >
+              Password or Email Is Invalid.
             </ErrorMessage>
           )}
         </FormGroup>

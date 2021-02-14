@@ -92,6 +92,7 @@ export const Home = () => {
             <Input
               type="text"
               id="name"
+              placeholder="Naruto Uzumaki"
               aria-describedby={isNameError ? 'nameInputError' : undefined}
             />
             {isNameError && (
@@ -111,8 +112,9 @@ export const Home = () => {
           <Input
             type="email"
             id="email"
-            aria-describedby={isEmailError ? 'emailInputError' : undefined}
             required
+            placeholder="NarutoUzumaki@gmail.com"
+            aria-describedby={isEmailError ? 'emailInputError' : undefined}
             onChange={(event) => {
               setIsEmailInvalid(!event.target.validity.valid)
             }}
@@ -133,6 +135,7 @@ export const Home = () => {
           <Input
             type="password"
             id="password"
+            placeholder="Naruto's Password"
             aria-describedby={
               isPasswordError ? 'passwordInputError' : undefined
             }

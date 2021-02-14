@@ -117,16 +117,22 @@ export const Input = styled.input`
   background-color: ${theme.White};
   width: 100%;
   color: ${theme.Blue};
-  padding-left: 2rem;
-  font-size: 2rem;
+  padding-left: 1rem;
+  font-size: 1.5rem;
   font-family: ${theme.SourceSansPro};
   font-weight: bold;
+  &::placeholder {
+    color: ${theme.Blue};
+    opacity: 0.5;
+  }
   &:focus {
     outline: none;
     box-shadow: 0 0 0.5rem ${theme.Black};
   }
   ${media.phone} {
+    padding-left: 2rem;
     height: 100%;
+    font-size: 2rem;
   }
 `
 

@@ -37,7 +37,7 @@ export const Home = () => {
 
     const { name, password } = event.currentTarget.elements
 
-    if (!isLoginMode) {
+    const handleFormValidation = () => {
       const isNameInvalid = !name.value || (name.value && name.value.length < 2)
       if (isNameInvalid) {
         setIsNameError(true)
@@ -55,14 +55,23 @@ export const Home = () => {
 
       const isPasswordInvalid =
         !password.value || (password.value && password.value.length < 6)
-
       if (isPasswordInvalid) {
         setIsPasswordError(true)
         return setTimeout(() => {
           setIsPasswordError(false)
         }, 2500)
       }
+
+      return true
     }
+
+    if (!isLoginMode) {
+      if (handleFormValidation() === true) {
+        console.log('User can Sign Up')
+      }
+    }
+
+    console.log('User can Sign In')
   }
 
   return (

@@ -51,7 +51,7 @@ export const Form = styled.form<{ isLoginMode: boolean }>`
   grid-area: form;
   background-color: ${theme.Blue};
   border-radius: 0.2rem;
-  box-shadow: 0 0 1rem var(--blue);
+  box-shadow: 0 0 1rem ${theme.Blue};
   display: flex;
   flex-direction: column;
   align-items: center;

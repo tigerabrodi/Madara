@@ -31,6 +31,7 @@ export const Home = () => {
   const [isEmailError, setIsEmailError] = React.useState(false)
 
   const [isEmailInvalid, setIsEmailInvalid] = React.useState(false)
+  const [isEmailTaken] = React.useState(false)
 
   const [isLoginNotAllowed] = React.useState(false)
 
@@ -128,6 +129,15 @@ export const Home = () => {
               id="emailInputError"
             >
               Email is not valid.
+            </ErrorMessage>
+          )}
+          {isEmailTaken && (
+            <ErrorMessage
+              role="alert"
+              aria-label="Email is taken."
+              id="emailInputError"
+            >
+              Email is taken.
             </ErrorMessage>
           )}
         </FormGroup>

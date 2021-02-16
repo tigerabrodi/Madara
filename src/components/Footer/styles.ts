@@ -2,6 +2,7 @@ import styled from 'styled-components/macro'
 import { theme } from '../../theme/theme'
 import { ReactComponent as HeartSVG } from '../../assets/hearts.svg'
 import { media } from 'theme/media'
+import { focusStyles } from 'styles'
 
 export const FooterWrapper = styled.footer`
   grid-area: footer;
@@ -26,6 +27,7 @@ export const FooterText = styled.span`
 export const FooterLink = styled.a`
   text-decoration: underline;
   color: ${theme.White};
+  ${focusStyles};
 `
 
 export const Heart = styled(HeartSVG)`

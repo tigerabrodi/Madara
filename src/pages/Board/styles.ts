@@ -1,6 +1,7 @@
 import styled from 'styled-components/macro'
 import { theme } from 'theme/theme'
 import { ReactComponent as HandWriting } from 'assets/hand-writing.svg'
+import { focusStyles } from 'styles'
 
 export const BoardMain = styled.main`
   grid-area: main;
@@ -65,24 +66,56 @@ export const BoardColumn = styled.section`
   box-shadow: 0 0 1rem ${theme.Blue};
   display: grid;
   grid-template-areas:
-    'totalTasks status status addTaskButton'
-    'innerColumn innerColumn innerColumn innerColumn';
-  grid-template-rows: 5% minmax(95%, auto);
-  overflow-y: scroll;
+    'totalTasks status addTaskButton'
+    'innerColumn innerColumn innerColumn';
+  grid-template-columns: 10% 80% 10%;
+  grid-template-rows: 7% minmax(93%, auto);
+  align-items: center;
+  justify-items: flex-end;
+  border-radius: 0.5rem;
+  overflow-y: auto;
+  ${focusStyles};
 `
 
 export const TotalTasks = styled.span`
   grid-area: totalTasks;
+  padding: 0 0.6rem;
+  background-color: ${theme.LightBlue};
+  border-radius: 2em;
+  font-size: 2rem;
+  font-family: ${theme.SourceSansPro};
+  font-weight: 600;
+  color: ${theme.Blue};
 `
 
 export const Status = styled.h3`
   grid-area: status;
+  justify-self: flex-start;
+  font-size: 2rem;
+  border-radius: 0.5rem;
+  padding-left: 1rem;
+  font-weight: 600;
+  font-family: ${theme.SourceSansPro};
+  color: ${theme.LightBlue};
 `
 
 export const AddTaskButton = styled.button`
   grid-area: addTaskButton;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  max-width: 100%;
+  max-height: 100%;
+  background: transparent;
+  border: none;
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  justify-content: space-evenly;
+  ${focusStyles};
 `
 
 export const InnerColumn = styled.section`
   grid-area: innerColumn;
+  min-height: 100%;
+  width: 100%;
 `

@@ -30,7 +30,7 @@ export const Board = () => {
           <SubtitleHandWriting aria-hidden="true" />
         </SubtitleWrapper>
         <BoardWrapper>
-          <BoardColumn aria-label="In progress column" tabIndex={1}>
+          <BoardColumn aria-label="In progress column" tabIndex={0}>
             <TotalTasks title="0">0</TotalTasks>
             <Status>In progress</Status>
             <AddTaskButton

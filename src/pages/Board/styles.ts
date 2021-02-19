@@ -28,6 +28,7 @@ export const LogoutButton = styled.button`
       }
     }
   }
+  ${focusStyles};
 `
 
 export const Logout = styled(LogoutSVG)`

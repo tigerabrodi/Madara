@@ -15,10 +15,18 @@ import {
   Logout,
   AddTask,
   Card,
+  CardMenuButton,
+  CardMenuLogo,
+  CardDate,
+  CardLogo,
+  CardText,
+  AddTaskForm,
 } from './styles'
 
 export const Board = () => {
-  const [isAddTaskFormOpen] = React.useState(false)
+  const [isAddTaskFormOpen, setIsAddTaskFormOpen] = React.useState(false)
+
+  const toggleTaskForm = () => setIsAddTaskFormOpen(!isAddTaskFormOpen)
 
   return (
     <>
@@ -38,11 +46,92 @@ export const Board = () => {
             <AddTaskButton
               aria-label="Add a task to this column."
               aria-expanded={isAddTaskFormOpen ? 'true' : 'false'}
+              onClick={toggleTaskForm}
             >
               <AddTask aria-hidden="true" />
             </AddTaskButton>
-            <InnerColumn>
-              <Card tabIndex={0} />
+            <InnerColumn isFormOpen={isAddTaskFormOpen}>
+              {isAddTaskFormOpen && <AddTaskForm />}
+              <Card tabIndex={0}>
+                <CardLogo aria-hidden="true" />
+                <CardMenuButton
+                  aria-label={
+                    isAddTaskFormOpen ? 'Close card menu' : 'Open card menu'
+                  }
+                  aria-haspopup="menu"
+                >
+                  <CardMenuLogo aria-hidden="true" />
+                </CardMenuButton>
+                <CardText>
+                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                  sea takimata sanctus est Lorem ipsum dolor sit amet.
+                </CardText>
+                <CardDate
+                  aria-label={`Created at ${new Date().toLocaleDateString()}`}
+                >
+                  Created at {new Date().toLocaleDateString()}
+                </CardDate>
+              </Card>
+              <Card tabIndex={0}>
+                <CardLogo aria-hidden="true" />
+                <CardMenuButton
+                  aria-label={
+                    isAddTaskFormOpen ? 'Close card menu' : 'Open card menu'
+                  }
+                  aria-haspopup="menu"
+                >
+                  <CardMenuLogo aria-hidden="true" />
+                </CardMenuButton>
+                <CardText>
+                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                  sea takimata sanctus est Lorem ipsum dolor sit amet.
+                </CardText>
+                <CardDate
+                  aria-label={`Created at ${new Date().toLocaleDateString()}`}
+                >
+                  Created at {new Date().toLocaleDateString()}
+                </CardDate>
+              </Card>
+              <Card tabIndex={0}>
+                <CardLogo aria-hidden="true" />
+                <CardMenuButton
+                  aria-label={
+                    isAddTaskFormOpen ? 'Close card menu' : 'Open card menu'
+                  }
+                  aria-haspopup="menu"
+                >
+                  <CardMenuLogo aria-hidden="true" />
+                </CardMenuButton>
+                <CardText>
+                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                  sea takimata sanctus est Lorem ipsum dolor sit amet.
+                </CardText>
+                <CardDate
+                  aria-label={`Created at ${new Date().toLocaleDateString()}`}
+                >
+                  Created at {new Date().toLocaleDateString()}
+                </CardDate>
+              </Card>
+              <Card tabIndex={0}>
+                <CardLogo aria-hidden="true" />
+                <CardMenuButton
+                  aria-label={
+                    isAddTaskFormOpen ? 'Close card menu' : 'Open card menu'
+                  }
+                  aria-haspopup="menu"
+                >
+                  <CardMenuLogo aria-hidden="true" />
+                </CardMenuButton>
+                <CardText>
+                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                  sea takimata sanctus est Lorem ipsum dolor sit amet.
+                </CardText>
+                <CardDate
+                  aria-label={`Created at ${new Date().toLocaleDateString()}`}
+                >
+                  Created at {new Date().toLocaleDateString()}
+                </CardDate>
+              </Card>
             </InnerColumn>
           </BoardColumn>
         </BoardWrapper>

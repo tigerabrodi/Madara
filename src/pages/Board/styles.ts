@@ -2,6 +2,7 @@ import styled from 'styled-components/macro'
 import { theme } from 'theme/theme'
 import { ReactComponent as HandWriting } from 'assets/hand-writing.svg'
 import { ReactComponent as LogoutSVG } from 'assets/logout.svg'
+import { ReactComponent as AddTaskSVG } from 'assets/add-task.svg'
 import { focusStyles } from 'styles'
 import { media } from 'theme/media'
 
@@ -137,10 +138,8 @@ export const Status = styled.h3`
 
 export const AddTaskButton = styled.button`
   grid-area: addTaskButton;
-  min-width: 2.5rem;
-  min-height: 2.5rem;
-  max-width: 100%;
-  max-height: 100%;
+  width: 2.5rem;
+  height: 2.5rem;
   background: transparent;
   border: none;
   display: flex;
@@ -148,6 +147,11 @@ export const AddTaskButton = styled.button`
   align-items: center;
   justify-content: space-evenly;
   ${focusStyles};
+`
+
+export const AddTask = styled(AddTaskSVG)`
+  width: 100%;
+  height: 100%;
 `
 
 export const InnerColumn = styled.section`

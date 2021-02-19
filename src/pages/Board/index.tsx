@@ -13,8 +13,8 @@ import {
   TotalTasks,
   LogoutButton,
   Logout,
+  AddTask,
 } from './styles'
-import { ReactComponent as AddTaskSVG } from 'assets/add-task.svg'
 
 export const Board = () => {
   const [isAddTaskFormOpen] = React.useState(false)
@@ -37,7 +37,7 @@ export const Board = () => {
               aria-label="Add a task to this column."
               aria-expanded={isAddTaskFormOpen ? 'true' : 'false'}
             >
-              <AddTaskSVG aria-hidden="true" />
+              <AddTask aria-hidden="true" />
             </AddTaskButton>
             <InnerColumn />
           </BoardColumn>

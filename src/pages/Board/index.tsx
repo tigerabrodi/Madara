@@ -19,6 +19,7 @@ import {
 
 export const Board = () => {
   const [isAddTaskFormOpen] = React.useState(false)
+
   return (
     <>
       <LogoutButton aria-label="Logout">

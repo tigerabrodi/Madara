@@ -159,4 +159,14 @@ export const InnerColumn = styled.section`
   grid-area: innerColumn;
   min-height: 100%;
   width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-evenly;
+`
+
+export const Card = styled.article`
+  background-color: ${theme.LightBlue};
+  border-radius: 0.5rem;
+  min-height: 10rem;
+  width: 90%;
 `

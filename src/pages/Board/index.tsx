@@ -14,6 +14,7 @@ import {
   LogoutButton,
   Logout,
   AddTask,
+  Card,
 } from './styles'
 
 export const Board = () => {
@@ -39,7 +40,9 @@ export const Board = () => {
             >
               <AddTask aria-hidden="true" />
             </AddTaskButton>
-            <InnerColumn />
+            <InnerColumn>
+              <Card tabIndex={0} />
+            </InnerColumn>
           </BoardColumn>
         </BoardWrapper>
       </BoardMain>

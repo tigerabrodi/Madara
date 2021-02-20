@@ -15,6 +15,7 @@ export const GlobalStyle = createGlobalStyle`
     --light-blue: #DDE1F4;
     --blue: #36458F;
     --pink: #E9B7B7;
+    --darkBlue: #202E73;
     --libre-baskerville: 'Libre Baskerville';
     --source-sans-pro: 'Source Sans Pro';
   }

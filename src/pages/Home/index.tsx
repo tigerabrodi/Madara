@@ -91,7 +91,9 @@ export const Home = () => {
 
         {!isLoginMode && (
           <FormGroup role="group">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name">
+              <span aria-hidden="true">*</span> Name
+            </Label>
             <Input
               type="text"
               id="name"
@@ -111,7 +113,9 @@ export const Home = () => {
         )}
 
         <FormGroup role="group">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">
+            {!isLoginMode && <span aria-hidden="true">*</span>} Email
+          </Label>
           <Input
             type="email"
             id="email"
@@ -143,7 +147,9 @@ export const Home = () => {
         </FormGroup>
 
         <FormGroup role="group">
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">
+            {!isLoginMode && <span aria-hidden="true">*</span>} Password
+          </Label>
           <Input
             type="password"
             id="password"

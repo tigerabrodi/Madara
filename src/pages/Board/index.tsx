@@ -25,8 +25,11 @@ import {
 
 export const Board = () => {
   const [isAddTaskFormOpen, setIsAddTaskFormOpen] = React.useState(false)
+  const [isCardMenuOpen, setIsCardMenuOpen] = React.useState(false)
 
   const toggleTaskForm = () => setIsAddTaskFormOpen(!isAddTaskFormOpen)
+
+  const toggleCardMenu = () => setIsCardMenuOpen(!isCardMenuOpen)
 
   return (
     <>
@@ -56,69 +59,10 @@ export const Board = () => {
                 <CardLogo aria-hidden="true" />
                 <CardMenuButton
                   aria-label={
-                    isAddTaskFormOpen ? 'Close card menu' : 'Open card menu'
+                    isCardMenuOpen ? 'Close card menu' : 'Open card menu'
                   }
                   aria-haspopup="menu"
-                >
-                  <CardMenuLogo aria-hidden="true" />
-                </CardMenuButton>
-                <CardText>
-                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                  sea takimata sanctus est Lorem ipsum dolor sit amet.
-                </CardText>
-                <CardDate
-                  aria-label={`Created at ${new Date().toLocaleDateString()}`}
-                >
-                  Created at {new Date().toLocaleDateString()}
-                </CardDate>
-              </Card>
-              <Card tabIndex={0}>
-                <CardLogo aria-hidden="true" />
-                <CardMenuButton
-                  aria-label={
-                    isAddTaskFormOpen ? 'Close card menu' : 'Open card menu'
-                  }
-                  aria-haspopup="menu"
-                >
-                  <CardMenuLogo aria-hidden="true" />
-                </CardMenuButton>
-                <CardText>
-                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                  sea takimata sanctus est Lorem ipsum dolor sit amet.
-                </CardText>
-                <CardDate
-                  aria-label={`Created at ${new Date().toLocaleDateString()}`}
-                >
-                  Created at {new Date().toLocaleDateString()}
-                </CardDate>
-              </Card>
-              <Card tabIndex={0}>
-                <CardLogo aria-hidden="true" />
-                <CardMenuButton
-                  aria-label={
-                    isAddTaskFormOpen ? 'Close card menu' : 'Open card menu'
-                  }
-                  aria-haspopup="menu"
-                >
-                  <CardMenuLogo aria-hidden="true" />
-                </CardMenuButton>
-                <CardText>
-                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                  sea takimata sanctus est Lorem ipsum dolor sit amet.
-                </CardText>
-                <CardDate
-                  aria-label={`Created at ${new Date().toLocaleDateString()}`}
-                >
-                  Created at {new Date().toLocaleDateString()}
-                </CardDate>
-              </Card>
-              <Card tabIndex={0}>
-                <CardLogo aria-hidden="true" />
-                <CardMenuButton
-                  aria-label={
-                    isAddTaskFormOpen ? 'Close card menu' : 'Open card menu'
-                  }
-                  aria-haspopup="menu"
+                  onClick={toggleCardMenu}
                 >
                   <CardMenuLogo aria-hidden="true" />
                 </CardMenuButton>

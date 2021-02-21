@@ -101,13 +101,13 @@ export const BoardColumn = styled.section`
   height: 90%;
   width: 30%;
   max-width: 39.5rem;
-  min-width: 30rem;
+  min-width: 35rem;
   background-color: ${theme.Blue};
   box-shadow: 0 0 1rem ${theme.Blue};
   display: grid;
   grid-template-areas:
     'totalTasks status addTaskButton'
-    'innerColumn innerColumn innerColumn';
+    'inner inner inner';
   grid-template-columns: 10% 80% 10%;
   grid-template-rows: 7%;
   align-content: flex-start;
@@ -172,8 +172,8 @@ export const Toggle = styled(ToggleSVG)`
   height: 100%;
 `
 
-export const InnerColumn = styled.section<{ isFormOpen: boolean }>`
-  grid-area: innerColumn;
+export const Inner = styled.section<{ isFormOpen: boolean }>`
+  grid-area: inner;
   width: 100%;
   height: auto;
   display: flex;
@@ -190,9 +190,10 @@ export const InnerColumn = styled.section<{ isFormOpen: boolean }>`
 `
 
 export const Card = styled.article`
+  position: relative;
   background-color: ${theme.LightBlue};
   border-radius: 0.5rem;
-  min-height: 10rem;
+  min-height: 15rem;
   width: 90%;
   display: grid;
   grid-template-columns: 50% 50%;
@@ -294,10 +295,7 @@ export const AddTaskTextarea = styled.textarea`
   }
 `
 
-export const FormAddButton = styled.button`
-  grid-area: addButton;
-  border: 0.2rem solid ${theme.Green};
-  color: ${theme.Green};
+const formButtonStyles = css`
   font-family: ${theme.SourceSansPro};
   font-weight: 600;
   font-size: 1.8rem;
@@ -307,13 +305,8 @@ export const FormAddButton = styled.button`
   background-color: transparent;
   transition: 0.2s;
   ${focusStyles};
-  &:disabled {
-    opacity: 0.3;
-  }
   ${media.tablet} {
-    &:hover:not(:disabled) {
-      cursor: pointer;
-      background-color: ${theme.Green};
+    &:hover {
       color: ${theme.Blue};
       box-shadow: 0 0.2rem 0.3rem ${theme.DarkBlue};
       transform: translateY(-0.1rem);
@@ -321,27 +314,73 @@ export const FormAddButton = styled.button`
   }
 `
 
+export const FormAddButton = styled.button`
+  ${formButtonStyles};
+  grid-area: addButton;
+  border: 0.2rem solid ${theme.Green};
+  color: ${theme.Green};
+  font-family: ${theme.SourceSansPro};
+  &:disabled {
+    opacity: 0.3;
+  }
+  ${media.tablet} {
+    &:hover:not(:disabled) {
+      cursor: pointer;
+      background-color: ${theme.Green};
+    }
+  }
+`
+
 export const FormCancelButton = styled.button`
+  ${formButtonStyles};
   grid-area: cancelButton;
   border: 0.2rem solid ${theme.Pink};
   color: ${theme.Pink};
   justify-self: end;
-  font-family: ${theme.SourceSansPro};
-  font-weight: 600;
-  font-size: 1.8rem;
-  height: 3.5rem;
-  width: 13rem;
-  border-radius: 0.2rem;
-  background-color: transparent;
-  transition: 0.2s;
   cursor: pointer;
-  ${focusStyles};
   ${media.tablet} {
     &:hover {
       background-color: ${theme.Pink};
-      color: ${theme.Blue};
-      box-shadow: 0 0.2rem 0.3rem ${theme.DarkBlue};
-      transform: translateY(-0.1rem);
     }
   }
+`
+
+export const CardMenu = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 15rem;
+  width: 40%;
+  background-color: ${theme.Blue};
+  box-shadow: 0 0.2rem 1rem ${theme.DarkBlue};
+  border-radius: 0.5rem;
+  top: 65%;
+  left: 76.2%;
+  transform: translate(-50%, -50%);
+  ${media.desktop} {
+    top: 70%;
+    height: 17rem;
+  }
+`
+
+export const CardMenuItem = styled.button`
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  font-family: ${theme.SourceSansPro};
+  font-size: 2rem;
+  font-weight: 600;
+  height: 4rem;
+  color: ${theme.LightBlue};
+  transition: 0.1s;
+  cursor: pointer;
+  ${media.tablet} {
+    &:hover {
+      background-color: ${theme.LightBlue};
+      color: ${theme.Blue};
+    }
+  }
+  ${focusStyles};
 `

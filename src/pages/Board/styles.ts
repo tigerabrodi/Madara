@@ -106,7 +106,7 @@ export const BoardColumn = styled.section`
   box-shadow: 0 0 1rem ${theme.Blue};
   display: grid;
   grid-template-areas:
-    'totalTasks status addTaskButton'
+    'totalTasks status toggleFormButton'
     'inner inner inner';
   grid-template-columns: 10% 80% 10%;
   grid-template-rows: 7%;
@@ -154,7 +154,7 @@ export const Status = styled.h3`
 `
 
 export const ToggleFormButton = styled.button`
-  grid-area: addTaskButton;
+  grid-area: toggleFormButton;
   width: 2.5rem;
   height: 2.5rem;
   background: transparent;
@@ -319,7 +319,6 @@ export const FormAddButton = styled.button`
   grid-area: addButton;
   border: 0.2rem solid ${theme.Green};
   color: ${theme.Green};
-  font-family: ${theme.SourceSansPro};
   &:disabled {
     opacity: 0.3;
   }
@@ -383,4 +382,99 @@ export const CardMenuItem = styled.button`
     }
   }
   ${focusStyles};
+`
+
+export const Modal = styled.div`
+  position: absolute;
+  width: 51rem;
+  height: 28rem;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  background-color: ${theme.Blue};
+  border-radius: 0.5rem;
+  display: grid;
+  grid-template-areas:
+    'title title'
+    'text text'
+    'confirm cancel';
+  grid-template-rows: 20% 25% 55%;
+  align-items: center;
+  justify-items: center;
+  ${focusStyles};
+`
+
+export const ModalTitle = styled.h1`
+  grid-area: title;
+  font-family: ${theme.SourceSansPro};
+  text-align: center;
+  color: ${theme.Pink};
+  font-size: 4.8rem;
+`
+
+export const ModalText = styled.p`
+  grid-area: text;
+  font-family: ${theme.SourceSansPro};
+  color: ${theme.LightBlue};
+  text-align: center;
+  font-size: 2.4rem;
+  font-weight: 600;
+`
+
+const modalButtonStyles = css`
+  font-family: ${theme.SourceSansPro};
+  font-weight: 600;
+  height: 5.2rem;
+  width: 16rem;
+  border-radius: 0.2rem;
+  background-color: transparent;
+  transition: 0.2s;
+  font-size: 3rem;
+  cursor: pointer;
+  ${focusStyles};
+  ${media.tablet} {
+    &:hover {
+      color: ${theme.Blue};
+      box-shadow: 0 0.2rem 0.3rem ${theme.DarkBlue};
+      transform: translateY(-0.1rem);
+    }
+  }
+`
+
+export const ModalConfirmButton = styled.button`
+  ${modalButtonStyles};
+  grid-area: confirm;
+  border: 0.2rem solid ${theme.Green};
+  color: ${theme.Green};
+  font-size: 3rem;
+  ${media.tablet} {
+    &:hover {
+      background-color: ${theme.Green};
+    }
+  }
+`
+
+export const ModalCancelButton = styled.button`
+  ${modalButtonStyles};
+  grid-area: cancel;
+  border: 0.2rem solid ${theme.Pink};
+  color: ${theme.Pink};
+  font-size: 3rem;
+  ${media.tablet} {
+    &:hover {
+      background-color: ${theme.Pink};
+    }
+  }
+`
+
+export const ModalOverlay = styled.div`
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  height: 100vh;
+  width: 100vw;
+  background-color: ${theme.Black};
+  opacity: 0.5;
 `

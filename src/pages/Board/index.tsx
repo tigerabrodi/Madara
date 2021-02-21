@@ -26,16 +26,25 @@ import {
   FormCancelButton,
   CardMenu,
   CardMenuItem,
+  Modal,
+  ModalOverlay,
+  ModalTitle,
+  ModalText,
+  ModalConfirmButton,
+  ModalCancelButton,
 } from './styles'
 
 export const Board = () => {
   const [isAddTaskFormOpen, setIsAddTaskFormOpen] = React.useState(false)
   const [addTaskText, setAddTaskText] = React.useState('')
   const [isCardMenuOpen, setIsCardMenuOpen] = React.useState(false)
-
-  const toggleTaskForm = () => setIsAddTaskFormOpen(!isAddTaskFormOpen)
+  const [isModalOpen, setIsModalOpen] = React.useState(false)
 
   const toggleCardMenu = () => setIsCardMenuOpen(!isCardMenuOpen)
+
+  const toggleModal = () => setIsModalOpen(!isModalOpen)
+
+  const toggleTaskForm = () => setIsAddTaskFormOpen(!isAddTaskFormOpen)
 
   const handleTextareaChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -111,7 +120,9 @@ export const Board = () => {
                 {isCardMenuOpen && (
                   <CardMenu role="menu">
                     <CardMenuItem role="menuitem">Edit Task</CardMenuItem>
-                    <CardMenuItem role="menuitem">Delete Task</CardMenuItem>
+                    <CardMenuItem role="menuitem" onClick={toggleModal}>
+                      Delete Task
+                    </CardMenuItem>
                   </CardMenu>
                 )}
               </Card>
@@ -119,6 +130,19 @@ export const Board = () => {
           </BoardColumn>
         </BoardWrapper>
       </BoardMain>
+      {isModalOpen && (
+        <>
+          <Modal role="alertdialog" aria-modal="true" tabIndex={0}>
+            <ModalTitle>Are you sure?</ModalTitle>
+            <ModalText>
+              Do you really want to delete every task in this column?
+            </ModalText>
+            <ModalConfirmButton>Yes</ModalConfirmButton>
+            <ModalCancelButton onClick={toggleModal}>No</ModalCancelButton>
+          </Modal>
+          <ModalOverlay aria-hidden="true" />
+        </>
+      )}
     </>
   )
 }

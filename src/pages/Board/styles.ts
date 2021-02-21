@@ -399,7 +399,7 @@ export const Modal = styled.div`
     'title title'
     'text text'
     'confirm cancel';
-  grid-template-rows: 20% 25% 55%;
+  grid-template-rows: 20% 35% 45%;
   align-items: center;
   justify-items: center;
   ${focusStyles};
@@ -410,6 +410,7 @@ export const ModalTitle = styled.h1`
   font-family: ${theme.SourceSansPro};
   text-align: center;
   color: ${theme.Pink};
+  font-weight: 600;
   font-size: 4.8rem;
 `
 

@@ -388,7 +388,7 @@ export const CardMenuItem = styled.button`
   ${focusStyles};
 `
 
-export const Modal = styled.div`
+export const ConfirmationModal = styled.div`
   position: absolute;
   width: 51rem;
   height: 28rem;
@@ -409,7 +409,7 @@ export const Modal = styled.div`
   ${focusStyles};
 `
 
-export const ModalTitle = styled.h1`
+export const ConfirmationTitle = styled.h1`
   grid-area: title;
   font-family: ${theme.SourceSansPro};
   text-align: center;
@@ -418,7 +418,7 @@ export const ModalTitle = styled.h1`
   font-size: 4.8rem;
 `
 
-export const ModalText = styled.p`
+export const ConfirmationText = styled.p`
   grid-area: text;
   font-family: ${theme.SourceSansPro};
   color: ${theme.LightBlue};
@@ -427,7 +427,7 @@ export const ModalText = styled.p`
   font-weight: 600;
 `
 
-const modalButtonStyles = css`
+const confirmationButtonStyles = css`
   font-family: ${theme.SourceSansPro};
   font-weight: 600;
   height: 5.2rem;
@@ -451,8 +451,8 @@ const modalButtonStyles = css`
   }
 `
 
-export const ModalConfirmButton = styled.button`
-  ${modalButtonStyles};
+export const ConfirmButton = styled.button`
+  ${confirmationButtonStyles};
   grid-area: confirm;
   border: 0.2rem solid ${theme.Green};
   color: ${theme.Green};
@@ -464,8 +464,8 @@ export const ModalConfirmButton = styled.button`
   }
 `
 
-export const ModalCancelButton = styled.button`
-  ${modalButtonStyles};
+export const CancelButton = styled.button`
+  ${confirmationButtonStyles};
   grid-area: cancel;
   border: 0.2rem solid ${theme.Pink};
   color: ${theme.Pink};

@@ -3,6 +3,7 @@ export const theme = {
   White: 'white',
   Blue: 'var(--blue)',
   DarkBlue: 'var(--darkBlue)',
+  MiddleBlue: 'var(--middleBlue)',
   Green: 'var(--green)',
   Pink: 'var(--pink)',
   LibreBaskerville: 'var(--libre-baskerville)',

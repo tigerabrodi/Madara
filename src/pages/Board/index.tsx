@@ -41,9 +41,7 @@ export const Board = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false)
 
   const toggleCardMenu = () => setIsCardMenuOpen(!isCardMenuOpen)
-
   const toggleModal = () => setIsModalOpen(!isModalOpen)
-
   const toggleTaskForm = () => setIsAddTaskFormOpen(!isAddTaskFormOpen)
 
   const handleTextareaChange = (

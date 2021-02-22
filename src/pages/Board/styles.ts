@@ -311,6 +311,10 @@ const formButtonStyles = css`
       box-shadow: 0 0.2rem 0.3rem ${theme.DarkBlue};
       transform: translateY(-0.1rem);
     }
+    &:active {
+      box-shadow: 0 0.2rem 0.1rem ${theme.DarkBlue};
+      transform: translateY(0.1rem);
+    }
   }
 `
 

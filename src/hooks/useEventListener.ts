@@ -2,13 +2,13 @@ import * as React from 'react'
 import { useLiveRef } from './useLiveRef'
 
 export const useEventListener = (
-  eventCallbackParam: () => void,
-  element = window
+  eventCallback: EventListener,
+  element: Node | (Window & typeof globalThis) = window
 ) => {
-  const eventCallbackRef = useLiveRef(eventCallbackParam)
+  const eventCbRef = useLiveRef(eventCallback)
   React.useEffect(() => {
-    const eventCallback = eventCallbackRef.current
-    element.addEventListener('click', eventCallback)
-    return () => element.removeEventListener('click', eventCallback)
-  }, [eventCallbackRef, element])
+    const eventCb = eventCbRef.current
+    element.addEventListener('click', eventCb)
+    return () => element.removeEventListener('click', eventCb)
+  }, [eventCbRef, element])
 }

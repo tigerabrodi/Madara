@@ -5,7 +5,7 @@ type CheckFN = (elTarget: Node) => boolean
 type Callback = () => void
 
 export const useClickOutside = (callback: Callback, checkFn?: CheckFN) => {
-  const containerRef = React.useRef() as React.RefObject<HTMLElement>
+  const containerRef = React.useRef() as React.RefObject<HTMLDivElement>
   const handleOutsideClick = (event: Event) => {
     checkFn =
       checkFn ||

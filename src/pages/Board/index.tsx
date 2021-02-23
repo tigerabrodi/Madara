@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useClickOutside } from 'hooks/useClickOutside'
 import {
   ToggleFormButton,
   BoardColumn,
@@ -50,6 +51,7 @@ export const Board = () => {
   const [editTaskText, setEditTaskText] = React.useState(
     'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed sea takimata sanctus est Lorem ipsum dolor sit amet.'
   )
+
   const [isCardMenuOpen, setIsCardMenuOpen] = React.useState(false)
   const [isModalOpen, setIsModalOpen] = React.useState(false)
   const [isEditFormOpen, setIsEditFormOpen] = React.useState(false)
@@ -57,7 +59,11 @@ export const Board = () => {
   const toggleCardMenu = () => setIsCardMenuOpen(!isCardMenuOpen)
   const toggleModal = () => setIsModalOpen(!isModalOpen)
   const toggleTaskForm = () => setIsAddTaskFormOpen(!isAddTaskFormOpen)
-  const toggleEditForm = () => setIsEditFormOpen(!isEditFormOpen)
+  const toggleEditModalForm = () => setIsEditFormOpen(!isEditFormOpen)
+
+  const [cardMenuRef] = useClickOutside(() => setIsCardMenuOpen(false))
+  const [editModalRef] = useClickOutside(() => setIsEditFormOpen(false))
+  const [confirmationModalRef] = useClickOutside(() => setIsModalOpen(false))
 
   const handleAddTaskTextChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -128,7 +134,10 @@ export const Board = () => {
                     isCardMenuOpen ? 'Close card menu' : 'Open card menu'
                   }
                   aria-haspopup="menu"
-                  onClick={toggleCardMenu}
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    toggleCardMenu()
+                  }}
                 >
                   <CardMenuLogo aria-hidden="true" />
                 </CardMenuButton>
@@ -142,11 +151,23 @@ export const Board = () => {
                   Created at {new Date().toLocaleDateString()}
                 </CardDate>
                 {isCardMenuOpen && (
-                  <CardMenu role="menu">
-                    <CardMenuItem role="menuitem" onClick={toggleEditForm}>
+                  <CardMenu role="menu" ref={cardMenuRef}>
+                    <CardMenuItem
+                      role="menuitem"
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        toggleEditModalForm()
+                      }}
+                    >
                       Edit Task
                     </CardMenuItem>
-                    <CardMenuItem role="menuitem" onClick={toggleModal}>
+                    <CardMenuItem
+                      role="menuitem"
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        toggleModal()
+                      }}
+                    >
                       Delete Task
                     </CardMenuItem>
                   </CardMenu>
@@ -159,13 +180,25 @@ export const Board = () => {
 
       {isModalOpen && (
         <>
-          <ConfirmationModal role="alertdialog" aria-modal="true" tabIndex={0}>
+          <ConfirmationModal
+            role="alertdialog"
+            aria-modal="true"
+            tabIndex={0}
+            ref={confirmationModalRef}
+          >
             <ConfirmationTitle>Are you sure?</ConfirmationTitle>
             <ConfirmationText>
               Do you really want to delete every task in this column?
             </ConfirmationText>
             <ConfirmButton>Yes</ConfirmButton>
-            <CancelButton onClick={toggleModal}>No</CancelButton>
+            <CancelButton
+              onClick={(event) => {
+                event.stopPropagation()
+                toggleModal()
+              }}
+            >
+              No
+            </CancelButton>
           </ConfirmationModal>
           <ModalOverlay aria-hidden="true" />
         </>
@@ -173,12 +206,15 @@ export const Board = () => {
 
       {isEditFormOpen && (
         <>
-          <EditModal role="dialog" aria-modal="true">
+          <EditModal role="dialog" aria-modal="true" ref={editModalRef}>
             <EditModalHeader>
               <EditTitle>Edit task</EditTitle>
               <EditCloseButton
                 aria-label="Cancel edit"
-                onClick={toggleEditForm}
+                onClick={(event) => {
+                  event.stopPropagation()
+                  toggleEditModalForm()
+                }}
               >
                 <EditClose aria-hidden="true" />
               </EditCloseButton>
@@ -191,13 +227,18 @@ export const Board = () => {
                 placeholder="Edit your task"
                 aria-label="Edit your task"
                 onChange={handleEditTaskChange}
-              >
-                {editTaskText}
-              </EditTextarea>
+                value={editTaskText}
+              />
               <EditConfirmButton type="submit" disabled={editTaskText === ''}>
                 Edit
               </EditConfirmButton>
-              <EditCancelButton onClick={toggleEditForm} type="button">
+              <EditCancelButton
+                onClick={(event) => {
+                  event.stopPropagation()
+                  toggleEditModalForm()
+                }}
+                type="button"
+              >
                 Cancel
               </EditCancelButton>
             </EditModalForm>

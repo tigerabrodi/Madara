@@ -47,6 +47,9 @@ import {
 export const Board = () => {
   const [isAddTaskFormOpen, setIsAddTaskFormOpen] = React.useState(false)
   const [addTaskText, setAddTaskText] = React.useState('')
+  const [editTaskText, setEditTaskText] = React.useState(
+    'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed sea takimata sanctus est Lorem ipsum dolor sit amet.'
+  )
   const [isCardMenuOpen, setIsCardMenuOpen] = React.useState(false)
   const [isModalOpen, setIsModalOpen] = React.useState(false)
   const [isEditFormOpen, setIsEditFormOpen] = React.useState(false)
@@ -56,10 +59,16 @@ export const Board = () => {
   const toggleTaskForm = () => setIsAddTaskFormOpen(!isAddTaskFormOpen)
   const toggleEditForm = () => setIsEditFormOpen(!isEditFormOpen)
 
-  const handleTextareaChange = (
+  const handleAddTaskTextChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setAddTaskText(event.target.value)
+  }
+
+  const handleEditTaskChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setEditTaskText(event.target.value)
   }
 
   const handleAddTaskSubmit = (event: React.FormEvent) => {
@@ -102,7 +111,7 @@ export const Board = () => {
                     aria-label="Enter a task"
                     placeholder="Enter a task"
                     required
-                    onChange={handleTextareaChange}
+                    onChange={handleAddTaskTextChange}
                   />
                   <FormAddButton type="submit" disabled={addTaskText === ''}>
                     Add
@@ -176,15 +185,18 @@ export const Board = () => {
             </EditModalHeader>
             <EditModalForm onSubmit={handleEditSubmit}>
               <EditLabel htmlFor="taskText">Task</EditLabel>
-              <EditTextarea id="taskText" placeholder="Edit your task">
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed sea
-                takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
-                dolor sit amet, consetetur sadipscing elitr, sed sea takimata
-                sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-                amet, consetetur sadipscing elitr, sed sea takimata sanctus est
-                Lorem ipsum dolor sit amet.
+              <EditTextarea
+                id="taskText"
+                name="Task"
+                placeholder="Edit your task"
+                aria-label="Edit your task"
+                onChange={handleEditTaskChange}
+              >
+                {editTaskText}
               </EditTextarea>
-              <EditConfirmButton type="submit">Edit</EditConfirmButton>
+              <EditConfirmButton type="submit" disabled={editTaskText === ''}>
+                Edit
+              </EditConfirmButton>
               <EditCancelButton onClick={toggleEditForm} type="button">
                 Cancel
               </EditCancelButton>

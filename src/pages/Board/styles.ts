@@ -289,6 +289,7 @@ export const AddTaskTextarea = styled.textarea`
   transition: 0.2s;
   &::placeholder {
     color: ${theme.Blue};
+    opacity: 0.7;
   }
   &:focus {
     outline: none;
@@ -538,6 +539,7 @@ export const EditCloseButton = styled.button`
   align-items: center;
   justify-content: space-evenly;
   margin-right: 2rem;
+  cursor: pointer;
   ${focusStyles};
 `
 
@@ -570,6 +572,10 @@ export const EditTextarea = styled.textarea`
   padding-top: 0.5rem;
   padding-right: 1rem;
   border-radius: 0.5rem;
+  &::placeholder {
+    opacity: 0.7;
+    color: ${theme.Blue};
+  }
   &:focus {
     outline: none;
     box-shadow: 0 0.3rem 0.4rem ${theme.DarkBlue};
@@ -585,15 +591,14 @@ const editModalButtonStyles = css`
   background-color: transparent;
   transition: 0.2s;
   font-size: 1.8rem;
-  cursor: pointer;
   ${focusStyles};
   ${media.tablet} {
-    &:hover {
+    &:hover:not(:disabled) {
       color: ${theme.Blue};
       box-shadow: 0 0.2rem 0.3rem ${theme.DarkBlue};
       transform: translateY(-0.1rem);
     }
-    &:active {
+    &:active:not(:disabled) {
       box-shadow: 0 0.2rem 0.1rem ${theme.DarkBlue};
       transform: translateY(0.1rem);
     }
@@ -605,8 +610,12 @@ export const EditConfirmButton = styled.button`
   grid-area: confirm;
   border: 0.2rem solid ${theme.Green};
   color: ${theme.Green};
+  &:disabled {
+    opacity: 0.3;
+  }
   ${media.tablet} {
-    &:hover {
+    &:hover:not(:disabled) {
+      cursor: pointer;
       background-color: ${theme.Green};
     }
   }
@@ -617,6 +626,7 @@ export const EditCancelButton = styled.button`
   grid-area: cancel;
   border: 0.2rem solid ${theme.Pink};
   color: ${theme.Pink};
+  cursor: pointer;
   ${media.tablet} {
     &:hover {
       background-color: ${theme.Pink};

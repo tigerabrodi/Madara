@@ -26,12 +26,22 @@ import {
   FormCancelButton,
   CardMenu,
   CardMenuItem,
-  Modal,
+  ConfirmationModal,
   ModalOverlay,
-  ModalTitle,
-  ModalText,
-  ModalConfirmButton,
-  ModalCancelButton,
+  ConfirmationTitle,
+  ConfirmationText,
+  ConfirmButton,
+  CancelButton,
+  EditModal,
+  EditModalHeader,
+  EditModalForm,
+  EditTitle,
+  EditClose,
+  EditCloseButton,
+  EditCancelButton,
+  EditConfirmButton,
+  EditLabel,
+  EditTextarea,
 } from './styles'
 
 export const Board = () => {
@@ -39,10 +49,12 @@ export const Board = () => {
   const [addTaskText, setAddTaskText] = React.useState('')
   const [isCardMenuOpen, setIsCardMenuOpen] = React.useState(false)
   const [isModalOpen, setIsModalOpen] = React.useState(false)
+  const [isEditFormOpen, setIsEditFormOpen] = React.useState(false)
 
   const toggleCardMenu = () => setIsCardMenuOpen(!isCardMenuOpen)
   const toggleModal = () => setIsModalOpen(!isModalOpen)
   const toggleTaskForm = () => setIsAddTaskFormOpen(!isAddTaskFormOpen)
+  const toggleEditForm = () => setIsEditFormOpen(!isEditFormOpen)
 
   const handleTextareaChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -51,6 +63,11 @@ export const Board = () => {
   }
 
   const handleAddTaskSubmit = (event: React.FormEvent) => {
+    event.preventDefault()
+    console.log({ addTaskText })
+  }
+
+  const handleEditSubmit = (event: React.FormEvent) => {
     event.preventDefault()
     console.log({ addTaskText })
   }
@@ -83,7 +100,7 @@ export const Board = () => {
                   <AddTaskTextarea
                     name="Task"
                     aria-label="Enter a task"
-                    placeholder="Enter a note"
+                    placeholder="Enter a task"
                     required
                     onChange={handleTextareaChange}
                   />
@@ -117,7 +134,9 @@ export const Board = () => {
                 </CardDate>
                 {isCardMenuOpen && (
                   <CardMenu role="menu">
-                    <CardMenuItem role="menuitem">Edit Task</CardMenuItem>
+                    <CardMenuItem role="menuitem" onClick={toggleEditForm}>
+                      Edit Task
+                    </CardMenuItem>
                     <CardMenuItem role="menuitem" onClick={toggleModal}>
                       Delete Task
                     </CardMenuItem>
@@ -128,16 +147,49 @@ export const Board = () => {
           </BoardColumn>
         </BoardWrapper>
       </BoardMain>
+
       {isModalOpen && (
         <>
-          <Modal role="alertdialog" aria-modal="true" tabIndex={0}>
-            <ModalTitle>Are you sure?</ModalTitle>
-            <ModalText>
+          <ConfirmationModal role="alertdialog" aria-modal="true" tabIndex={0}>
+            <ConfirmationTitle>Are you sure?</ConfirmationTitle>
+            <ConfirmationText>
               Do you really want to delete every task in this column?
-            </ModalText>
-            <ModalConfirmButton>Yes</ModalConfirmButton>
-            <ModalCancelButton onClick={toggleModal}>No</ModalCancelButton>
-          </Modal>
+            </ConfirmationText>
+            <ConfirmButton>Yes</ConfirmButton>
+            <CancelButton onClick={toggleModal}>No</CancelButton>
+          </ConfirmationModal>
+          <ModalOverlay aria-hidden="true" />
+        </>
+      )}
+
+      {isEditFormOpen && (
+        <>
+          <EditModal role="dialog" aria-modal="true">
+            <EditModalHeader>
+              <EditTitle>Edit task</EditTitle>
+              <EditCloseButton
+                aria-label="Cancel edit"
+                onClick={toggleEditForm}
+              >
+                <EditClose aria-hidden="true" />
+              </EditCloseButton>
+            </EditModalHeader>
+            <EditModalForm onSubmit={handleEditSubmit}>
+              <EditLabel htmlFor="taskText">Task</EditLabel>
+              <EditTextarea id="taskText" placeholder="Edit your task">
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed sea
+                takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
+                dolor sit amet, consetetur sadipscing elitr, sed sea takimata
+                sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
+                amet, consetetur sadipscing elitr, sed sea takimata sanctus est
+                Lorem ipsum dolor sit amet.
+              </EditTextarea>
+              <EditConfirmButton type="submit">Edit</EditConfirmButton>
+              <EditCancelButton onClick={toggleEditForm} type="button">
+                Cancel
+              </EditCancelButton>
+            </EditModalForm>
+          </EditModal>
           <ModalOverlay aria-hidden="true" />
         </>
       )}

@@ -4,7 +4,7 @@ import { useEventListener } from './useEventListener'
 type CheckFN = (elTarget: Node) => boolean
 type Callback = () => void
 
-export const useOutsideClick = (callback: Callback, checkFn?: CheckFN) => {
+export const useClickOutside = (callback: Callback, checkFn?: CheckFN) => {
   const containerRef = React.useRef() as React.RefObject<HTMLElement>
   const handleOutsideClick = (event: Event) => {
     checkFn =

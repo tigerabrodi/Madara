@@ -1,7 +1,7 @@
 import create from 'zustand'
 import { v4 as uuidv4 } from 'uuid'
 
-type AlertType = 'success' | 'warning' | 'error'
+type AlertType = 'Success' | 'Warning' | 'Error'
 
 type AlertState = {
   alerts: Array<{ message: string; type: AlertType; id: string }>

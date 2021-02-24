@@ -77,6 +77,8 @@ export const AlertCloseButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  transition: 0.1s;
+  cursor: pointer;
   ${focusStyles};
   ${media.phone} {
     margin-right: 3rem;
@@ -84,6 +86,9 @@ export const AlertCloseButton = styled.button`
   ${media.tablet} {
     height: 2rem;
     width: 2rem;
+    &:hover {
+      transform: translateY(-0.2rem);
+    }
   }
 `
 

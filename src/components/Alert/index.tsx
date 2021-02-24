@@ -10,6 +10,7 @@ import {
 
 export const Alert = () => {
   const alerts = useAlertStore((state) => state.alerts)
+
   return alerts.length > 0 ? (
     <>
       {alerts.map(({ type, message }) => (

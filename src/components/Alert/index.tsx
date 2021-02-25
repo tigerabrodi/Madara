@@ -13,8 +13,8 @@ export const Alert = () => {
 
   return alerts.length > 0 ? (
     <>
-      {alerts.map(({ type, message }) => (
-        <AlertWrapper role="alert" tabIndex={0}>
+      {alerts.map(({ type, message, id }) => (
+        <AlertWrapper role="alert" tabIndex={0} key={id}>
           <AlertIcon title="check" />
           <AlertStatus>{type}!</AlertStatus>
           <AlertCloseButton aria-label="Close toast">

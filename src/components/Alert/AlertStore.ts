@@ -2,7 +2,7 @@ import create from 'zustand'
 
 type AlertType = 'Success' | 'Warning' | 'Error'
 
-type Alert = { message: string; type: AlertType; id: string }
+export type Alert = { message: string; type: AlertType; id: string }
 
 type AlertState = {
   alerts: Array<Alert>

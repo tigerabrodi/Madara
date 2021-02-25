@@ -5,6 +5,8 @@ type AlertType = 'Success' | 'Warning' | 'Error'
 
 type AlertState = {
   alerts: Array<{ message: string; type: AlertType; id: string }>
+  addAlert: (message: string, type: AlertType) => void
+  removeAlert: (id: string) => void
 }
 
 export const useAlertStore = create<AlertState>((set) => ({

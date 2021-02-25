@@ -1,19 +1,20 @@
 import create from 'zustand'
-import { v4 as uuidv4 } from 'uuid'
 
 type AlertType = 'Success' | 'Warning' | 'Error'
 
+type Alert = { message: string; type: AlertType; id: string }
+
 type AlertState = {
-  alerts: Array<{ message: string; type: AlertType; id: string }>
-  addAlert: (message: string, type: AlertType) => void
+  alerts: Array<Alert>
+  addAlert: (alert: Alert) => void
   removeAlert: (id: string) => void
 }
 
 export const useAlertStore = create<AlertState>((set) => ({
   alerts: [],
-  addAlert: (message: string, type: AlertType) =>
+  addAlert: (alert: Alert) =>
     set(({ alerts }) => ({
-      alerts: [...alerts, { message, type, id: uuidv4() }],
+      alerts: [...alerts, { alert }] as Array<Alert>,
     })),
   removeAlert: (id: string) =>
     set(({ alerts }) => ({

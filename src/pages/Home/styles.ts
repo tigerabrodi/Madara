@@ -51,7 +51,7 @@ export const Form = styled.form<{ isLoginMode: boolean }>`
   grid-area: form;
   background-color: ${theme.Blue};
   border-radius: 0.2rem;
-  box-shadow: 0 0 1rem var(--blue);
+  box-shadow: 0 0 1rem ${theme.Blue};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -117,16 +117,22 @@ export const Input = styled.input`
   background-color: ${theme.White};
   width: 100%;
   color: ${theme.Blue};
-  padding-left: 2rem;
-  font-size: 2rem;
+  padding-left: 1rem;
+  font-size: 1.5rem;
   font-family: ${theme.SourceSansPro};
   font-weight: bold;
+  &::placeholder {
+    color: ${theme.Blue};
+    opacity: 0.5;
+  }
   &:focus {
     outline: none;
     box-shadow: 0 0 0.5rem ${theme.Black};
   }
   ${media.phone} {
+    padding-left: 2rem;
     height: 100%;
+    font-size: 2rem;
   }
 `
 
@@ -136,7 +142,19 @@ const errorAnim = keyframes`
   }
 `
 
-export const ErrorMessage = styled.span`
+const errorAnim2 = keyframes`
+  to {
+    transform: translateY(1rem);
+  }
+`
+
+const errorAnim2Tablet = keyframes`
+  to {
+    transform: translateY(2rem);
+  }
+`
+
+export const ErrorMessage = styled.span<{ isLoginMode?: boolean }>`
   font-size: 1.4rem;
   font-family: ${theme.SourceSansPro};
   font-weight: bold;
@@ -145,8 +163,22 @@ export const ErrorMessage = styled.span`
   align-self: center;
   transform: translateY(-0.5rem);
   animation: ${errorAnim} 0.2s forwards;
+  ${(props) =>
+    props.isLoginMode &&
+    css`
+      transform: translate(0);
+      font-size: 1.7rem;
+      animation: ${errorAnim2} 0.2s forwards;
+    `}
+
   ${media.phone} {
     font-size: 1.7rem;
+    ${(props) =>
+      props.isLoginMode &&
+      css`
+        font-size: 2rem;
+        animation: ${errorAnim2Tablet} 0.2s forwards;
+      `}
   }
 `
 

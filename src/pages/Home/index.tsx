@@ -31,13 +31,16 @@ export const Home = () => {
   const [isEmailError, setIsEmailError] = React.useState(false)
 
   const [isEmailInvalid, setIsEmailInvalid] = React.useState(false)
+  const [isEmailTaken] = React.useState(false)
+
+  const [isLoginNotAllowed] = React.useState(false)
 
   const handleSubmit = (event: React.SyntheticEvent<UserFormElement>) => {
     event.preventDefault()
 
     const { name, password } = event.currentTarget.elements
 
-    if (!isLoginMode) {
+    const handleFormValidation = () => {
       const isNameInvalid = !name.value || (name.value && name.value.length < 2)
       if (isNameInvalid) {
         setIsNameError(true)
@@ -55,12 +58,21 @@ export const Home = () => {
 
       const isPasswordInvalid =
         !password.value || (password.value && password.value.length < 6)
-
       if (isPasswordInvalid) {
         setIsPasswordError(true)
         return setTimeout(() => {
           setIsPasswordError(false)
         }, 2500)
+      }
+
+      return true
+    }
+
+    if (isLoginMode) {
+      console.log('User can sign in')
+    } else {
+      if (handleFormValidation() === true) {
+        console.log('User can Sign Up')
       }
     }
   }
@@ -79,10 +91,13 @@ export const Home = () => {
 
         {!isLoginMode && (
           <FormGroup role="group">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name">
+              <span aria-hidden="true">*</span> Name
+            </Label>
             <Input
               type="text"
               id="name"
+              placeholder="Naruto Uzumaki"
               aria-describedby={isNameError ? 'nameInputError' : undefined}
             />
             {isNameError && (
@@ -98,12 +113,15 @@ export const Home = () => {
         )}
 
         <FormGroup role="group">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">
+            {!isLoginMode && <span aria-hidden="true">*</span>} Email
+          </Label>
           <Input
             type="email"
             id="email"
-            aria-describedby={isEmailError ? 'emailInputError' : undefined}
             required
+            placeholder="NarutoUzumaki@gmail.com"
+            aria-describedby={isEmailError ? 'emailInputError' : undefined}
             onChange={(event) => {
               setIsEmailInvalid(!event.target.validity.valid)
             }}
@@ -117,13 +135,25 @@ export const Home = () => {
               Email is not valid.
             </ErrorMessage>
           )}
+          {isEmailTaken && (
+            <ErrorMessage
+              role="alert"
+              aria-label="Email is taken."
+              id="emailInputError"
+            >
+              Email is taken.
+            </ErrorMessage>
+          )}
         </FormGroup>
 
         <FormGroup role="group">
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">
+            {!isLoginMode && <span aria-hidden="true">*</span>} Password
+          </Label>
           <Input
             type="password"
             id="password"
+            placeholder="Naruto's Password"
             aria-describedby={
               isPasswordError ? 'passwordInputError' : undefined
             }
@@ -132,9 +162,17 @@ export const Home = () => {
             <ErrorMessage
               role="alert"
               aria-label="Password must be at least 6 characters long."
-              id="passwordInputError"
             >
               Password must be at least 6 characters long.
+            </ErrorMessage>
+          )}
+          {isLoginNotAllowed && (
+            <ErrorMessage
+              role="alert"
+              aria-label="Password or email is invalid."
+              isLoginMode={isLoginMode}
+            >
+              Password or Email Is Invalid.
             </ErrorMessage>
           )}
         </FormGroup>

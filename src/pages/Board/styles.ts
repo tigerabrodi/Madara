@@ -55,6 +55,12 @@ export const BoardMain = styled.main`
   justify-items: center;
   align-items: center;
   grid-template-rows: 10% 7% 83%;
+  ${media.tablet} {
+    overflow-y: hidden;
+  }
+  ${media.desktop} {
+    overflow-y: auto;
+  }
 `
 
 export const Title = styled.h1`
@@ -96,12 +102,22 @@ export const BoardWrapper = styled.section`
   display: flex;
   align-items: flex-end;
   justify-content: space-evenly;
+  ${media.tablet} {
+    column-gap: 2rem;
+    padding: 0 2rem;
+    overflow-x: visible;
+  }
+  ${media.desktop} {
+    overflow-x: auto;
+    column-gap: 0;
+    padding: 0;
+  }
 `
 
 export const BoardColumn = styled.section`
   height: 90%;
   width: 30%;
-  max-width: 39.5rem;
+  max-width: 40rem;
   min-width: 35rem;
   background-color: ${theme.Blue};
   box-shadow: 0 0 1rem ${theme.Blue};
@@ -116,19 +132,6 @@ export const BoardColumn = styled.section`
   justify-items: flex-end;
   border-radius: 0.5rem;
   overflow-y: auto;
-  &::-webkit-scrollbar {
-    width: 1.2rem;
-    background-color: ${theme.DarkBlue};
-  }
-  &::-webkit-scrollbar-track {
-    border-radius: 0.3rem;
-    background-color: transparent;
-  }
-  &::-webkit-scrollbar-thumb {
-    border-radius: 0.2rem;
-    background-color: ${theme.Blue};
-    border: 0.2rem solid ${theme.LightBlue};
-  }
   ${focusStyles};
 `
 

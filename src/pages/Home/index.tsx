@@ -69,10 +69,12 @@ export const Home = () => {
     }
 
     if (isLoginMode) {
-      console.log('User can sign in')
+      /* User can sign in */
+      return true
     } else {
       if (handleFormValidation() === true) {
-        console.log('User can Sign Up')
+        /* User can sign up */
+        return true
       }
     }
   }

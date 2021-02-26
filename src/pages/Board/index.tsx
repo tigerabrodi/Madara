@@ -2,6 +2,7 @@ import * as React from 'react'
 import { useClickOutside } from 'hooks/useClickOutside'
 import { ConfirmationModal } from 'components/ConfirmationModal'
 import { EditModal } from 'components/EditModal'
+import { Card } from 'components/Card'
 import {
   ToggleFormButton,
   BoardColumn,
@@ -17,18 +18,10 @@ import {
   LogoutButton,
   Logout,
   Toggle,
-  Card,
-  CardMenuButton,
-  CardMenuLogo,
-  CardDate,
-  CardLogo,
-  CardText,
   AddTaskForm,
   AddTaskTextarea,
   FormAddButton,
   FormCancelButton,
-  CardMenu,
-  CardMenuItem,
 } from './styles'
 
 export const Board = () => {
@@ -104,204 +97,13 @@ export const Board = () => {
                   </FormCancelButton>
                 </AddTaskForm>
               )}
-              <Card tabIndex={0}>
-                <CardLogo aria-hidden="true" />
-                <CardMenuButton
-                  aria-label={
-                    isCardMenuOpen ? 'Close card menu' : 'Open card menu'
-                  }
-                  aria-haspopup="menu"
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    toggleCardMenu()
-                  }}
-                >
-                  <CardMenuLogo aria-hidden="true" />
-                </CardMenuButton>
-                <CardText>
-                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                  sea takimata sanctus est Lorem ipsum dolor sit amet.
-                </CardText>
-                <CardDate
-                  aria-label={`Created at ${new Date().toLocaleDateString()}`}
-                >
-                  Created at {new Date().toLocaleDateString()}
-                </CardDate>
-                {isCardMenuOpen && (
-                  <CardMenu role="menu" ref={cardMenuRef}>
-                    <CardMenuItem
-                      role="menuitem"
-                      onClick={(event) => {
-                        event.stopPropagation()
-                        toggleEditModalForm()
-                      }}
-                    >
-                      Edit Task
-                    </CardMenuItem>
-                    <CardMenuItem
-                      role="menuitem"
-                      onClick={(event) => {
-                        event.stopPropagation()
-                        toggleConfirmationModal()
-                      }}
-                    >
-                      Delete Task
-                    </CardMenuItem>
-                  </CardMenu>
-                )}
-              </Card>
-            </Inner>
-          </BoardColumn>
-          <BoardColumn aria-label="In progress column" tabIndex={0}>
-            <TotalTasks title="0">0</TotalTasks>
-            <Status>In progress</Status>
-            <ToggleFormButton
-              aria-label="Add a task to this column."
-              aria-expanded={isAddTaskFormOpen ? 'true' : 'false'}
-              onClick={toggleTaskForm}
-            >
-              <Toggle aria-hidden="true" />
-            </ToggleFormButton>
-            <Inner isFormOpen={isAddTaskFormOpen}>
-              {isAddTaskFormOpen && (
-                <AddTaskForm onSubmit={handleAddTaskSubmit}>
-                  <AddTaskTextarea
-                    name="Task"
-                    aria-label="Enter a task"
-                    placeholder="Enter a task"
-                    required
-                    onChange={handleAddTaskTextChange}
-                  />
-                  <FormAddButton type="submit" disabled={addTaskText === ''}>
-                    Add
-                  </FormAddButton>
-                  <FormCancelButton type="button" onClick={toggleTaskForm}>
-                    Cancel
-                  </FormCancelButton>
-                </AddTaskForm>
-              )}
-              <Card tabIndex={0}>
-                <CardLogo aria-hidden="true" />
-                <CardMenuButton
-                  aria-label={
-                    isCardMenuOpen ? 'Close card menu' : 'Open card menu'
-                  }
-                  aria-haspopup="menu"
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    toggleCardMenu()
-                  }}
-                >
-                  <CardMenuLogo aria-hidden="true" />
-                </CardMenuButton>
-                <CardText>
-                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                  sea takimata sanctus est Lorem ipsum dolor sit amet.
-                </CardText>
-                <CardDate
-                  aria-label={`Created at ${new Date().toLocaleDateString()}`}
-                >
-                  Created at {new Date().toLocaleDateString()}
-                </CardDate>
-                {isCardMenuOpen && (
-                  <CardMenu role="menu" ref={cardMenuRef}>
-                    <CardMenuItem
-                      role="menuitem"
-                      onClick={(event) => {
-                        event.stopPropagation()
-                        toggleEditModalForm()
-                      }}
-                    >
-                      Edit Task
-                    </CardMenuItem>
-                    <CardMenuItem
-                      role="menuitem"
-                      onClick={(event) => {
-                        event.stopPropagation()
-                        toggleConfirmationModal()
-                      }}
-                    >
-                      Delete Task
-                    </CardMenuItem>
-                  </CardMenu>
-                )}
-              </Card>
-            </Inner>
-          </BoardColumn>
-          <BoardColumn aria-label="Done column" tabIndex={0}>
-            <TotalTasks title="0">0</TotalTasks>
-            <Status>Done</Status>
-            <ToggleFormButton
-              aria-label="Add a task to this column."
-              aria-expanded={isAddTaskFormOpen ? 'true' : 'false'}
-              onClick={toggleTaskForm}
-            >
-              <Toggle aria-hidden="true" />
-            </ToggleFormButton>
-            <Inner isFormOpen={isAddTaskFormOpen}>
-              {isAddTaskFormOpen && (
-                <AddTaskForm onSubmit={handleAddTaskSubmit}>
-                  <AddTaskTextarea
-                    name="Task"
-                    aria-label="Enter a task"
-                    placeholder="Enter a task"
-                    required
-                    onChange={handleAddTaskTextChange}
-                  />
-                  <FormAddButton type="submit" disabled={addTaskText === ''}>
-                    Add
-                  </FormAddButton>
-                  <FormCancelButton type="button" onClick={toggleTaskForm}>
-                    Cancel
-                  </FormCancelButton>
-                </AddTaskForm>
-              )}
-              <Card tabIndex={0}>
-                <CardLogo aria-hidden="true" />
-                <CardMenuButton
-                  aria-label={
-                    isCardMenuOpen ? 'Close card menu' : 'Open card menu'
-                  }
-                  aria-haspopup="menu"
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    toggleCardMenu()
-                  }}
-                >
-                  <CardMenuLogo aria-hidden="true" />
-                </CardMenuButton>
-                <CardText>
-                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                  sea takimata sanctus est Lorem ipsum dolor sit amet.
-                </CardText>
-                <CardDate
-                  aria-label={`Created at ${new Date().toLocaleDateString()}`}
-                >
-                  Created at {new Date().toLocaleDateString()}
-                </CardDate>
-                {isCardMenuOpen && (
-                  <CardMenu role="menu" ref={cardMenuRef}>
-                    <CardMenuItem
-                      role="menuitem"
-                      onClick={(event) => {
-                        event.stopPropagation()
-                        toggleEditModalForm()
-                      }}
-                    >
-                      Edit Task
-                    </CardMenuItem>
-                    <CardMenuItem
-                      role="menuitem"
-                      onClick={(event) => {
-                        event.stopPropagation()
-                        toggleConfirmationModal()
-                      }}
-                    >
-                      Delete Task
-                    </CardMenuItem>
-                  </CardMenu>
-                )}
-              </Card>
+              <Card
+                menuRef={cardMenuRef}
+                isMenuOpen={isCardMenuOpen}
+                toggleEditModal={toggleEditModalForm}
+                toggleCardMenu={toggleCardMenu}
+                toggleConfirmationModal={toggleConfirmationModal}
+              />
             </Inner>
           </BoardColumn>
         </BoardWrapper>

@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { useClickOutside } from 'hooks/useClickOutside'
 import { ConfirmationModal } from 'components/ConfirmationModal'
+import { EditModal } from 'components/EditModal'
 import {
   ToggleFormButton,
   BoardColumn,
@@ -28,24 +29,11 @@ import {
   FormCancelButton,
   CardMenu,
   CardMenuItem,
-  EditModal,
-  EditModalHeader,
-  EditModalForm,
-  EditTitle,
-  EditClose,
-  EditCloseButton,
-  EditCancelButton,
-  EditConfirmButton,
-  EditLabel,
-  EditTextarea,
 } from './styles'
 
 export const Board = () => {
   const [isAddTaskFormOpen, setIsAddTaskFormOpen] = React.useState(false)
   const [addTaskText, setAddTaskText] = React.useState('')
-  const [editTaskText, setEditTaskText] = React.useState(
-    'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed sea takimata sanctus est Lorem ipsum dolor sit amet.'
-  )
 
   const [isCardMenuOpen, setIsCardMenuOpen] = React.useState(false)
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = React.useState(
@@ -71,20 +59,9 @@ export const Board = () => {
     setAddTaskText(event.target.value)
   }
 
-  const handleEditTaskChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setEditTaskText(event.target.value)
-  }
-
   const handleAddTaskSubmit = (event: React.FormEvent) => {
     event.preventDefault()
     /* Add new Task */
-  }
-
-  const handleEditSubmit = (event: React.FormEvent) => {
-    event.preventDefault()
-    /* Submit edited Task with new text */
   }
 
   return (
@@ -339,45 +316,11 @@ export const Board = () => {
       )}
 
       {isEditFormOpen && (
-        <>
-          <EditModal role="dialog" aria-modal="true" ref={editModalRef}>
-            <EditModalHeader>
-              <EditTitle>Edit task</EditTitle>
-              <EditCloseButton
-                aria-label="Cancel edit"
-                onClick={(event) => {
-                  event.stopPropagation()
-                  toggleEditModalForm()
-                }}
-              >
-                <EditClose aria-hidden="true" />
-              </EditCloseButton>
-            </EditModalHeader>
-            <EditModalForm onSubmit={handleEditSubmit}>
-              <EditLabel htmlFor="taskText">Task</EditLabel>
-              <EditTextarea
-                id="taskText"
-                name="Task"
-                placeholder="Edit your task"
-                aria-label="Edit your task"
-                onChange={handleEditTaskChange}
-                value={editTaskText}
-              />
-              <EditConfirmButton type="submit" disabled={editTaskText === ''}>
-                Edit
-              </EditConfirmButton>
-              <EditCancelButton
-                onClick={(event) => {
-                  event.stopPropagation()
-                  toggleEditModalForm()
-                }}
-                type="button"
-              >
-                Cancel
-              </EditCancelButton>
-            </EditModalForm>
-          </EditModal>
-        </>
+        <EditModal
+          ref={editModalRef}
+          toggleEditModal={toggleEditModalForm}
+          taskText="Lorem ipsum dolor sit amet, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        />
       )}
     </>
   )

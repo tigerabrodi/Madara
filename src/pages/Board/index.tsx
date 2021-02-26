@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { useClickOutside } from 'hooks/useClickOutside'
+import { ConfirmationModal } from 'components/ConfirmationModal'
 import {
   ToggleFormButton,
   BoardColumn,
@@ -27,12 +28,6 @@ import {
   FormCancelButton,
   CardMenu,
   CardMenuItem,
-  ConfirmationModal,
-  ModalOverlay,
-  ConfirmationTitle,
-  ConfirmationText,
-  ConfirmButton,
-  CancelButton,
   EditModal,
   EditModalHeader,
   EditModalForm,
@@ -53,17 +48,22 @@ export const Board = () => {
   )
 
   const [isCardMenuOpen, setIsCardMenuOpen] = React.useState(false)
-  const [isModalOpen, setIsModalOpen] = React.useState(false)
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = React.useState(
+    false
+  )
   const [isEditFormOpen, setIsEditFormOpen] = React.useState(false)
 
   const toggleCardMenu = () => setIsCardMenuOpen(!isCardMenuOpen)
-  const toggleModal = () => setIsModalOpen(!isModalOpen)
+  const toggleConfirmationModal = () =>
+    setIsConfirmationModalOpen(!isConfirmationModalOpen)
   const toggleTaskForm = () => setIsAddTaskFormOpen(!isAddTaskFormOpen)
   const toggleEditModalForm = () => setIsEditFormOpen(!isEditFormOpen)
 
   const [cardMenuRef] = useClickOutside(() => setIsCardMenuOpen(false))
   const [editModalRef] = useClickOutside(() => setIsEditFormOpen(false))
-  const [confirmationModalRef] = useClickOutside(() => setIsModalOpen(false))
+  const [confirmationModalRef] = useClickOutside(() =>
+    setIsConfirmationModalOpen(false)
+  )
 
   const handleAddTaskTextChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -165,7 +165,7 @@ export const Board = () => {
                       role="menuitem"
                       onClick={(event) => {
                         event.stopPropagation()
-                        toggleModal()
+                        toggleConfirmationModal()
                       }}
                     >
                       Delete Task
@@ -241,7 +241,7 @@ export const Board = () => {
                       role="menuitem"
                       onClick={(event) => {
                         event.stopPropagation()
-                        toggleModal()
+                        toggleConfirmationModal()
                       }}
                     >
                       Delete Task
@@ -317,7 +317,7 @@ export const Board = () => {
                       role="menuitem"
                       onClick={(event) => {
                         event.stopPropagation()
-                        toggleModal()
+                        toggleConfirmationModal()
                       }}
                     >
                       Delete Task
@@ -330,30 +330,12 @@ export const Board = () => {
         </BoardWrapper>
       </BoardMain>
 
-      {isModalOpen && (
-        <>
-          <ConfirmationModal
-            role="alertdialog"
-            aria-modal="true"
-            tabIndex={0}
-            ref={confirmationModalRef}
-          >
-            <ConfirmationTitle>Are you sure?</ConfirmationTitle>
-            <ConfirmationText>
-              Do you really want to delete every task in this column?
-            </ConfirmationText>
-            <ConfirmButton>Yes</ConfirmButton>
-            <CancelButton
-              onClick={(event) => {
-                event.stopPropagation()
-                toggleModal()
-              }}
-            >
-              No
-            </CancelButton>
-          </ConfirmationModal>
-          <ModalOverlay aria-hidden="true" />
-        </>
+      {isConfirmationModalOpen && (
+        <ConfirmationModal
+          ref={confirmationModalRef}
+          toggleModal={toggleConfirmationModal}
+          text="Do you really want to delete every task in this column?"
+        />
       )}
 
       {isEditFormOpen && (
@@ -395,7 +377,6 @@ export const Board = () => {
               </EditCancelButton>
             </EditModalForm>
           </EditModal>
-          <ModalOverlay aria-hidden="true" />
         </>
       )}
     </>

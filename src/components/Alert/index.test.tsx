@@ -37,7 +37,7 @@ const DummyComponent = () => {
   )
 }
 
-test('show alert and close it when close button gets clicked', () => {
+const setup = () => {
   render(<DummyComponent />)
   userEvent.click(screen.getByRole('button', { name: /trigger alert/i }))
 
@@ -48,23 +48,17 @@ test('show alert and close it when close button gets clicked', () => {
   ).toBeInTheDocument()
 
   expect(screen.getByText('Successfully logged in')).toBeInTheDocument()
+}
+
+test('show alert and close it when close button gets clicked', () => {
+  setup()
 
   userEvent.click(screen.getByRole('button', { name: /Close toast/i }))
-
   expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 })
 
 test('show alert and close it after three seconds', async () => {
-  render(<DummyComponent />)
-  userEvent.click(screen.getByRole('button', { name: /trigger alert/i }))
-
-  const alert = screen.getByRole('alert')
-
-  expect(
-    within(alert).getByRole('heading', { name: 'Success!' })
-  ).toBeInTheDocument()
-
-  expect(screen.getByText('Successfully logged in')).toBeInTheDocument()
+  setup()
 
   await waitForElementToBeRemoved(() => screen.queryByRole('alert'))
 })

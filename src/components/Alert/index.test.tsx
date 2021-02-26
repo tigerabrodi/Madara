@@ -1,4 +1,10 @@
-import { render, screen, userEvent, within } from 'test-utils'
+import {
+  render,
+  screen,
+  userEvent,
+  within,
+  waitForElementToBeRemoved,
+} from 'test-utils'
 import { v4 as uuidv4 } from 'uuid'
 import { useAlertStore, Alert as AlertType } from './AlertStore'
 import { Alert } from '.'
@@ -46,4 +52,19 @@ test('show alert and close it when close button gets clicked', () => {
   userEvent.click(screen.getByRole('button', { name: /Close toast/i }))
 
   expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+})
+
+test('show alert and close it after three seconds', async () => {
+  render(<DummyComponent />)
+  userEvent.click(screen.getByRole('button', { name: /trigger alert/i }))
+
+  const alert = screen.getByRole('alert')
+
+  expect(
+    within(alert).getByRole('heading', { name: 'Success!' })
+  ).toBeInTheDocument()
+
+  expect(screen.getByText('Successfully logged in')).toBeInTheDocument()
+
+  await waitForElementToBeRemoved(() => screen.queryByRole('alert'))
 })

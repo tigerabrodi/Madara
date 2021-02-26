@@ -79,12 +79,12 @@ export const Board = () => {
 
   const handleAddTaskSubmit = (event: React.FormEvent) => {
     event.preventDefault()
-    console.log({ addTaskText })
+    /* Add new Task */
   }
 
   const handleEditSubmit = (event: React.FormEvent) => {
     event.preventDefault()
-    console.log({ addTaskText })
+    /* Submit edited Task with new text */
   }
 
   return (

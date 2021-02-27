@@ -15,8 +15,6 @@ import {
   SubtitleWrapper,
   Title,
   TotalTasks,
-  LogoutButton,
-  Logout,
   Toggle,
 } from './styles'
 
@@ -37,9 +35,6 @@ export const Board = () => {
 
   return (
     <>
-      <LogoutButton aria-label="Logout">
-        <Logout aria-hidden="true" />
-      </LogoutButton>
       <BoardMain>
         <Title>Welcome Tiger Abrodi!</Title>
         <SubtitleWrapper>

@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { useClickOutside } from 'hooks/useClickOutside'
 import { ConfirmationModal } from 'components/ConfirmationModal'
 import { EditModal } from 'components/EditModal'
 import { Card } from 'components/Card'
@@ -41,7 +40,7 @@ export const Board = () => {
   const toggleEditModalForm = () => setIsEditFormOpen(!isEditFormOpen)
 
   const [cardMenuRef] = useClickOutside(() => setIsCardMenuOpen(false))
-  const [editModalRef] = useClickOutside(() => setIsEditFormOpen(false))
+
   const [confirmationModalRef] = useClickOutside(() =>
     setIsConfirmationModalOpen(false)
   )
@@ -119,8 +118,8 @@ export const Board = () => {
 
       {isEditFormOpen && (
         <EditModal
-          ref={editModalRef}
-          toggleEditModal={toggleEditModalForm}
+          setOpen={setIsEditFormOpen}
+          toggleModal={toggleEditModalForm}
           taskText="Lorem ipsum dolor sit amet, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         />
       )}

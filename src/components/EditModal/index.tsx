@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { ModalOverlay } from 'styles'
+import { useClickOutside } from 'hooks/useClickOutside'
 import {
   EditModal as Modal,
   EditCancelButton,
@@ -14,15 +15,15 @@ import {
 } from './styles'
 
 type EditModalProps = {
-  ref: React.RefObject<HTMLDivElement>
-  toggleEditModal: () => void
+  setOpen: (state: boolean) => void
+  toggleModal: () => void
   taskText: string
 }
 
 export const EditModal = ({
-  ref,
-  toggleEditModal,
+  toggleModal,
   taskText,
+  setOpen,
 }: EditModalProps) => {
   const [editTaskText, setEditTaskText] = React.useState(taskText)
 
@@ -37,6 +38,8 @@ export const EditModal = ({
     /* Submit edited Task with new text */
   }
 
+  const [ref] = useClickOutside(() => setOpen(false))
+
   return (
     <>
       <Modal role="dialog" aria-modal="true" ref={ref}>
@@ -46,7 +49,7 @@ export const EditModal = ({
             aria-label="Cancel edit"
             onClick={(event) => {
               event.stopPropagation()
-              toggleEditModal()
+              toggleModal()
             }}
           >
             <EditClose aria-hidden="true" />
@@ -68,7 +71,7 @@ export const EditModal = ({
           <EditCancelButton
             onClick={(event) => {
               event.stopPropagation()
-              toggleEditModal()
+              toggleModal()
             }}
             type="button"
           >

@@ -39,12 +39,6 @@ export const Board = () => {
   const toggleTaskForm = () => setIsAddTaskFormOpen(!isAddTaskFormOpen)
   const toggleEditModalForm = () => setIsEditFormOpen(!isEditFormOpen)
 
-  const [cardMenuRef] = useClickOutside(() => setIsCardMenuOpen(false))
-
-  const [confirmationModalRef] = useClickOutside(() =>
-    setIsConfirmationModalOpen(false)
-  )
-
   const handleAddTaskTextChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -97,10 +91,10 @@ export const Board = () => {
                 </AddTaskForm>
               )}
               <Card
-                menuRef={cardMenuRef}
+                setMenuOpen={setIsCardMenuOpen}
                 isMenuOpen={isCardMenuOpen}
                 toggleEditModal={toggleEditModalForm}
-                toggleCardMenu={toggleCardMenu}
+                toggleMenu={toggleCardMenu}
                 toggleConfirmationModal={toggleConfirmationModal}
               />
             </Inner>
@@ -110,7 +104,7 @@ export const Board = () => {
 
       {isConfirmationModalOpen && (
         <ConfirmationModal
-          ref={confirmationModalRef}
+          setOpen={setIsConfirmationModalOpen}
           toggleModal={toggleConfirmationModal}
           text="Do you really want to delete every task in this column?"
         />

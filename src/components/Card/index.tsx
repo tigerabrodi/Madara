@@ -1,3 +1,4 @@
+import { useClickOutside } from 'hooks/useClickOutside'
 import * as React from 'react'
 import {
   Card as CardContainer,
@@ -11,20 +12,22 @@ import {
 } from './styles'
 
 type CardProps = {
-  menuRef: React.RefObject<HTMLDivElement>
-  toggleCardMenu: () => void
+  setMenuOpen: (state: boolean) => void
+  toggleMenu: () => void
   toggleConfirmationModal: () => void
   toggleEditModal: () => void
   isMenuOpen: boolean
 }
 
 export const Card = ({
-  menuRef,
+  setMenuOpen,
   isMenuOpen,
-  toggleCardMenu,
+  toggleMenu,
   toggleEditModal,
   toggleConfirmationModal,
 }: CardProps) => {
+  const [ref] = useClickOutside(() => setMenuOpen(false))
+
   return (
     <CardContainer tabIndex={0}>
       <CardLogo aria-hidden="true" />
@@ -33,7 +36,7 @@ export const Card = ({
         aria-haspopup="menu"
         onClick={(event) => {
           event.stopPropagation()
-          toggleCardMenu()
+          toggleMenu()
         }}
       >
         <CardMenuLogo aria-hidden="true" />
@@ -46,7 +49,7 @@ export const Card = ({
         Created at {new Date().toLocaleDateString()}
       </CardDate>
       {isMenuOpen && (
-        <CardMenu role="menu" ref={menuRef}>
+        <CardMenu role="menu" ref={ref}>
           <CardMenuItem
             role="menuitem"
             onClick={(event) => {

@@ -2,6 +2,7 @@ import * as React from 'react'
 import { ConfirmationModal } from 'components/ConfirmationModal'
 import { EditModal } from 'components/EditModal'
 import { Card } from 'components/Card'
+import { AddTaskForm } from 'components/AddTaskForm'
 import {
   ToggleFormButton,
   BoardColumn,
@@ -17,15 +18,10 @@ import {
   LogoutButton,
   Logout,
   Toggle,
-  AddTaskForm,
-  AddTaskTextarea,
-  FormAddButton,
-  FormCancelButton,
 } from './styles'
 
 export const Board = () => {
   const [isAddTaskFormOpen, setIsAddTaskFormOpen] = React.useState(false)
-  const [addTaskText, setAddTaskText] = React.useState('')
 
   const [isCardMenuOpen, setIsCardMenuOpen] = React.useState(false)
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = React.useState(
@@ -38,17 +34,6 @@ export const Board = () => {
     setIsConfirmationModalOpen(!isConfirmationModalOpen)
   const toggleTaskForm = () => setIsAddTaskFormOpen(!isAddTaskFormOpen)
   const toggleEditModalForm = () => setIsEditFormOpen(!isEditFormOpen)
-
-  const handleAddTaskTextChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setAddTaskText(event.target.value)
-  }
-
-  const handleAddTaskSubmit = (event: React.FormEvent) => {
-    event.preventDefault()
-    /* Add new Task */
-  }
 
   return (
     <>
@@ -73,23 +58,7 @@ export const Board = () => {
               <Toggle aria-hidden="true" />
             </ToggleFormButton>
             <Inner isFormOpen={isAddTaskFormOpen}>
-              {isAddTaskFormOpen && (
-                <AddTaskForm onSubmit={handleAddTaskSubmit}>
-                  <AddTaskTextarea
-                    name="Task"
-                    aria-label="Enter a task"
-                    placeholder="Enter a task"
-                    required
-                    onChange={handleAddTaskTextChange}
-                  />
-                  <FormAddButton type="submit" disabled={addTaskText === ''}>
-                    Add
-                  </FormAddButton>
-                  <FormCancelButton type="button" onClick={toggleTaskForm}>
-                    Cancel
-                  </FormCancelButton>
-                </AddTaskForm>
-              )}
+              {isAddTaskFormOpen && <AddTaskForm toggleForm={toggleTaskForm} />}
               <Card
                 setMenuOpen={setIsCardMenuOpen}
                 isMenuOpen={isCardMenuOpen}

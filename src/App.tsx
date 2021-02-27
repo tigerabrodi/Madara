@@ -4,11 +4,13 @@ import { AppProviders } from 'context'
 import { Home } from 'pages/Home'
 import { Board } from 'pages/Board'
 import { Alert } from 'components/Alert'
+import { Navigation } from 'components/Navigation'
 
 const App = () => (
   <AppProviders>
     <>
       <Alert />
+      <Navigation />
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/board" component={Board} />

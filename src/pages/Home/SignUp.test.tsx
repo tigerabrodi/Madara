@@ -1,8 +1,13 @@
-import { render, screen, userEvent } from 'test-utils'
+import {
+  waitForElementToBeRemoved,
+  render,
+  screen,
+  userEvent,
+} from 'test-utils'
 import { buildUser } from 'utils/generators'
 import { Home } from '.'
 
-test('should not allow name to be shorter than 2 characters', () => {
+test('should not allow name to be shorter than 2 characters', async () => {
   const newUser = buildUser()
   render(<Home />)
 
@@ -23,9 +28,15 @@ test('should not allow name to be shorter than 2 characters', () => {
       name: /Name must be at least two characters long./i,
     })
   ).toBeInTheDocument()
+
+  await waitForElementToBeRemoved(() =>
+    screen.queryByRole('alert', {
+      name: /Name must be at least two characters long./i,
+    })
+  )
 })
 
-test('should not allow invalid emails', () => {
+test('should not allow invalid emails', async () => {
   const newUser = buildUser()
   render(<Home />)
 
@@ -42,9 +53,13 @@ test('should not allow invalid emails', () => {
   expect(
     screen.getByRole('alert', { name: /Email is not valid./i })
   ).toBeInTheDocument()
+
+  await waitForElementToBeRemoved(() =>
+    screen.queryByRole('alert', { name: /Email is not valid./i })
+  )
 })
 
-test('should not allow passwords shorter than 6 characters', () => {
+test('should not allow passwords shorter than 6 characters', async () => {
   const newUser = buildUser()
   render(<Home />)
 
@@ -65,4 +80,10 @@ test('should not allow passwords shorter than 6 characters', () => {
       name: /Password must be at least 6 characters long./i,
     })
   ).toBeInTheDocument()
+
+  await waitForElementToBeRemoved(() =>
+    screen.queryByRole('alert', {
+      name: /Password must be at least 6 characters long./i,
+    })
+  )
 })

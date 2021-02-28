@@ -15,7 +15,7 @@ export const BoardMain = styled.main`
   justify-items: center;
   align-items: center;
   grid-template-rows: 10% 7% 83%;
-  ${media.tablet} {
+  ${media.phone} {
     overflow-y: hidden;
   }
   ${media.desktop} {
@@ -62,7 +62,7 @@ export const BoardWrapper = styled.section`
   display: flex;
   align-items: flex-end;
   justify-content: space-evenly;
-  ${media.tablet} {
+  ${media.phone} {
     column-gap: 2rem;
     padding: 0 2rem;
     overflow-x: visible;

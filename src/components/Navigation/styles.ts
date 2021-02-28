@@ -21,7 +21,7 @@ export const LogoutButton = styled.button`
   cursor: pointer;
   transition: 0.2s;
 
-  ${media.tablet} {
+  ${media.phone} {
     &:hover {
       box-shadow: 0 0.1rem 1rem ${theme.Black};
     }

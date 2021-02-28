@@ -46,7 +46,10 @@ export const SubtitleWrapper = styled.div`
 `
 
 export const Subtitle = styled.h2`
-  font-size: 4.8rem;
+  font-size: 2rem;
+  ${media.phone} {
+    font-size: 4.8rem;
+  }
   font-family: ${theme.SourceSansPro};
   color: ${theme.Blue};
   font-weight: 600;

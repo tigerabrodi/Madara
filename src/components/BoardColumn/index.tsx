@@ -10,7 +10,7 @@ import {
   Toggle,
 } from './styles'
 
-type ColumnType = 'Todo' | 'In progress' | 'Done'
+export type ColumnType = 'Todo' | 'In progress' | 'Done'
 
 type ColumnProps = {
   toggleConfirmationModal: () => void

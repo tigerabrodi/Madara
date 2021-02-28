@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { ConfirmationModal } from 'components/ConfirmationModal'
 import { EditModal } from 'components/EditModal'
-import { BoardColumn } from 'components/BoardColumn'
+import { BoardColumn, ColumnType } from 'components/BoardColumn'
 import {
   BoardMain,
   BoardWrapper,
@@ -12,6 +12,8 @@ import {
 } from './styles'
 
 export const Board = () => {
+  const [isNotMobileLayout, setIsNotMobileLayout] = React.useState(false)
+  const [columnType] = React.useState<ColumnType>('Todo')
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = React.useState(
     false
   )
@@ -20,6 +22,19 @@ export const Board = () => {
   const toggleConfirmationModal = () =>
     setIsConfirmationModalOpen(!isConfirmationModalOpen)
   const toggleEditModalForm = () => setIsEditFormOpen(!isEditFormOpen)
+
+  React.useEffect(() => {
+    const checkMobileLayout = () => {
+      const isNotMobileLayout = window.matchMedia('(min-width: 425px)').matches
+      setIsNotMobileLayout(isNotMobileLayout)
+    }
+
+    checkMobileLayout()
+    window.addEventListener('resize', checkMobileLayout)
+    return () => {
+      window.removeEventListener('resize', checkMobileLayout)
+    }
+  }, [])
 
   return (
     <>
@@ -31,20 +46,24 @@ export const Board = () => {
         </SubtitleWrapper>
         <BoardWrapper>
           <BoardColumn
-            columnType="Todo"
+            columnType={isNotMobileLayout ? 'Todo' : columnType}
             toggleEditModal={toggleEditModalForm}
             toggleConfirmationModal={toggleConfirmationModal}
           />
-          <BoardColumn
-            columnType="In progress"
-            toggleEditModal={toggleEditModalForm}
-            toggleConfirmationModal={toggleConfirmationModal}
-          />
-          <BoardColumn
-            columnType="Done"
-            toggleEditModal={toggleEditModalForm}
-            toggleConfirmationModal={toggleConfirmationModal}
-          />
+          {isNotMobileLayout && (
+            <>
+              <BoardColumn
+                columnType="In progress"
+                toggleEditModal={toggleEditModalForm}
+                toggleConfirmationModal={toggleConfirmationModal}
+              />
+              <BoardColumn
+                columnType="Done"
+                toggleEditModal={toggleEditModalForm}
+                toggleConfirmationModal={toggleConfirmationModal}
+              />
+            </>
+          )}
         </BoardWrapper>
       </BoardMain>
 

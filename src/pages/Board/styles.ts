@@ -65,7 +65,6 @@ export const BoardWrapper = styled.section`
   ${media.phone} {
     column-gap: 2rem;
     padding: 0 2rem;
-    overflow-x: visible;
   }
   ${media.desktop} {
     overflow-x: auto;

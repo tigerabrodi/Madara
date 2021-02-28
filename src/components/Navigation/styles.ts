@@ -20,11 +20,13 @@ export const LogoutButton = styled.button`
   transform: translate(-50%, -50%);
   cursor: pointer;
   transition: 0.2s;
+
   ${media.tablet} {
     &:hover {
       box-shadow: 0 0.1rem 1rem ${theme.Black};
     }
   }
+
   ${media.desktop} {
     box-shadow: none;
     border-radius: 0;
@@ -49,6 +51,7 @@ export const Logout = styled(LogoutSVG)`
   position: relative;
   left: 2px;
   transition: 0.2s;
+
   ${media.desktop} {
     left: 0;
     height: 100%;

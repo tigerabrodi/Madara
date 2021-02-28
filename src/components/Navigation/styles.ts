@@ -11,7 +11,7 @@ export const LogoutButton = styled.button`
   box-shadow: 0 0.1rem 0.5rem ${theme.Black};
   width: 6.5rem;
   left: 50px;
-  top: 48px;
+  top: 95%;
   border: none;
   display: flex;
   align-items: center;
@@ -22,6 +22,7 @@ export const LogoutButton = styled.button`
   transition: 0.2s;
 
   ${media.phone} {
+    top: 48px;
     &:hover {
       box-shadow: 0 0.1rem 1rem ${theme.Black};
     }

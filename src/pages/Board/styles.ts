@@ -24,19 +24,25 @@ export const BoardMain = styled.main`
 `
 
 export const Title = styled.h1`
+  font-size: 2.5rem;
   grid-area: title;
   font-family: ${theme.LibreBaskerville};
   color: ${theme.Blue};
-  font-size: 6.4rem;
+  ${media.phone} {
+    font-size: 6.4rem;
+  }
 `
 
 export const SubtitleWrapper = styled.div`
+  width: 65%;
   grid-area: subtitle;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   height: 100%;
-  width: 53.7rem;
+  ${media.phone} {
+    width: 53.7rem;
+  }
 `
 
 export const Subtitle = styled.h2`
@@ -47,11 +53,16 @@ export const Subtitle = styled.h2`
 `
 
 export const SubtitleHandWriting = styled(HandWriting)`
-  height: 6.5rem;
-  width: 6.5rem;
+  height: 2.4rem;
+  width: 2.4rem;
+  bottom: 2px;
   position: relative;
-  bottom: 0.5rem;
   fill: ${theme.Blue};
+  ${media.phone} {
+    height: 6.5rem;
+    width: 6.5rem;
+    bottom: 0.5rem;
+  }
 `
 
 /* Board */

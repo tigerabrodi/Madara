@@ -49,7 +49,7 @@ export const Logout = styled(LogoutSVG)`
   height: 3.5rem;
   width: 3.5rem;
   position: relative;
-  left: 2px;
+  left: 3px;
   transition: 0.2s;
 
   ${media.desktop} {

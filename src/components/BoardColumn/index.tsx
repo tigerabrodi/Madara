@@ -10,14 +10,18 @@ import {
   Toggle,
 } from './styles'
 
+type ColumnType = 'Todo' | 'In progress' | 'Done'
+
 type ColumnProps = {
   toggleConfirmationModal: () => void
   toggleEditModal: () => void
+  columnType: ColumnType
 }
 
 export const BoardColumn = ({
   toggleConfirmationModal,
   toggleEditModal,
+  columnType,
 }: ColumnProps) => {
   const [isAddTaskFormOpen, setIsAddTaskFormOpen] = React.useState(false)
   const [isCardMenuOpen, setIsCardMenuOpen] = React.useState(false)
@@ -26,9 +30,9 @@ export const BoardColumn = ({
   const toggleTaskForm = () => setIsAddTaskFormOpen(!isAddTaskFormOpen)
 
   return (
-    <Column aria-label="Todo column" tabIndex={0}>
+    <Column aria-label={`${columnType} column`} tabIndex={0}>
       <TotalTasks title="0">0</TotalTasks>
-      <Status>Todo</Status>
+      <Status>{columnType}</Status>
       <ToggleFormButton
         aria-label="Add a task to this column."
         aria-expanded={isAddTaskFormOpen ? 'true' : 'false'}

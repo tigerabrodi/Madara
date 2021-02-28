@@ -31,6 +31,17 @@ export const Board = () => {
         </SubtitleWrapper>
         <BoardWrapper>
           <BoardColumn
+            columnType="Todo"
+            toggleEditModal={toggleEditModalForm}
+            toggleConfirmationModal={toggleConfirmationModal}
+          />
+          <BoardColumn
+            columnType="In progress"
+            toggleEditModal={toggleEditModalForm}
+            toggleConfirmationModal={toggleConfirmationModal}
+          />
+          <BoardColumn
+            columnType="Done"
             toggleEditModal={toggleEditModalForm}
             toggleConfirmationModal={toggleConfirmationModal}
           />

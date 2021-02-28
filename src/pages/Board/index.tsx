@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { ConfirmationModal } from 'components/ConfirmationModal'
 import { EditModal } from 'components/EditModal'
-import { BoardColumn, ColumnType } from 'components/BoardColumn'
+import { BoardColumn } from 'components/BoardColumn'
+import { ColumnType } from 'types'
 import {
   BoardMain,
   BoardWrapper,

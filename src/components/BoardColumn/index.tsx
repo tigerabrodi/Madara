@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Card } from 'components/Card'
+import { ColumnType } from 'types'
 import { AddTaskForm } from 'components/AddTaskForm'
 import {
   BoardColumn as Column,
@@ -9,8 +10,6 @@ import {
   TotalTasks,
   Toggle,
 } from './styles'
-
-export type ColumnType = 'Todo' | 'In progress' | 'Done'
 
 type ColumnProps = {
   toggleConfirmationModal: () => void

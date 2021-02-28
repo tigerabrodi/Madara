@@ -1,5 +1,5 @@
 export const theme = {
-  LightBlue: 'var(--light-blue)',
+  LightBlue: 'var(--lightBlue)',
   White: 'white',
   Blue: 'var(--blue)',
   DarkBlue: 'var(--darkBlue)',

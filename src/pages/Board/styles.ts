@@ -1,21 +1,29 @@
-import styled from 'styled-components/macro'
+import styled, { css } from 'styled-components/macro'
 import { theme } from 'theme/theme'
 import { ReactComponent as HandWriting } from 'assets/hand-writing.svg'
 import { media } from 'theme/media'
+import { ColumnType } from 'types'
+import { focusStyles } from 'styles'
 
 export const BoardMain = styled.main`
   grid-area: main;
-  display: grid;
   height: 70rem;
   width: 100%;
+  display: grid;
   grid-template-areas:
-    'title'
-    'subtitle'
-    'board';
+    'title title title'
+    'subtitle subtitle subtitle'
+    'todo inProgress done'
+    'board board board';
+  grid-template-rows: 10% 5% 7% 78%;
   justify-items: center;
   align-items: center;
-  grid-template-rows: 10% 7% 83%;
   ${media.phone} {
+    grid-template-areas:
+      'title'
+      'subtitle'
+      'board';
+    grid-template-rows: 10% 7% 83%;
     overflow-y: hidden;
     height: calc(100vh - 8rem);
   }
@@ -25,7 +33,7 @@ export const BoardMain = styled.main`
 `
 
 export const Title = styled.h1`
-  font-size: 2.7rem;
+  font-size: 2.5rem;
   grid-area: title;
   font-family: ${theme.LibreBaskerville};
   color: ${theme.Blue};
@@ -39,9 +47,10 @@ export const SubtitleWrapper = styled.div`
   justify-content: space-between;
   grid-area: subtitle;
   display: flex;
-  align-items: center;
   height: 100%;
+  align-items: flex-start;
   ${media.phone} {
+    align-items: center;
     justify-content: space-evenly;
     width: 53.7rem;
   }
@@ -71,13 +80,15 @@ export const SubtitleHandWriting = styled(HandWriting)`
 `
 
 export const BoardWrapper = styled.section`
-  height: 95%;
   width: 100%;
   grid-area: board;
   display: flex;
   align-items: flex-end;
   justify-content: space-evenly;
+  height: 100%;
+  padding: 0 0.5rem 0.5rem;
   ${media.phone} {
+    height: 95%;
     column-gap: 2rem;
     padding: 0 2rem;
   }
@@ -86,4 +97,45 @@ export const BoardWrapper = styled.section`
     column-gap: 0;
     padding: 0;
   }
+`
+
+const typeButtonStyles = css`
+  align-self: flex-end;
+  font-size: 2rem;
+  background-color: transparent;
+  color: ${theme.Blue};
+  font-family: ${theme.SourceSansPro};
+  font-weight: 600;
+  border: none;
+  ${focusStyles};
+`
+
+export const TodoButton = styled.button<{ columnType: ColumnType }>`
+  ${typeButtonStyles}
+  grid-area: todo;
+  ${(props) =>
+    props.columnType === 'Todo' &&
+    css`
+      text-decoration: underline;
+    `}
+`
+
+export const InProgressButton = styled.button<{ columnType: ColumnType }>`
+  ${typeButtonStyles}
+  grid-area: inProgress;
+  ${(props) =>
+    props.columnType === 'In progress' &&
+    css`
+      text-decoration: underline;
+    `}
+`
+
+export const DoneButton = styled.button<{ columnType: ColumnType }>`
+  ${typeButtonStyles}
+  grid-area: done;
+  ${(props) =>
+    props.columnType === 'Done' &&
+    css`
+      text-decoration: underline;
+    `}
 `

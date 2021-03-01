@@ -5,11 +5,11 @@ import { media } from 'theme/media'
 import { theme } from 'theme/theme'
 
 export const LogoutButton = styled.button`
+  height: 6rem;
+  width: 6rem;
   background-color: var(--lightBlue);
   border-radius: 50%;
-  height: 6.5rem;
   box-shadow: 0 0.1rem 0.5rem ${theme.Black};
-  width: 6.5rem;
   position: fixed;
   top: 92%;
   left: 15.5%;

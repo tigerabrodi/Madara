@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components/macro'
 import { theme } from 'theme/theme'
 import { ReactComponent as AddSVG } from 'assets/add-task.svg'
 import { focusStyles } from 'styles'
+import { media } from 'theme/media'
 
 export const BoardColumn = styled.section`
   height: 90%;
@@ -15,13 +16,16 @@ export const BoardColumn = styled.section`
     'totalTasks status toggleFormButton'
     'inner inner inner';
   grid-template-columns: 10% 80% 10%;
-  grid-template-rows: 7%;
+  grid-template-rows: 10%;
   align-content: flex-start;
   align-items: center;
   justify-items: flex-end;
   border-radius: 0.5rem;
   overflow-y: auto;
   ${focusStyles};
+  ${media.phone} {
+    grid-template-rows: 7%;
+  }
 `
 
 export const TotalTasks = styled.span`

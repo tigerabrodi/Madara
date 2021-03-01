@@ -6,8 +6,8 @@ import { media } from 'theme/media'
 export const BoardMain = styled.main`
   grid-area: main;
   display: grid;
+  height: 70rem;
   width: 100%;
-  height: calc(100vh - 8rem);
   grid-template-areas:
     'title'
     'subtitle'
@@ -17,6 +17,7 @@ export const BoardMain = styled.main`
   grid-template-rows: 10% 7% 83%;
   ${media.phone} {
     overflow-y: hidden;
+    height: calc(100vh - 8rem);
   }
   ${media.desktop} {
     overflow-y: auto;
@@ -24,7 +25,7 @@ export const BoardMain = styled.main`
 `
 
 export const Title = styled.h1`
-  font-size: 2.5rem;
+  font-size: 2.7rem;
   grid-area: title;
   font-family: ${theme.LibreBaskerville};
   color: ${theme.Blue};
@@ -34,19 +35,20 @@ export const Title = styled.h1`
 `
 
 export const SubtitleWrapper = styled.div`
-  width: 65%;
+  width: 24.5rem;
+  justify-content: space-between;
   grid-area: subtitle;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
   height: 100%;
   ${media.phone} {
+    justify-content: space-evenly;
     width: 53.7rem;
   }
 `
 
 export const Subtitle = styled.h2`
-  font-size: 2rem;
+  font-size: 2.5rem;
   ${media.phone} {
     font-size: 4.8rem;
   }
@@ -56,9 +58,9 @@ export const Subtitle = styled.h2`
 `
 
 export const SubtitleHandWriting = styled(HandWriting)`
-  height: 2.4rem;
-  width: 2.4rem;
-  bottom: 2px;
+  height: 3rem;
+  width: 3rem;
+  bottom: 0.2rem;
   position: relative;
   fill: ${theme.Blue};
   ${media.phone} {
@@ -68,7 +70,6 @@ export const SubtitleHandWriting = styled(HandWriting)`
   }
 `
 
-/* Board */
 export const BoardWrapper = styled.section`
   height: 95%;
   width: 100%;

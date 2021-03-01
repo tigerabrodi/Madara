@@ -75,6 +75,7 @@ export const Board = () => {
             columnType={isNotMobileLayout ? 'Todo' : columnType}
             toggleEditModal={toggleEditModalForm}
             toggleConfirmationModal={toggleConfirmationModal}
+            isNotMobileLayout={isNotMobileLayout}
           />
           {isNotMobileLayout && (
             <>
@@ -82,11 +83,13 @@ export const Board = () => {
                 columnType="In progress"
                 toggleEditModal={toggleEditModalForm}
                 toggleConfirmationModal={toggleConfirmationModal}
+                isNotMobileLayout={isNotMobileLayout}
               />
               <BoardColumn
                 columnType="Done"
                 toggleEditModal={toggleEditModalForm}
                 toggleConfirmationModal={toggleConfirmationModal}
+                isNotMobileLayout={isNotMobileLayout}
               />
             </>
           )}

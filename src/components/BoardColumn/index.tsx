@@ -15,12 +15,14 @@ type ColumnProps = {
   toggleConfirmationModal: () => void
   toggleEditModal: () => void
   columnType: ColumnType
+  isNotMobileLayout: boolean
 }
 
 export const BoardColumn = ({
   toggleConfirmationModal,
   toggleEditModal,
   columnType,
+  isNotMobileLayout,
 }: ColumnProps) => {
   const [isAddTaskFormOpen, setIsAddTaskFormOpen] = React.useState(false)
   const [isCardMenuOpen, setIsCardMenuOpen] = React.useState(false)
@@ -30,8 +32,12 @@ export const BoardColumn = ({
 
   return (
     <Column aria-label={`${columnType} column`} tabIndex={0}>
-      <TotalTasks title="0">0</TotalTasks>
-      <Status>{columnType}</Status>
+      {isNotMobileLayout && (
+        <>
+          <TotalTasks title="0">0</TotalTasks>
+          <Status>{columnType}</Status>
+        </>
+      )}
       <ToggleFormButton
         aria-label="Add a task to this column."
         aria-expanded={isAddTaskFormOpen ? 'true' : 'false'}

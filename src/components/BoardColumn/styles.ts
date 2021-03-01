@@ -13,15 +13,18 @@ export const BoardColumn = styled.section`
   box-shadow: 0 0 1rem ${theme.Blue};
   display: grid;
   grid-template-areas:
-    'totalTasks status toggleFormButton'
-    'inner inner inner';
-  grid-template-columns: 10% 76% 14%;
+    'toggleFormButton'
+    'inner';
   align-content: flex-start;
   align-items: center;
   justify-items: flex-end;
   overflow-y: auto;
   ${focusStyles};
   ${media.phone} {
+    grid-template-columns: 10% 76% 14%;
+    grid-template-areas:
+      'totalTasks status toggleFormButton'
+      'inner inner inner';
     border-radius: 0.5rem;
     height: 90%;
     width: 30%;
@@ -60,11 +63,16 @@ export const ToggleFormButton = styled.button`
   background: transparent;
   border: none;
   display: flex;
-  justify-self: center;
+  justify-self: flex-end;
+  margin-right: 1rem;
   align-items: center;
   justify-content: space-evenly;
   cursor: pointer;
   ${focusStyles};
+  ${media.phone} {
+    justify-self: center;
+    margin-right: 0;
+  }
 `
 
 export const Toggle = styled(AddSVG)`

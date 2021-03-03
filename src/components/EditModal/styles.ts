@@ -6,8 +6,9 @@ import { ReactComponent as EditCloseSVG } from 'assets/close.svg'
 
 export const EditModal = styled.div`
   position: absolute;
-  width: 45rem;
-  height: 28rem;
+  width: 95%;
+  max-width: 45rem;
+  height: 27rem;
   top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -17,6 +18,9 @@ export const EditModal = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
+  ${media.phone} {
+    height: 35rem;
+  }
   ${focusStyles};
 `
 
@@ -32,6 +36,7 @@ export const EditModalHeader = styled.div`
 `
 
 export const EditModalForm = styled.form`
+  grid-template-rows: 17% 53% 30%;
   height: 80%;
   width: 100%;
   background-color: ${theme.Blue};
@@ -42,10 +47,12 @@ export const EditModalForm = styled.form`
     'label label label label label label'
     'textarea textarea textarea textarea textarea textarea'
     'confirm confirm confirm cancel cancel cancel';
-  grid-template-rows: 20% 50% 30%;
   grid-template-columns: repeat(6, 1fr);
   align-items: center;
   justify-items: center;
+  ${media.phone} {
+    grid-template-rows: 20% 50% 30%;
+  }
 `
 
 export const EditTitle = styled.h1`
@@ -75,6 +82,7 @@ export const EditClose = styled(EditCloseSVG)`
 `
 
 export const EditLabel = styled.label`
+  padding-left: 2rem;
   grid-area: label;
   font-family: ${theme.SourceSansPro};
   font-weight: 600;
@@ -82,16 +90,21 @@ export const EditLabel = styled.label`
   color: ${theme.LightBlue};
   align-self: center;
   justify-self: flex-start;
-  padding-left: 4.5rem;
+  ${media.custom(360)} {
+    padding-left: 3.5rem;
+  }
+  ${media.custom(400)} {
+    padding-left: 4rem;
+  }
 `
 
 export const EditTextarea = styled.textarea`
   grid-area: textarea;
   background-color: ${theme.LightBlue};
-  width: 80%;
-  height: 100%;
+  height: 95%;
+  width: 90%;
   font-weight: 600;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-family: ${theme.SourceSansPro};
   color: ${theme.Blue};
   padding-left: 0.5rem;
@@ -106,18 +119,34 @@ export const EditTextarea = styled.textarea`
     outline: none;
     box-shadow: 0 0.3rem 0.4rem ${theme.DarkBlue};
   }
+  ${media.custom(360)} {
+    height: 100%;
+    width: 80%;
+  }
+  ${media.phone} {
+    font-size: 1.8rem;
+  }
 `
 
 const editModalButtonStyles = css`
+  width: 80%;
   font-family: ${theme.SourceSansPro};
   font-weight: 600;
   height: 3.5rem;
-  width: 13.5rem;
   border-radius: 0.2rem;
   background-color: transparent;
   transition: 0.2s;
   font-size: 1.8rem;
+  box-shadow: 0 0.1rem 0.3rem black;
   ${focusStyles};
+  ${media.custom(360)} {
+    width: 70%;
+  }
+  ${media.phone} {
+    box-shadow: none;
+    width: 65%;
+    height: 4rem;
+  }
   ${media.tablet} {
     &:hover:not(:disabled) {
       color: ${theme.Blue};
@@ -133,11 +162,20 @@ const editModalButtonStyles = css`
 
 export const EditConfirmButton = styled.button`
   ${editModalButtonStyles};
+  justify-self: flex-end;
+  margin-right: 1.2rem;
   grid-area: confirm;
   border: 0.2rem solid ${theme.Green};
   color: ${theme.Green};
   &:disabled {
     opacity: 0.3;
+    box-shadow: none;
+  }
+  ${media.custom(360)} {
+    margin-right: 1.7rem;
+  }
+  ${media.phone} {
+    margin-right: 3.2rem;
   }
   ${media.tablet} {
     &:hover:not(:disabled) {
@@ -149,10 +187,18 @@ export const EditConfirmButton = styled.button`
 
 export const EditCancelButton = styled.button`
   ${editModalButtonStyles};
+  justify-self: flex-start;
+  margin-left: 1.2rem;
   grid-area: cancel;
   border: 0.2rem solid ${theme.Pink};
   color: ${theme.Pink};
   cursor: pointer;
+  ${media.custom(360)} {
+    margin-left: 1.7rem;
+  }
+  ${media.phone} {
+    margin-left: 3.4rem;
+  }
   ${media.tablet} {
     &:hover {
       background-color: ${theme.Pink};

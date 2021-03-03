@@ -11,7 +11,7 @@ export const LogoutButton = styled.button`
   border-radius: 50%;
   box-shadow: 0 0.1rem 0.5rem ${theme.Black};
   position: fixed;
-  top: 92%;
+  top: 93%;
   left: 15.5%;
   border: none;
   display: flex;

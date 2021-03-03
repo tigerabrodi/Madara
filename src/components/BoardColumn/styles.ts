@@ -1,12 +1,13 @@
 import styled, { css } from 'styled-components/macro'
 import { theme } from 'theme/theme'
 import { ReactComponent as AddSVG } from 'assets/add-task.svg'
-import { focusStyles } from 'styles'
+import { focusStyles, totalTasksStyles } from 'styles'
 import { media } from 'theme/media'
 
 export const BoardColumn = styled.section`
   height: 95%;
   width: 100%;
+  max-width: 36rem;
   grid-template-rows: 8%;
   border-radius: 0.3rem;
   background-color: ${theme.Blue};
@@ -35,13 +36,9 @@ export const BoardColumn = styled.section`
 `
 
 export const TotalTasks = styled.span`
+  ${totalTasksStyles};
   grid-area: totalTasks;
-  padding: 0 0.6rem;
   background-color: ${theme.LightBlue};
-  border-radius: 2em;
-  font-size: 2rem;
-  font-family: ${theme.SourceSansPro};
-  font-weight: 600;
   color: ${theme.Blue};
 `
 

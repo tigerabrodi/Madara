@@ -11,6 +11,14 @@ export const focusStyles = css`
   }
 `
 
+export const totalTasksStyles = css`
+  padding: 0 0.6rem;
+  border-radius: 2em;
+  font-size: 2rem;
+  font-family: ${theme.SourceSansPro};
+  font-weight: 600;
+`
+
 export const ModalOverlay = styled.div`
   position: absolute;
   transform: translate(-50%, -50%);

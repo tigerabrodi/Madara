@@ -3,11 +3,11 @@ import { theme } from 'theme/theme'
 import { ReactComponent as HandWriting } from 'assets/hand-writing.svg'
 import { media } from 'theme/media'
 import { ColumnType } from 'types'
-import { focusStyles } from 'styles'
+import { focusStyles, totalTasksStyles } from 'styles'
 
 export const BoardMain = styled.main`
   grid-area: main;
-  height: 70rem;
+  height: 75rem;
   width: 100%;
   display: grid;
   grid-template-areas:
@@ -15,7 +15,8 @@ export const BoardMain = styled.main`
     'subtitle subtitle subtitle'
     'todo inProgress done'
     'board board board';
-  grid-template-rows: 10% 5% 7% 78%;
+
+  grid-template-rows: 10% 5% 10% 75%;
   justify-items: center;
   align-items: center;
   ${media.phone} {
@@ -86,7 +87,8 @@ export const BoardWrapper = styled.section`
   align-items: flex-end;
   justify-content: space-evenly;
   height: 100%;
-  padding: 0 0.5rem 0.5rem;
+  align-items: center;
+  padding: 0;
   ${media.phone} {
     height: 95%;
     column-gap: 2rem;
@@ -100,7 +102,6 @@ export const BoardWrapper = styled.section`
 `
 
 const typeButtonStyles = css`
-  align-self: flex-end;
   font-size: 2rem;
   background-color: transparent;
   color: ${theme.Blue};
@@ -138,4 +139,10 @@ export const DoneButton = styled.button<{ columnType: ColumnType }>`
     css`
       text-decoration: underline;
     `}
+`
+
+export const TotalTasks = styled.span`
+  ${totalTasksStyles};
+  background-color: ${theme.Blue};
+  color: ${theme.LightBlue};
 `

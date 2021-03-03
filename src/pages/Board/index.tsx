@@ -13,7 +13,6 @@ import {
   SubtitleWrapper,
   Title,
   TodoButton,
-  TotalTasks,
 } from './styles'
 
 export const Board = () => {
@@ -55,19 +54,19 @@ export const Board = () => {
               onClick={() => setColumnType('Todo')}
               columnType={columnType}
             >
-              Todo <TotalTasks>0</TotalTasks>
+              Todo
             </TodoButton>
             <InProgressButton
               onClick={() => setColumnType('In progress')}
               columnType={columnType}
             >
-              In progress <TotalTasks>0</TotalTasks>
+              In progress
             </InProgressButton>
             <DoneButton
               onClick={() => setColumnType('Done')}
               columnType={columnType}
             >
-              Done <TotalTasks>0</TotalTasks>
+              Done
             </DoneButton>
           </>
         )}

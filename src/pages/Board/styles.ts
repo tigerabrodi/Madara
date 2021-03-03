@@ -3,7 +3,7 @@ import { theme } from 'theme/theme'
 import { ReactComponent as HandWriting } from 'assets/hand-writing.svg'
 import { media } from 'theme/media'
 import { ColumnType } from 'types'
-import { focusStyles, totalTasksStyles } from 'styles'
+import { focusStyles } from 'styles'
 
 export const BoardMain = styled.main`
   grid-area: main;
@@ -111,13 +111,17 @@ const typeButtonStyles = css`
   ${focusStyles};
 `
 
+const columnTypeHighlightStyles = css`
+  text-decoration: underline;
+`
+
 export const TodoButton = styled.button<{ columnType: ColumnType }>`
   ${typeButtonStyles}
   grid-area: todo;
   ${(props) =>
     props.columnType === 'Todo' &&
     css`
-      text-decoration: underline;
+      ${columnTypeHighlightStyles}
     `}
 `
 
@@ -127,7 +131,7 @@ export const InProgressButton = styled.button<{ columnType: ColumnType }>`
   ${(props) =>
     props.columnType === 'In progress' &&
     css`
-      text-decoration: underline;
+      ${columnTypeHighlightStyles}
     `}
 `
 
@@ -137,12 +141,6 @@ export const DoneButton = styled.button<{ columnType: ColumnType }>`
   ${(props) =>
     props.columnType === 'Done' &&
     css`
-      text-decoration: underline;
+      ${columnTypeHighlightStyles}
     `}
-`
-
-export const TotalTasks = styled.span`
-  ${totalTasksStyles};
-  background-color: ${theme.Blue};
-  color: ${theme.LightBlue};
 `

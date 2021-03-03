@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components/macro'
 import { theme } from 'theme/theme'
 import { ReactComponent as AddSVG } from 'assets/add-task.svg'
-import { focusStyles, totalTasksStyles } from 'styles'
+import { focusStyles } from 'styles'
 import { media } from 'theme/media'
 
 export const BoardColumn = styled.section`
@@ -14,8 +14,8 @@ export const BoardColumn = styled.section`
   box-shadow: 0 0 1rem ${theme.Blue};
   display: grid;
   grid-template-areas:
-    'toggleFormButton'
-    'inner';
+    'totalTasks toggleFormButton'
+    'inner inner';
   align-content: flex-start;
   align-items: center;
   justify-items: flex-end;
@@ -36,7 +36,17 @@ export const BoardColumn = styled.section`
 `
 
 export const TotalTasks = styled.span`
-  ${totalTasksStyles};
+  justify-self: flex-start;
+  margin-left: 1.5rem;
+  ${media.phone} {
+    margin-left: 0;
+    justify-self: flex-end;
+  }
+  padding: 0 0.6rem;
+  border-radius: 2em;
+  font-size: 2rem;
+  font-family: ${theme.SourceSansPro};
+  font-weight: 600;
   grid-area: totalTasks;
   background-color: ${theme.LightBlue};
   color: ${theme.Blue};

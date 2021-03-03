@@ -45,11 +45,15 @@ const formButtonStyles = css`
   font-weight: 600;
   font-size: 1.8rem;
   height: 3.5rem;
+  box-shadow: 0 0.1rem 0.3rem black;
   width: 13rem;
   border-radius: 0.2rem;
   background-color: transparent;
   transition: 0.2s;
   ${focusStyles};
+  ${media.phone} {
+    box-shadow: none;
+  }
   ${media.tablet} {
     &:hover {
       color: ${theme.Blue};
@@ -69,6 +73,7 @@ export const FormAddButton = styled.button`
   border: 0.2rem solid ${theme.Green};
   color: ${theme.Green};
   &:disabled {
+    box-shadow: none;
     opacity: 0.3;
   }
   ${media.tablet} {

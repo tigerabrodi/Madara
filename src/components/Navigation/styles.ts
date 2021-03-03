@@ -11,8 +11,8 @@ export const LogoutButton = styled.button`
   border-radius: 50%;
   box-shadow: 0 0.1rem 0.5rem ${theme.Black};
   position: fixed;
-  top: 93%;
-  left: 15.5%;
+  top: 91.5%;
+  left: 16%;
   border: none;
   display: flex;
   align-items: center;
@@ -23,7 +23,8 @@ export const LogoutButton = styled.button`
 
   ${media.phone} {
     position: absolute;
-    top: 48px;
+    top: 4.8rem;
+    left: 5rem;
     &:hover {
       box-shadow: 0 0.1rem 1rem ${theme.Black};
     }

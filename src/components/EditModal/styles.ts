@@ -96,6 +96,12 @@ export const EditLabel = styled.label`
   ${media.custom(400)} {
     padding-left: 4rem;
   }
+  ${media.phone} {
+    padding-left: 4.5rem;
+  }
+  ${media.tablet} {
+    padding-left: 5rem;
+  }
 `
 
 export const EditTextarea = styled.textarea`

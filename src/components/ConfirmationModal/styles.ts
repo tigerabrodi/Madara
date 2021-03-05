@@ -5,8 +5,9 @@ import { focusStyles } from 'styles'
 
 export const ConfirmationModal = styled.div`
   position: absolute;
-  width: 51rem;
-  height: 28rem;
+  height: 20rem;
+  max-width: 55rem;
+  width: 95%;
   top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -18,10 +19,16 @@ export const ConfirmationModal = styled.div`
     'title title'
     'text text'
     'confirm cancel';
-  grid-template-rows: 20% 35% 45%;
+  grid-template-rows: 23% 32% 45%;
   align-items: center;
   justify-items: center;
   ${focusStyles};
+  ${media.custom(360)} {
+    height: 25rem;
+  }
+  ${media.phone} {
+    height: 30rem;
+  }
 `
 
 export const ConfirmationTitle = styled.h1`
@@ -30,29 +37,53 @@ export const ConfirmationTitle = styled.h1`
   text-align: center;
   color: ${theme.Pink};
   font-weight: 600;
-  font-size: 4.8rem;
+  font-size: 4rem;
+  ${media.custom(360)} {
+    font-size: 4.5rem;
+  }
+  ${media.phone} {
+    font-size: 4.8rem;
+  }
 `
 
 export const ConfirmationText = styled.p`
+  font-size: 2rem;
+  padding: 0 2rem;
   grid-area: text;
   font-family: ${theme.SourceSansPro};
   color: ${theme.LightBlue};
   text-align: center;
-  font-size: 2.4rem;
   font-weight: 600;
+  ${media.custom(360)} {
+    font-size: 2.5rem;
+  }
+  ${media.phone} {
+    font-size: 3rem;
+  }
 `
 
 const confirmationModalButtonStyles = css`
+  height: 4rem;
+  width: 11rem;
   font-family: ${theme.SourceSansPro};
   font-weight: 600;
-  height: 5.2rem;
-  width: 16rem;
+  font-size: 2.5rem;
   border-radius: 0.2rem;
   background-color: transparent;
   transition: 0.2s;
-  font-size: 3rem;
   cursor: pointer;
   ${focusStyles};
+  ${media.custom(360)} {
+    height: 5rem;
+    width: 13rem;
+    font-size: 3rem;
+  }
+  ${media.phone} {
+    height: 5.2rem;
+    width: 16rem;
+    margin-top: 0;
+    align-self: center;
+  }
   ${media.tablet} {
     &:hover {
       color: ${theme.Blue};
@@ -83,7 +114,6 @@ export const CancelButton = styled.button`
   grid-area: cancel;
   border: 0.2rem solid ${theme.Pink};
   color: ${theme.Pink};
-  font-size: 3rem;
   ${media.tablet} {
     &:hover {
       background-color: ${theme.Pink};

@@ -108,6 +108,7 @@ export const Board = () => {
       {isEditFormOpen && (
         <EditModal
           setOpen={setIsEditFormOpen}
+          onSuccess={() => 'Success handling edit modal'}
           toggleModal={toggleEditModalForm}
           taskText="Lorem ipsum dolor sit amet, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         />

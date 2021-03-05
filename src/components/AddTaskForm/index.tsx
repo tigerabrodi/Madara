@@ -8,15 +8,11 @@ import {
 
 type TaskFormProps = {
   toggleForm: () => void
+  onSuccess: (event: React.FormEvent<HTMLFormElement>) => void
 }
 
-export const AddTaskForm = ({ toggleForm }: TaskFormProps) => {
+export const AddTaskForm = ({ toggleForm, onSuccess }: TaskFormProps) => {
   const [addTaskText, setAddTaskText] = React.useState('')
-
-  const handleAddTaskSubmit = (event: React.FormEvent) => {
-    event.preventDefault()
-    /* Add new Task */
-  }
 
   const handleAddTaskTextChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -25,7 +21,7 @@ export const AddTaskForm = ({ toggleForm }: TaskFormProps) => {
   }
 
   return (
-    <Form onSubmit={handleAddTaskSubmit}>
+    <Form onSubmit={onSuccess}>
       <AddTaskTextarea
         name="Task"
         aria-label="Enter a task"

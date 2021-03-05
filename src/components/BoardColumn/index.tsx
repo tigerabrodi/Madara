@@ -30,6 +30,10 @@ export const BoardColumn = ({
   const toggleCardMenu = () => setIsCardMenuOpen(!isCardMenuOpen)
   const toggleTaskForm = () => setIsAddTaskFormOpen(!isAddTaskFormOpen)
 
+  const handleAddTaskFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+  }
+
   return (
     <Column aria-label={`${columnType} column`} tabIndex={0}>
       <TotalTasks title="0">0</TotalTasks>
@@ -42,7 +46,12 @@ export const BoardColumn = ({
         <Toggle aria-hidden="true" />
       </ToggleFormButton>
       <Inner isFormOpen={isAddTaskFormOpen}>
-        {isAddTaskFormOpen && <AddTaskForm toggleForm={toggleTaskForm} />}
+        {isAddTaskFormOpen && (
+          <AddTaskForm
+            toggleForm={toggleTaskForm}
+            onSuccess={handleAddTaskFormSubmit}
+          />
+        )}
         <Card
           setMenuOpen={setIsCardMenuOpen}
           isMenuOpen={isCardMenuOpen}

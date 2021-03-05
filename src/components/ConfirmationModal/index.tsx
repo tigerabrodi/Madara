@@ -22,7 +22,12 @@ export const ConfirmationModal = ({
 }: ConfirmationModalProps) => {
   const [ref] = useClickOutside(() => setOpen(false))
 
-  useTrapTabKey({ ref, setOpen })
+  const { firstButtonElementRef } = useTrapTabKey({ ref, setOpen })
+
+  const handleCancel = (event: React.MouseEvent) => {
+    event.stopPropagation()
+    toggleModal()
+  }
 
   return (
     <>
@@ -30,12 +35,7 @@ export const ConfirmationModal = ({
         <ConfirmationTitle>Are you sure?</ConfirmationTitle>
         <ConfirmationText>{text}</ConfirmationText>
         <ConfirmButton>Yes</ConfirmButton>
-        <CancelButton
-          onClick={(event) => {
-            event.stopPropagation()
-            toggleModal()
-          }}
-        >
+        <CancelButton onClick={handleCancel} ref={firstButtonElementRef}>
           No
         </CancelButton>
       </Modal>

@@ -40,6 +40,10 @@ export const Board = () => {
     }
   }, [])
 
+  const handleEditModalSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+  }
+
   return (
     <>
       <BoardMain>
@@ -108,7 +112,7 @@ export const Board = () => {
       {isEditFormOpen && (
         <EditModal
           setOpen={setIsEditFormOpen}
-          onSuccess={() => 'Success handling edit modal'}
+          onSuccess={handleEditModalSubmit}
           toggleModal={toggleEditModalForm}
           taskText="Lorem ipsum dolor sit amet, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         />

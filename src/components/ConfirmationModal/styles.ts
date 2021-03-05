@@ -81,7 +81,6 @@ const confirmationModalButtonStyles = css`
   ${media.phone} {
     height: 5.2rem;
     width: 16rem;
-    margin-top: 0;
     align-self: center;
   }
   ${media.tablet} {

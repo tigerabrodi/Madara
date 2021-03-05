@@ -1,5 +1,5 @@
 import { useClickOutside } from 'hooks/useClickOutside'
-import * as React from 'react'
+import { useTrapTabKey } from 'hooks/useTrapTabKey'
 import {
   Card as CardContainer,
   CardMenuButton,
@@ -27,6 +27,8 @@ export const Card = ({
   toggleConfirmationModal,
 }: CardProps) => {
   const [ref] = useClickOutside(() => setMenuOpen(false))
+
+  useTrapTabKey({ ref, setOpen: setMenuOpen, pause: !isMenuOpen })
 
   return (
     <CardContainer tabIndex={0}>

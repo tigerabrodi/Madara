@@ -1,6 +1,6 @@
-import * as React from 'react'
 import { ModalOverlay } from 'styles'
 import { useClickOutside } from 'hooks/useClickOutside'
+import { useTrapTabKey } from 'hooks/useTrapTabKey'
 import {
   ConfirmationModal as Modal,
   ConfirmButton,
@@ -21,6 +21,8 @@ export const ConfirmationModal = ({
   text,
 }: ConfirmationModalProps) => {
   const [ref] = useClickOutside(() => setOpen(false))
+
+  useTrapTabKey({ ref, setOpen })
 
   return (
     <>

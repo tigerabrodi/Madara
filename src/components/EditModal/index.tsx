@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { ModalOverlay } from 'styles'
 import { useClickOutside } from 'hooks/useClickOutside'
+import { useTrapTabKey } from 'hooks/useTrapTabKey'
 import {
   EditModal as Modal,
   EditCancelButton,
@@ -39,6 +40,8 @@ export const EditModal = ({
   }
 
   const [ref] = useClickOutside(() => setOpen(false))
+
+  useTrapTabKey({ ref, setOpen })
 
   return (
     <>

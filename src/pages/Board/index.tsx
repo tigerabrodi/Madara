@@ -99,6 +99,7 @@ export const Board = () => {
       {isConfirmationModalOpen && (
         <ConfirmationModal
           setOpen={setIsConfirmationModalOpen}
+          onSuccess={() => 'Success handling confirmation modal'}
           toggleModal={toggleConfirmationModal}
           text="Do you really want to delete every task in this column?"
         />

@@ -38,10 +38,6 @@ export const BoardColumn = styled.section`
 export const TotalTasks = styled.span`
   justify-self: flex-start;
   margin-left: 1.5rem;
-  ${media.phone} {
-    margin-left: 0;
-    justify-self: flex-end;
-  }
   padding: 0 0.6rem;
   border-radius: 2em;
   font-size: 2rem;
@@ -50,6 +46,10 @@ export const TotalTasks = styled.span`
   grid-area: totalTasks;
   background-color: ${theme.LightBlue};
   color: ${theme.Blue};
+  ${media.phone} {
+    margin-left: 0;
+    justify-self: flex-end;
+  }
 `
 
 export const Status = styled.h3`

@@ -5,23 +5,26 @@ import { media } from 'theme/media'
 import { theme } from 'theme/theme'
 
 export const LogoutButton = styled.button`
+  height: 6rem;
+  width: 6rem;
   background-color: var(--lightBlue);
   border-radius: 50%;
-  height: 6.5rem;
   box-shadow: 0 0.1rem 0.5rem ${theme.Black};
-  width: 6.5rem;
-  left: 50px;
-  top: 48px;
+  position: fixed;
+  top: 91.5%;
+  left: 16%;
   border: none;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  position: absolute;
   transform: translate(-50%, -50%);
   cursor: pointer;
   transition: 0.2s;
 
   ${media.phone} {
+    position: absolute;
+    top: 4.8rem;
+    left: 5rem;
     &:hover {
       box-shadow: 0 0.1rem 1rem ${theme.Black};
     }

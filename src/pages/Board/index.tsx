@@ -2,16 +2,22 @@ import * as React from 'react'
 import { ConfirmationModal } from 'components/ConfirmationModal'
 import { EditModal } from 'components/EditModal'
 import { BoardColumn } from 'components/BoardColumn'
+import { ColumnType } from 'types'
 import {
   BoardMain,
   BoardWrapper,
+  DoneButton,
+  InProgressButton,
   Subtitle,
   SubtitleHandWriting,
   SubtitleWrapper,
   Title,
+  TodoButton,
 } from './styles'
 
 export const Board = () => {
+  const [isNotMobileLayout, setIsNotMobileLayout] = React.useState(false)
+  const [columnType, setColumnType] = React.useState<ColumnType>('Todo')
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = React.useState(
     false
   )
@@ -21,6 +27,19 @@ export const Board = () => {
     setIsConfirmationModalOpen(!isConfirmationModalOpen)
   const toggleEditModalForm = () => setIsEditFormOpen(!isEditFormOpen)
 
+  React.useEffect(() => {
+    const checkMobileLayout = () => {
+      const isNotMobileLayout = window.matchMedia('(min-width: 425px)').matches
+      setIsNotMobileLayout(isNotMobileLayout)
+    }
+
+    checkMobileLayout()
+    window.addEventListener('resize', checkMobileLayout)
+    return () => {
+      window.removeEventListener('resize', checkMobileLayout)
+    }
+  }, [])
+
   return (
     <>
       <BoardMain>
@@ -29,22 +48,51 @@ export const Board = () => {
           <Subtitle>Manage Your Tasks</Subtitle>
           <SubtitleHandWriting aria-hidden="true" />
         </SubtitleWrapper>
+        {!isNotMobileLayout && (
+          <>
+            <TodoButton
+              onClick={() => setColumnType('Todo')}
+              columnType={columnType}
+            >
+              Todo
+            </TodoButton>
+            <InProgressButton
+              onClick={() => setColumnType('In progress')}
+              columnType={columnType}
+            >
+              In progress
+            </InProgressButton>
+            <DoneButton
+              onClick={() => setColumnType('Done')}
+              columnType={columnType}
+            >
+              Done
+            </DoneButton>
+          </>
+        )}
         <BoardWrapper>
           <BoardColumn
-            columnType="Todo"
+            columnType={isNotMobileLayout ? 'Todo' : columnType}
             toggleEditModal={toggleEditModalForm}
             toggleConfirmationModal={toggleConfirmationModal}
+            isNotMobileLayout={isNotMobileLayout}
           />
-          <BoardColumn
-            columnType="In progress"
-            toggleEditModal={toggleEditModalForm}
-            toggleConfirmationModal={toggleConfirmationModal}
-          />
-          <BoardColumn
-            columnType="Done"
-            toggleEditModal={toggleEditModalForm}
-            toggleConfirmationModal={toggleConfirmationModal}
-          />
+          {isNotMobileLayout && (
+            <>
+              <BoardColumn
+                columnType="In progress"
+                toggleEditModal={toggleEditModalForm}
+                toggleConfirmationModal={toggleConfirmationModal}
+                isNotMobileLayout={isNotMobileLayout}
+              />
+              <BoardColumn
+                columnType="Done"
+                toggleEditModal={toggleEditModalForm}
+                toggleConfirmationModal={toggleConfirmationModal}
+                isNotMobileLayout={isNotMobileLayout}
+              />
+            </>
+          )}
         </BoardWrapper>
       </BoardMain>
 

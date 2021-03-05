@@ -2,37 +2,54 @@ import styled, { css } from 'styled-components/macro'
 import { theme } from 'theme/theme'
 import { ReactComponent as AddSVG } from 'assets/add-task.svg'
 import { focusStyles } from 'styles'
+import { media } from 'theme/media'
 
 export const BoardColumn = styled.section`
-  height: 90%;
-  width: 30%;
-  max-width: 40rem;
-  min-width: 35rem;
+  height: 95%;
+  width: 100%;
+  max-width: 36rem;
+  grid-template-rows: 8%;
+  border-radius: 0.3rem;
   background-color: ${theme.Blue};
   box-shadow: 0 0 1rem ${theme.Blue};
   display: grid;
   grid-template-areas:
-    'totalTasks status toggleFormButton'
-    'inner inner inner';
-  grid-template-columns: 10% 80% 10%;
-  grid-template-rows: 7%;
+    'totalTasks toggleFormButton'
+    'inner inner';
   align-content: flex-start;
   align-items: center;
   justify-items: flex-end;
-  border-radius: 0.5rem;
   overflow-y: auto;
   ${focusStyles};
+  ${media.phone} {
+    grid-template-columns: 10% 76% 14%;
+    grid-template-areas:
+      'totalTasks status toggleFormButton'
+      'inner inner inner';
+    border-radius: 0.5rem;
+    height: 90%;
+    width: 30%;
+    max-width: 40rem;
+    min-width: 35rem;
+    grid-template-rows: 7%;
+  }
 `
 
 export const TotalTasks = styled.span`
-  grid-area: totalTasks;
+  justify-self: flex-start;
+  margin-left: 1.5rem;
   padding: 0 0.6rem;
-  background-color: ${theme.LightBlue};
   border-radius: 2em;
   font-size: 2rem;
   font-family: ${theme.SourceSansPro};
   font-weight: 600;
+  grid-area: totalTasks;
+  background-color: ${theme.LightBlue};
   color: ${theme.Blue};
+  ${media.phone} {
+    margin-left: 0;
+    justify-self: flex-end;
+  }
 `
 
 export const Status = styled.h3`
@@ -53,11 +70,16 @@ export const ToggleFormButton = styled.button`
   background: transparent;
   border: none;
   display: flex;
-  justify-self: center;
+  justify-self: flex-end;
+  margin-right: 1rem;
   align-items: center;
   justify-content: space-evenly;
   cursor: pointer;
   ${focusStyles};
+  ${media.phone} {
+    justify-self: center;
+    margin-right: 0;
+  }
 `
 
 export const Toggle = styled(AddSVG)`

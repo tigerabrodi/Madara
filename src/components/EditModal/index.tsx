@@ -39,9 +39,17 @@ export const EditModal = ({
     /* Submit edited Task with new text */
   }
 
+  const handleCancel = (event: React.MouseEvent) => {
+    event.stopPropagation()
+    toggleModal()
+  }
+
   const [ref] = useClickOutside(() => setOpen(false))
 
-  useTrapTabKey({ ref, setOpen })
+  const { firstButtonElementRef, secondButtonElementRef } = useTrapTabKey({
+    ref,
+    setOpen,
+  })
 
   return (
     <>
@@ -50,10 +58,8 @@ export const EditModal = ({
           <EditTitle>Edit task</EditTitle>
           <EditCloseButton
             aria-label="Cancel edit"
-            onClick={(event) => {
-              event.stopPropagation()
-              toggleModal()
-            }}
+            onClick={handleCancel}
+            ref={firstButtonElementRef}
           >
             <EditClose aria-hidden="true" />
           </EditCloseButton>
@@ -72,11 +78,9 @@ export const EditModal = ({
             Edit
           </EditConfirmButton>
           <EditCancelButton
-            onClick={(event) => {
-              event.stopPropagation()
-              toggleModal()
-            }}
+            onClick={handleCancel}
             type="button"
+            ref={secondButtonElementRef}
           >
             Cancel
           </EditCancelButton>

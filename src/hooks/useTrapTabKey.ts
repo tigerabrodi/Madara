@@ -7,46 +7,76 @@ type TrapTabKeyParams = {
 }
 
 export const useTrapTabKey = ({ ref, setOpen, pause }: TrapTabKeyParams) => {
-  const prevFocusRef = React.useRef<HTMLElement | null>(null)
+  const prevFocusedElementRef = React.useRef<HTMLElement | null>(null)
+
+  const firstButtonElementRef = React.useRef() as React.RefObject<HTMLButtonElement>
+  const secondButtonElementRef = React.useRef() as React.RefObject<HTMLButtonElement>
 
   React.useEffect(() => {
     if (pause) {
       return
     }
 
-    prevFocusRef.current = document.activeElement as HTMLElement
+    prevFocusedElementRef.current = document.activeElement as HTMLElement
 
     const focusableElements = ref.current?.querySelectorAll(
       'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex="0"], [contenteditable]'
     )
 
-    const firstItem = focusableElements![0] as HTMLElement
-    const lastItem = focusableElements![
+    const firstElement = focusableElements![0] as HTMLElement
+    const lastElement = focusableElements![
       focusableElements!.length - 1
     ] as HTMLElement
 
-    firstItem.focus()
+    firstElement.focus()
 
     const trapTabKey = (event: KeyboardEvent) => {
-      if (event.key === 'Tab') {
+      const pressedKey = event.key.slice()
+      const currentlyFocusedElement = document.activeElement
+      if (pressedKey === 'Tab') {
         if (event.shiftKey) {
-          if (document.activeElement === firstItem) {
+          if (currentlyFocusedElement === firstElement) {
             event.preventDefault()
-            lastItem.focus()
+            lastElement.focus()
           }
         } else {
-          if (document.activeElement === lastItem) {
+          if (currentlyFocusedElement === lastElement) {
             event.preventDefault()
-            firstItem.focus()
+            firstElement.focus()
           }
         }
-      } else if (event.key === 'Escape') {
+      }
+
+      if (pressedKey === 'Escape') {
         setOpen(false)
-        prevFocusRef.current?.focus()
+        prevFocusedElementRef.current?.focus()
+      }
+
+      if (pressedKey === 'Enter') {
+        const targetElement = event.target as Node
+        if (firstButtonElementRef.current) {
+          if (
+            firstButtonElementRef.current.contains(targetElement) ||
+            firstButtonElementRef.current === targetElement
+          ) {
+            prevFocusedElementRef.current?.focus()
+          }
+        }
+
+        if (secondButtonElementRef.current) {
+          if (
+            secondButtonElementRef.current.contains(targetElement) ||
+            secondButtonElementRef.current === targetElement
+          ) {
+            prevFocusedElementRef.current?.focus()
+          }
+        }
       }
     }
 
     ref.current?.addEventListener('keydown', trapTabKey)
     return () => document.removeEventListener('keydown', trapTabKey)
   }, [pause])
+
+  return { firstButtonElementRef, secondButtonElementRef }
 }

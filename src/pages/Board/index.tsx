@@ -44,6 +44,12 @@ export const Board = () => {
     event.preventDefault()
   }
 
+  const handleConfirmationModalSubmit = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault()
+  }
+
   return (
     <>
       <BoardMain>
@@ -103,7 +109,7 @@ export const Board = () => {
       {isConfirmationModalOpen && (
         <ConfirmationModal
           setOpen={setIsConfirmationModalOpen}
-          onSuccess={() => 'Success handling confirmation modal'}
+          onSuccess={handleConfirmationModalSubmit}
           toggleModal={toggleConfirmationModal}
           text="Do you really want to delete every task in this column?"
         />

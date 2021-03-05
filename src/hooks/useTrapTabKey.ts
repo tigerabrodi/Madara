@@ -7,10 +7,15 @@ type TrapTabKeyParams = {
 }
 
 export const useTrapTabKey = ({ ref, setOpen, pause }: TrapTabKeyParams) => {
+  const prevFocusRef = React.useRef<HTMLElement | null>(null)
+
   React.useEffect(() => {
     if (pause) {
       return
     }
+
+    prevFocusRef.current = document.activeElement as HTMLElement
+
     const focusableElements = ref.current?.querySelectorAll(
       'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex="0"], [contenteditable]'
     )
@@ -37,6 +42,7 @@ export const useTrapTabKey = ({ ref, setOpen, pause }: TrapTabKeyParams) => {
         }
       } else if (event.key === 'Escape') {
         setOpen(false)
+        prevFocusRef.current?.focus()
       }
     }
 

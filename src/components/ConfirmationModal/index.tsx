@@ -13,12 +13,14 @@ type ConfirmationModalProps = {
   setOpen: (state: boolean) => void
   toggleModal: () => void
   text: string
+  onSuccess: () => string
 }
 
 export const ConfirmationModal = ({
   setOpen,
   toggleModal,
   text,
+  onSuccess,
 }: ConfirmationModalProps) => {
   const [ref] = useClickOutside(() => setOpen(false))
 
@@ -34,7 +36,7 @@ export const ConfirmationModal = ({
       <Modal role="alertdialog" aria-modal="true" tabIndex={0} ref={ref}>
         <ConfirmationTitle>Are you sure?</ConfirmationTitle>
         <ConfirmationText>{text}</ConfirmationText>
-        <ConfirmButton>Yes</ConfirmButton>
+        <ConfirmButton onClick={onSuccess}>Yes</ConfirmButton>
         <CancelButton onClick={handleCancel} ref={firstButtonElementRef}>
           No
         </CancelButton>

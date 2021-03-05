@@ -19,12 +19,14 @@ type EditModalProps = {
   setOpen: (state: boolean) => void
   toggleModal: () => void
   taskText: string
+  onSuccess: () => string
 }
 
 export const EditModal = ({
   toggleModal,
   taskText,
   setOpen,
+  onSuccess,
 }: EditModalProps) => {
   const [editTaskText, setEditTaskText] = React.useState(taskText)
 
@@ -32,11 +34,6 @@ export const EditModal = ({
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setEditTaskText(event.target.value)
-  }
-
-  const handleEditSubmit = (event: React.FormEvent) => {
-    event.preventDefault()
-    /* Submit edited Task with new text */
   }
 
   const handleCancel = (event: React.MouseEvent) => {
@@ -64,7 +61,7 @@ export const EditModal = ({
             <EditClose aria-hidden="true" />
           </EditCloseButton>
         </EditModalHeader>
-        <EditModalForm onSubmit={handleEditSubmit}>
+        <EditModalForm onSubmit={onSuccess}>
           <EditLabel htmlFor="taskText">Task</EditLabel>
           <EditTextarea
             id="taskText"

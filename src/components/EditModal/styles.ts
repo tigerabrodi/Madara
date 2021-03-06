@@ -61,6 +61,15 @@ export const EditTitle = styled.h1`
   font-weight: 600;
   font-size: 1.8rem;
   margin-left: 2rem;
+  ${media.custom(360)} {
+    margin-left: 3.3rem;
+  }
+  ${media.custom(410)} {
+    margin-left: 3.7rem;
+  }
+  ${media.phone} {
+    margin-left: 4.3rem;
+  }
 `
 
 export const EditCloseButton = styled.button`
@@ -72,6 +81,9 @@ export const EditCloseButton = styled.button`
   align-items: center;
   justify-content: space-evenly;
   margin-right: 2rem;
+  ${media.phone} {
+    margin-right: 3rem;
+  }
   cursor: pointer;
   ${focusStyles};
 `
@@ -98,9 +110,6 @@ export const EditLabel = styled.label`
   }
   ${media.phone} {
     padding-left: 4.5rem;
-  }
-  ${media.tablet} {
-    padding-left: 5rem;
   }
 `
 

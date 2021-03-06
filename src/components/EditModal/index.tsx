@@ -19,7 +19,7 @@ type EditModalProps = {
   setOpen: (state: boolean) => void
   toggleModal: () => void
   taskText: string
-  onSuccess: () => string
+  onSuccess: (event: React.FormEvent<HTMLFormElement>) => void
 }
 
 export const EditModal = ({

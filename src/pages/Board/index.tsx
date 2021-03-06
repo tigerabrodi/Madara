@@ -40,6 +40,16 @@ export const Board = () => {
     }
   }, [])
 
+  const handleEditModalSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+  }
+
+  const handleConfirmationModalSubmit = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault()
+  }
+
   return (
     <>
       <BoardMain>
@@ -99,7 +109,7 @@ export const Board = () => {
       {isConfirmationModalOpen && (
         <ConfirmationModal
           setOpen={setIsConfirmationModalOpen}
-          onSuccess={() => 'Success handling confirmation modal'}
+          onSuccess={handleConfirmationModalSubmit}
           toggleModal={toggleConfirmationModal}
           text="Do you really want to delete every task in this column?"
         />
@@ -108,7 +118,7 @@ export const Board = () => {
       {isEditFormOpen && (
         <EditModal
           setOpen={setIsEditFormOpen}
-          onSuccess={() => 'Success handling edit modal'}
+          onSuccess={handleEditModalSubmit}
           toggleModal={toggleEditModalForm}
           taskText="Lorem ipsum dolor sit amet, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         />

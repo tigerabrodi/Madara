@@ -6,7 +6,7 @@ import { media } from 'theme/media'
 
 export const BoardColumn = styled.section`
   height: 95%;
-  width: 100%;
+  width: 95%;
   max-width: 36rem;
   grid-template-rows: 8%;
   border-radius: 0.3rem;

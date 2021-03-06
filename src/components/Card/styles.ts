@@ -30,7 +30,7 @@ export const CardLogo = styled(CardLogoSVG)`
   margin-left: 1.5rem;
   margin-top: 1.5rem;
   height: 2.1rem;
-  width: 2.7rem;
+  width: 2.5rem;
 `
 
 export const CardMenuButton = styled.button`

@@ -1,3 +1,4 @@
+import * as React from 'react'
 import { ModalOverlay } from 'styles'
 import { useClickOutside } from 'hooks/useClickOutside'
 import { useTrapTabKey } from 'hooks/useTrapTabKey'
@@ -13,7 +14,7 @@ type ConfirmationModalProps = {
   setOpen: (state: boolean) => void
   toggleModal: () => void
   text: string
-  onSuccess: () => string
+  onSuccess: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 export const ConfirmationModal = ({

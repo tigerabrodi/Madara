@@ -80,7 +80,7 @@ export const SubtitleHandWriting = styled(HandWriting)`
   }
 `
 
-export const BoardWrapper = styled.section`
+export const BoardWrapper = styled.div`
   width: 100%;
   grid-area: board;
   display: flex;

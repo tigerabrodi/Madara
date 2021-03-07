@@ -9,9 +9,16 @@ import {
 type TaskFormProps = {
   toggleForm: () => void
   onSuccess: (event: React.FormEvent<HTMLFormElement>) => void
+  handleCancelFormButtonPress: (
+    event: React.KeyboardEvent<HTMLButtonElement>
+  ) => void
 }
 
-export const AddTaskForm = ({ toggleForm, onSuccess }: TaskFormProps) => {
+export const AddTaskForm = ({
+  toggleForm,
+  onSuccess,
+  handleCancelFormButtonPress,
+}: TaskFormProps) => {
   const [addTaskText, setAddTaskText] = React.useState('')
 
   const handleAddTaskTextChange = (
@@ -32,7 +39,11 @@ export const AddTaskForm = ({ toggleForm, onSuccess }: TaskFormProps) => {
       <FormAddButton type="submit" disabled={addTaskText === ''}>
         Add
       </FormAddButton>
-      <FormCancelButton type="button" onClick={toggleForm}>
+      <FormCancelButton
+        type="button"
+        onClick={toggleForm}
+        onKeyPress={(event) => handleCancelFormButtonPress(event)}
+      >
         Cancel
       </FormCancelButton>
     </Form>

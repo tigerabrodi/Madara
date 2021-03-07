@@ -27,11 +27,21 @@ export const BoardColumn = ({
   const [isAddTaskFormOpen, setIsAddTaskFormOpen] = React.useState(false)
   const [isCardMenuOpen, setIsCardMenuOpen] = React.useState(false)
 
+  const toggleFormButtonRef = React.useRef<HTMLButtonElement>(null)
+
   const toggleCardMenu = () => setIsCardMenuOpen(!isCardMenuOpen)
   const toggleTaskForm = () => setIsAddTaskFormOpen(!isAddTaskFormOpen)
 
   const handleAddTaskFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+  }
+
+  const handleCancelFormButtonPress = (
+    event: React.KeyboardEvent<HTMLButtonElement>
+  ) => {
+    if (event.key === 'Enter') {
+      toggleFormButtonRef.current?.focus()
+    }
   }
 
   return (
@@ -42,6 +52,7 @@ export const BoardColumn = ({
         aria-label="Add a task to this column."
         aria-expanded={isAddTaskFormOpen ? 'true' : 'false'}
         onClick={toggleTaskForm}
+        ref={toggleFormButtonRef}
       >
         <Toggle aria-hidden="true" />
       </ToggleFormButton>
@@ -50,6 +61,7 @@ export const BoardColumn = ({
           <AddTaskForm
             toggleForm={toggleTaskForm}
             onSuccess={handleAddTaskFormSubmit}
+            handleCancelFormButtonPress={handleCancelFormButtonPress}
           />
         )}
         <Card

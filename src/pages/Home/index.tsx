@@ -35,6 +35,20 @@ export const Home = () => {
 
   const [isLoginNotAllowed] = React.useState(false)
 
+  const emailInputRef = React.useRef() as React.RefObject<HTMLInputElement>
+  const nameInputRef = React.useRef() as React.RefObject<HTMLInputElement>
+
+  const handleSwitchButtonKeyPress = (
+    event: React.KeyboardEvent<HTMLButtonElement>
+  ) =>
+    event.key === 'Enter' && !isLoginMode
+      ? emailInputRef.current?.focus()
+      : event.key === 'Enter' && isLoginMode
+      ? setTimeout(() => {
+          nameInputRef.current?.focus()
+        }, 10)
+      : null
+
   const handleSubmit = (event: React.SyntheticEvent<UserFormElement>) => {
     event.preventDefault()
 
@@ -99,6 +113,7 @@ export const Home = () => {
               id="name"
               placeholder="Naruto Uzumaki"
               aria-describedby={isNameError ? 'nameInputError' : undefined}
+              ref={nameInputRef}
             />
             {isNameError && (
               <ErrorMessage
@@ -123,6 +138,7 @@ export const Home = () => {
             onChange={(event) => {
               setIsEmailInvalid(!event.target.validity.valid)
             }}
+            ref={emailInputRef}
           />
           {isEmailError && (
             <ErrorMessage
@@ -180,6 +196,7 @@ export const Home = () => {
         <SwitchButton
           type="button"
           onClick={() => setIsLoginMode(!isLoginMode)}
+          onKeyPress={handleSwitchButtonKeyPress}
         >
           {isLoginMode
             ? 'Do not have an account yet?'

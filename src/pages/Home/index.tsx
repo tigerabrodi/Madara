@@ -92,10 +92,8 @@ export const Home = () => {
         <FormTitle> {isLoginMode ? 'Sign In' : 'Sign Up'} </FormTitle>
 
         {!isLoginMode && (
-          <FormGroup role="group">
-            <Label htmlFor="name">
-              <span aria-hidden="true">*</span> Name
-            </Label>
+          <FormGroup>
+            <Label htmlFor="name">Enter Your Name</Label>
             <Input
               type="text"
               id="name"
@@ -114,10 +112,8 @@ export const Home = () => {
           </FormGroup>
         )}
 
-        <FormGroup role="group">
-          <Label htmlFor="email">
-            {!isLoginMode && <span aria-hidden="true">*</span>} Email
-          </Label>
+        <FormGroup>
+          <Label htmlFor="email">Enter Your Email</Label>
           <Input
             type="email"
             id="email"
@@ -148,10 +144,8 @@ export const Home = () => {
           )}
         </FormGroup>
 
-        <FormGroup role="group">
-          <Label htmlFor="password">
-            {!isLoginMode && <span aria-hidden="true">*</span>} Password
-          </Label>
+        <FormGroup>
+          <Label htmlFor="password">Enter Your Password</Label>
           <Input
             type="password"
             id="password"

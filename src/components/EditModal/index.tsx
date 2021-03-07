@@ -54,7 +54,7 @@ export const EditModal = ({
         <EditModalHeader>
           <EditTitle>Edit task</EditTitle>
           <EditCloseButton
-            aria-label="Cancel edit"
+            aria-label="Cancel"
             onClick={handleCancel}
             ref={firstButtonElementRef}
           >

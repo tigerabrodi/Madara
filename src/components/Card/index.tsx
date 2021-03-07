@@ -1,7 +1,7 @@
 import { useClickOutside } from 'hooks/useClickOutside'
 import { useTrapTabKey } from 'hooks/useTrapTabKey'
 import {
-  Card as CardContainer,
+  Card as CardWrapper,
   CardMenuButton,
   CardMenuLogo,
   CardDate,
@@ -31,7 +31,7 @@ export const Card = ({
   useTrapTabKey({ ref, setOpen: setMenuOpen, pause: !isMenuOpen })
 
   return (
-    <CardContainer tabIndex={0}>
+    <CardWrapper tabIndex={0} aria-label="Task">
       <CardLogo aria-hidden="true" />
       <CardMenuButton
         aria-label={isMenuOpen ? 'Close card menu' : 'Open card menu'}
@@ -72,6 +72,6 @@ export const Card = ({
           </CardMenuItem>
         </CardMenu>
       )}
-    </CardContainer>
+    </CardWrapper>
   )
 }

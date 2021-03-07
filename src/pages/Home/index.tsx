@@ -35,6 +35,20 @@ export const Home = () => {
 
   const [isLoginNotAllowed] = React.useState(false)
 
+  const emailInputRef = React.useRef() as React.RefObject<HTMLInputElement>
+  const nameInputRef = React.useRef() as React.RefObject<HTMLInputElement>
+
+  const handleSwitchButtonKeyPress = (
+    event: React.KeyboardEvent<HTMLButtonElement>
+  ) =>
+    event.key === 'Enter' && !isLoginMode
+      ? emailInputRef.current?.focus()
+      : event.key === 'Enter' && isLoginMode
+      ? setTimeout(() => {
+          nameInputRef.current?.focus()
+        }, 10)
+      : null
+
   const handleSubmit = (event: React.SyntheticEvent<UserFormElement>) => {
     event.preventDefault()
 
@@ -92,15 +106,14 @@ export const Home = () => {
         <FormTitle> {isLoginMode ? 'Sign In' : 'Sign Up'} </FormTitle>
 
         {!isLoginMode && (
-          <FormGroup role="group">
-            <Label htmlFor="name">
-              <span aria-hidden="true">*</span> Name
-            </Label>
+          <FormGroup>
+            <Label htmlFor="name">Enter Your Name</Label>
             <Input
               type="text"
               id="name"
               placeholder="Naruto Uzumaki"
               aria-describedby={isNameError ? 'nameInputError' : undefined}
+              ref={nameInputRef}
             />
             {isNameError && (
               <ErrorMessage
@@ -114,10 +127,8 @@ export const Home = () => {
           </FormGroup>
         )}
 
-        <FormGroup role="group">
-          <Label htmlFor="email">
-            {!isLoginMode && <span aria-hidden="true">*</span>} Email
-          </Label>
+        <FormGroup>
+          <Label htmlFor="email">Enter Your Email</Label>
           <Input
             type="email"
             id="email"
@@ -127,6 +138,7 @@ export const Home = () => {
             onChange={(event) => {
               setIsEmailInvalid(!event.target.validity.valid)
             }}
+            ref={emailInputRef}
           />
           {isEmailError && (
             <ErrorMessage
@@ -148,10 +160,8 @@ export const Home = () => {
           )}
         </FormGroup>
 
-        <FormGroup role="group">
-          <Label htmlFor="password">
-            {!isLoginMode && <span aria-hidden="true">*</span>} Password
-          </Label>
+        <FormGroup>
+          <Label htmlFor="password">Enter Your Password</Label>
           <Input
             type="password"
             id="password"
@@ -186,6 +196,7 @@ export const Home = () => {
         <SwitchButton
           type="button"
           onClick={() => setIsLoginMode(!isLoginMode)}
+          onKeyPress={handleSwitchButtonKeyPress}
         >
           {isLoginMode
             ? 'Do not have an account yet?'

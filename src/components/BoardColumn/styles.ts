@@ -87,7 +87,7 @@ export const Toggle = styled(AddSVG)`
   height: 100%;
 `
 
-export const Inner = styled.section<{ isFormOpen: boolean }>`
+export const Inner = styled.div<{ isFormOpen: boolean }>`
   grid-area: inner;
   width: 100%;
   height: auto;

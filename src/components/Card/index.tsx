@@ -31,7 +31,7 @@ export const Card = ({
   useTrapTabKey({ ref, setOpen: setMenuOpen, pause: !isMenuOpen })
 
   return (
-    <CardWrapper tabIndex={0}>
+    <CardWrapper tabIndex={0} aria-label="Task">
       <CardLogo aria-hidden="true" />
       <CardMenuButton
         aria-label={isMenuOpen ? 'Close card menu' : 'Open card menu'}

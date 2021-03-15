@@ -70,6 +70,7 @@ export const BoardColumn = ({
           toggleEditModal={toggleEditModal}
           toggleMenu={toggleCardMenu}
           toggleConfirmationModal={toggleConfirmationModal}
+          columnType={columnType}
         />
       </Inner>
     </Column>

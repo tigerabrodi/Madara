@@ -37,7 +37,7 @@ export const Card = ({
     <CardWrapper tabIndex={0} aria-label={`Task in ${columnType} column`}>
       <CardLogo aria-hidden="true" />
       <CardMenuButton
-        aria-label={isMenuOpen ? 'Close card menu' : 'Open card menu'}
+        aria-label="Card menu"
         aria-haspopup="menu"
         onClick={(event) => {
           event.stopPropagation()

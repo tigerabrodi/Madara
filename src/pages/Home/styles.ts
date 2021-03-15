@@ -35,7 +35,7 @@ export const Title = styled.h1`
   }
 `
 
-export const Subtitle = styled.h2`
+export const Subtitle = styled.p`
   grid-area: subtitle;
   font-family: ${theme.SourceSansPro};
   font-size: 2.5rem;
@@ -71,7 +71,7 @@ export const Form = styled.form<{ isLoginMode: boolean }>`
   }
 `
 
-export const FormTitle = styled.h1`
+export const FormTitle = styled.h2`
   font-size: 3rem;
   font-family: ${theme.LibreBaskerville};
   color: ${theme.White};

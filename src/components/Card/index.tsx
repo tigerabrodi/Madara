@@ -36,7 +36,7 @@ export const Card = ({
   useTrapTabKey({ ref, setOpen: setMenuOpen, pause: !isMenuOpen })
 
   return (
-    <CardWrapper tabIndex={0} aria-label={`Task in incoming column`}>
+    <CardWrapper tabIndex={0} aria-label={`Task in todo column`}>
       <CardLogo aria-hidden="true" />
       <CardMenuButton
         aria-label="Card menu"
@@ -52,9 +52,7 @@ export const Card = ({
         Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed sea
         takimata sanctus est Lorem ipsum dolor sit amet.
       </CardText>
-      <CardDate aria-label={`Created at ${new Date().toLocaleDateString()}`}>
-        Created at {new Date().toLocaleDateString()}
-      </CardDate>
+      <CardDate>Created at {new Date().toLocaleDateString()}</CardDate>
       {isMenuOpen && (
         <CardMenu role="menu" ref={ref}>
           <CardMenuItem

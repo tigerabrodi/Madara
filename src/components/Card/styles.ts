@@ -65,7 +65,7 @@ export const CardText = styled.p`
   color: ${theme.Blue};
 `
 
-export const CardDate = styled.span`
+export const CardDate = styled.p`
   grid-area: date;
   justify-self: start;
   margin-left: 1.5rem;

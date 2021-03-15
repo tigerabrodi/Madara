@@ -61,6 +61,9 @@ export const Status = styled.h2`
   font-weight: 600;
   font-family: ${theme.SourceSansPro};
   color: ${theme.LightBlue};
+  @media (max-width: 425px) {
+    display: none;
+  }
 `
 
 export const ToggleFormButton = styled.button`

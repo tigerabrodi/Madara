@@ -11,18 +11,22 @@ import {
   Toggle,
 } from './styles'
 
+/* TODO 
+   Get Tasks as prop. 
+   Update aria-label of column with proper amount of tasks.
+   Map out tasks.
+*/
+
 type ColumnProps = {
   toggleConfirmationModal: () => void
   toggleEditModal: () => void
   columnType: ColumnType
-  isNotMobileLayout: boolean
 }
 
 export const BoardColumn = ({
   toggleConfirmationModal,
   toggleEditModal,
   columnType,
-  isNotMobileLayout,
 }: ColumnProps) => {
   const [isAddTaskFormOpen, setIsAddTaskFormOpen] = React.useState(false)
   const [isCardMenuOpen, setIsCardMenuOpen] = React.useState(false)
@@ -47,7 +51,7 @@ export const BoardColumn = ({
   return (
     <Column aria-label={`${columnType} column 2 tasks`} tabIndex={0}>
       <TotalTasks>0</TotalTasks>
-      {isNotMobileLayout && <Status>{columnType}</Status>}
+      <Status>{columnType}</Status>
       <ToggleFormButton
         aria-label="Add a task to this column."
         aria-expanded={isAddTaskFormOpen ? 'true' : 'false'}
@@ -70,7 +74,6 @@ export const BoardColumn = ({
           toggleEditModal={toggleEditModal}
           toggleMenu={toggleCardMenu}
           toggleConfirmationModal={toggleConfirmationModal}
-          columnType={columnType}
         />
       </Inner>
     </Column>

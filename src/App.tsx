@@ -6,6 +6,12 @@ import { Board } from 'pages/Board'
 import { Alert } from 'components/Alert'
 import { Navigation } from 'components/Navigation'
 
+/* TODO 
+   Get user.
+   If no user return Home.
+   If user return Board
+*/
+
 const App = () => (
   <AppProviders>
     <>

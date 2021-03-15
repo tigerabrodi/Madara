@@ -1,5 +1,4 @@
 import { useClickOutside } from 'hooks/useClickOutside'
-import { ColumnType } from 'types'
 import { useTrapTabKey } from 'hooks/useTrapTabKey'
 import {
   Card as CardWrapper,
@@ -12,13 +11,17 @@ import {
   CardMenuItem,
 } from './styles'
 
+/* TODO 
+   Get Task as prop.
+   Replace text, date and column type of wrapper with the data given from the Task.
+*/
+
 type CardProps = {
   setMenuOpen: (state: boolean) => void
   toggleMenu: () => void
   toggleConfirmationModal: () => void
   toggleEditModal: () => void
   isMenuOpen: boolean
-  columnType: ColumnType
 }
 
 export const Card = ({
@@ -27,14 +30,13 @@ export const Card = ({
   toggleMenu,
   toggleEditModal,
   toggleConfirmationModal,
-  columnType,
 }: CardProps) => {
   const [ref] = useClickOutside(() => setMenuOpen(false))
 
   useTrapTabKey({ ref, setOpen: setMenuOpen, pause: !isMenuOpen })
 
   return (
-    <CardWrapper tabIndex={0} aria-label={`Task in ${columnType} column`}>
+    <CardWrapper tabIndex={0} aria-label={`Task in incoming column`}>
       <CardLogo aria-hidden="true" />
       <CardMenuButton
         aria-label="Card menu"

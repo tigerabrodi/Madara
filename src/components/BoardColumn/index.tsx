@@ -45,8 +45,8 @@ export const BoardColumn = ({
   }
 
   return (
-    <Column aria-label={`${columnType} column`} tabIndex={0}>
-      <TotalTasks title="0">0</TotalTasks>
+    <Column aria-label={`${columnType} column 2 tasks`} tabIndex={0}>
+      <TotalTasks>0</TotalTasks>
       {isNotMobileLayout && <Status>{columnType}</Status>}
       <ToggleFormButton
         aria-label="Add a task to this column."

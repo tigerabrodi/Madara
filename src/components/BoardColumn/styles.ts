@@ -52,7 +52,7 @@ export const TotalTasks = styled.span`
   }
 `
 
-export const Status = styled.h3`
+export const Status = styled.h2`
   grid-area: status;
   justify-self: flex-start;
   font-size: 2rem;

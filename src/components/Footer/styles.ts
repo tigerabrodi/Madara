@@ -1,6 +1,7 @@
 import styled from 'styled-components/macro'
 import { theme } from '../../theme/theme'
 import { ReactComponent as HeartSVG } from '../../assets/hearts.svg'
+import { ReactComponent as ExternalIcon } from 'assets/external.svg'
 import { media } from 'theme/media'
 import { focusStyles } from 'styles'
 
@@ -26,6 +27,7 @@ export const FooterText = styled.p`
 
 export const FooterLink = styled.a`
   text-decoration: underline;
+  position: relative;
   color: ${theme.White};
   ${focusStyles};
 `
@@ -38,4 +40,13 @@ export const Heart = styled(HeartSVG)`
   ${media.phone} {
     height: 3rem;
   }
+`
+
+export const External = styled(ExternalIcon)`
+  position: absolute;
+  top: -1.4rem;
+  right: -1.2rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: ${theme.LightBlue};
 `

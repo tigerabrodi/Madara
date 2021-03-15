@@ -1,4 +1,10 @@
-import { FooterWrapper, Heart, FooterLink, FooterText } from './styles'
+import {
+  FooterWrapper,
+  Heart,
+  FooterLink,
+  FooterText,
+  External,
+} from './styles'
 
 export const Footer = () => (
   <FooterWrapper>
@@ -6,6 +12,7 @@ export const Footer = () => (
       Built With <Heart aria-label="love" role="img" /> by{' '}
       <FooterLink href="https://github.com/tigerabrodi" target="_blank">
         Naruto's student
+        <External aria-hidden="true" />
       </FooterLink>
     </FooterText>
   </FooterWrapper>

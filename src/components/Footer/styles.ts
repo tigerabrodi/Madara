@@ -15,7 +15,7 @@ export const FooterWrapper = styled.footer`
   box-shadow: 0 0 1rem ${theme.Blue};
 `
 
-export const FooterText = styled.span`
+export const FooterText = styled.p`
   color: ${theme.LightBlue};
   font-family: ${theme.SourceSansPro};
   font-size: 1.8rem;

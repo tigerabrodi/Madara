@@ -103,12 +103,7 @@ export const Home = () => {
           Login
         </ToolBarButton>
       </ToolBar>
-      <Form
-        onSubmit={handleSubmit}
-        autoComplete="off"
-        isLoginMode={isLoginMode}
-        noValidate
-      >
+      <Form onSubmit={handleSubmit} autoComplete="off" noValidate>
         <FormTitle> {isLoginMode ? 'Sign In' : 'Sign Up'} </FormTitle>
         {!isLoginMode && (
           <FormGroup>

@@ -40,14 +40,6 @@ export const BoardColumn = ({
     event.preventDefault()
   }
 
-  const handleCancelFormButtonPress = (
-    event: React.KeyboardEvent<HTMLButtonElement>
-  ) => {
-    if (event.key === 'Enter') {
-      toggleFormButtonRef.current?.focus()
-    }
-  }
-
   return (
     <Column aria-label={`${columnType} column with 2 tasks`} tabIndex={0}>
       <TotalTasks aria-hidden="true">0</TotalTasks>
@@ -63,9 +55,8 @@ export const BoardColumn = ({
       <Inner isFormOpen={isAddTaskFormOpen}>
         {isAddTaskFormOpen && (
           <AddTaskForm
-            toggleForm={toggleTaskForm}
             onSuccess={handleAddTaskFormSubmit}
-            handleCancelFormButtonPress={handleCancelFormButtonPress}
+            setOpen={setIsAddTaskFormOpen}
           />
         )}
         <Card

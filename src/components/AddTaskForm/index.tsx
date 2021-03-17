@@ -1,4 +1,6 @@
 import * as React from 'react'
+import { useClickOutside } from 'hooks/useClickOutside'
+import { useTrapTabKey } from 'hooks/useTrapTabKey'
 import {
   AddTaskForm as Form,
   AddTaskTextarea,
@@ -7,18 +9,11 @@ import {
 } from './styles'
 
 type TaskFormProps = {
-  toggleForm: () => void
   onSuccess: (event: React.FormEvent<HTMLFormElement>) => void
-  handleCancelFormButtonPress: (
-    event: React.KeyboardEvent<HTMLButtonElement>
-  ) => void
+  setOpen: (state: boolean) => void
 }
 
-export const AddTaskForm = ({
-  toggleForm,
-  onSuccess,
-  handleCancelFormButtonPress,
-}: TaskFormProps) => {
+export const AddTaskForm = ({ onSuccess, setOpen }: TaskFormProps) => {
   const [addTaskText, setAddTaskText] = React.useState('')
 
   const handleAddTaskTextChange = (
@@ -27,8 +22,14 @@ export const AddTaskForm = ({
     setAddTaskText(event.target.value)
   }
 
+  const [ref] = useClickOutside<HTMLFormElement>(() => setOpen(false))
+  const { firstButtonElementRef } = useTrapTabKey({
+    ref,
+    setOpen,
+  })
+
   return (
-    <Form onSubmit={onSuccess}>
+    <Form onSubmit={onSuccess} ref={ref}>
       <AddTaskTextarea
         name="Task"
         aria-label="Enter a task"
@@ -41,8 +42,8 @@ export const AddTaskForm = ({
       </FormAddButton>
       <FormCancelButton
         type="button"
-        onClick={toggleForm}
-        onKeyPress={(event) => handleCancelFormButtonPress(event)}
+        onClick={() => setOpen(false)}
+        ref={firstButtonElementRef}
       >
         Cancel
       </FormCancelButton>

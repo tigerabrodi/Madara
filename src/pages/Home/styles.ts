@@ -240,17 +240,20 @@ export const ErrorMessage = styled.span<{ isLoginMode?: boolean }>`
 `
 
 export const SubmitButton = styled.button`
+  position: relative;
   font-family: ${theme.SourceSansPro};
   background-color: ${theme.White};
   color: ${theme.Blue};
   border: none;
-  width: 13rem;
-  height: 4.5rem;
+  width: 15rem;
+  height: 6rem;
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 2.5rem;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.4s;
   box-shadow: 0 0.1rem 0.2rem black;
+  transition: transform 0.2s, box-shadow 0.4s;
+  top: -1rem;
+  border-radius: 0.2rem;
   ${focusStyles};
   ${media.tablet} {
     box-shadow: none;

@@ -26,7 +26,7 @@ export const HomeMain = styled.main`
 `
 
 export const Title = styled.h1`
-  font-size: 5.6rem;
+  font-size: 7rem;
   grid-area: title;
   font-family: ${theme.LibreBaskerville};
   color: ${theme.Blue};
@@ -39,7 +39,7 @@ export const Title = styled.h1`
 export const Subtitle = styled.p`
   grid-area: subtitle;
   font-family: ${theme.SourceSansPro};
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: 600;
   color: ${theme.Blue};
   text-decoration: underline;

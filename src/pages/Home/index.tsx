@@ -60,14 +60,14 @@ export const Home = () => {
         setIsNameError(true)
         return setTimeout(() => {
           setIsNameError(false)
-        }, 2500)
+        }, 3000)
       }
 
       if (isEmailInvalid) {
         setIsEmailError(true)
         return setTimeout(() => {
           setIsEmailError(false)
-        }, 2500)
+        }, 3000)
       }
 
       const isPasswordInvalid =
@@ -76,7 +76,7 @@ export const Home = () => {
         setIsPasswordError(true)
         return setTimeout(() => {
           setIsPasswordError(false)
-        }, 2500)
+        }, 3000)
       }
 
       return true
@@ -112,13 +112,11 @@ export const Home = () => {
               type="text"
               id="name"
               placeholder="Naruto Uzumaki"
-              aria-describedby={isNameError ? 'nameInputError' : undefined}
               ref={nameInputRef}
             />
             {isNameError && (
               <ErrorMessage
                 role="alert"
-                id="nameInputError"
                 aria-label="Name must be at least two characters long."
               >
                 Name must be at least two characters long.
@@ -134,27 +132,18 @@ export const Home = () => {
             id="email"
             required
             placeholder="NarutoUzumaki@gmail.com"
-            aria-describedby={isEmailError ? 'emailInputError' : undefined}
             onChange={(event) => {
               setIsEmailInvalid(!event.target.validity.valid)
             }}
             ref={emailInputRef}
           />
           {isEmailError && (
-            <ErrorMessage
-              role="alert"
-              aria-label="Email is not valid."
-              id="emailInputError"
-            >
+            <ErrorMessage role="alert" aria-label="Email is not valid.">
               Email is not valid.
             </ErrorMessage>
           )}
           {isEmailTaken && (
-            <ErrorMessage
-              role="alert"
-              aria-label="Email is taken."
-              id="emailInputError"
-            >
+            <ErrorMessage role="alert" aria-label="Email is taken.">
               Email is taken.
             </ErrorMessage>
           )}
@@ -166,9 +155,6 @@ export const Home = () => {
             type="password"
             id="password"
             placeholder="Naruto's Password"
-            aria-describedby={
-              isPasswordError ? 'passwordInputError' : undefined
-            }
           />
           {isPasswordError && (
             <ErrorMessage

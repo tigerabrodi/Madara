@@ -11,6 +11,11 @@ import {
   CardMenuItem,
 } from './styles'
 
+/* TODO 
+   Get Task as prop.
+   Replace text, date and column type of wrapper with the data given from the Task.
+*/
+
 type CardProps = {
   setMenuOpen: (state: boolean) => void
   toggleMenu: () => void
@@ -31,10 +36,10 @@ export const Card = ({
   useTrapTabKey({ ref, setOpen: setMenuOpen, pause: !isMenuOpen })
 
   return (
-    <CardWrapper tabIndex={0} aria-label="Task">
+    <CardWrapper tabIndex={0} aria-label={`Task in todo column`}>
       <CardLogo aria-hidden="true" />
       <CardMenuButton
-        aria-label={isMenuOpen ? 'Close card menu' : 'Open card menu'}
+        aria-label="Card menu"
         aria-haspopup="menu"
         onClick={(event) => {
           event.stopPropagation()
@@ -47,9 +52,7 @@ export const Card = ({
         Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed sea
         takimata sanctus est Lorem ipsum dolor sit amet.
       </CardText>
-      <CardDate aria-label={`Created at ${new Date().toLocaleDateString()}`}>
-        Created at {new Date().toLocaleDateString()}
-      </CardDate>
+      <CardDate>Created at {new Date().toLocaleDateString()}</CardDate>
       {isMenuOpen && (
         <CardMenu role="menu" ref={ref}>
           <CardMenuItem

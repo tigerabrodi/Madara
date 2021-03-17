@@ -52,7 +52,7 @@ export const TotalTasks = styled.span`
   }
 `
 
-export const Status = styled.h3`
+export const Status = styled.h2`
   grid-area: status;
   justify-self: flex-start;
   font-size: 2rem;
@@ -61,6 +61,9 @@ export const Status = styled.h3`
   font-weight: 600;
   font-family: ${theme.SourceSansPro};
   color: ${theme.LightBlue};
+  @media (max-width: 425px) {
+    display: none;
+  }
 `
 
 export const ToggleFormButton = styled.button`

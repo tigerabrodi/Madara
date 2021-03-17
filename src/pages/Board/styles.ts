@@ -57,7 +57,7 @@ export const SubtitleWrapper = styled.div`
   }
 `
 
-export const Subtitle = styled.h2`
+export const Subtitle = styled.p`
   font-size: 2.5rem;
   ${media.phone} {
     font-size: 4.8rem;

@@ -2,6 +2,7 @@ import * as React from 'react'
 import { ConfirmationModal } from 'components/ConfirmationModal'
 import { EditModal } from 'components/EditModal'
 import { BoardColumn } from 'components/BoardColumn'
+import { useMedia } from 'hooks/useMedia'
 import { ColumnType } from 'types'
 import {
   BoardMain,
@@ -16,29 +17,17 @@ import {
 } from './styles'
 
 export const Board = () => {
-  const [isNotMobileLayout, setIsNotMobileLayout] = React.useState(false)
   const [columnType, setColumnType] = React.useState<ColumnType>('Todo')
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = React.useState(
     false
   )
   const [isEditFormOpen, setIsEditFormOpen] = React.useState(false)
 
+  const isNotMobileLayout = useMedia('min', '425')
+
   const toggleConfirmationModal = () =>
     setIsConfirmationModalOpen(!isConfirmationModalOpen)
   const toggleEditModalForm = () => setIsEditFormOpen(!isEditFormOpen)
-
-  React.useEffect(() => {
-    const checkMobileLayout = () => {
-      const isNotMobileLayout = window.matchMedia('(min-width: 425px)').matches
-      setIsNotMobileLayout(isNotMobileLayout)
-    }
-
-    checkMobileLayout()
-    window.addEventListener('resize', checkMobileLayout)
-    return () => {
-      window.removeEventListener('resize', checkMobileLayout)
-    }
-  }, [])
 
   const handleEditModalSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -85,7 +74,6 @@ export const Board = () => {
             columnType={isNotMobileLayout ? 'Todo' : columnType}
             toggleEditModal={toggleEditModalForm}
             toggleConfirmationModal={toggleConfirmationModal}
-            isNotMobileLayout={isNotMobileLayout}
           />
           {isNotMobileLayout && (
             <>
@@ -93,13 +81,11 @@ export const Board = () => {
                 columnType="In progress"
                 toggleEditModal={toggleEditModalForm}
                 toggleConfirmationModal={toggleConfirmationModal}
-                isNotMobileLayout={isNotMobileLayout}
               />
               <BoardColumn
                 columnType="Done"
                 toggleEditModal={toggleEditModalForm}
                 toggleConfirmationModal={toggleConfirmationModal}
-                isNotMobileLayout={isNotMobileLayout}
               />
             </>
           )}

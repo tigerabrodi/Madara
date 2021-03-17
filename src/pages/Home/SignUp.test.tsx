@@ -59,6 +59,27 @@ test('should not allow invalid emails', async () => {
   )
 })
 
+test('should not allow empty emails', async () => {
+  const newUser = buildUser()
+  render(<Home />)
+
+  expect(
+    screen.queryByRole('alert', { name: /Email is not valid./i })
+  ).not.toBeInTheDocument()
+
+  userEvent.type(screen.getByLabelText(/name/i), newUser.name)
+
+  userEvent.click(screen.getByRole('button', { name: /sign up/i }))
+
+  expect(
+    screen.getByRole('alert', { name: /Email is not valid./i })
+  ).toBeInTheDocument()
+
+  await waitForElementToBeRemoved(() =>
+    screen.queryByRole('alert', { name: /Email is not valid./i })
+  )
+})
+
 test('should not allow passwords shorter than 6 characters', async () => {
   const newUser = buildUser()
   render(<Home />)

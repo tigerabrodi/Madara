@@ -10,16 +10,16 @@ export const HomeMain = styled.main`
   grid-template-areas:
     'title'
     'subtitle'
+    'toolbar'
     'form';
   justify-items: center;
-  min-height: calc(100vh - 8rem);
+  height: 115rem;
   row-gap: 1rem;
-  grid-template-rows: 11% 3% 86%;
+  grid-template-rows: 11% 4% 12% 73%;
   padding-bottom: 5rem;
   align-items: flex-end;
   ${media.phone} {
-    height: calc(100vh - 8rem);
-    grid-template-rows: 15% 7% 78%;
+    grid-template-rows: 11% 4% 12% 73%;
     align-items: flex-start;
   }
 `
@@ -64,10 +64,67 @@ export const Form = styled.form<{ isLoginMode: boolean }>`
       height: 50rem;
     `}
   ${media.phone} {
-    height: 95%;
+    height: 100%;
+    align-self: flex-start;
   }
   ${media.custom(900)} {
     width: 85rem;
+  }
+`
+
+export const ToolBar = styled.div`
+  grid-area: toolbar;
+  width: 60rem;
+  background-color: ${theme.Blue};
+  height: 90%;
+  align-self: flex-end;
+  border-radius: 0.2em;
+  position: relative;
+  bottom: -2rem;
+  box-shadow: 0 0.2rem 0.3rem ${theme.Black};
+  z-index: 5;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+`
+
+const toolbarButtonHighlightStyles = css`
+  color: ${theme.Blue};
+  background-color: ${theme.LightBlue};
+  transform: translateY(-0.2rem);
+  box-shadow: 0 0.1rem 0.3rem ${theme.Black};
+`
+
+export const ToolBarButton = styled.button<{
+  isRegisterButton?: boolean
+  isLoginMode: boolean
+}>`
+  width: 13rem;
+  height: 6rem;
+  font-size: 2.5rem;
+  font-weight: 600;
+  background-color: transparent;
+  border: 0.2rem solid ${theme.LightBlue};
+  border-radius: 0.2rem;
+  color: ${theme.LightBlue};
+  font-family: ${theme.SourceSansPro};
+  cursor: pointer;
+  transition: 0.2s;
+  ${focusStyles};
+  ${(props) =>
+    !props.isLoginMode && props.isRegisterButton
+      ? css`
+          ${toolbarButtonHighlightStyles}
+        `
+      : props.isLoginMode && !props.isRegisterButton
+      ? css`
+          ${toolbarButtonHighlightStyles}
+        `
+      : null};
+  ${media.tablet} {
+    &:hover {
+      ${toolbarButtonHighlightStyles}
+    }
   }
 `
 
@@ -206,27 +263,4 @@ export const SubmitButton = styled.button`
       box-shadow: 0 0 0.5rem ${theme.Black};
     }
   }
-`
-
-export const SwitchButton = styled.button`
-  color: ${theme.White};
-  font-family: ${theme.SourceSansPro};
-  font-size: 1.5rem;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  transition: 0.2s;
-  ${focusStyles};
-  text-decoration: underline;
-  ${media.tablet} {
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-`
-
-export const SwitchButtonHighlight = styled.span`
-  font-size: 1.7rem;
-  font-weight: bold;
 `

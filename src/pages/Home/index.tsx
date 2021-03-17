@@ -9,9 +9,9 @@ import {
   Label,
   SubmitButton,
   Subtitle,
-  SwitchButton,
   Title,
-  SwitchButtonHighlight,
+  ToolBar,
+  ToolBarButton,
 } from './styles'
 
 interface FormElements extends HTMLFormControlsCollection {
@@ -37,17 +37,6 @@ export const Home = () => {
 
   const emailInputRef = React.useRef() as React.RefObject<HTMLInputElement>
   const nameInputRef = React.useRef() as React.RefObject<HTMLInputElement>
-
-  const handleSwitchButtonKeyPress = (
-    event: React.KeyboardEvent<HTMLButtonElement>
-  ) =>
-    event.key === 'Enter' && !isLoginMode
-      ? emailInputRef.current?.focus()
-      : event.key === 'Enter' && isLoginMode
-      ? setTimeout(() => {
-          nameInputRef.current?.focus()
-        }, 10)
-      : null
 
   const handleSubmit = (event: React.SyntheticEvent<UserFormElement>) => {
     event.preventDefault()
@@ -97,6 +86,23 @@ export const Home = () => {
     <HomeMain>
       <Title>Madara</Title>
       <Subtitle>Manage Your Daily Tasks</Subtitle>
+      <ToolBar role="toolbar" aria-label="Login or register">
+        <ToolBarButton
+          aria-pressed={isLoginMode ? false : true}
+          onClick={() => setIsLoginMode(false)}
+          isLoginMode={isLoginMode}
+          isRegisterButton
+        >
+          Register
+        </ToolBarButton>
+        <ToolBarButton
+          aria-pressed={isLoginMode ? true : false}
+          onClick={() => setIsLoginMode(true)}
+          isLoginMode={isLoginMode}
+        >
+          Login
+        </ToolBarButton>
+      </ToolBar>
       <Form
         onSubmit={handleSubmit}
         autoComplete="off"
@@ -104,7 +110,6 @@ export const Home = () => {
         noValidate
       >
         <FormTitle> {isLoginMode ? 'Sign In' : 'Sign Up'} </FormTitle>
-
         {!isLoginMode && (
           <FormGroup>
             <Label htmlFor="name">Enter Your Name</Label>
@@ -178,19 +183,6 @@ export const Home = () => {
         <SubmitButton type="submit">
           {isLoginMode ? 'Sign In' : 'Sign Up'}
         </SubmitButton>
-
-        <SwitchButton
-          type="button"
-          onClick={() => setIsLoginMode(!isLoginMode)}
-          onKeyPress={handleSwitchButtonKeyPress}
-        >
-          {isLoginMode
-            ? 'Do not have an account yet?'
-            : 'Already have an account?'}{' '}
-          <SwitchButtonHighlight>
-            {isLoginMode ? 'Sign Up!' : 'Sign In!'}
-          </SwitchButtonHighlight>
-        </SwitchButton>
       </Form>
     </HomeMain>
   )

@@ -129,6 +129,7 @@ export const FormTitle = styled.h2`
 `
 
 export const FormGroup = styled.div`
+  position: relative;
   width: 90%;
   height: 15rem;
   display: grid;
@@ -180,6 +181,36 @@ export const Input = styled.input`
   }
   ${media.phone} {
     padding-left: 2rem;
+  }
+`
+
+export const ShowPasswordButton = styled.button`
+  top: 50%;
+  left: 91%;
+  box-shadow: 0 0.1rem 0.3rem ${theme.Blue};
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  color: ${theme.Blue};
+  font-size: 1.5rem;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: 0.1s;
+  ${focusStyles};
+  ${media.tablet} {
+    &:hover {
+      box-shadow: 0 0.2rem 0.5rem ${theme.Blue};
+      transform: translate(-50%, -55%);
+    }
+    &:active {
+      box-shadow: 0 0.1rem 0.3rem ${theme.Blue};
+      transform: translate(-50%, -50%);
+    }
+  }
+  ${media.custom(900)} {
+    left: 93%;
   }
 `
 

@@ -12,6 +12,7 @@ import {
   Title,
   ToolBar,
   ToolBarButton,
+  ShowPasswordButton,
 } from './styles'
 
 interface FormElements extends HTMLFormControlsCollection {
@@ -26,6 +27,7 @@ interface UserFormElement extends HTMLFormElement {
 
 export const Home = () => {
   const [isLoginMode, setIsLoginMode] = React.useState(false)
+  const [shouldShowPassword, setShouldShowPassword] = React.useState(false)
   const [isNameError, setIsNameError] = React.useState(false)
   const [isPasswordError, setIsPasswordError] = React.useState(false)
   const [isEmailError, setIsEmailError] = React.useState(false)
@@ -153,11 +155,20 @@ export const Home = () => {
         <FormGroup>
           <Label htmlFor="password">Enter Your Password</Label>
           <Input
-            type="password"
+            type={shouldShowPassword ? 'text' : 'password'}
             id="password"
             placeholder="Naruto's Password"
             aria-required="true"
           />
+          <ShowPasswordButton
+            aria-controls="password"
+            aria-pressed={shouldShowPassword ? 'true' : 'false'}
+            aria-label="Show password as plain text. Note: this will visually expose your password on the screen."
+            onClick={() => setShouldShowPassword(!shouldShowPassword)}
+            type="button"
+          >
+            Show
+          </ShowPasswordButton>
           {isPasswordError && (
             <ErrorMessage
               role="alert"

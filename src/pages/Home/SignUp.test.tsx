@@ -17,9 +17,12 @@ test('should not allow name to be shorter than 2 characters', async () => {
     })
   ).not.toBeInTheDocument()
 
-  userEvent.type(screen.getByLabelText(/name/i), 'l')
-  userEvent.type(screen.getByLabelText(/email/i), newUser.email)
-  userEvent.type(screen.getByLabelText(/password/i), newUser.password)
+  userEvent.type(screen.getByLabelText(/enter your name/i), 'l')
+  userEvent.type(screen.getByLabelText(/enter your email/i), newUser.email)
+  userEvent.type(
+    screen.getByLabelText(/Enter Your Password/i),
+    newUser.password
+  )
 
   userEvent.click(screen.getByRole('button', { name: /sign up/i }))
 
@@ -44,9 +47,12 @@ test('should not allow invalid emails', async () => {
     screen.queryByRole('alert', { name: /Email is not valid./i })
   ).not.toBeInTheDocument()
 
-  userEvent.type(screen.getByLabelText(/name/i), newUser.name)
-  userEvent.type(screen.getByLabelText(/email/i), 'blah')
-  userEvent.type(screen.getByLabelText(/password/i), newUser.password)
+  userEvent.type(screen.getByLabelText(/enter your name/i), newUser.name)
+  userEvent.type(screen.getByLabelText(/enter your email/i), 'blah')
+  userEvent.type(
+    screen.getByLabelText(/enter your password/i),
+    newUser.password
+  )
 
   userEvent.click(screen.getByRole('button', { name: /sign up/i }))
 
@@ -67,7 +73,7 @@ test('should not allow empty emails', async () => {
     screen.queryByRole('alert', { name: /Email is not valid./i })
   ).not.toBeInTheDocument()
 
-  userEvent.type(screen.getByLabelText(/name/i), newUser.name)
+  userEvent.type(screen.getByLabelText(/enter your name/i), newUser.name)
 
   userEvent.click(screen.getByRole('button', { name: /sign up/i }))
 
@@ -90,9 +96,9 @@ test('should not allow passwords shorter than 6 characters', async () => {
     })
   ).not.toBeInTheDocument()
 
-  userEvent.type(screen.getByLabelText(/name/i), newUser.name)
-  userEvent.type(screen.getByLabelText(/email/i), newUser.email)
-  userEvent.type(screen.getByLabelText(/password/i), 'blah')
+  userEvent.type(screen.getByLabelText(/enter your name/i), newUser.name)
+  userEvent.type(screen.getByLabelText(/enter your email/i), newUser.email)
+  userEvent.type(screen.getByLabelText(/enter your password/i), 'blah')
 
   userEvent.click(screen.getByRole('button', { name: /sign up/i }))
 

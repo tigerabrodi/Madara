@@ -12,6 +12,7 @@ import {
   Title,
   ToolBar,
   ToolBarButton,
+  ShowPasswordButton,
 } from './styles'
 
 interface FormElements extends HTMLFormControlsCollection {
@@ -26,6 +27,7 @@ interface UserFormElement extends HTMLFormElement {
 
 export const Home = () => {
   const [isLoginMode, setIsLoginMode] = React.useState(false)
+  const [shouldShowPassword, setShouldShowPassword] = React.useState(false)
   const [isNameError, setIsNameError] = React.useState(false)
   const [isPasswordError, setIsPasswordError] = React.useState(false)
   const [isEmailError, setIsEmailError] = React.useState(false)
@@ -35,13 +37,13 @@ export const Home = () => {
 
   const [isLoginNotAllowed] = React.useState(false)
 
-  const emailInputRef = React.useRef() as React.RefObject<HTMLInputElement>
-  const nameInputRef = React.useRef() as React.RefObject<HTMLInputElement>
+  const emailInputRef = React.useRef<HTMLInputElement>(null)
+  const nameInputRef = React.useRef<HTMLInputElement>(null)
 
   const handleSubmit = (event: React.SyntheticEvent<UserFormElement>) => {
     event.preventDefault()
 
-    const { name, password } = event.currentTarget.elements
+    const { name, password, email } = event.currentTarget.elements
 
     const handleFormValidation = () => {
       const isNameInvalid = !name.value || (name.value && name.value.length < 2)
@@ -52,7 +54,7 @@ export const Home = () => {
         }, 3000)
       }
 
-      if (isEmailInvalid) {
+      if (isEmailInvalid || !email.value) {
         setIsEmailError(true)
         return setTimeout(() => {
           setIsEmailError(false)
@@ -112,6 +114,7 @@ export const Home = () => {
               type="text"
               id="name"
               placeholder="Naruto Uzumaki"
+              aria-required="true"
               ref={nameInputRef}
             />
             {isNameError && (
@@ -130,8 +133,8 @@ export const Home = () => {
           <Input
             type="email"
             id="email"
-            required
             placeholder="NarutoUzumaki@gmail.com"
+            aria-required="true"
             onChange={(event) => {
               setIsEmailInvalid(!event.target.validity.valid)
             }}
@@ -152,10 +155,20 @@ export const Home = () => {
         <FormGroup>
           <Label htmlFor="password">Enter Your Password</Label>
           <Input
-            type="password"
+            type={shouldShowPassword ? 'text' : 'password'}
             id="password"
             placeholder="Naruto's Password"
+            aria-required="true"
           />
+          <ShowPasswordButton
+            aria-controls="password"
+            aria-pressed={shouldShowPassword ? 'true' : 'false'}
+            aria-label="Show password as plain text. Note: this will visually expose your password on the screen."
+            onClick={() => setShouldShowPassword(!shouldShowPassword)}
+            type="button"
+          >
+            Show
+          </ShowPasswordButton>
           {isPasswordError && (
             <ErrorMessage
               role="alert"

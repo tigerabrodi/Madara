@@ -48,6 +48,8 @@ export const EditModal = ({
     setOpen,
   })
 
+  /* Tell users using ATs that textarea is still invalid due to only containing spaces and not an actual task */
+
   return (
     <>
       <Modal role="dialog" aria-modal="true" ref={ref}>
@@ -68,10 +70,14 @@ export const EditModal = ({
             name="Task"
             placeholder="Edit your task"
             aria-label="Edit your task"
+            aria-required="true"
             onChange={handleEditTaskChange}
             value={editTaskText}
           />
-          <EditConfirmButton type="submit" disabled={editTaskText === ''}>
+          <EditConfirmButton
+            type="submit"
+            disabled={editTaskText.trim() === ''}
+          >
             Edit
           </EditConfirmButton>
           <EditCancelButton

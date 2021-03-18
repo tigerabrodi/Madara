@@ -28,16 +28,18 @@ export const AddTaskForm = ({ onSuccess, setOpen }: TaskFormProps) => {
     setOpen,
   })
 
+  /* Tell users using ATs that textarea is still invalid due to only containing spaces and not an actual task */
+
   return (
     <Form onSubmit={onSuccess} ref={ref}>
       <AddTaskTextarea
         name="Task"
         aria-label="Enter a task"
+        aria-required="true"
         placeholder="Enter a task"
-        required
         onChange={handleAddTaskTextChange}
       />
-      <FormAddButton type="submit" disabled={addTaskText === ''}>
+      <FormAddButton type="submit" disabled={addTaskText.trim() === ''}>
         Add
       </FormAddButton>
       <FormCancelButton

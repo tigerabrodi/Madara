@@ -114,3 +114,19 @@ test('should not allow passwords shorter than 6 characters', async () => {
     })
   )
 })
+
+test('should show password as plain text if show password button has been clicked', () => {
+  render(<Home />)
+
+  const passwordInput = screen.getByLabelText(/enter your password/i)
+
+  expect(passwordInput).toHaveAttribute('type', 'password')
+
+  userEvent.click(
+    screen.getByRole('button', {
+      name: /Show password as plain text. Note: this will visually expose your password on the screen./i,
+    })
+  )
+
+  expect(passwordInput).toHaveAttribute('type', 'text')
+})

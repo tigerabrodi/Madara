@@ -2,6 +2,7 @@ import styled, { keyframes, css } from 'styled-components/macro'
 import { focusStyles } from 'styles'
 import { media } from 'theme/media'
 import { theme } from '../../theme/theme'
+import { ReactComponent as WarningSVG } from 'assets/warning.svg'
 
 export const HomeMain = styled.main`
   grid-area: main;
@@ -233,7 +234,7 @@ const errorAnim2Tablet = keyframes`
 `
 
 export const ErrorMessage = styled.span<{ isLoginMode?: boolean }>`
-  font-size: 1.4rem;
+  font-size: 1.7rem;
   font-family: ${theme.SourceSansPro};
   font-weight: bold;
   grid-area: errorMessage;
@@ -241,16 +242,18 @@ export const ErrorMessage = styled.span<{ isLoginMode?: boolean }>`
   align-self: center;
   transform: translateY(-0.5rem);
   animation: ${errorAnim} 0.2s forwards;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
   ${(props) =>
     props.isLoginMode &&
     css`
       transform: translate(0);
-      font-size: 1.7rem;
       animation: ${errorAnim2} 0.2s forwards;
     `}
 
   ${media.phone} {
-    font-size: 1.7rem;
+    font-size: 1.8rem;
     ${(props) =>
       props.isLoginMode &&
       css`
@@ -287,4 +290,11 @@ export const SubmitButton = styled.button`
       box-shadow: 0 0 0.5rem ${theme.Black};
     }
   }
+`
+
+export const WarningIcon = styled(WarningSVG)`
+  fill: ${theme.Pink};
+  height: 2rem;
+  width: 2rem;
+  margin-left: 1rem;
 `

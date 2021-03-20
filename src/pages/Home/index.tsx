@@ -13,6 +13,7 @@ import {
   ToolBar,
   ToolBarButton,
   ShowPasswordButton,
+  WarningIcon,
 } from './styles'
 
 interface FormElements extends HTMLFormControlsCollection {
@@ -126,6 +127,7 @@ export const Home = () => {
                 aria-label="Name must be at least two characters long."
               >
                 Name must be at least two characters long.
+                <WarningIcon role="img" aria-label="error" />
               </ErrorMessage>
             )}
           </FormGroup>
@@ -152,6 +154,7 @@ export const Home = () => {
               aria-label="Email is not valid."
             >
               Email is not valid.
+              <WarningIcon role="img" aria-label="error" />
             </ErrorMessage>
           )}
           {isEmailTaken && (
@@ -161,6 +164,7 @@ export const Home = () => {
               aria-label="Email is taken."
             >
               Email is taken.
+              <WarningIcon role="img" aria-label="error" />
             </ErrorMessage>
           )}
         </FormGroup>
@@ -191,6 +195,7 @@ export const Home = () => {
               aria-label="Password must be at least 6 characters long."
             >
               Password must be at least 6 characters long.
+              <WarningIcon role="img" aria-label="error" />
             </ErrorMessage>
           )}
           {isLoginNotAllowed && (
@@ -200,6 +205,7 @@ export const Home = () => {
               isLoginMode={isLoginMode}
             >
               Password or Email Is Invalid.
+              <WarningIcon role="img" aria-label="error" />
             </ErrorMessage>
           )}
         </FormGroup>

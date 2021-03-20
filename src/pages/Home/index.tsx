@@ -115,11 +115,14 @@ export const Home = () => {
               id="name"
               placeholder="Naruto Uzumaki"
               aria-required="true"
+              aria-invalid={isNameError ? 'true' : 'false'}
+              aria-describedby={isNameError ? 'name-hint' : undefined}
               ref={nameInputRef}
             />
             {isNameError && (
               <ErrorMessage
                 role="alert"
+                id="name-hint"
                 aria-label="Name must be at least two characters long."
               >
                 Name must be at least two characters long.
@@ -134,6 +137,8 @@ export const Home = () => {
             type="email"
             id="email"
             placeholder="NarutoUzumaki@gmail.com"
+            aria-describedby={isEmailError ? 'email-hint' : undefined}
+            aria-invalid={isEmailError || isEmailTaken ? 'true' : 'false'}
             aria-required="true"
             onChange={(event) => {
               setIsEmailInvalid(!event.target.validity.valid)
@@ -141,12 +146,20 @@ export const Home = () => {
             ref={emailInputRef}
           />
           {isEmailError && (
-            <ErrorMessage role="alert" aria-label="Email is not valid.">
+            <ErrorMessage
+              role="alert"
+              id="email-hint"
+              aria-label="Email is not valid."
+            >
               Email is not valid.
             </ErrorMessage>
           )}
           {isEmailTaken && (
-            <ErrorMessage role="alert" aria-label="Email is taken.">
+            <ErrorMessage
+              role="alert"
+              id="email-hint"
+              aria-label="Email is taken."
+            >
               Email is taken.
             </ErrorMessage>
           )}
@@ -158,6 +171,8 @@ export const Home = () => {
             type={shouldShowPassword ? 'text' : 'password'}
             id="password"
             placeholder="Naruto's Password"
+            aria-describedby={isPasswordError ? 'password-hint' : undefined}
+            aria-invalid={isPasswordError ? 'true' : 'false'}
             aria-required="true"
           />
           <ShowPasswordButton
@@ -172,6 +187,7 @@ export const Home = () => {
           {isPasswordError && (
             <ErrorMessage
               role="alert"
+              id="password-hint"
               aria-label="Password must be at least 6 characters long."
             >
               Password must be at least 6 characters long.

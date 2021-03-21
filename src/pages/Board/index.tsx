@@ -3,6 +3,7 @@ import { ConfirmationModal } from 'components/ConfirmationModal'
 import { EditModal } from 'components/EditModal'
 import { BoardColumn } from 'components/BoardColumn'
 import { useMedia } from 'hooks/useMedia'
+import { useTabArrowSwitch } from 'hooks/useTabArrowSwitch'
 import { ColumnType } from 'types'
 import {
   BoardMain,
@@ -26,6 +27,8 @@ export const Board = () => {
 
   const isNotMobileLayout = useMedia('min', '425')
 
+  const tabListRef = useTabArrowSwitch()
+
   const toggleConfirmationModal = () =>
     setIsConfirmationModalOpen(!isConfirmationModalOpen)
   const toggleEditModalForm = () => setIsEditFormOpen(!isEditFormOpen)
@@ -39,43 +42,6 @@ export const Board = () => {
   ) => {
     event.preventDefault()
   }
-
-  const tabListRef = React.useRef<HTMLDivElement>(null)
-
-  React.useEffect(() => {
-    const tabs = document.querySelectorAll('[role="tab"]')
-
-    let tabFocusIndex = 0
-
-    const handleArrowTabSwitch = (event: KeyboardEvent) => {
-      // Move right
-      if (event.code === 'ArrowRight' || event.code === 'ArrowLeft') {
-        tabs[tabFocusIndex].setAttribute('tabindex', '-1')
-        if (event.code === 'ArrowRight') {
-          tabFocusIndex++
-          // If we're at the end, go to the start
-          if (tabFocusIndex >= tabs.length) {
-            tabFocusIndex = 0
-          }
-          // Move left
-        } else if (event.code === 'ArrowLeft') {
-          tabFocusIndex--
-          // If we're at the start, move to the end
-          if (tabFocusIndex < 0) {
-            tabFocusIndex = tabs.length - 1
-          }
-        }
-
-        tabs[tabFocusIndex].setAttribute('tabindex', '0')
-        ;(tabs[tabFocusIndex] as HTMLButtonElement).focus()
-      }
-    }
-
-    tabListRef.current?.addEventListener('keydown', handleArrowTabSwitch)
-
-    return () =>
-      tabListRef.current?.removeEventListener('keydown', handleArrowTabSwitch)
-  }, [])
 
   return (
     <>

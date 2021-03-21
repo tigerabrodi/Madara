@@ -7,13 +7,14 @@ import { ColumnType } from 'types'
 import {
   BoardMain,
   BoardWrapper,
-  DoneButton,
-  InProgressButton,
+  DoneTab,
+  InProgressTab,
   Subtitle,
   SubtitleHandWriting,
   SubtitleWrapper,
   Title,
-  TodoButton,
+  TodoTab,
+  TabList,
 } from './styles'
 
 export const Board = () => {
@@ -39,6 +40,43 @@ export const Board = () => {
     event.preventDefault()
   }
 
+  const tabListRef = React.useRef<HTMLDivElement>(null)
+
+  React.useEffect(() => {
+    const tabs = document.querySelectorAll('[role="tab"]')
+
+    let tabFocusIndex = 0
+
+    const handleArrowTabSwitch = (event: KeyboardEvent) => {
+      // Move right
+      if (event.code === 'ArrowRight' || event.code === 'ArrowLeft') {
+        tabs[tabFocusIndex].setAttribute('tabindex', '-1')
+        if (event.code === 'ArrowRight') {
+          tabFocusIndex++
+          // If we're at the end, go to the start
+          if (tabFocusIndex >= tabs.length) {
+            tabFocusIndex = 0
+          }
+          // Move left
+        } else if (event.code === 'ArrowLeft') {
+          tabFocusIndex--
+          // If we're at the start, move to the end
+          if (tabFocusIndex < 0) {
+            tabFocusIndex = tabs.length - 1
+          }
+        }
+
+        tabs[tabFocusIndex].setAttribute('tabindex', '0')
+        ;(tabs[tabFocusIndex] as HTMLButtonElement).focus()
+      }
+    }
+
+    tabListRef.current?.addEventListener('keydown', handleArrowTabSwitch)
+
+    return () =>
+      tabListRef.current?.removeEventListener('keydown', handleArrowTabSwitch)
+  }, [])
+
   return (
     <>
       <BoardMain>
@@ -48,30 +86,47 @@ export const Board = () => {
           <SubtitleHandWriting aria-hidden="true" />
         </SubtitleWrapper>
         {!isNotMobileLayout && (
-          <>
-            <TodoButton
+          <TabList
+            role="tablist"
+            aria-label="Tabs to switch column"
+            ref={tabListRef}
+          >
+            <TodoTab
+              role="tab"
               onClick={() => setColumnType('Todo')}
               columnType={columnType}
+              tabIndex={0}
+              aria-controls="Todo"
+              aria-selected={columnType === 'Todo' ? 'true' : 'false'}
             >
               Todo
-            </TodoButton>
-            <InProgressButton
+            </TodoTab>
+            <InProgressTab
+              role="tab"
               onClick={() => setColumnType('In progress')}
               columnType={columnType}
+              tabIndex={-1}
+              aria-controls="In-progress"
+              aria-selected={columnType === 'In progress' ? 'true' : 'false'}
             >
               In progress
-            </InProgressButton>
-            <DoneButton
+            </InProgressTab>
+            <DoneTab
+              role="tab"
               onClick={() => setColumnType('Done')}
               columnType={columnType}
+              tabIndex={-1}
+              aria-controls="Done"
+              aria-selected={columnType === 'Done' ? 'true' : 'false'}
             >
               Done
-            </DoneButton>
-          </>
+            </DoneTab>
+          </TabList>
         )}
         <BoardWrapper>
           <BoardColumn
             columnType={isNotMobileLayout ? 'Todo' : columnType}
+            isNotMobileLayout={isNotMobileLayout}
             toggleEditModal={toggleEditModalForm}
             toggleConfirmationModal={toggleConfirmationModal}
           />
@@ -79,11 +134,13 @@ export const Board = () => {
             <>
               <BoardColumn
                 columnType="In progress"
+                isNotMobileLayout={isNotMobileLayout}
                 toggleEditModal={toggleEditModalForm}
                 toggleConfirmationModal={toggleConfirmationModal}
               />
               <BoardColumn
                 columnType="Done"
+                isNotMobileLayout={isNotMobileLayout}
                 toggleEditModal={toggleEditModalForm}
                 toggleConfirmationModal={toggleConfirmationModal}
               />

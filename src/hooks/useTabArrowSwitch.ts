@@ -9,26 +9,34 @@ export const useTabArrowSwitch = () => {
     let tabFocusIndex = 0
 
     const handleArrowTabSwitch = (event: KeyboardEvent) => {
-      // Move right
-      if (event.code === 'ArrowRight' || event.code === 'ArrowLeft') {
+      const shouldSwitchViaArrows =
+        event.code === 'ArrowRight' || event.code === 'ArrowLeft'
+
+      if (shouldSwitchViaArrows) {
         tabs[tabFocusIndex].setAttribute('tabindex', '-1')
-        if (event.code === 'ArrowRight') {
+
+        const moveRight = event.code === 'ArrowRight'
+        if (moveRight) {
           tabFocusIndex++
-          // If we're at the end, go to the start
-          if (tabFocusIndex >= tabs.length) {
+          const isEndPosition = tabFocusIndex >= tabs.length
+
+          if (isEndPosition) {
             tabFocusIndex = 0
           }
-          // Move left
-        } else if (event.code === 'ArrowLeft') {
+        }
+
+        const moveLeft = event.code === 'ArrowLeft'
+        if (moveLeft) {
           tabFocusIndex--
-          // If we're at the start, move to the end
-          if (tabFocusIndex < 0) {
+          const isStartPosition = tabFocusIndex < 0
+          if (isStartPosition) {
             tabFocusIndex = tabs.length - 1
           }
         }
 
-        tabs[tabFocusIndex].setAttribute('tabindex', '0')
-        ;(tabs[tabFocusIndex] as HTMLButtonElement).focus()
+        const tabToBeFocused = tabs[tabFocusIndex] as HTMLButtonElement
+        tabToBeFocused.setAttribute('tabindex', '0')
+        tabToBeFocused.focus()
       }
     }
 

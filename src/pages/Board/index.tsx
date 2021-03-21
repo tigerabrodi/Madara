@@ -3,17 +3,19 @@ import { ConfirmationModal } from 'components/ConfirmationModal'
 import { EditModal } from 'components/EditModal'
 import { BoardColumn } from 'components/BoardColumn'
 import { useMedia } from 'hooks/useMedia'
+import { useTabArrowSwitch } from 'hooks/useTabArrowSwitch'
 import { ColumnType } from 'types'
 import {
   BoardMain,
   BoardWrapper,
-  DoneButton,
-  InProgressButton,
+  DoneTab,
+  InProgressTab,
   Subtitle,
   SubtitleHandWriting,
   SubtitleWrapper,
   Title,
-  TodoButton,
+  TodoTab,
+  TabList,
 } from './styles'
 
 export const Board = () => {
@@ -24,6 +26,8 @@ export const Board = () => {
   const [isEditFormOpen, setIsEditFormOpen] = React.useState(false)
 
   const isNotMobileLayout = useMedia('min', '425')
+
+  const tabListRef = useTabArrowSwitch()
 
   const toggleConfirmationModal = () =>
     setIsConfirmationModalOpen(!isConfirmationModalOpen)
@@ -48,30 +52,47 @@ export const Board = () => {
           <SubtitleHandWriting aria-hidden="true" />
         </SubtitleWrapper>
         {!isNotMobileLayout && (
-          <>
-            <TodoButton
+          <TabList
+            role="tablist"
+            aria-label="Tabs to switch column"
+            ref={tabListRef}
+          >
+            <TodoTab
+              role="tab"
               onClick={() => setColumnType('Todo')}
               columnType={columnType}
+              tabIndex={0}
+              aria-controls="Todo"
+              aria-selected={columnType === 'Todo' ? 'true' : 'false'}
             >
               Todo
-            </TodoButton>
-            <InProgressButton
+            </TodoTab>
+            <InProgressTab
+              role="tab"
               onClick={() => setColumnType('In progress')}
               columnType={columnType}
+              tabIndex={-1}
+              aria-controls="In-progress"
+              aria-selected={columnType === 'In progress' ? 'true' : 'false'}
             >
               In progress
-            </InProgressButton>
-            <DoneButton
+            </InProgressTab>
+            <DoneTab
+              role="tab"
               onClick={() => setColumnType('Done')}
               columnType={columnType}
+              tabIndex={-1}
+              aria-controls="Done"
+              aria-selected={columnType === 'Done' ? 'true' : 'false'}
             >
               Done
-            </DoneButton>
-          </>
+            </DoneTab>
+          </TabList>
         )}
         <BoardWrapper>
           <BoardColumn
             columnType={isNotMobileLayout ? 'Todo' : columnType}
+            isNotMobileLayout={isNotMobileLayout}
             toggleEditModal={toggleEditModalForm}
             toggleConfirmationModal={toggleConfirmationModal}
           />
@@ -79,11 +100,13 @@ export const Board = () => {
             <>
               <BoardColumn
                 columnType="In progress"
+                isNotMobileLayout={isNotMobileLayout}
                 toggleEditModal={toggleEditModalForm}
                 toggleConfirmationModal={toggleConfirmationModal}
               />
               <BoardColumn
                 columnType="Done"
+                isNotMobileLayout={isNotMobileLayout}
                 toggleEditModal={toggleEditModalForm}
                 toggleConfirmationModal={toggleConfirmationModal}
               />

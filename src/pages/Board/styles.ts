@@ -13,7 +13,7 @@ export const BoardMain = styled.main`
   grid-template-areas:
     'title title title'
     'subtitle subtitle subtitle'
-    'todo inProgress done'
+    'tablist tablist tablist'
     'board board board';
 
   grid-template-rows: 10% 5% 10% 75%;
@@ -101,22 +101,33 @@ export const BoardWrapper = styled.div`
   }
 `
 
-const typeButtonStyles = css`
+export const TabList = styled.div`
+  grid-area: tablist;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  list-style: none;
+  width: 100%;
+`
+
+const tabLinkStyles = css`
   font-size: 2rem;
   background-color: transparent;
   color: ${theme.Blue};
   font-family: ${theme.SourceSansPro};
   font-weight: 600;
   border: none;
+  text-decoration: none;
   ${focusStyles};
 `
 
 const columnTypeHighlightStyles = css`
   text-decoration: underline;
+  text-underline-offset: 0.2rem;
 `
 
-export const TodoButton = styled.button<{ columnType: ColumnType }>`
-  ${typeButtonStyles}
+export const TodoTab = styled.button<{ columnType: ColumnType }>`
+  ${tabLinkStyles}
   grid-area: todo;
   ${(props) =>
     props.columnType === 'Todo' &&
@@ -125,8 +136,8 @@ export const TodoButton = styled.button<{ columnType: ColumnType }>`
     `}
 `
 
-export const InProgressButton = styled.button<{ columnType: ColumnType }>`
-  ${typeButtonStyles}
+export const InProgressTab = styled.button<{ columnType: ColumnType }>`
+  ${tabLinkStyles}
   grid-area: inProgress;
   ${(props) =>
     props.columnType === 'In progress' &&
@@ -135,8 +146,8 @@ export const InProgressButton = styled.button<{ columnType: ColumnType }>`
     `}
 `
 
-export const DoneButton = styled.button<{ columnType: ColumnType }>`
-  ${typeButtonStyles}
+export const DoneTab = styled.button<{ columnType: ColumnType }>`
+  ${tabLinkStyles}
   grid-area: done;
   ${(props) =>
     props.columnType === 'Done' &&

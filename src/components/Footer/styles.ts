@@ -19,7 +19,13 @@ export const FooterWrapper = styled.footer`
 export const FooterText = styled.p`
   color: ${theme.LightBlue};
   font-family: ${theme.SourceSansPro};
-  font-size: 2.3rem;
+  font-size: 1.8rem;
+  ${media.custom(360)} {
+    font-size: 2rem;
+  }
+  ${media.tablet} {
+    font-size: 2.3rem;
+  }
 `
 
 export const FooterLink = styled.a`

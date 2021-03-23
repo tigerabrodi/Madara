@@ -37,6 +37,7 @@ export const useTabArrowSwitch = () => {
         const tabToBeFocused = tabs[tabFocusIndex] as HTMLButtonElement
         tabToBeFocused.setAttribute('tabindex', '0')
         tabToBeFocused.focus()
+        tabToBeFocused.click()
       }
     }
 

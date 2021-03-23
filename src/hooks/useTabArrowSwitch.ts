@@ -41,9 +41,6 @@ export const useTabArrowSwitch = () => {
     }
 
     tabListRef.current?.addEventListener('keydown', handleArrowTabSwitch)
-
-    return () =>
-      tabListRef.current?.removeEventListener('keydown', handleArrowTabSwitch)
   }, [])
 
   return tabListRef

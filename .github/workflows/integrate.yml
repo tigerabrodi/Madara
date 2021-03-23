@@ -29,3 +29,12 @@ jobs:
         run: yarn lint
       - name: Run Integration Tests
         run: yarn test
+      - name: Run E2E Tests
+        uses: cypress-io/github-action@v2
+        env:
+          REACT_APP_API_ID: ${{ secrets.REACT_APP_API_ID }}
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+          REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }}
+        with:
+          start: yarn start
+          wait-on: 'http://localhost:3000'

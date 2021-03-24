@@ -88,7 +88,7 @@ export const Home = () => {
   return (
     <HomeMain>
       <Title>Madara</Title>
-      <Subtitle>Manage Your Daily Tasks</Subtitle>
+      <Subtitle>Manage Your Tasks</Subtitle>
       <ToolBar role="toolbar" aria-label="Login or register">
         <ToolBarButton
           aria-pressed={isLoginMode ? false : true}

@@ -2,9 +2,8 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { useCollectionData } from 'react-firebase-hooks/firestore'
 
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import { Footer } from 'components/Footer'
 import { AppProviders } from 'context'
 import { Home } from 'pages/Home'
@@ -23,17 +22,23 @@ firebase.initializeApp({
 })
 
 const auth = firebase.auth()
-const firestore = firebase.firestore()
 
 const App = () => {
+  const [user] = useAuthState(auth)
+
   return (
     <AppProviders>
       <>
         <Alert />
         <Navigation />
         <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/board" component={Board} />
+          <Route exact path="/">
+            {user ? <Redirect to="/board" /> : <Home />}
+          </Route>
+
+          <Route exact path="/board">
+            {user ? <Board /> : <Redirect to="/" />}
+          </Route>
         </Switch>
         <Footer />
       </>

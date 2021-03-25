@@ -1,6 +1,7 @@
 import * as React from 'react'
 import firebase from 'firebase/app'
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
+import { ATOnlyText } from 'styles'
 import {
   ErrorMessage,
   Form,
@@ -16,6 +17,7 @@ import {
   ToolBarButton,
   ShowPasswordButton,
   WarningIcon,
+  SmallSpinner,
 } from './styles'
 
 interface FormElements extends HTMLFormControlsCollection {
@@ -42,9 +44,9 @@ export const Home = () => {
 
   const auth = firebase.auth()
 
-  const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(
-    auth
-  )
+  const createUserResult = useCreateUserWithEmailAndPassword(auth)
+  const createUserWithEmailAndPassword = createUserResult[0]
+  const isSignUpLoading = createUserResult[2]
 
   const emailInputRef = React.useRef<HTMLInputElement>(null)
   const nameInputRef = React.useRef<HTMLInputElement>(null)
@@ -219,6 +221,12 @@ export const Home = () => {
 
         <SubmitButton type="submit">
           {isLoginMode ? 'Sign In' : 'Sign Up'}
+          {isSignUpLoading && (
+            <>
+              <SmallSpinner aria-hidden="true" />
+              <ATOnlyText role="alert">Signing Up</ATOnlyText>
+            </>
+          )}
         </SubmitButton>
       </Form>
     </HomeMain>

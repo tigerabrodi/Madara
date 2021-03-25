@@ -3,6 +3,7 @@ import { focusStyles } from 'styles'
 import { media } from 'theme/media'
 import { theme } from '../../theme/theme'
 import { ReactComponent as WarningSVG } from 'assets/warning.svg'
+import { ReactComponent as SmallSpinnerSVG } from 'assets/small-spinner.svg'
 
 export const HomeMain = styled.main`
   grid-area: main;
@@ -290,6 +291,28 @@ export const SubmitButton = styled.button`
       box-shadow: 0 0 0.5rem ${theme.Black};
     }
   }
+`
+
+const spin = keyframes`
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+`
+
+export const SmallSpinner = styled(SmallSpinnerSVG)`
+  height: 1.7rem;
+  width: 1.7rem;
+  position: absolute;
+  top: 28%;
+  left: 88%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  fill: ${theme.Blue};
+  animation: ${spin} 0.5s linear infinite;
 `
 
 export const WarningIcon = styled(WarningSVG)`

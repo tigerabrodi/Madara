@@ -2,7 +2,7 @@ import { buildUser } from '../support/generate'
 
 context('Desktop resolution', () => {
   beforeEach(() => {
-    cy.viewport(1280, 720)
+    cy.viewport(1280, 900)
   })
 
   it('desktop complete user flow', () => {

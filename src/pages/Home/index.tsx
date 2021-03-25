@@ -1,4 +1,6 @@
 import * as React from 'react'
+import firebase from 'firebase/app'
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
 import {
   ErrorMessage,
   Form,
@@ -38,6 +40,12 @@ export const Home = () => {
 
   const [isLoginNotAllowed] = React.useState(false)
 
+  const auth = firebase.auth()
+
+  const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(
+    auth
+  )
+
   const emailInputRef = React.useRef<HTMLInputElement>(null)
   const nameInputRef = React.useRef<HTMLInputElement>(null)
 
@@ -46,7 +54,7 @@ export const Home = () => {
 
     const { name, password, email } = event.currentTarget.elements
 
-    const handleFormValidation = () => {
+    const canUserSignUp = () => {
       const isNameInvalid = !name.value || (name.value && name.value.length < 2)
       if (isNameInvalid) {
         setIsNameError(true)
@@ -78,9 +86,8 @@ export const Home = () => {
       /* User can sign in */
       return true
     } else {
-      if (handleFormValidation() === true) {
-        /* User can sign up */
-        return true
+      if (canUserSignUp() === true) {
+        createUserWithEmailAndPassword(email.value, password.value)
       }
     }
   }

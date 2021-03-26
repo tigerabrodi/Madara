@@ -18,7 +18,7 @@ export const AlertItem = ({
   removeAlert,
 }: AlertItemProps) => (
   <AlertWrapper role="alert" tabIndex={0}>
-    <AlertIcon title="check" />
+    <AlertIcon title="check" aria-hidden="true" />
     <AlertStatus>
       {type === 'success'
         ? 'Success!'

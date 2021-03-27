@@ -20,7 +20,11 @@ context('Desktop resolution', () => {
 
     cy.findByRole('button', { name: 'Sign Up' }).click()
 
-    cy.findByText('Signing Up').click()
+    cy.findByText('Signing Up').should('exist')
+
+    cy.findByRole('heading', { name: 'Success!' }).should('exist')
+
+    cy.findByText('You have successfully signed up.').should('exist')
 
     cy.findByRole('heading', {
       name: `Welcome ${user.name}!`,

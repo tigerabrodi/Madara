@@ -1,4 +1,6 @@
 import * as React from 'react'
+import firebase from 'firebase/app'
+import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { ConfirmationModal } from 'components/ConfirmationModal'
 import { EditModal } from 'components/EditModal'
 import { BoardColumn } from 'components/BoardColumn'
@@ -43,10 +45,30 @@ export const Board = () => {
     event.preventDefault()
   }
 
-  return (
+  const userEmail = firebase.auth().currentUser?.email
+  const usersCollection = firebase.firestore().collection('users')
+
+  const [users, isUserLoading] = useCollectionData<{
+    email: string
+    name: string
+  }>(usersCollection)
+
+  if (isUserLoading) {
+    return null
+  }
+
+  const getCurrentUserName = (
+    users: Array<{ email: string; name: string }>
+  ) => {
+    return users.find(
+      (user) => user.email.toLowerCase() === userEmail?.toLowerCase()
+    )?.name
+  }
+
+  return users ? (
     <>
       <BoardMain>
-        <Title>Welcome Tiger Abrodi!</Title>
+        <Title>Welcome {getCurrentUserName(users)}!</Title>
         <SubtitleWrapper>
           <Subtitle>Manage Your Tasks</Subtitle>
           <SubtitleHandWriting aria-hidden="true" />
@@ -133,5 +155,5 @@ export const Board = () => {
         />
       )}
     </>
-  )
+  ) : null
 }

@@ -1,6 +1,8 @@
 import * as React from 'react'
 import firebase from 'firebase/app'
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
+import { useAlertStore, Alert as AlertType } from 'components/Alert/AlertStore'
+import { v4 as uuidv4 } from 'uuid'
 import { ATOnlyText } from 'styles'
 import {
   ErrorMessage,
@@ -42,16 +44,22 @@ export const Home = () => {
 
   const [isLoginNotAllowed] = React.useState(false)
 
+  const { addAlert, removeAlert } = useAlertStore()
+
   const auth = firebase.auth()
+  const firestore = firebase.firestore()
+  const usersRef = firestore.collection('users')
 
   const createUserResult = useCreateUserWithEmailAndPassword(auth)
+
   const createUserWithEmailAndPassword = createUserResult[0]
   const isSignUpLoading = createUserResult[2]
+  const isSignUpError = createUserResult[3]
 
   const emailInputRef = React.useRef<HTMLInputElement>(null)
   const nameInputRef = React.useRef<HTMLInputElement>(null)
 
-  const handleSubmit = (event: React.SyntheticEvent<UserFormElement>) => {
+  const handleSubmit = async (event: React.SyntheticEvent<UserFormElement>) => {
     event.preventDefault()
 
     const { name, password, email } = event.currentTarget.elements
@@ -89,9 +97,29 @@ export const Home = () => {
       return true
     } else {
       if (canUserSignUp() === true) {
+        const alert: AlertType = {
+          message: 'You have successfully signed up.',
+          type: 'success',
+          id: uuidv4(),
+        }
+
+        addAlert(alert)
+        setTimeout(() => {
+          removeAlert(alert.id)
+        }, 3000)
+
         createUserWithEmailAndPassword(email.value, password.value)
+
+        await usersRef.add({
+          name: name.value,
+          email: email.value,
+        })
       }
     }
+  }
+
+  if (isSignUpError) {
+    return <div role="alert">Error: {isSignUpError.message}</div>
   }
 
   return (

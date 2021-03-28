@@ -33,7 +33,6 @@ export const AddTaskForm = ({ onSuccess, setOpen }: TaskFormProps) => {
   return (
     <Form onSubmit={onSuccess} ref={ref}>
       <AddTaskTextarea
-        name="Task"
         aria-label="Enter a task"
         aria-required="true"
         placeholder="Enter a task"

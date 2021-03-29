@@ -3,7 +3,6 @@ import firebase from 'firebase/app'
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
 import { useAlertStore, Alert as AlertType } from 'components/Alert/AlertStore'
 import { v4 as uuidv4 } from 'uuid'
-import { ATOnlyText } from 'styles'
 import {
   ErrorMessage,
   Form,
@@ -40,7 +39,7 @@ export const Home = () => {
   const [isEmailError, setIsEmailError] = React.useState(false)
 
   const [isEmailInvalid, setIsEmailInvalid] = React.useState(false)
-  const [isEmailTaken] = React.useState(false)
+  const [isEmailTaken, setIsEmailTaken] = React.useState(false)
 
   const [isLoginNotAllowed] = React.useState(false)
 
@@ -97,29 +96,36 @@ export const Home = () => {
       return true
     } else {
       if (canUserSignUp() === true) {
-        const alert: AlertType = {
-          message: 'You have successfully signed up.',
-          type: 'success',
-          id: uuidv4(),
-        }
-
-        addAlert(alert)
-        setTimeout(() => {
-          removeAlert(alert.id)
-        }, 3000)
-
         createUserWithEmailAndPassword(email.value, password.value)
 
-        await usersRef.add({
-          name: name.value,
-          email: email.value,
-        })
+        if (isSignUpError) {
+          const isEmailAlreadyTaken =
+            isSignUpError.code === 'auth/email-already-in-use'
+          if (isEmailAlreadyTaken) {
+            setIsEmailTaken(true)
+            return setTimeout(() => {
+              setIsEmailTaken(false)
+            }, 3000)
+          }
+        } else {
+          const alert: AlertType = {
+            message: 'You have successfully signed up.',
+            type: 'success',
+            id: uuidv4(),
+          }
+
+          addAlert(alert)
+          setTimeout(() => {
+            removeAlert(alert.id)
+          }, 3000)
+
+          await usersRef.add({
+            name: name.value,
+            email: email.value,
+          })
+        }
       }
     }
-  }
-
-  if (isSignUpError) {
-    return <div role="alert">Error: {isSignUpError.message}</div>
   }
 
   return (
@@ -198,9 +204,9 @@ export const Home = () => {
             <ErrorMessage
               role="alert"
               id="email-hint"
-              aria-label="Email is taken."
+              aria-label="Email is already taken."
             >
-              Email is taken.
+              Email is already taken.
               <WarningIcon role="img" aria-label="error" />
             </ErrorMessage>
           )}
@@ -249,12 +255,7 @@ export const Home = () => {
 
         <SubmitButton type="submit">
           {isLoginMode ? 'Sign In' : 'Sign Up'}
-          {isSignUpLoading && (
-            <>
-              <SmallSpinner aria-hidden="true" />
-              <ATOnlyText role="alert">Signing Up</ATOnlyText>
-            </>
-          )}
+          {isSignUpLoading && <SmallSpinner aria-hidden="true" />}
         </SubmitButton>
       </Form>
     </HomeMain>

@@ -36,16 +36,21 @@ export const BoardColumn = ({
 
   const userId = firebase.auth().currentUser?.uid
 
-  const userTasksCollection = firebase
+  const tasksCollection = firebase
     .firestore()
     .collection('tasks')
-    .where('columnType', '==', columnType)
-    .where('userId', '==', userId)
+    .orderBy('createdAtStamp')
 
-  const [tasks] = useCollectionData<TaskType>(userTasksCollection)
+  const [tasks] = useCollectionData<TaskType>(tasksCollection)
+
+  const userTasks = tasks?.filter(
+    (task) => task.columnType === columnType && task.userId === userId
+  )
+
+  console.log({ userTasks, tasks })
 
   const columnId = columnType.replace(/\s/g, '-')
-  const totalTasks = tasks?.length || 0
+  const totalTasks = userTasks?.length || 0
 
   return (
     <Column
@@ -68,8 +73,8 @@ export const BoardColumn = ({
         {isAddTaskFormOpen && (
           <AddTaskForm setOpen={setIsAddTaskFormOpen} columnType={columnType} />
         )}
-        {tasks &&
-          tasks.map((task) => (
+        {userTasks &&
+          userTasks.map((task) => (
             <Card
               setMenuOpen={setIsCardMenuOpen}
               isMenuOpen={isCardMenuOpen}

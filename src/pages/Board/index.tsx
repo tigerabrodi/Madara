@@ -142,7 +142,7 @@ export const Board = () => {
           setOpen={setIsConfirmationModalOpen}
           onSuccess={handleConfirmationModalSubmit}
           toggleModal={toggleConfirmationModal}
-          text="Do you really want to delete every task in this column?"
+          text="Do you really want to delete this task in Todo column?"
         />
       )}
 

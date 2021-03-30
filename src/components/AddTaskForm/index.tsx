@@ -1,5 +1,6 @@
 import * as React from 'react'
 import firebase from 'firebase/app'
+import { v4 as uuidv4 } from 'uuid'
 import { ColumnType } from 'types'
 import { useClickOutside } from 'hooks/useClickOutside'
 import { useTrapTabKey } from 'hooks/useTrapTabKey'
@@ -34,11 +35,14 @@ export const AddTaskForm = ({ setOpen, columnType }: TaskFormProps) => {
   const tasksCollection = firebase.firestore().collection('tasks')
 
   const handleFormSubmit = () => {
+    const newDate = new Date().toLocaleDateString('en-US')
     tasksCollection.add({
       userId,
       columnType,
       text: addTaskText,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      createdAtStamp: firebase.firestore.FieldValue.serverTimestamp(),
+      createdAt: newDate,
+      id: uuidv4(),
     })
 
     setOpen(false)

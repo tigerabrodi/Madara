@@ -97,7 +97,7 @@ export const Inner = styled.div<{ isFormOpen: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  row-gap: 0.5rem;
+  row-gap: 1rem;
   padding-bottom: 0.5rem;
   max-height: 100%;
   ${(props) =>

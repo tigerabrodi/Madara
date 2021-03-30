@@ -1,7 +1,6 @@
 import * as React from 'react'
 import firebase from 'firebase/app'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
-import { ConfirmationModal } from 'components/ConfirmationModal'
 import { EditModal } from 'components/EditModal'
 import { BoardColumn } from 'components/BoardColumn'
 import { useMedia } from 'hooks/useMedia'
@@ -22,26 +21,15 @@ import {
 
 export const Board = () => {
   const [columnType, setColumnType] = React.useState<ColumnType>('Todo')
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = React.useState(
-    false
-  )
   const [isEditFormOpen, setIsEditFormOpen] = React.useState(false)
 
   const isNotMobileLayout = useMedia('min', '425')
 
   const tabListRef = useTabArrowSwitch()
 
-  const toggleConfirmationModal = () =>
-    setIsConfirmationModalOpen(!isConfirmationModalOpen)
   const toggleEditModalForm = () => setIsEditFormOpen(!isEditFormOpen)
 
   const handleEditModalSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-  }
-
-  const handleConfirmationModalSubmit = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
     event.preventDefault()
   }
 
@@ -116,7 +104,6 @@ export const Board = () => {
             columnType={isNotMobileLayout ? 'Todo' : columnType}
             isNotMobileLayout={isNotMobileLayout}
             toggleEditModal={toggleEditModalForm}
-            toggleConfirmationModal={toggleConfirmationModal}
           />
           {isNotMobileLayout && (
             <>
@@ -124,28 +111,16 @@ export const Board = () => {
                 columnType="In progress"
                 isNotMobileLayout={isNotMobileLayout}
                 toggleEditModal={toggleEditModalForm}
-                toggleConfirmationModal={toggleConfirmationModal}
               />
               <BoardColumn
                 columnType="Done"
                 isNotMobileLayout={isNotMobileLayout}
                 toggleEditModal={toggleEditModalForm}
-                toggleConfirmationModal={toggleConfirmationModal}
               />
             </>
           )}
         </BoardWrapper>
       </BoardMain>
-
-      {isConfirmationModalOpen && (
-        <ConfirmationModal
-          setOpen={setIsConfirmationModalOpen}
-          onSuccess={handleConfirmationModalSubmit}
-          toggleModal={toggleConfirmationModal}
-          text="Do you really want to delete this task in Todo column?"
-        />
-      )}
-
       {isEditFormOpen && (
         <EditModal
           setOpen={setIsEditFormOpen}

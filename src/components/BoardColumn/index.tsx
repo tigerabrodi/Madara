@@ -14,14 +14,12 @@ import {
 } from './styles'
 
 type ColumnProps = {
-  toggleConfirmationModal: () => void
   toggleEditModal: () => void
   columnType: ColumnType
   isNotMobileLayout: boolean
 }
 
 export const BoardColumn = ({
-  toggleConfirmationModal,
   toggleEditModal,
   columnType,
   isNotMobileLayout,
@@ -41,13 +39,13 @@ export const BoardColumn = ({
     .collection('tasks')
     .orderBy('createdAtStamp')
 
-  const [tasks] = useCollectionData<TaskType>(tasksCollection)
+  const [tasks] = useCollectionData<TaskType>(tasksCollection, {
+    idField: 'id',
+  })
 
   const userTasks = tasks?.filter(
     (task) => task.columnType === columnType && task.userId === userId
   )
-
-  console.log({ userTasks, tasks })
 
   const columnId = columnType.replace(/\s/g, '-')
   const totalTasks = userTasks?.length || 0
@@ -80,7 +78,6 @@ export const BoardColumn = ({
               isMenuOpen={isCardMenuOpen}
               toggleEditModal={toggleEditModal}
               toggleMenu={toggleCardMenu}
-              toggleConfirmationModal={toggleConfirmationModal}
               key={task.id}
               task={task}
             />

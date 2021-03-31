@@ -25,7 +25,9 @@ context('Desktop resolution', () => {
     cy.findByRole('alert').within(() => {
       cy.findByRole('heading', { name: 'Success!' }).should('exist')
       cy.findByText('You have successfully signed up.').should('exist')
+      cy.findByRole('button', { name: 'Close toast' }).click()
     })
+
     cy.findByRole('heading', {
       name: `Welcome ${user.name}!`,
       level: 1,
@@ -47,15 +49,16 @@ context('Desktop resolution', () => {
         cy.findByRole('button', { name: 'Card menu' }).click()
         cy.findByRole('menu').within(() => {
           cy.findByRole('menuitem', { name: 'Delete Task' }).click()
-          cy.findByRole('alertdialog').within(() => {
-            cy.findByRole('heading', { name: 'Are you sure?' }).should('exist')
-            cy.findByText(
-              'Do you really want to delete this task in Todo column?'
-            ).should('exist')
-            cy.findByRole('button', { name: 'Yes' }).click()
-          })
         })
       })
+    })
+
+    cy.findByRole('alertdialog').within(() => {
+      cy.findByRole('heading', { name: 'Are you sure?' }).should('exist')
+      cy.findByText(
+        'Do you really want to delete this task in Todo column?'
+      ).should('exist')
+      cy.findByRole('button', { name: 'Yes' }).click({ force: true })
     })
 
     cy.findByRole('alert').within(() => {

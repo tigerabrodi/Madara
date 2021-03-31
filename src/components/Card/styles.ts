@@ -60,7 +60,7 @@ export const CardText = styled.p`
   max-width: 90%;
   justify-self: flex-start;
   align-self: flex-start;
-  padding: 1.5rem 2rem 0rem 1.5rem;
+  padding: 0.5rem 1rem 0.5rem 1.5rem;
   font-family: ${theme.SourceSansPro};
   font-size: 1.8rem;
   padding-right: 2rem;

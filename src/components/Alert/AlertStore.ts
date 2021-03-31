@@ -1,6 +1,6 @@
 import create from 'zustand'
 
-type AlertType = 'success' | 'warning' | 'error'
+export type AlertType = 'success' | 'warning' | 'error'
 
 export type Alert = { message: string; type: AlertType; id: string }
 

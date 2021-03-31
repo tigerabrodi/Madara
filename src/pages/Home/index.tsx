@@ -1,8 +1,7 @@
 import * as React from 'react'
 import firebase from 'firebase/app'
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
-import { useAlertStore, Alert as AlertType } from 'components/Alert/AlertStore'
-import { v4 as uuidv4 } from 'uuid'
+import { useAlert } from 'hooks/useAlert'
 import {
   ErrorMessage,
   Form,
@@ -43,13 +42,16 @@ export const Home = () => {
 
   const [isLoginNotAllowed] = React.useState(false)
 
-  const { addAlert, removeAlert } = useAlertStore()
-
   const auth = firebase.auth()
   const firestore = firebase.firestore()
   const usersRef = firestore.collection('users')
 
   const createUserResult = useCreateUserWithEmailAndPassword(auth)
+
+  const addSuccessAlert = useAlert(
+    'You have successfully signed up.',
+    'success'
+  )
 
   const createUserWithEmailAndPassword = createUserResult[0]
   const isSignUpLoading = createUserResult[2]
@@ -108,17 +110,7 @@ export const Home = () => {
             }, 3000)
           }
         } else {
-          const alert: AlertType = {
-            message: 'You have successfully signed up.',
-            type: 'success',
-            id: uuidv4(),
-          }
-
-          addAlert(alert)
-          setTimeout(() => {
-            removeAlert(alert.id)
-          }, 3000)
-
+          addSuccessAlert()
           await usersRef.add({
             name: name.value,
             email: email.value,
@@ -132,21 +124,21 @@ export const Home = () => {
     <HomeMain>
       <Title>Madara</Title>
       <Subtitle>Manage Your Tasks</Subtitle>
-      <ToolBar role="toolbar" aria-label="Login or register">
+      <ToolBar role="toolbar" aria-label="Sign In or Sign Up">
         <ToolBarButton
           aria-pressed={isLoginMode ? false : true}
           onClick={() => setIsLoginMode(false)}
           isLoginMode={isLoginMode}
           isRegisterButton
         >
-          Register
+          Sign Up
         </ToolBarButton>
         <ToolBarButton
           aria-pressed={isLoginMode ? true : false}
           onClick={() => setIsLoginMode(true)}
           isLoginMode={isLoginMode}
         >
-          Login
+          Sign In
         </ToolBarButton>
       </ToolBar>
       <Form onSubmit={handleSubmit} autoComplete="off" noValidate>

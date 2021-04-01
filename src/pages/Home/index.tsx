@@ -131,14 +131,14 @@ export const Home = () => {
           isLoginMode={isLoginMode}
           isRegisterButton
         >
-          Sign Up
+          Register
         </ToolBarButton>
         <ToolBarButton
           aria-pressed={isLoginMode ? true : false}
           onClick={() => setIsLoginMode(true)}
           isLoginMode={isLoginMode}
         >
-          Sign In
+          Login
         </ToolBarButton>
       </ToolBar>
       <Form onSubmit={handleSubmit} autoComplete="off" noValidate>

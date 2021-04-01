@@ -1,10 +1,19 @@
 import { LogoutButton, Logout } from './styles'
+import { useAlert } from 'components/Alert/AlertStore'
 import firebase from 'firebase/app'
 
 export const Navigation = () => {
   const auth = firebase.auth()
 
-  const onSignOut = () => auth.signOut()
+  const addSuccessAlert = useAlert(
+    'You have successfully signed out.',
+    'success'
+  )
+
+  const onSignOut = () => {
+    addSuccessAlert()
+    auth.signOut()
+  }
 
   return (
     <nav>

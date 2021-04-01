@@ -73,6 +73,11 @@ context('Desktop resolution', () => {
     })
 
     cy.findByRole('button', { name: 'Logout' }).click()
+    cy.findByRole('alert').within(() => {
+      cy.findByRole('heading', { name: 'Success!' }).should('exist')
+      cy.findByText('You have successfully signed out.').should('exist')
+    })
+
     cy.findByLabelText('Enter Your Name').type(user.name)
     cy.findByLabelText('Enter Your Email').type(user.email)
     cy.findByLabelText('Enter Your Password').type(user.password)

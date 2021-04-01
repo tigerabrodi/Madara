@@ -1,7 +1,7 @@
 import * as React from 'react'
 import firebase from 'firebase/app'
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
-import { useAlert } from 'hooks/useAlert'
+import { useAlert } from 'components/Alert/AlertStore'
 import {
   ErrorMessage,
   Form,

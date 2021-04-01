@@ -3,7 +3,7 @@ import firebase from 'firebase/app'
 import { ConfirmationModal } from 'components/ConfirmationModal'
 import { useClickOutside } from 'hooks/useClickOutside'
 import { useTrapTabKey } from 'hooks/useTrapTabKey'
-import { useAlert } from 'hooks/useAlert'
+import { useAlert } from 'components/Alert/AlertStore'
 import { TaskType } from 'types'
 import {
   Card as CardWrapper,

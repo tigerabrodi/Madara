@@ -1,10 +1,9 @@
 import * as React from 'react'
 import firebase from 'firebase/app'
 import { ConfirmationModal } from 'components/ConfirmationModal'
-import { useAlertStore, Alert } from 'components/Alert/AlertStore'
 import { useClickOutside } from 'hooks/useClickOutside'
 import { useTrapTabKey } from 'hooks/useTrapTabKey'
-import { v4 as uuidv4 } from 'uuid'
+import { useAlert } from 'hooks/useAlert'
 import { TaskType } from 'types'
 import {
   Card as CardWrapper,
@@ -40,7 +39,10 @@ export const Card = ({
 
   useTrapTabKey({ ref, setOpen: setMenuOpen, pause: !isMenuOpen })
 
-  const { addAlert, removeAlert } = useAlertStore()
+  const addSuccessDeleteAlert = useAlert(
+    `You successfully deleted a task in ${task.columnType} column.`,
+    'success'
+  )
 
   const handleConfirmationModalSubmit = async (
     event: React.MouseEvent<HTMLButtonElement>
@@ -49,17 +51,7 @@ export const Card = ({
 
     await firebase.firestore().collection('tasks').doc(task.id).delete()
 
-    const alert: Alert = {
-      message: `You successfully deleted a task in ${task.columnType} column.`,
-      type: 'success',
-      id: uuidv4(),
-    }
-
-    addAlert(alert)
-
-    setTimeout(() => {
-      removeAlert(alert.id)
-    }, 3000)
+    addSuccessDeleteAlert()
   }
 
   const toggleConfirmationModal = () =>

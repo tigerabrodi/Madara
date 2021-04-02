@@ -2,7 +2,6 @@ import * as React from 'react'
 import firebase from 'firebase/app'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { useAlert } from 'components/Alert/AlertStore'
-import { EditModal } from 'components/EditModal'
 import { BoardColumn } from 'components/BoardColumn'
 import { useMedia } from 'hooks/useMedia'
 import { useTabArrowSwitch } from 'hooks/useTabArrowSwitch'
@@ -22,7 +21,6 @@ import {
 
 export const Board = () => {
   const [columnType, setColumnType] = React.useState<ColumnType>('Todo')
-  const [isEditFormOpen, setIsEditFormOpen] = React.useState(false)
 
   const isNotMobileLayout = useMedia('min', '425')
 
@@ -40,12 +38,6 @@ export const Board = () => {
       sessionStorage.setItem('hasSignedUp', 'false')
     }
   }, [])
-
-  const toggleEditModalForm = () => setIsEditFormOpen(!isEditFormOpen)
-
-  const handleEditModalSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-  }
 
   const userEmail = firebase.auth().currentUser?.email
   const usersCollection = firebase.firestore().collection('users')
@@ -113,32 +105,21 @@ export const Board = () => {
           <BoardColumn
             columnType={isNotMobileLayout ? 'Todo' : columnType}
             isNotMobileLayout={isNotMobileLayout}
-            toggleEditModal={toggleEditModalForm}
           />
           {isNotMobileLayout && (
             <>
               <BoardColumn
                 columnType="In progress"
                 isNotMobileLayout={isNotMobileLayout}
-                toggleEditModal={toggleEditModalForm}
               />
               <BoardColumn
                 columnType="Done"
                 isNotMobileLayout={isNotMobileLayout}
-                toggleEditModal={toggleEditModalForm}
               />
             </>
           )}
         </BoardWrapper>
       </BoardMain>
-      {isEditFormOpen && (
-        <EditModal
-          setOpen={setIsEditFormOpen}
-          onSuccess={handleEditModalSubmit}
-          toggleModal={toggleEditModalForm}
-          taskText="Lorem ipsum dolor sit amet, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        />
-      )}
     </>
   ) : null
 }

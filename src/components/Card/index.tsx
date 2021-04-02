@@ -1,6 +1,7 @@
 import * as React from 'react'
 import firebase from 'firebase/app'
 import { ConfirmationModal } from 'components/ConfirmationModal'
+import { EditModal } from 'components/EditModal'
 import { useClickOutside } from 'hooks/useClickOutside'
 import { useTrapTabKey } from 'hooks/useTrapTabKey'
 import { useAlert } from 'components/Alert/AlertStore'
@@ -19,7 +20,6 @@ import {
 type CardProps = {
   setMenuOpen: (state: boolean) => void
   toggleMenu: () => void
-  toggleEditModal: () => void
   isMenuOpen: boolean
   task: TaskType
 }
@@ -28,12 +28,13 @@ export const Card = ({
   setMenuOpen,
   isMenuOpen,
   toggleMenu,
-  toggleEditModal,
   task,
 }: CardProps) => {
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = React.useState(
     false
   )
+
+  const [isEditFormOpen, setIsEditFormOpen] = React.useState(false)
 
   const [ref] = useClickOutside(() => setMenuOpen(false))
 
@@ -44,18 +45,40 @@ export const Card = ({
     'success'
   )
 
+  const addSuccessEditAlert = useAlert(
+    `You successfully edited a task in ${task.columnType} column.`,
+    'success'
+  )
+
+  const currentTaskRef = firebase.firestore().collection('tasks').doc(task.id)
+
   const handleConfirmationModalSubmit = async (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault()
 
-    await firebase.firestore().collection('tasks').doc(task.id).delete()
+    await currentTaskRef.delete()
 
     addSuccessDeleteAlert()
   }
 
+  const handleEditModalSubmit = async (
+    event: React.FormEvent<HTMLFormElement>,
+    text: string
+  ) => {
+    event.preventDefault()
+
+    await currentTaskRef.update({
+      text,
+    })
+
+    addSuccessEditAlert()
+  }
+
   const toggleConfirmationModal = () =>
     setIsConfirmationModalOpen(!isConfirmationModalOpen)
+
+  const toggleEditModalForm = () => setIsEditFormOpen(!isEditFormOpen)
 
   return (
     <>
@@ -82,7 +105,7 @@ export const Card = ({
               role="menuitem"
               onClick={(event) => {
                 event.stopPropagation()
-                toggleEditModal()
+                toggleEditModalForm()
               }}
             >
               Edit Task
@@ -105,6 +128,14 @@ export const Card = ({
           onSuccess={handleConfirmationModalSubmit}
           toggleModal={toggleConfirmationModal}
           text={`Do you really want to delete this task in ${task.columnType} column?`}
+        />
+      )}
+      {isEditFormOpen && (
+        <EditModal
+          setOpen={setIsEditFormOpen}
+          onSuccess={handleEditModalSubmit}
+          toggleModal={toggleEditModalForm}
+          taskText={task.text}
         />
       )}
     </>

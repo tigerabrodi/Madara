@@ -14,16 +14,11 @@ import {
 } from './styles'
 
 type ColumnProps = {
-  toggleEditModal: () => void
   columnType: ColumnType
   isNotMobileLayout: boolean
 }
 
-export const BoardColumn = ({
-  toggleEditModal,
-  columnType,
-  isNotMobileLayout,
-}: ColumnProps) => {
+export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
   const [isAddTaskFormOpen, setIsAddTaskFormOpen] = React.useState(false)
   const [isCardMenuOpen, setIsCardMenuOpen] = React.useState(false)
 
@@ -76,7 +71,6 @@ export const BoardColumn = ({
             <Card
               setMenuOpen={setIsCardMenuOpen}
               isMenuOpen={isCardMenuOpen}
-              toggleEditModal={toggleEditModal}
               toggleMenu={toggleCardMenu}
               key={task.id}
               task={task}

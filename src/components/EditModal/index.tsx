@@ -19,7 +19,10 @@ type EditModalProps = {
   setOpen: (state: boolean) => void
   toggleModal: () => void
   taskText: string
-  onSuccess: (event: React.FormEvent<HTMLFormElement>) => void
+  onSuccess: (
+    event: React.FormEvent<HTMLFormElement>,
+    text: string
+  ) => Promise<void>
 }
 
 export const EditModal = ({
@@ -43,7 +46,11 @@ export const EditModal = ({
 
   const [ref] = useClickOutside(() => setOpen(false))
 
-  const { firstButtonElementRef, secondButtonElementRef } = useTrapTabKey({
+  const {
+    firstButtonElementRef,
+    secondButtonElementRef,
+    thirdButtonElementRef,
+  } = useTrapTabKey({
     ref,
     setOpen,
   })
@@ -63,7 +70,7 @@ export const EditModal = ({
             <EditClose aria-hidden="true" />
           </EditCloseButton>
         </EditModalHeader>
-        <EditModalForm onSubmit={onSuccess}>
+        <EditModalForm onSubmit={(event) => onSuccess(event, editTaskText)}>
           <EditLabel htmlFor="taskText">Task</EditLabel>
           <EditTextarea
             id="taskText"
@@ -76,6 +83,7 @@ export const EditModal = ({
           />
           <EditConfirmButton
             type="submit"
+            ref={thirdButtonElementRef}
             disabled={editTaskText.trim() === ''}
           >
             Edit

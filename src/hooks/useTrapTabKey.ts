@@ -9,8 +9,9 @@ type TrapTabKeyParams = {
 export const useTrapTabKey = ({ ref, setOpen, pause }: TrapTabKeyParams) => {
   const prevFocusedElementRef = React.useRef<HTMLElement | null>(null)
 
-  const firstButtonElementRef = React.useRef() as React.RefObject<HTMLButtonElement>
-  const secondButtonElementRef = React.useRef() as React.RefObject<HTMLButtonElement>
+  const firstButtonElementRef = React.useRef<HTMLButtonElement>(null)
+  const secondButtonElementRef = React.useRef<HTMLButtonElement>(null)
+  const thirdButtonElementRef = React.useRef<HTMLButtonElement>(null)
 
   React.useEffect(() => {
     if (pause) {
@@ -71,6 +72,15 @@ export const useTrapTabKey = ({ ref, setOpen, pause }: TrapTabKeyParams) => {
             prevFocusedElementRef.current?.focus()
           }
         }
+
+        if (thirdButtonElementRef.current) {
+          if (
+            thirdButtonElementRef.current.contains(targetElement) ||
+            thirdButtonElementRef.current === targetElement
+          ) {
+            prevFocusedElementRef.current?.focus()
+          }
+        }
       }
     }
 
@@ -78,5 +88,9 @@ export const useTrapTabKey = ({ ref, setOpen, pause }: TrapTabKeyParams) => {
     return () => document.removeEventListener('keydown', trapTabKey)
   }, [pause])
 
-  return { firstButtonElementRef, secondButtonElementRef }
+  return {
+    firstButtonElementRef,
+    secondButtonElementRef,
+    thirdButtonElementRef,
+  }
 }

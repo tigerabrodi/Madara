@@ -52,9 +52,9 @@ export const EditModal = ({
 
   return (
     <>
-      <Modal role="dialog" aria-modal="true" ref={ref}>
+      <Modal role="dialog" aria-labelledby="editDialogTitle" ref={ref}>
         <EditModalHeader>
-          <EditTitle>Edit task</EditTitle>
+          <EditTitle id="editDialogTitle">Edit task</EditTitle>
           <EditCloseButton
             aria-label="Cancel"
             onClick={handleCancel}
@@ -68,7 +68,7 @@ export const EditModal = ({
           <EditTextarea
             id="taskText"
             name="Task"
-            placeholder="Edit your task"
+            placeholder="Clean kitchen."
             aria-label="Edit your task"
             aria-required="true"
             onChange={handleEditTaskChange}

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import firebase from 'firebase/app'
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
 import { useAlert } from 'components/Alert/AlertStore'
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
 import {
   ErrorMessage,
   Form,
@@ -48,8 +48,8 @@ export const Home = () => {
 
   const createUserResult = useCreateUserWithEmailAndPassword(auth)
 
-  const addSuccessAlert = useAlert(
-    'You have successfully signed up.',
+  const signOutSuccessAlert = useAlert(
+    'You have successfully signed out.',
     'success'
   )
 
@@ -110,7 +110,7 @@ export const Home = () => {
             }, 3000)
           }
         } else {
-          addSuccessAlert()
+          sessionStorage.setItem('hasSignedUp', 'true')
           await usersRef.add({
             name: name.value,
             email: email.value,
@@ -119,6 +119,15 @@ export const Home = () => {
       }
     }
   }
+
+  React.useEffect(() => {
+    const hasSignedOut = sessionStorage.getItem('hasSignedOut')
+
+    if (hasSignedOut === 'true') {
+      sessionStorage.setItem('hasSignedOut', 'false')
+      signOutSuccessAlert()
+    }
+  }, [])
 
   return (
     <HomeMain>

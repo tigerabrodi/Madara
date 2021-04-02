@@ -25,7 +25,7 @@ context('Desktop resolution', () => {
     cy.findByRole('alert').within(() => {
       cy.findByRole('heading', { name: 'Success!' }).should('exist')
       cy.findByText('You have successfully signed up.').should('exist')
-      cy.findByRole('button', { name: 'Close toast' }).click()
+      cy.findByRole('button', { name: 'Close alert' }).click()
     })
 
     cy.findByRole('heading', {
@@ -66,6 +66,7 @@ context('Desktop resolution', () => {
       cy.findByText('You successfully deleted a task in Todo column.').should(
         'exist'
       )
+      cy.findByRole('button', { name: 'Close alert' }).click()
     })
 
     cy.findByRole('region', { name: 'Todo column with 0 tasks' }).within(() => {
@@ -76,6 +77,7 @@ context('Desktop resolution', () => {
     cy.findByRole('alert').within(() => {
       cy.findByRole('heading', { name: 'Success!' }).should('exist')
       cy.findByText('You have successfully signed out.').should('exist')
+      cy.findByRole('button', { name: 'Close alert' }).click()
     })
 
     cy.findByLabelText('Enter Your Name').type(user.name)

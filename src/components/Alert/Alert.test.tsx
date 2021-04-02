@@ -53,7 +53,7 @@ const setup = () => {
 test('show alert and close it when close button gets clicked', () => {
   setup()
 
-  userEvent.click(screen.getByRole('button', { name: /Close toast/i }))
+  userEvent.click(screen.getByRole('button', { name: /Close alert/i }))
   expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 })
 

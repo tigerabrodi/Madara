@@ -56,9 +56,11 @@ context('Desktop resolution', () => {
     })
 
     cy.findByRole('dialog', { name: 'Edit task' }).within(() => {
-      cy.findByRole('textbox', { name: 'Edit your task' }).type(
-        editedTodoTask.text
-      )
+      cy.findByRole('textbox', {
+        name: 'Edit your task',
+      })
+        .clear({ force: true })
+        .type(editedTodoTask.text, { force: true })
       cy.findByRole('button', { name: 'Edit' }).click({ force: true })
     })
 

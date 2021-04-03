@@ -20,6 +20,6 @@ export const buildUser = build<User>('User', {
 
 export const buildTask = build<Task>('Task', {
   fields: {
-    text: fake((f) => f.lorem.sentence(10)),
+    text: fake((f) => f.lorem.sentence(5)),
   },
 })

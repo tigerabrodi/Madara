@@ -64,15 +64,17 @@ export const Card = ({
 
   const handleEditModalSubmit = async (
     event: React.FormEvent<HTMLFormElement>,
-    text: string
+    taskText: string
   ) => {
     event.preventDefault()
 
     await currentTaskRef.update({
-      text,
+      text: taskText,
     })
 
     addSuccessEditAlert()
+
+    toggleEditModalForm()
   }
 
   const toggleConfirmationModal = () =>

@@ -67,6 +67,7 @@ export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
           <AddTaskForm setOpen={setIsAddTaskFormOpen} columnType={columnType} />
         )}
         {userTasks &&
+          userTasks.length > 0 &&
           userTasks.map((task) => (
             <Card
               setMenuOpen={setIsCardMenuOpen}

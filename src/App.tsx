@@ -3,7 +3,6 @@ import 'firebase/firestore'
 import 'firebase/auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
-import { Route, Switch, Redirect } from 'react-router-dom'
 import { Footer } from 'components/Footer'
 import { AppProviders } from 'context'
 import { Home } from 'pages/Home'
@@ -31,15 +30,7 @@ const App = () => {
       <>
         <Alert>
           <Navigation />
-          <Switch>
-            <Route exact path="/">
-              {user ? <Redirect to="/board" /> : <Home />}
-            </Route>
-
-            <Route exact path="/board">
-              {user ? <Board /> : <Redirect to="/" />}
-            </Route>
-          </Switch>
+          {user ? <Board /> : <Home />}
           <Footer />
         </Alert>
       </>

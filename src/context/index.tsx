@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { BrowserRouter as Router } from 'react-router-dom'
 import { GlobalStyle } from '../theme/globalStyles'
 
 export const AppProviders = ({
@@ -9,6 +8,6 @@ export const AppProviders = ({
 }) => (
   <>
     <GlobalStyle />
-    <Router>{children}</Router>
+    {children}
   </>
 )

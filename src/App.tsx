@@ -29,18 +29,19 @@ const App = () => {
   return (
     <AppProviders>
       <>
-        <Alert />
-        <Navigation />
-        <Switch>
-          <Route exact path="/">
-            {user ? <Redirect to="/board" /> : <Home />}
-          </Route>
+        <Alert>
+          <Navigation />
+          <Switch>
+            <Route exact path="/">
+              {user ? <Redirect to="/board" /> : <Home />}
+            </Route>
 
-          <Route exact path="/board">
-            {user ? <Board /> : <Redirect to="/" />}
-          </Route>
-        </Switch>
-        <Footer />
+            <Route exact path="/board">
+              {user ? <Board /> : <Redirect to="/" />}
+            </Route>
+          </Switch>
+          <Footer />
+        </Alert>
       </>
     </AppProviders>
   )

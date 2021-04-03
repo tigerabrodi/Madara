@@ -30,8 +30,8 @@ export const useCreateUserWithEmailAndPassword = (
     setStatus('loading')
     try {
       const user = await auth.createUserWithEmailAndPassword(email, password)
-      setRegisteredUser(user)
       setStatus('success')
+      setRegisteredUser(user)
       signUpSuccessAlert()
     } catch (error) {
       setStatus('error')
@@ -46,9 +46,9 @@ export const useCreateUserWithEmailAndPassword = (
   const resArray: EmailAndPasswordActionHook = [
     createUserWithEmailAndPassword,
     isSignUpLoading,
-    isSignUpSuccess,
     isSignUpError,
     signUpError,
+    isSignUpSuccess,
     registeredUser,
   ]
   return React.useMemo<EmailAndPasswordActionHook>(() => resArray, resArray)

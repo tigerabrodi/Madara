@@ -7,8 +7,8 @@ type AuthActionHook<T, E> = [
   (email: string, password: string) => void,
   boolean,
   boolean,
-  boolean,
   E | undefined,
+  boolean,
   T | undefined
 ]
 

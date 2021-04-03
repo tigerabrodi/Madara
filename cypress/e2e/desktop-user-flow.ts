@@ -41,16 +41,9 @@ context('Desktop resolution', () => {
       cy.findByRole('button', { name: 'Add' }).click()
       cy.findByRole('article', { name: 'Task in Todo column' }).within(() => {
         cy.findByText(todoTask.text).should('exist')
-        cy.findByRole('button', { name: 'Card menu' }).should('exist')
-      })
-    })
-
-    cy.findByRole('region', { name: 'Todo column with 1 tasks' }).within(() => {
-      cy.findByRole('article', { name: 'Task in Todo column' }).within(() => {
         cy.findByRole('button', { name: 'Card menu' }).click()
         cy.findByRole('menu').within(() => {
           cy.findByRole('menuitem', { name: 'Edit Task' }).click()
-          // cy.findByRole('menuitem', { name: 'Delete Task' }).click()
         })
       })
     })
@@ -63,39 +56,44 @@ context('Desktop resolution', () => {
         .type(editedTodoTask.text, { force: true })
       cy.findByRole('button', { name: 'Edit' }).click({ force: true })
     })
-
     cy.findByRole('region', { name: 'Todo column with 1 tasks' }).within(() => {
       cy.findByRole('article', { name: 'Task in Todo column' }).within(() => {
         cy.findByText(editedTodoTask.text).should('exist')
       })
     })
-
-    // cy.findByRole('alertdialog').within(() => {
-    //   cy.findByRole('heading', { name: 'Are you sure?' }).should('exist')
-    //   cy.findByText(
-    //     'Do you really want to delete this task in Todo column?'
-    //   ).should('exist')
-    //   cy.findByRole('button', { name: 'Yes' }).click({ force: true })
-    // })
-
-    // cy.findByRole('alert').within(() => {
-    //   cy.findByRole('heading', { name: 'Success!' }).should('exist')
-    //   cy.findByText('You successfully deleted a task in Todo column.').should(
-    //     'exist'
-    //   )
-    //   cy.findByRole('button', { name: 'Close alert' }).click()
-    // })
-
-    // cy.findByRole('region', { name: 'Todo column with 0 tasks' }).within(() => {
-    //   cy.findByRole('article').should('not.exist')
-    // })
-
     cy.findByRole('alert').within(() => {
       cy.findByRole('heading', { name: 'Success!' }).should('exist')
       cy.findByText('You successfully edited a task in Todo column.').should(
         'exist'
       )
       cy.findByRole('button', { name: 'Close alert' }).click()
+    })
+
+    cy.findByRole('region', { name: 'Todo column with 1 tasks' }).within(() => {
+      cy.findByRole('article', { name: 'Task in Todo column' }).within(() => {
+        cy.findByRole('button', { name: 'Card menu' }).click()
+        cy.findByRole('menu').within(() => {
+          cy.findByRole('menuitem', { name: 'Delete Task' }).click()
+        })
+      })
+    })
+    cy.findByRole('alertdialog').within(() => {
+      cy.findByRole('heading', { name: 'Are you sure?' }).should('exist')
+      cy.findByText(
+        'Do you really want to delete this task in Todo column?'
+      ).should('exist')
+      cy.findByRole('button', { name: 'Yes' }).click({ force: true })
+    })
+    cy.findByRole('alert').within(() => {
+      cy.findByRole('heading', { name: 'Success!' }).should('exist')
+      cy.findByText('You successfully deleted a task in Todo column.').should(
+        'exist'
+      )
+      cy.findByRole('button', { name: 'Close alert' }).click()
+    })
+
+    cy.findByRole('region', { name: 'Todo column with 0 tasks' }).within(() => {
+      cy.findByRole('article').should('not.exist')
     })
 
     cy.findByRole('button', { name: 'Logout' }).click()

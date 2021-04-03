@@ -48,7 +48,6 @@ export const Home = () => {
   const [
     createUserWithEmailAndPassword,
     isSignUpLoading,
-    isSignUpSuccess,
     isSignUpError,
     signUpError,
   ] = useCreateUserWithEmailAndPassword(auth)
@@ -107,9 +106,7 @@ export const Home = () => {
               }, 3000)
             }
           }
-        }
-
-        if (isSignUpSuccess) {
+        } else {
           await usersRef.add({
             name: name.value,
             email: email.value,

@@ -55,10 +55,10 @@ export const Board = () => {
     )?.name
   }
 
-  return users ? (
+  return (
     <>
       <BoardMain>
-        <Title>Welcome {getCurrentUserName(users)}!</Title>
+        <Title>Welcome {users && getCurrentUserName(users)}!</Title>
         <SubtitleWrapper>
           <Subtitle>Manage Your Tasks</Subtitle>
           <SubtitleHandWriting aria-hidden="true" />
@@ -121,5 +121,5 @@ export const Board = () => {
         </BoardWrapper>
       </BoardMain>
     </>
-  ) : null
+  )
 }

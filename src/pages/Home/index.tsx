@@ -1,7 +1,7 @@
 import * as React from 'react'
 import firebase from 'firebase/app'
 import { useAlert } from 'components/Alert/AlertStore'
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
+import { useCreateUserWithEmailAndPassword } from 'hooks/auth/useCreateUserWithEmailAndPassword'
 import {
   ErrorMessage,
   Form,
@@ -46,16 +46,18 @@ export const Home = () => {
   const firestore = firebase.firestore()
   const usersRef = firestore.collection('users')
 
-  const createUserResult = useCreateUserWithEmailAndPassword(auth)
+  const [
+    createUserWithEmailAndPassword,
+    isSignUpLoading,
+    isSignUpSuccess,
+    isSignUpError,
+    signUpError,
+  ] = useCreateUserWithEmailAndPassword(auth)
 
   const signOutSuccessAlert = useAlert(
     'You have successfully signed out.',
     'success'
   )
-
-  const createUserWithEmailAndPassword = createUserResult[0]
-  const isSignUpLoading = createUserResult[2]
-  const isSignUpError = createUserResult[3]
 
   const emailInputRef = React.useRef<HTMLInputElement>(null)
   const nameInputRef = React.useRef<HTMLInputElement>(null)
@@ -101,15 +103,19 @@ export const Home = () => {
         createUserWithEmailAndPassword(email.value, password.value)
 
         if (isSignUpError) {
-          const isEmailAlreadyTaken =
-            isSignUpError.code === 'auth/email-already-in-use'
-          if (isEmailAlreadyTaken) {
-            setIsEmailTaken(true)
-            return setTimeout(() => {
-              setIsEmailTaken(false)
-            }, 3000)
+          if (signUpError) {
+            const isEmailAlreadyTaken =
+              signUpError.code === 'auth/email-already-in-use'
+            if (isEmailAlreadyTaken) {
+              setIsEmailTaken(true)
+              return setTimeout(() => {
+                setIsEmailTaken(false)
+              }, 3000)
+            }
           }
-        } else {
+        }
+
+        if (isSignUpSuccess) {
           sessionStorage.setItem('hasSignedUp', 'true')
           await usersRef.add({
             name: name.value,

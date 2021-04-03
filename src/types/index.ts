@@ -10,3 +10,5 @@ export type TaskType = {
   id: string
   columnType: ColumnType
 }
+
+export type Status = 'idle' | 'loading' | 'success' | 'error'

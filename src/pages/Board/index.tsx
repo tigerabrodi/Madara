@@ -1,7 +1,6 @@
 import * as React from 'react'
 import firebase from 'firebase/app'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
-import { useAlert } from 'components/Alert/AlertStore'
 import { BoardColumn } from 'components/BoardColumn'
 import { useMedia } from 'hooks/useMedia'
 import { useTabArrowSwitch } from 'hooks/useTabArrowSwitch'
@@ -25,19 +24,6 @@ export const Board = () => {
   const isNotMobileLayout = useMedia('min', '425')
 
   const tabListRef = useTabArrowSwitch()
-
-  const SignUpSuccessAlert = useAlert(
-    'You have successfully signed up.',
-    'success'
-  )
-
-  React.useEffect(() => {
-    const hasSignedUp = sessionStorage.getItem('hasSignedUp')
-    if (hasSignedUp === 'true') {
-      SignUpSuccessAlert()
-      sessionStorage.setItem('hasSignedUp', 'false')
-    }
-  }, [])
 
   const userEmail = firebase.auth().currentUser?.email
   const usersCollection = firebase.firestore().collection('users')

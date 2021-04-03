@@ -1,5 +1,6 @@
 import * as React from 'react'
 import firebase from 'firebase/app'
+import { useAlert } from 'components/Alert/AlertStore'
 import {
   EmailAndPasswordActionHook,
   FirebaseAuth,
@@ -17,6 +18,11 @@ export const useCreateUserWithEmailAndPassword = (
   ] = React.useState<firebase.auth.UserCredential>()
   const [status, setStatus] = React.useState<Status>('idle')
 
+  const signUpSuccessAlert = useAlert(
+    'You have successfully signed up.',
+    'success'
+  )
+
   const createUserWithEmailAndPassword = async (
     email: string,
     password: string
@@ -26,6 +32,7 @@ export const useCreateUserWithEmailAndPassword = (
       const user = await auth.createUserWithEmailAndPassword(email, password)
       setRegisteredUser(user)
       setStatus('success')
+      signUpSuccessAlert()
     } catch (error) {
       setStatus('error')
       setSignUpError(error)

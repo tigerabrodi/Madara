@@ -18,10 +18,10 @@ export const HomeMain = styled.main`
   row-gap: 1rem;
   padding-bottom: 5rem;
   align-items: flex-end;
-  height: 100rem;
-  grid-template-rows: 9% 3% 12% 76%;
+  height: 110rem;
+  grid-template-rows: 9% 2% 12% 77%;
   ${media.phone} {
-    height: 115rem;
+    height: 120rem;
     grid-template-rows: 11% 4% 12% 73%;
     align-items: flex-start;
   }
@@ -127,7 +127,11 @@ export const ToolBarButton = styled.button<{
 export const FormTitle = styled.h2`
   font-family: ${theme.LibreBaskerville};
   color: ${theme.White};
+  padding-top: 3rem;
   font-size: 4rem;
+  ${media.phone} {
+    padding-top: 1rem;
+  }
 `
 
 export const FormGroup = styled.div`
@@ -235,7 +239,7 @@ const errorAnim2Tablet = keyframes`
 `
 
 export const ErrorMessage = styled.span<{ isLoginMode?: boolean }>`
-  font-size: 1.7rem;
+  font-size: 1.9rem;
   font-family: ${theme.SourceSansPro};
   font-weight: bold;
   grid-area: errorMessage;
@@ -254,11 +258,11 @@ export const ErrorMessage = styled.span<{ isLoginMode?: boolean }>`
     `}
 
   ${media.phone} {
-    font-size: 1.8rem;
+    font-size: 2rem;
     ${(props) =>
       props.isLoginMode &&
       css`
-        font-size: 2rem;
+        font-size: 2.2rem;
         animation: ${errorAnim2Tablet} 0.2s forwards;
       `}
   }

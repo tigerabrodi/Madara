@@ -23,6 +23,7 @@ interface FormElements extends HTMLFormControlsCollection {
   name: HTMLInputElement
   email: HTMLInputElement
   password: HTMLInputElement
+  confirmPassword: HTMLInputElement
 }
 
 interface UserFormElement extends HTMLFormElement {
@@ -34,6 +35,7 @@ export const Home = () => {
   const [shouldShowPassword, setShouldShowPassword] = React.useState(false)
   const [isNameError, setIsNameError] = React.useState(false)
   const [isPasswordError, setIsPasswordError] = React.useState(false)
+  const [isConfirmError, setIsConfirmError] = React.useState(false)
   const [isEmailError, setIsEmailError] = React.useState(false)
 
   const [isEmailInvalid, setIsEmailInvalid] = React.useState(false)
@@ -58,7 +60,12 @@ export const Home = () => {
   const handleSubmit = async (event: React.SyntheticEvent<UserFormElement>) => {
     event.preventDefault()
 
-    const { name, password, email } = event.currentTarget.elements
+    const {
+      name,
+      password,
+      email,
+      confirmPassword,
+    } = event.currentTarget.elements
 
     const canUserSignUp = () => {
       const isNameInvalid = !name.value || (name.value && name.value.length < 2)
@@ -82,6 +89,14 @@ export const Home = () => {
         setIsPasswordError(true)
         return setTimeout(() => {
           setIsPasswordError(false)
+        }, 3000)
+      }
+
+      const isConfirmPasswordInvalid = password.value !== confirmPassword.value
+      if (isConfirmPasswordInvalid) {
+        setIsConfirmError(true)
+        return setTimeout(() => {
+          setIsConfirmError(false)
         }, 3000)
       }
 
@@ -240,6 +255,32 @@ export const Home = () => {
             </ErrorMessage>
           )}
         </FormGroup>
+
+        {!isLoginMode && (
+          <FormGroup>
+            <Label htmlFor="confirmPassword">Confirm Password</Label>
+            <Input
+              type={shouldShowPassword ? 'text' : 'password'}
+              id="confirmPassword"
+              placeholder="Naruto's password"
+              aria-describedby={
+                isConfirmError ? 'confirmPassword-hint' : undefined
+              }
+              aria-invalid={isConfirmError ? 'true' : 'false'}
+              aria-required="true"
+            />
+            {isConfirmError && (
+              <ErrorMessage
+                role="alert"
+                id="confirmPassword-hint"
+                aria-label="Passwords do not match."
+              >
+                Passwords do not match.
+                <WarningIcon role="img" aria-label="error" />
+              </ErrorMessage>
+            )}
+          </FormGroup>
+        )}
 
         <SubmitButton type="submit">
           {isLoginMode ? 'Sign In' : 'Sign Up'}

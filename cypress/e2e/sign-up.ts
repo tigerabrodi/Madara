@@ -73,6 +73,28 @@ it('should not allow passwords shorter than 6 characters', () => {
   }).should('exist')
 })
 
+it('should not allow passwords mismatch', () => {
+  const newUser = buildUser()
+
+  cy.findByRole('alert', {
+    name: /Passwords do not match./i,
+  }).should('not.exist')
+
+  cy.findByLabelText(/enter your name/i).type(newUser.name)
+
+  cy.findByLabelText(/enter your email/i).type(newUser.email)
+
+  cy.findByLabelText(/enter your password/i).type(newUser.password)
+
+  cy.findByLabelText(/Confirm Password/i).type('blah')
+
+  cy.findByRole('button', { name: /sign up/i }).click()
+
+  cy.findByRole('alert', {
+    name: /Passwords do not match./i,
+  }).should('exist')
+})
+
 it('should show password as plain text if show password button has been clicked', () => {
   cy.findByLabelText(/enter your password/i).should(
     'have.attr',

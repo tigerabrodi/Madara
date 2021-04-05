@@ -7,10 +7,15 @@ context('Desktop resolution', () => {
 
   it('desktop complete user flow', () => {
     const user = buildUser()
+
     const todoTask = buildTask()
     const editedTodoTask = buildTask()
+
     const inProgressTask = buildTask()
+    const editedInProgressTask = buildTask()
+
     const doneTask = buildTask()
+    const editedDoneTask = buildTask()
 
     cy.visit('/')
     cy.findByRole('heading', { name: 'Madara', level: 1 }).should('exist')
@@ -34,6 +39,7 @@ context('Desktop resolution', () => {
       level: 1,
     }).should('exist')
 
+    /* Todo */
     cy.findByRole('region', { name: 'Todo column with 0 tasks' }).within(() => {
       cy.findByText('Todo').should('exist')
       cy.findByRole('button', { name: 'Add a task to this column.' }).click()
@@ -93,6 +99,148 @@ context('Desktop resolution', () => {
     })
 
     cy.findByRole('region', { name: 'Todo column with 0 tasks' }).within(() => {
+      cy.findByRole('article').should('not.exist')
+    })
+
+    /* In Progress */
+    cy.findByRole('region', { name: 'In progress column with 0 tasks' }).within(
+      () => {
+        cy.findByText('In progress').should('exist')
+        cy.findByRole('button', { name: 'Add a task to this column.' }).click()
+        cy.findByRole('textbox', { name: 'Enter a task' }).type(
+          inProgressTask.text
+        )
+        cy.findByRole('button', { name: 'Add' }).click()
+        cy.findByRole('article', { name: 'Task in In progress column' }).within(
+          () => {
+            cy.findByText(inProgressTask.text).should('exist')
+            cy.findByRole('button', { name: 'Card menu' }).click()
+            cy.findByRole('menu').within(() => {
+              cy.findByRole('menuitem', { name: 'Edit Task' }).click()
+            })
+          }
+        )
+      }
+    )
+
+    cy.findByRole('dialog', { name: 'Edit task' }).within(() => {
+      cy.findByRole('textbox', {
+        name: 'Edit your task',
+      })
+        .clear({ force: true })
+        .type(editedInProgressTask.text, { force: true })
+      cy.findByRole('button', { name: 'Edit' }).click({ force: true })
+    })
+    cy.findByRole('region', { name: 'In progress column with 1 tasks' }).within(
+      () => {
+        cy.findByRole('article', { name: 'Task in In progress column' }).within(
+          () => {
+            cy.findByText(editedInProgressTask.text).should('exist')
+          }
+        )
+      }
+    )
+    cy.findByRole('alert').within(() => {
+      cy.findByRole('heading', { name: 'Success!' }).should('exist')
+      cy.findByText(
+        'You successfully edited a task in In progress column.'
+      ).should('exist')
+      cy.findByRole('button', { name: 'Close alert' }).click()
+    })
+
+    cy.findByRole('region', { name: 'In progress column with 1 tasks' }).within(
+      () => {
+        cy.findByRole('article', { name: 'Task in In progress column' }).within(
+          () => {
+            cy.findByRole('button', { name: 'Card menu' }).click()
+            cy.findByRole('menu').within(() => {
+              cy.findByRole('menuitem', { name: 'Delete Task' }).click()
+            })
+          }
+        )
+      }
+    )
+    cy.findByRole('alertdialog').within(() => {
+      cy.findByRole('heading', { name: 'Are you sure?' }).should('exist')
+      cy.findByText(
+        'Do you really want to delete this task in In progress column?'
+      ).should('exist')
+      cy.findByRole('button', { name: 'Yes' }).click({ force: true })
+    })
+    cy.findByRole('alert').within(() => {
+      cy.findByRole('heading', { name: 'Success!' }).should('exist')
+      cy.findByText(
+        'You successfully deleted a task in In progress column.'
+      ).should('exist')
+      cy.findByRole('button', { name: 'Close alert' }).click()
+    })
+
+    cy.findByRole('region', { name: 'In progress column with 0 tasks' }).within(
+      () => {
+        cy.findByRole('article').should('not.exist')
+      }
+    )
+
+    /* Done */
+    cy.findByRole('region', { name: 'Done column with 0 tasks' }).within(() => {
+      cy.findByText('Done').should('exist')
+      cy.findByRole('button', { name: 'Add a task to this column.' }).click()
+      cy.findByRole('textbox', { name: 'Enter a task' }).type(doneTask.text)
+      cy.findByRole('button', { name: 'Add' }).click()
+      cy.findByRole('article', { name: 'Task in Done column' }).within(() => {
+        cy.findByText(doneTask.text).should('exist')
+        cy.findByRole('button', { name: 'Card menu' }).click()
+        cy.findByRole('menu').within(() => {
+          cy.findByRole('menuitem', { name: 'Edit Task' }).click()
+        })
+      })
+    })
+
+    cy.findByRole('dialog', { name: 'Edit task' }).within(() => {
+      cy.findByRole('textbox', {
+        name: 'Edit your task',
+      })
+        .clear({ force: true })
+        .type(editedDoneTask.text, { force: true })
+      cy.findByRole('button', { name: 'Edit' }).click({ force: true })
+    })
+    cy.findByRole('region', { name: 'Done column with 1 tasks' }).within(() => {
+      cy.findByRole('article', { name: 'Task in Done column' }).within(() => {
+        cy.findByText(editedDoneTask.text).should('exist')
+      })
+    })
+    cy.findByRole('alert').within(() => {
+      cy.findByRole('heading', { name: 'Success!' }).should('exist')
+      cy.findByText('You successfully edited a task in Done column.').should(
+        'exist'
+      )
+      cy.findByRole('button', { name: 'Close alert' }).click()
+    })
+
+    cy.findByRole('region', { name: 'Done column with 1 tasks' }).within(() => {
+      cy.findByRole('article', { name: 'Task in Done column' }).within(() => {
+        cy.findByRole('button', { name: 'Card menu' }).click()
+        cy.findByRole('menu').within(() => {
+          cy.findByRole('menuitem', { name: 'Delete Task' }).click()
+        })
+      })
+    })
+    cy.findByRole('alertdialog').within(() => {
+      cy.findByRole('heading', { name: 'Are you sure?' }).should('exist')
+      cy.findByText(
+        'Do you really want to delete this task in Done column?'
+      ).should('exist')
+      cy.findByRole('button', { name: 'Yes' }).click({ force: true })
+    })
+    cy.findByRole('alert').within(() => {
+      cy.findByRole('heading', { name: 'Success!' }).should('exist')
+      cy.findByText('You successfully deleted a task in Done column.').should(
+        'exist'
+      )
+      cy.findByRole('button', { name: 'Close alert' }).click()
+    })
+
+    cy.findByRole('region', { name: 'Done column with 0 tasks' }).within(() => {
       cy.findByRole('article').should('not.exist')
     })
 

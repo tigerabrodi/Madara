@@ -1,6 +1,7 @@
 import * as React from 'react'
 import firebase from 'firebase/app'
 import { useCreateUserWithEmailAndPassword } from 'hooks/auth/useCreateUserWithEmailAndPassword'
+import { useSignInWithEmailAndPassword } from 'hooks/auth/useSignInWithEmailAndPassword'
 import {
   ErrorMessage,
   Form,
@@ -39,13 +40,10 @@ export const Home = () => {
   const [isEmailError, setIsEmailError] = React.useState(false)
 
   const [isEmailInvalid, setIsEmailInvalid] = React.useState(false)
-  const [isEmailTaken, setIsEmailTaken] = React.useState(false)
 
   const [isLoginNotAllowed] = React.useState(false)
 
   const auth = firebase.auth()
-  const firestore = firebase.firestore()
-  const usersRef = firestore.collection('users')
 
   const [
     createUserWithEmailAndPassword,
@@ -53,6 +51,15 @@ export const Home = () => {
     isSignUpError,
     signUpError,
   ] = useCreateUserWithEmailAndPassword(auth)
+
+  const isEmailTaken = signUpError?.code === 'auth/email-already-in-use'
+
+  const [
+    signInWithEmailAndPassword,
+    isSignInLoading,
+    isSignInError,
+    signInError,
+  ] = useSignInWithEmailAndPassword(auth)
 
   const emailInputRef = React.useRef<HTMLInputElement>(null)
   const nameInputRef = React.useRef<HTMLInputElement>(null)
@@ -104,29 +111,10 @@ export const Home = () => {
     }
 
     if (isLoginMode) {
-      /* User can sign in */
-      return true
+      signInWithEmailAndPassword(email.value, password.value)
     } else {
       if (canUserSignUp() === true) {
-        createUserWithEmailAndPassword(email.value, password.value)
-
-        if (isSignUpError) {
-          if (signUpError) {
-            const isEmailAlreadyTaken =
-              signUpError.code === 'auth/email-already-in-use'
-            if (isEmailAlreadyTaken) {
-              setIsEmailTaken(true)
-              return setTimeout(() => {
-                setIsEmailTaken(false)
-              }, 3000)
-            }
-          }
-        } else {
-          await usersRef.add({
-            name: name.value,
-            email: email.value,
-          })
-        }
+        createUserWithEmailAndPassword(email.value, password.value, name.value)
       }
     }
   }
@@ -203,7 +191,7 @@ export const Home = () => {
               <WarningIcon role="img" aria-label="error" />
             </ErrorMessage>
           )}
-          {isEmailTaken && (
+          {isSignUpError && isEmailTaken && (
             <ErrorMessage
               role="alert"
               id="email-hint"
@@ -234,6 +222,16 @@ export const Home = () => {
           >
             Show
           </ShowPasswordButton>
+          {isSignInError && signInError && (
+            <ErrorMessage
+              role="alert"
+              id="password-hint"
+              aria-label="Email or password is not correct."
+            >
+              Email or password is not correct.
+              <WarningIcon role="img" aria-label="error" />
+            </ErrorMessage>
+          )}
           {isPasswordError && (
             <ErrorMessage
               role="alert"
@@ -258,7 +256,7 @@ export const Home = () => {
 
         {!isLoginMode && (
           <FormGroup>
-            <Label htmlFor="confirmPassword">Confirm Password</Label>
+            <Label htmlFor="confirmPassword">Confirm Your Password</Label>
             <Input
               type={shouldShowPassword ? 'text' : 'password'}
               id="confirmPassword"
@@ -284,7 +282,9 @@ export const Home = () => {
 
         <SubmitButton type="submit">
           {isLoginMode ? 'Sign In' : 'Sign Up'}
-          {isSignUpLoading && <SmallSpinner aria-hidden="true" />}
+          {(isSignUpLoading || isSignInLoading) && (
+            <SmallSpinner aria-hidden="true" />
+          )}
         </SubmitButton>
       </Form>
     </HomeMain>

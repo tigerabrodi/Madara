@@ -86,7 +86,7 @@ it('should not allow passwords mismatch', () => {
 
   cy.findByLabelText(/enter your password/i).type(newUser.password)
 
-  cy.findByLabelText(/Confirm Password/i).type('blah')
+  cy.findByLabelText(/Confirm Your Password/i).type('blah')
 
   cy.findByRole('button', { name: /sign up/i }).click()
 

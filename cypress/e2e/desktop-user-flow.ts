@@ -26,6 +26,7 @@ context('Desktop resolution', () => {
     cy.findByLabelText('Enter Your Name').type(user.name)
     cy.findByLabelText('Enter Your Email').type(user.email)
     cy.findByLabelText('Enter Your Password').type(user.password)
+    cy.findByLabelText('Confirm Your Password').type(user.password)
     cy.findByRole('button', { name: 'Sign Up' }).click()
 
     cy.findByRole('alert').within(() => {
@@ -254,7 +255,9 @@ context('Desktop resolution', () => {
     cy.findByLabelText('Enter Your Name').type(user.name)
     cy.findByLabelText('Enter Your Email').type(user.email)
     cy.findByLabelText('Enter Your Password').type(user.password)
+    cy.findByLabelText('Confirm Your Password').type(user.password)
     cy.findByRole('button', { name: 'Sign Up' }).click()
     cy.findByRole('alert', { name: 'Email is already taken.' }).should('exist')
+    cy.findByRole('button', { name: 'Login' }).click()
   })
 })

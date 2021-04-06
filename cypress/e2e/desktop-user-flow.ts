@@ -258,6 +258,10 @@ context('Desktop resolution', () => {
     cy.findByLabelText('Confirm Your Password').type(user.password)
     cy.findByRole('button', { name: 'Sign Up' }).click()
     cy.findByRole('alert', { name: 'Email is already taken.' }).should('exist')
+
     cy.findByRole('button', { name: 'Login' }).click()
+    cy.findByLabelText('Enter Your Email').type(user.email)
+    cy.findByLabelText('Enter Your Password').type('BlahBlah')
+    cy.findByRole('alert', { name: 'Email or password is not correct.' })
   })
 })

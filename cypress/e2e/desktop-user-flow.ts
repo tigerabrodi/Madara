@@ -264,5 +264,19 @@ context('Desktop resolution', () => {
     cy.findByLabelText('Enter Your Password').clear().type('BlahBlah')
     cy.findByRole('button', { name: 'Sign In' }).click()
     cy.findByRole('alert', { name: 'Email or password is not correct.' })
+
+    cy.findByLabelText('Enter Your Password').clear().type(user.password)
+
+    cy.findByRole('button', { name: 'Sign In' }).click()
+    cy.findByRole('alert').within(() => {
+      cy.findByRole('heading', { name: 'Success!' }).should('exist')
+      cy.findByText('You have successfully signed in.').should('exist')
+      cy.findByRole('button', { name: 'Close alert' }).click()
+    })
+
+    cy.findByRole('heading', {
+      name: `Welcome ${user.name}!`,
+      level: 1,
+    }).should('exist')
   })
 })

@@ -3,16 +3,11 @@ import firebase from 'firebase/app'
 export type FirebaseAuth = firebase.auth.Auth
 export type FirebaseError = firebase.FirebaseError
 
-type AuthActionHook<T, E> = [
-  (email: string, password: string) => void,
+type AuthActionHook<E> = [
+  (email: string, password: string, name?: string) => void,
   boolean,
   boolean,
-  E | undefined,
-  boolean,
-  T | undefined
+  E | undefined
 ]
 
-export type EmailAndPasswordActionHook = AuthActionHook<
-  firebase.auth.UserCredential,
-  firebase.FirebaseError
->
+export type EmailAndPasswordActionHook = AuthActionHook<firebase.FirebaseError>

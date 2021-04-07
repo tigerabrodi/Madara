@@ -268,6 +268,9 @@ context('Desktop resolution', () => {
     cy.findByLabelText('Enter Your Password').clear().type(user.password)
 
     cy.findByRole('button', { name: 'Sign In' }).click()
+
+    cy.wait(500)
+
     cy.findByRole('alert').within(() => {
       cy.findByRole('heading', { name: 'Success!' }).should('exist')
       cy.findByText('You have successfully signed in.').should('exist')

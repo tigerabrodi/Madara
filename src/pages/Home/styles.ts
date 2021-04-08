@@ -41,7 +41,7 @@ export const Title = styled.h1`
 export const Subtitle = styled.p`
   grid-area: subtitle;
   font-family: ${theme.SourceSansPro};
-  font-size: 3rem;
+  font-size: 3.3rem;
   font-weight: 600;
   color: ${theme.Blue};
   text-decoration: underline;
@@ -69,8 +69,8 @@ export const Form = styled.form`
 
 export const ToolBar = styled.div`
   grid-area: toolbar;
-  width: 60rem;
-  max-width: 90%;
+  width: 35rem;
+  max-width: 90vw;
   height: 90%;
   background-color: ${theme.Blue};
   align-self: flex-end;
@@ -82,6 +82,10 @@ export const ToolBar = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  ${media.phone} {
+    width: 60rem;
+    max-width: 90%;
+  }
 `
 
 const toolbarButtonHighlightStyles = css`
@@ -192,9 +196,9 @@ export const Input = styled.input`
 
 export const ShowPasswordButton = styled.button`
   top: 50%;
-  left: 91%;
+  left: 87%;
+  padding: 0.7rem 1rem;
   box-shadow: 0 0.1rem 0.3rem ${theme.Blue};
-  padding: 0.5rem 1rem;
   font-weight: bold;
   position: absolute;
   transform: translate(-50%, -50%);

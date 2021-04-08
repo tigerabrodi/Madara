@@ -27,12 +27,13 @@ const DummyComponent = () => {
 
   return (
     <>
-      <Alert />
-      <div>
-        <button type="button" onClick={handleButtonClick}>
-          Trigger Alert
-        </button>
-      </div>
+      <Alert>
+        <div>
+          <button type="button" onClick={handleButtonClick}>
+            Trigger Alert
+          </button>
+        </div>
+      </Alert>
     </>
   )
 }

@@ -20,10 +20,14 @@ context('Desktop resolution', () => {
     cy.visit('/')
     cy.findByRole('heading', { name: 'Madara', level: 1 }).should('exist')
 
-    cy.findByLabelText('Enter Your Name').type(user.name).blur()
-    cy.findByLabelText('Enter Your Email').type(user.email).blur()
-    cy.findByLabelText('Enter Your Password').type(user.password).blur()
-    cy.findByLabelText('Confirm Your Password').type(user.password).blur()
+    cy.findByLabelText('Enter Your Name').type(user.name, { force: true })
+    cy.findByLabelText('Enter Your Email').type(user.email, { force: true })
+    cy.findByLabelText('Enter Your Password').type(user.password, {
+      force: true,
+    })
+    cy.findByLabelText('Confirm Your Password').type(user.password, {
+      force: true,
+    })
     cy.findByRole('button', { name: 'Sign Up' }).click()
 
     cy.findByRole('alert').within(() => {
@@ -42,9 +46,10 @@ context('Desktop resolution', () => {
       () => {
         cy.findByText('Todo').should('exist')
         cy.findByRole('button', { name: 'Add a task to this column.' }).click()
-        cy.findByRole('textbox', { name: 'Enter a task' })
-          .type(todoTask.text)
-          .blur()
+        cy.findByRole('textbox', { name: 'Enter a task' }).type(todoTask.text, {
+          force: true,
+        })
+
         cy.findByRole('button', { name: 'Add' }).click()
         cy.findByRole('article', { name: 'Task in Todo column' }).within(() => {
           cy.findByText(todoTask.text).should('exist')
@@ -119,9 +124,10 @@ context('Desktop resolution', () => {
     }).within(() => {
       cy.findByText('In progress').should('exist')
       cy.findByRole('button', { name: 'Add a task to this column.' }).click()
-      cy.findByRole('textbox', { name: 'Enter a task' })
-        .type(inProgressTask.text)
-        .blur()
+      cy.findByRole('textbox', {
+        name: 'Enter a task',
+      }).type(inProgressTask.text, { force: true })
+
       cy.findByRole('button', { name: 'Add' }).click()
       cy.findByRole('article', { name: 'Task in In progress column' }).within(
         () => {
@@ -200,9 +206,10 @@ context('Desktop resolution', () => {
       () => {
         cy.findByText('Done').should('exist')
         cy.findByRole('button', { name: 'Add a task to this column.' }).click()
-        cy.findByRole('textbox', { name: 'Enter a task' })
-          .type(doneTask.text)
-          .blur()
+        cy.findByRole('textbox', { name: 'Enter a task' }).type(doneTask.text, {
+          force: true,
+        })
+
         cy.findByRole('button', { name: 'Add' }).click()
         cy.findByRole('article', { name: 'Task in Done column' }).within(() => {
           cy.findByText(doneTask.text).should('exist')
@@ -278,8 +285,12 @@ context('Desktop resolution', () => {
     })
 
     cy.findByRole('button', { name: 'Login' }).click()
-    cy.findByLabelText('Enter Your Email').clear().type(user.email).blur()
-    cy.findByLabelText('Enter Your Password').clear().type(user.password).blur()
+    cy.findByLabelText('Enter Your Email')
+      .clear()
+      .type(user.email, { force: true })
+    cy.findByLabelText('Enter Your Password')
+      .clear()
+      .type(user.password, { force: true })
     cy.findByRole('button', { name: 'Sign In' }).click()
 
     cy.findByRole('alert').within(() => {

@@ -12,17 +12,13 @@ it('should not allow name to be shorter than 2 characters', () => {
     name: /Name must be at least two characters long./i,
   }).should('not.exist')
 
-  cy.findByLabelText(/enter your name/i)
-    .type('1')
-    .blur()
+  cy.findByLabelText(/enter your name/i).type('1', { force: true })
 
-  cy.findByLabelText(/enter your email/i)
-    .type(newUser.email)
-    .blur()
+  cy.findByLabelText(/enter your email/i).type(newUser.email, { force: true })
 
-  cy.findByLabelText(/Enter Your Password/i)
-    .type(newUser.password)
-    .blur()
+  cy.findByLabelText(/Enter Your Password/i).type(newUser.password, {
+    force: true,
+  })
 
   cy.findByRole('button', { name: /sign up/i }).click()
 
@@ -36,17 +32,13 @@ it('should not allow invalid emails', () => {
 
   cy.findByRole('alert', { name: /Email is not valid./i }).should('not.exist')
 
-  cy.findByLabelText(/enter your name/i)
-    .type(newUser.name)
-    .blur()
+  cy.findByLabelText(/enter your name/i).type(newUser.name, { force: true })
 
-  cy.findByLabelText(/enter your email/i)
-    .type('blah')
-    .blur()
+  cy.findByLabelText(/enter your email/i).type('blah', { force: true })
 
-  cy.findByLabelText(/enter your password/i)
-    .type(newUser.password)
-    .blur()
+  cy.findByLabelText(/enter your password/i).type(newUser.password, {
+    force: true,
+  })
 
   cy.findByRole('button', { name: /sign up/i }).click()
 
@@ -58,9 +50,7 @@ it('should not allow empty emails', () => {
 
   cy.findByRole('alert', { name: /Email is not valid./i }).should('not.exist')
 
-  cy.findByLabelText(/enter your name/i)
-    .type(newUser.name)
-    .blur()
+  cy.findByLabelText(/enter your name/i).type(newUser.name, { force: true })
 
   cy.findByRole('button', { name: /sign up/i }).click()
 
@@ -74,17 +64,11 @@ it('should not allow passwords shorter than 6 characters', () => {
     name: /Password must be at least 6 characters long./i,
   }).should('not.exist')
 
-  cy.findByLabelText(/enter your name/i)
-    .type(newUser.name)
-    .blur()
+  cy.findByLabelText(/enter your name/i).type(newUser.name, { force: true })
 
-  cy.findByLabelText(/enter your email/i)
-    .type(newUser.email)
-    .blur()
+  cy.findByLabelText(/enter your email/i).type(newUser.email, { force: true })
 
-  cy.findByLabelText(/enter your password/i)
-    .type('blah')
-    .blur()
+  cy.findByLabelText(/enter your password/i).type('blah', { force: true })
 
   cy.findByRole('button', { name: /sign up/i }).click()
 
@@ -100,21 +84,15 @@ it('should not allow passwords mismatch', () => {
     name: /Passwords do not match./i,
   }).should('not.exist')
 
-  cy.findByLabelText(/enter your name/i)
-    .type(newUser.name)
-    .blur()
+  cy.findByLabelText(/enter your name/i).type(newUser.name, { force: true })
 
-  cy.findByLabelText(/enter your email/i)
-    .type(newUser.email)
-    .blur()
+  cy.findByLabelText(/enter your email/i).type(newUser.email, { force: true })
 
-  cy.findByLabelText(/enter your password/i)
-    .type(newUser.password)
-    .blur()
+  cy.findByLabelText(/enter your password/i).type(newUser.password, {
+    force: true,
+  })
 
-  cy.findByLabelText(/Confirm Your Password/i)
-    .type('blah')
-    .blur()
+  cy.findByLabelText(/Confirm Your Password/i).type('blah', { force: true })
 
   cy.findByRole('button', { name: /sign up/i }).click()
 

@@ -2,6 +2,7 @@ import { buildUser } from '../support/generate'
 
 beforeEach(() => {
   cy.viewport(1280, 900)
+  indexedDB.deleteDatabase('firebaseLocalStorageDb')
   cy.visit('/')
 })
 

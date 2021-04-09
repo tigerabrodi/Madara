@@ -3,6 +3,7 @@ import { buildUser, buildTask } from '../support/generate'
 context('Desktop resolution', () => {
   beforeEach(() => {
     cy.viewport(1280, 900)
+    indexedDB.deleteDatabase('firebaseLocalStorageDb')
   })
 
   it('desktop complete user flow', () => {

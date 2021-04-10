@@ -1,6 +1,6 @@
 import { buildUser, buildTask } from '../support/generate'
 
-context('Desktop resolution', () => {
+context('Desktop resolution user flow iteration 1', () => {
   beforeEach(() => {
     cy.viewport(1280, 900)
     indexedDB.deleteDatabase('firebaseLocalStorageDb')
@@ -92,7 +92,7 @@ context('Desktop resolution', () => {
         })
       })
     })
-    cy.findByRole('alertdialog').within(() => {
+    cy.findByRole('alertdialog', { name: 'Are you sure?' }).within(() => {
       cy.findByRole('heading', { name: 'Are you sure?' }).should('exist')
       cy.findByText(
         'Do you really want to delete this task in Todo column?'
@@ -170,7 +170,7 @@ context('Desktop resolution', () => {
         )
       }
     )
-    cy.findByRole('alertdialog').within(() => {
+    cy.findByRole('alertdialog', { name: 'Are you sure?' }).within(() => {
       cy.findByRole('heading', { name: 'Are you sure?' }).should('exist')
       cy.findByText(
         'Do you really want to delete this task in In progress column?'
@@ -238,7 +238,7 @@ context('Desktop resolution', () => {
         })
       })
     })
-    cy.findByRole('alertdialog').within(() => {
+    cy.findByRole('alertdialog', { name: 'Are you sure?' }).within(() => {
       cy.findByRole('heading', { name: 'Are you sure?' }).should('exist')
       cy.findByText(
         'Do you really want to delete this task in Done column?'

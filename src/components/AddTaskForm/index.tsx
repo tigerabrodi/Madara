@@ -1,4 +1,6 @@
 import * as React from 'react'
+import firebase from 'firebase/app'
+import { ColumnType } from 'types'
 import { useClickOutside } from 'hooks/useClickOutside'
 import { useTrapTabKey } from 'hooks/useTrapTabKey'
 import {
@@ -9,11 +11,11 @@ import {
 } from './styles'
 
 type TaskFormProps = {
-  onSuccess: (event: React.FormEvent<HTMLFormElement>) => void
   setOpen: (state: boolean) => void
+  columnType: ColumnType
 }
 
-export const AddTaskForm = ({ onSuccess, setOpen }: TaskFormProps) => {
+export const AddTaskForm = ({ setOpen, columnType }: TaskFormProps) => {
   const [addTaskText, setAddTaskText] = React.useState('')
 
   const handleAddTaskTextChange = (
@@ -23,23 +25,41 @@ export const AddTaskForm = ({ onSuccess, setOpen }: TaskFormProps) => {
   }
 
   const [ref] = useClickOutside<HTMLFormElement>(() => setOpen(false))
-  const { firstButtonElementRef } = useTrapTabKey({
+  const { firstButtonElementRef, secondButtonElementRef } = useTrapTabKey({
     ref,
     setOpen,
   })
 
-  /* Tell users using ATs that textarea is still invalid due to only containing spaces and not an actual task */
+  const userId = firebase.auth().currentUser?.uid
+  const tasksCollection = firebase.firestore().collection('tasks')
+
+  const handleFormSubmit = () => {
+    const newDate = new Date().toLocaleDateString('en-US')
+    tasksCollection.add({
+      userId,
+      columnType,
+      text: addTaskText,
+      createdAtStamp: firebase.firestore.FieldValue.serverTimestamp(),
+      createdAt: newDate,
+    })
+
+    setOpen(false)
+  }
 
   return (
-    <Form onSubmit={onSuccess} ref={ref}>
+    <Form onSubmit={handleFormSubmit} ref={ref}>
       <AddTaskTextarea
-        name="Task"
         aria-label="Enter a task"
         aria-required="true"
+        aria-invalid={addTaskText.trim() === '' ? 'true' : 'false'}
         placeholder="Enter a task"
         onChange={handleAddTaskTextChange}
       />
-      <FormAddButton type="submit" disabled={addTaskText.trim() === ''}>
+      <FormAddButton
+        type="submit"
+        disabled={addTaskText.trim() === ''}
+        ref={secondButtonElementRef}
+      >
         Add
       </FormAddButton>
       <FormCancelButton

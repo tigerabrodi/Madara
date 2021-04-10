@@ -1,0 +1,10 @@
+{
+  "root": true,
+  "plugins": ["eslint-plugin-cypress", "@typescript-eslint"],
+  "extends": [
+    "plugin:cypress/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier/@typescript-eslint"
+  ],
+  "env": { "cypress/globals": true }
+}

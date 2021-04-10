@@ -1,4 +1,7 @@
 import * as React from 'react'
+import firebase from 'firebase/app'
+import { useCreateUserWithEmailAndPassword } from 'hooks/auth/useCreateUserWithEmailAndPassword'
+import { useSignInWithEmailAndPassword } from 'hooks/auth/useSignInWithEmailAndPassword'
 import {
   ErrorMessage,
   Form,
@@ -14,12 +17,14 @@ import {
   ToolBarButton,
   ShowPasswordButton,
   WarningIcon,
+  SmallSpinner,
 } from './styles'
 
 interface FormElements extends HTMLFormControlsCollection {
   name: HTMLInputElement
   email: HTMLInputElement
   password: HTMLInputElement
+  confirmPassword: HTMLInputElement
 }
 
 interface UserFormElement extends HTMLFormElement {
@@ -31,22 +36,45 @@ export const Home = () => {
   const [shouldShowPassword, setShouldShowPassword] = React.useState(false)
   const [isNameError, setIsNameError] = React.useState(false)
   const [isPasswordError, setIsPasswordError] = React.useState(false)
+  const [isConfirmError, setIsConfirmError] = React.useState(false)
   const [isEmailError, setIsEmailError] = React.useState(false)
 
   const [isEmailInvalid, setIsEmailInvalid] = React.useState(false)
-  const [isEmailTaken] = React.useState(false)
 
   const [isLoginNotAllowed] = React.useState(false)
+
+  const auth = firebase.auth()
+
+  const [
+    createUserWithEmailAndPassword,
+    isSignUpLoading,
+    isSignUpError,
+    signUpError,
+  ] = useCreateUserWithEmailAndPassword(auth)
+
+  const isEmailTaken = signUpError?.code === 'auth/email-already-in-use'
+
+  const [
+    signInWithEmailAndPassword,
+    isSignInLoading,
+    isSignInError,
+    signInError,
+  ] = useSignInWithEmailAndPassword(auth)
 
   const emailInputRef = React.useRef<HTMLInputElement>(null)
   const nameInputRef = React.useRef<HTMLInputElement>(null)
 
-  const handleSubmit = (event: React.SyntheticEvent<UserFormElement>) => {
+  const handleSubmit = async (event: React.SyntheticEvent<UserFormElement>) => {
     event.preventDefault()
 
-    const { name, password, email } = event.currentTarget.elements
+    const {
+      name,
+      password,
+      email,
+      confirmPassword,
+    } = event.currentTarget.elements
 
-    const handleFormValidation = () => {
+    const canUserSignUp = () => {
       const isNameInvalid = !name.value || (name.value && name.value.length < 2)
       if (isNameInvalid) {
         setIsNameError(true)
@@ -71,16 +99,22 @@ export const Home = () => {
         }, 3000)
       }
 
+      const isConfirmPasswordInvalid = password.value !== confirmPassword.value
+      if (isConfirmPasswordInvalid) {
+        setIsConfirmError(true)
+        return setTimeout(() => {
+          setIsConfirmError(false)
+        }, 3000)
+      }
+
       return true
     }
 
     if (isLoginMode) {
-      /* User can sign in */
-      return true
+      signInWithEmailAndPassword(email.value, password.value)
     } else {
-      if (handleFormValidation() === true) {
-        /* User can sign up */
-        return true
+      if (canUserSignUp() === true) {
+        createUserWithEmailAndPassword(email.value, password.value, name.value)
       }
     }
   }
@@ -88,8 +122,8 @@ export const Home = () => {
   return (
     <HomeMain>
       <Title>Madara</Title>
-      <Subtitle>Manage Your Daily Tasks</Subtitle>
-      <ToolBar role="toolbar" aria-label="Login or register">
+      <Subtitle>Manage Your Tasks</Subtitle>
+      <ToolBar role="toolbar" aria-label="Sign In or Sign Up">
         <ToolBarButton
           aria-pressed={isLoginMode ? false : true}
           onClick={() => setIsLoginMode(false)}
@@ -157,13 +191,13 @@ export const Home = () => {
               <WarningIcon role="img" aria-label="error" />
             </ErrorMessage>
           )}
-          {isEmailTaken && (
+          {isSignUpError && isEmailTaken && (
             <ErrorMessage
               role="alert"
               id="email-hint"
-              aria-label="Email is taken."
+              aria-label="Email is already taken."
             >
-              Email is taken.
+              Email is already taken.
               <WarningIcon role="img" aria-label="error" />
             </ErrorMessage>
           )}
@@ -188,6 +222,16 @@ export const Home = () => {
           >
             Show
           </ShowPasswordButton>
+          {isSignInError && signInError && (
+            <ErrorMessage
+              role="alert"
+              id="password-hint"
+              aria-label="Email or password is not correct."
+            >
+              Email or password is not correct.
+              <WarningIcon role="img" aria-label="error" />
+            </ErrorMessage>
+          )}
           {isPasswordError && (
             <ErrorMessage
               role="alert"
@@ -210,8 +254,37 @@ export const Home = () => {
           )}
         </FormGroup>
 
+        {!isLoginMode && (
+          <FormGroup>
+            <Label htmlFor="confirmPassword">Confirm Your Password</Label>
+            <Input
+              type={shouldShowPassword ? 'text' : 'password'}
+              id="confirmPassword"
+              placeholder="Naruto's password"
+              aria-describedby={
+                isConfirmError ? 'confirmPassword-hint' : undefined
+              }
+              aria-invalid={isConfirmError ? 'true' : 'false'}
+              aria-required="true"
+            />
+            {isConfirmError && (
+              <ErrorMessage
+                role="alert"
+                id="confirmPassword-hint"
+                aria-label="Passwords do not match."
+              >
+                Passwords do not match.
+                <WarningIcon role="img" aria-label="error" />
+              </ErrorMessage>
+            )}
+          </FormGroup>
+        )}
+
         <SubmitButton type="submit">
           {isLoginMode ? 'Sign In' : 'Sign Up'}
+          {(isSignUpLoading || isSignInLoading) && (
+            <SmallSpinner aria-hidden="true" />
+          )}
         </SubmitButton>
       </Form>
     </HomeMain>

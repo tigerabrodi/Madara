@@ -34,9 +34,16 @@ export const ConfirmationModal = ({
 
   return (
     <>
-      <Modal role="alertdialog" aria-modal="true" tabIndex={0} ref={ref}>
-        <ConfirmationTitle>Are you sure?</ConfirmationTitle>
-        <ConfirmationText>{text}</ConfirmationText>
+      <Modal
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="modalTitle"
+        aria-describedby="modalDesc"
+        tabIndex={0}
+        ref={ref}
+      >
+        <ConfirmationTitle id="modalTitle">Are you sure?</ConfirmationTitle>
+        <ConfirmationText id="modalDesc">{text}</ConfirmationText>
         <ConfirmButton onClick={onSuccess}>Yes</ConfirmButton>
         <CancelButton onClick={handleCancel} ref={firstButtonElementRef}>
           No

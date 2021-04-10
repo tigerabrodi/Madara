@@ -7,6 +7,7 @@ import { media } from 'theme/media'
 
 export const AlertWrapper = styled.div`
   position: absolute;
+  z-index: 10;
   top: 10%;
   left: 50%;
   transform: translate(-50%, -50%);

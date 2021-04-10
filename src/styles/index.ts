@@ -21,3 +21,16 @@ export const ModalOverlay = styled.div`
   background-color: ${theme.Black};
   opacity: 0.5;
 `
+
+export const AssistiveTechnologyOnly = css`
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+`
+
+export const ATOnlyText = styled.span`
+  ${AssistiveTechnologyOnly};
+`

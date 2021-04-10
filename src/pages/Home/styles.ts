@@ -3,6 +3,7 @@ import { focusStyles } from 'styles'
 import { media } from 'theme/media'
 import { theme } from '../../theme/theme'
 import { ReactComponent as WarningSVG } from 'assets/warning.svg'
+import { ReactComponent as SmallSpinnerSVG } from 'assets/small-spinner.svg'
 
 export const HomeMain = styled.main`
   grid-area: main;
@@ -17,10 +18,10 @@ export const HomeMain = styled.main`
   row-gap: 1rem;
   padding-bottom: 5rem;
   align-items: flex-end;
-  height: 100rem;
-  grid-template-rows: 9% 3% 12% 76%;
+  height: 110rem;
+  grid-template-rows: 9% 2% 12% 77%;
   ${media.phone} {
-    height: 115rem;
+    height: 120rem;
     grid-template-rows: 11% 4% 12% 73%;
     align-items: flex-start;
   }
@@ -40,7 +41,7 @@ export const Title = styled.h1`
 export const Subtitle = styled.p`
   grid-area: subtitle;
   font-family: ${theme.SourceSansPro};
-  font-size: 3rem;
+  font-size: 3.3rem;
   font-weight: 600;
   color: ${theme.Blue};
   text-decoration: underline;
@@ -68,8 +69,8 @@ export const Form = styled.form`
 
 export const ToolBar = styled.div`
   grid-area: toolbar;
-  width: 60rem;
-  max-width: 90%;
+  width: 35rem;
+  max-width: 90vw;
   height: 90%;
   background-color: ${theme.Blue};
   align-self: flex-end;
@@ -81,6 +82,10 @@ export const ToolBar = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  ${media.phone} {
+    width: 60rem;
+    max-width: 90%;
+  }
 `
 
 const toolbarButtonHighlightStyles = css`
@@ -126,7 +131,11 @@ export const ToolBarButton = styled.button<{
 export const FormTitle = styled.h2`
   font-family: ${theme.LibreBaskerville};
   color: ${theme.White};
+  padding-top: 3rem;
   font-size: 4rem;
+  ${media.phone} {
+    padding-top: 1rem;
+  }
 `
 
 export const FormGroup = styled.div`
@@ -187,9 +196,9 @@ export const Input = styled.input`
 
 export const ShowPasswordButton = styled.button`
   top: 50%;
-  left: 91%;
+  left: 87%;
+  padding: 0.7rem 1rem;
   box-shadow: 0 0.1rem 0.3rem ${theme.Blue};
-  padding: 0.5rem 1rem;
   font-weight: bold;
   position: absolute;
   transform: translate(-50%, -50%);
@@ -234,7 +243,7 @@ const errorAnim2Tablet = keyframes`
 `
 
 export const ErrorMessage = styled.span<{ isLoginMode?: boolean }>`
-  font-size: 1.7rem;
+  font-size: 1.9rem;
   font-family: ${theme.SourceSansPro};
   font-weight: bold;
   grid-area: errorMessage;
@@ -253,11 +262,11 @@ export const ErrorMessage = styled.span<{ isLoginMode?: boolean }>`
     `}
 
   ${media.phone} {
-    font-size: 1.8rem;
+    font-size: 2rem;
     ${(props) =>
       props.isLoginMode &&
       css`
-        font-size: 2rem;
+        font-size: 2.2rem;
         animation: ${errorAnim2Tablet} 0.2s forwards;
       `}
   }
@@ -290,6 +299,28 @@ export const SubmitButton = styled.button`
       box-shadow: 0 0 0.5rem ${theme.Black};
     }
   }
+`
+
+const spin = keyframes`
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+`
+
+export const SmallSpinner = styled(SmallSpinnerSVG)`
+  height: 1.7rem;
+  width: 1.7rem;
+  position: absolute;
+  top: 28%;
+  left: 88%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  fill: ${theme.Blue};
+  animation: ${spin} 0.5s linear infinite;
 `
 
 export const WarningIcon = styled(WarningSVG)`

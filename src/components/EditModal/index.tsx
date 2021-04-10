@@ -19,7 +19,10 @@ type EditModalProps = {
   setOpen: (state: boolean) => void
   toggleModal: () => void
   taskText: string
-  onSuccess: (event: React.FormEvent<HTMLFormElement>) => void
+  onSuccess: (
+    event: React.FormEvent<HTMLFormElement>,
+    text: string
+  ) => Promise<void>
 }
 
 export const EditModal = ({
@@ -43,7 +46,11 @@ export const EditModal = ({
 
   const [ref] = useClickOutside(() => setOpen(false))
 
-  const { firstButtonElementRef, secondButtonElementRef } = useTrapTabKey({
+  const {
+    firstButtonElementRef,
+    secondButtonElementRef,
+    thirdButtonElementRef,
+  } = useTrapTabKey({
     ref,
     setOpen,
   })
@@ -52,9 +59,9 @@ export const EditModal = ({
 
   return (
     <>
-      <Modal role="dialog" aria-modal="true" ref={ref}>
+      <Modal role="dialog" aria-labelledby="editDialogTitle" ref={ref}>
         <EditModalHeader>
-          <EditTitle>Edit task</EditTitle>
+          <EditTitle id="editDialogTitle">Edit task</EditTitle>
           <EditCloseButton
             aria-label="Cancel"
             onClick={handleCancel}
@@ -63,12 +70,12 @@ export const EditModal = ({
             <EditClose aria-hidden="true" />
           </EditCloseButton>
         </EditModalHeader>
-        <EditModalForm onSubmit={onSuccess}>
+        <EditModalForm onSubmit={(event) => onSuccess(event, editTaskText)}>
           <EditLabel htmlFor="taskText">Task</EditLabel>
           <EditTextarea
             id="taskText"
             name="Task"
-            placeholder="Edit your task"
+            placeholder="Clean kitchen."
             aria-label="Edit your task"
             aria-required="true"
             onChange={handleEditTaskChange}
@@ -76,6 +83,7 @@ export const EditModal = ({
           />
           <EditConfirmButton
             type="submit"
+            ref={thirdButtonElementRef}
             disabled={editTaskText.trim() === ''}
           >
             Edit

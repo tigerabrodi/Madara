@@ -1,6 +1,8 @@
 import * as React from 'react'
+import firebase from 'firebase/app'
+import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { Card } from 'components/Card'
-import { ColumnType } from 'types'
+import { ColumnType, TaskType } from 'types'
 import { AddTaskForm } from 'components/AddTaskForm'
 import {
   BoardColumn as Column,
@@ -11,25 +13,12 @@ import {
   Toggle,
 } from './styles'
 
-/* TODO 
-   Get Tasks as prop. 
-   Update aria-label of column with proper amount of tasks.
-   Map out tasks.
-*/
-
 type ColumnProps = {
-  toggleConfirmationModal: () => void
-  toggleEditModal: () => void
   columnType: ColumnType
   isNotMobileLayout: boolean
 }
 
-export const BoardColumn = ({
-  toggleConfirmationModal,
-  toggleEditModal,
-  columnType,
-  isNotMobileLayout,
-}: ColumnProps) => {
+export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
   const [isAddTaskFormOpen, setIsAddTaskFormOpen] = React.useState(false)
   const [isCardMenuOpen, setIsCardMenuOpen] = React.useState(false)
 
@@ -38,20 +27,32 @@ export const BoardColumn = ({
   const toggleCardMenu = () => setIsCardMenuOpen(!isCardMenuOpen)
   const toggleTaskForm = () => setIsAddTaskFormOpen(!isAddTaskFormOpen)
 
-  const handleAddTaskFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-  }
+  const userId = firebase.auth().currentUser?.uid
+
+  const tasksCollection = firebase
+    .firestore()
+    .collection('tasks')
+    .orderBy('createdAtStamp')
+
+  const [tasks] = useCollectionData<TaskType>(tasksCollection, {
+    idField: 'id',
+  })
+
+  const userTasks = tasks?.filter(
+    (task) => task.columnType === columnType && task.userId === userId
+  )
 
   const columnId = columnType.replace(/\s/g, '-')
+  const totalTasks = userTasks?.length || 0
 
   return (
     <Column
       role={isNotMobileLayout ? 'region' : 'tabpanel'}
       id={isNotMobileLayout ? undefined : columnId}
-      aria-label={`${columnType} column with 2 tasks`}
+      aria-label={`${columnType} column with ${totalTasks} tasks`}
       tabIndex={0}
     >
-      <TotalTasks aria-hidden="true">0</TotalTasks>
+      <TotalTasks aria-hidden="true">{totalTasks}</TotalTasks>
       <Status>{columnType}</Status>
       <ToggleFormButton
         aria-label="Add a task to this column."
@@ -63,18 +64,19 @@ export const BoardColumn = ({
       </ToggleFormButton>
       <Inner isFormOpen={isAddTaskFormOpen}>
         {isAddTaskFormOpen && (
-          <AddTaskForm
-            onSuccess={handleAddTaskFormSubmit}
-            setOpen={setIsAddTaskFormOpen}
-          />
+          <AddTaskForm setOpen={setIsAddTaskFormOpen} columnType={columnType} />
         )}
-        <Card
-          setMenuOpen={setIsCardMenuOpen}
-          isMenuOpen={isCardMenuOpen}
-          toggleEditModal={toggleEditModal}
-          toggleMenu={toggleCardMenu}
-          toggleConfirmationModal={toggleConfirmationModal}
-        />
+        {userTasks &&
+          userTasks.length > 0 &&
+          userTasks.map((task) => (
+            <Card
+              setMenuOpen={setIsCardMenuOpen}
+              isMenuOpen={isCardMenuOpen}
+              toggleMenu={toggleCardMenu}
+              key={task.id}
+              task={task}
+            />
+          ))}
       </Inner>
     </Column>
   )

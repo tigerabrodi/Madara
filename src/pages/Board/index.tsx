@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { ConfirmationModal } from 'components/ConfirmationModal'
-import { EditModal } from 'components/EditModal'
+import firebase from 'firebase/app'
+import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { BoardColumn } from 'components/BoardColumn'
 import { useMedia } from 'hooks/useMedia'
 import { useTabArrowSwitch } from 'hooks/useTabArrowSwitch'
@@ -20,33 +20,31 @@ import {
 
 export const Board = () => {
   const [columnType, setColumnType] = React.useState<ColumnType>('Todo')
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = React.useState(
-    false
-  )
-  const [isEditFormOpen, setIsEditFormOpen] = React.useState(false)
 
   const isNotMobileLayout = useMedia('min', '425')
 
   const tabListRef = useTabArrowSwitch()
 
-  const toggleConfirmationModal = () =>
-    setIsConfirmationModalOpen(!isConfirmationModalOpen)
-  const toggleEditModalForm = () => setIsEditFormOpen(!isEditFormOpen)
+  const userEmail = firebase.auth().currentUser?.email
+  const usersCollection = firebase.firestore().collection('users')
 
-  const handleEditModalSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-  }
+  const [users] = useCollectionData<{
+    email: string
+    name: string
+  }>(usersCollection)
 
-  const handleConfirmationModalSubmit = (
-    event: React.MouseEvent<HTMLButtonElement>
+  const getCurrentUserName = (
+    users: Array<{ email: string; name: string }>
   ) => {
-    event.preventDefault()
+    return users.find(
+      (user) => user.email.toLowerCase() === userEmail?.toLowerCase()
+    )?.name
   }
 
   return (
     <>
       <BoardMain>
-        <Title>Welcome Tiger Abrodi!</Title>
+        <Title>Welcome {users && getCurrentUserName(users)}!</Title>
         <SubtitleWrapper>
           <Subtitle>Manage Your Tasks</Subtitle>
           <SubtitleHandWriting aria-hidden="true" />
@@ -93,45 +91,21 @@ export const Board = () => {
           <BoardColumn
             columnType={isNotMobileLayout ? 'Todo' : columnType}
             isNotMobileLayout={isNotMobileLayout}
-            toggleEditModal={toggleEditModalForm}
-            toggleConfirmationModal={toggleConfirmationModal}
           />
           {isNotMobileLayout && (
             <>
               <BoardColumn
                 columnType="In progress"
                 isNotMobileLayout={isNotMobileLayout}
-                toggleEditModal={toggleEditModalForm}
-                toggleConfirmationModal={toggleConfirmationModal}
               />
               <BoardColumn
                 columnType="Done"
                 isNotMobileLayout={isNotMobileLayout}
-                toggleEditModal={toggleEditModalForm}
-                toggleConfirmationModal={toggleConfirmationModal}
               />
             </>
           )}
         </BoardWrapper>
       </BoardMain>
-
-      {isConfirmationModalOpen && (
-        <ConfirmationModal
-          setOpen={setIsConfirmationModalOpen}
-          onSuccess={handleConfirmationModalSubmit}
-          toggleModal={toggleConfirmationModal}
-          text="Do you really want to delete every task in this column?"
-        />
-      )}
-
-      {isEditFormOpen && (
-        <EditModal
-          setOpen={setIsEditFormOpen}
-          onSuccess={handleEditModalSubmit}
-          toggleModal={toggleEditModalForm}
-          taskText="Lorem ipsum dolor sit amet, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        />
-      )}
     </>
   )
 }

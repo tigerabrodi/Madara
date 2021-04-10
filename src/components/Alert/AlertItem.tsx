@@ -18,7 +18,7 @@ export const AlertItem = ({
   removeAlert,
 }: AlertItemProps) => (
   <AlertWrapper role="alert" tabIndex={0}>
-    <AlertIcon title="check" />
+    <AlertIcon title="check" aria-hidden="true" />
     <AlertStatus>
       {type === 'success'
         ? 'Success!'
@@ -28,7 +28,7 @@ export const AlertItem = ({
         ? 'Warning!'
         : null}
     </AlertStatus>
-    <AlertCloseButton aria-label="Close toast" onClick={() => removeAlert(id)}>
+    <AlertCloseButton aria-label="Close alert" onClick={() => removeAlert(id)}>
       <AlertClose aria-hidden="true" />
     </AlertCloseButton>
     <AlertMessage>{message}</AlertMessage>

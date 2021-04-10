@@ -78,6 +78,14 @@ context('Desktop resolution user flow iteration 2', () => {
       cy.findByRole('button', { name: 'Yes' }).click({ force: true })
     })
 
+    cy.findByRole('alert').within(() => {
+      cy.findByRole('heading', { name: 'Success!' }).should('exist')
+      cy.findByText(
+        'You successfully deleted all tasks in Todo column.'
+      ).should('exist')
+      cy.findByRole('button', { name: 'Close alert' }).click()
+    })
+
     cy.findByRole('region', { name: 'Todo column with 0 tasks' }).within(() => {
       cy.findByRole('article').should('not.exist')
     })
@@ -129,6 +137,14 @@ context('Desktop resolution user flow iteration 2', () => {
         'Do you really want to delete all tasks in In progress column?'
       ).should('exist')
       cy.findByRole('button', { name: 'Yes' }).click({ force: true })
+    })
+
+    cy.findByRole('alert').within(() => {
+      cy.findByRole('heading', { name: 'Success!' }).should('exist')
+      cy.findByText(
+        'You successfully deleted all tasks in In progress column.'
+      ).should('exist')
+      cy.findByRole('button', { name: 'Close alert' }).click()
     })
 
     cy.findByRole('region', { name: 'In progress column with 0 tasks' }).within(

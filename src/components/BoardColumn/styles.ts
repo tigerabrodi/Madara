@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components/macro'
 import { theme } from 'theme/theme'
-import { ReactComponent as AddSVG } from 'assets/add-task.svg'
+import { ReactComponent as AddSVG } from 'assets/add-tasks.svg'
+import { ReactComponent as DeleteSVG } from 'assets/delete-tasks.svg'
 import { focusStyles } from 'styles'
 import { media } from 'theme/media'
 
@@ -8,24 +9,25 @@ export const BoardColumn = styled.section`
   height: 95%;
   width: 95%;
   max-width: 36rem;
-  grid-template-rows: 8%;
+  grid-template-rows: 10%;
   border-radius: 0.3rem;
   background-color: ${theme.Blue};
   box-shadow: 0 0 1rem ${theme.Blue};
   display: grid;
+  grid-template-columns: 15% 65% 20%;
   grid-template-areas:
-    'totalTasks toggleFormButton'
-    'inner inner';
+    'totalTasks deleteAllTasksButton toggleFormButton'
+    'inner inner inner';
   align-content: flex-start;
   align-items: center;
   justify-items: flex-end;
   overflow-y: auto;
   ${focusStyles};
   ${media.phone} {
-    grid-template-columns: 10% 76% 14%;
+    grid-template-columns: 10% 68% 10% 10%;
     grid-template-areas:
-      'totalTasks status toggleFormButton'
-      'inner inner inner';
+      'totalTasks status deleteAllTasksButton toggleFormButton'
+      'inner inner inner inner';
     border-radius: 0.5rem;
     height: 90%;
     width: 30%;
@@ -74,7 +76,7 @@ export const ToggleFormButton = styled.button`
   border: none;
   display: flex;
   justify-self: flex-end;
-  margin-right: 1rem;
+  margin-right: 2rem;
   align-items: center;
   justify-content: space-evenly;
   cursor: pointer;
@@ -86,6 +88,28 @@ export const ToggleFormButton = styled.button`
 `
 
 export const Toggle = styled(AddSVG)`
+  width: 100%;
+  height: 100%;
+`
+
+export const DeleteAllTasksButton = styled.button`
+  grid-area: deleteAllTasksButton;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  cursor: pointer;
+  justify-self: flex-end;
+  ${focusStyles};
+  ${media.phone} {
+    justify-self: center;
+  }
+`
+
+export const Delete = styled(DeleteSVG)`
   width: 100%;
   height: 100%;
 `

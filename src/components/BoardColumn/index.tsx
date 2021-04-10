@@ -11,6 +11,8 @@ import {
   Status,
   TotalTasks,
   Toggle,
+  Delete,
+  DeleteAllTasksButton,
 } from './styles'
 
 type ColumnProps = {
@@ -62,6 +64,12 @@ export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
       >
         <Toggle aria-hidden="true" />
       </ToggleFormButton>
+      <DeleteAllTasksButton
+        aria-label={`Delete all tasks in ${columnType} column.`}
+        onClick={toggleTaskForm}
+      >
+        <Delete aria-hidden="true" />
+      </DeleteAllTasksButton>
       <Inner isFormOpen={isAddTaskFormOpen}>
         {isAddTaskFormOpen && (
           <AddTaskForm setOpen={setIsAddTaskFormOpen} columnType={columnType} />

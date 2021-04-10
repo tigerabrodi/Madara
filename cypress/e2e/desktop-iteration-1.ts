@@ -92,7 +92,7 @@ context('Desktop resolution user flow iteration 1', () => {
         })
       })
     })
-    cy.findByRole('alertdialog').within(() => {
+    cy.findByRole('alertdialog', { name: 'Are you sure?' }).within(() => {
       cy.findByRole('heading', { name: 'Are you sure?' }).should('exist')
       cy.findByText(
         'Do you really want to delete this task in Todo column?'
@@ -170,7 +170,7 @@ context('Desktop resolution user flow iteration 1', () => {
         )
       }
     )
-    cy.findByRole('alertdialog').within(() => {
+    cy.findByRole('alertdialog', { name: 'Are you sure?' }).within(() => {
       cy.findByRole('heading', { name: 'Are you sure?' }).should('exist')
       cy.findByText(
         'Do you really want to delete this task in In progress column?'
@@ -238,7 +238,7 @@ context('Desktop resolution user flow iteration 1', () => {
         })
       })
     })
-    cy.findByRole('alertdialog').within(() => {
+    cy.findByRole('alertdialog', { name: 'Are you sure?' }).within(() => {
       cy.findByRole('heading', { name: 'Are you sure?' }).should('exist')
       cy.findByText(
         'Do you really want to delete this task in Done column?'

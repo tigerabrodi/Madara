@@ -4,7 +4,7 @@ import { ColumnType } from 'types'
 import { useClickOutside } from 'hooks/useClickOutside'
 import { useTrapTabKey } from 'hooks/useTrapTabKey'
 import {
-  AddTaskForm as Form,
+  Form,
   AddTaskTextarea,
   FormAddButton,
   FormCancelButton,

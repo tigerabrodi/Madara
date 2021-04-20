@@ -3,7 +3,7 @@ import { theme } from 'theme/theme'
 import { focusStyles } from 'styles'
 import { media } from 'theme/media'
 
-export const AddTaskForm = styled.form`
+export const Form = styled.form`
   background: transparent;
   width: 90%;
   height: 15rem;

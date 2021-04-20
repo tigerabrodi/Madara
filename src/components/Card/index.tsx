@@ -7,7 +7,7 @@ import { useTrapTabKey } from 'hooks/useTrapTabKey'
 import { useAlert } from 'components/Alert/AlertStore'
 import { TaskType } from 'types'
 import {
-  Card as CardWrapper,
+  CardWrapper,
   CardMenuButton,
   CardMenuLogo,
   CardDate,

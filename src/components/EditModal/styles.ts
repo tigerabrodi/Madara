@@ -4,7 +4,7 @@ import { media } from 'theme/media'
 import { focusStyles } from 'styles'
 import { ReactComponent as EditCloseSVG } from 'assets/close.svg'
 
-export const EditModal = styled.div`
+export const EditModalWrapper = styled.div`
   position: absolute;
   width: 95%;
   max-width: 45rem;

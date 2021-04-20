@@ -3,7 +3,7 @@ import { ModalOverlay } from 'styles'
 import { useClickOutside } from 'hooks/useClickOutside'
 import { useTrapTabKey } from 'hooks/useTrapTabKey'
 import {
-  EditModal as Modal,
+  EditModalWrapper,
   EditCancelButton,
   EditClose,
   EditCloseButton,
@@ -59,7 +59,11 @@ export const EditModal = ({
 
   return (
     <>
-      <Modal role="dialog" aria-labelledby="editDialogTitle" ref={ref}>
+      <EditModalWrapper
+        role="dialog"
+        aria-labelledby="editDialogTitle"
+        ref={ref}
+      >
         <EditModalHeader>
           <EditTitle id="editDialogTitle">Edit task</EditTitle>
           <EditCloseButton
@@ -96,7 +100,7 @@ export const EditModal = ({
             Cancel
           </EditCancelButton>
         </EditModalForm>
-      </Modal>
+      </EditModalWrapper>
       <ModalOverlay aria-hidden="true" />
     </>
   )

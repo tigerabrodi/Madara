@@ -7,7 +7,7 @@ import { AddTaskForm } from 'components/AddTaskForm'
 import { useAlert } from 'components/Alert/AlertStore'
 import { ConfirmationModal } from 'components/ConfirmationModal'
 import {
-  BoardColumn as Column,
+  Column,
   ToggleFormButton,
   Inner,
   Status,
@@ -39,10 +39,7 @@ export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
 
   const userId = firebase.auth().currentUser?.uid
 
-  const tasksCollection = firebase
-    .firestore()
-    .collection('tasks')
-    .orderBy('createdAtStamp')
+  const tasksCollection = firebase.firestore().collection('tasks')
 
   const [tasks] = useCollectionData<TaskType>(tasksCollection, {
     idField: 'id',
@@ -67,6 +64,8 @@ export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
     })
 
     addSuccessDeleteAllTasksAlert()
+
+    toggleConfirmationModal()
   }
 
   const columnId = columnType.replace(/\s/g, '-')

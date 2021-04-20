@@ -33,13 +33,14 @@ export const AddTaskForm = ({ setOpen, columnType }: TaskFormProps) => {
   const userId = firebase.auth().currentUser?.uid
   const tasksCollection = firebase.firestore().collection('tasks')
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
     const newDate = new Date().toLocaleDateString('en-US')
     tasksCollection.add({
       userId,
       columnType,
       text: addTaskText,
-      createdAtStamp: firebase.firestore.FieldValue.serverTimestamp(),
       createdAt: newDate,
     })
 

@@ -5,7 +5,7 @@ import { ReactComponent as DeleteSVG } from 'assets/delete-tasks.svg'
 import { focusStyles } from 'styles'
 import { media } from 'theme/media'
 
-export const BoardColumn = styled.section`
+export const Column = styled.section`
   height: 95%;
   width: 95%;
   max-width: 36rem;

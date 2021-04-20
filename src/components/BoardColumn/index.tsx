@@ -7,7 +7,7 @@ import { AddTaskForm } from 'components/AddTaskForm'
 import { useAlert } from 'components/Alert/AlertStore'
 import { ConfirmationModal } from 'components/ConfirmationModal'
 import {
-  BoardColumn as Column,
+  Column,
   ToggleFormButton,
   Inner,
   Status,

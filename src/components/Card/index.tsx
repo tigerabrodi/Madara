@@ -5,7 +5,7 @@ import { EditModal } from 'components/EditModal'
 import { useClickOutside } from 'hooks/useClickOutside'
 import { useTrapTabKey } from 'hooks/useTrapTabKey'
 import { useAlert } from 'components/Alert/AlertStore'
-import { TaskType } from 'types'
+import { Task } from 'types'
 import {
   CardWrapper,
   CardMenuButton,
@@ -21,7 +21,7 @@ type CardProps = {
   setMenuOpen: (state: boolean) => void
   toggleMenu: () => void
   isMenuOpen: boolean
-  task: TaskType
+  task: Task
 }
 
 export const Card = ({
@@ -50,7 +50,14 @@ export const Card = ({
     'success'
   )
 
-  const currentTaskRef = firebase.firestore().collection('tasks').doc(task.id)
+  const userId = firebase.auth().currentUser?.uid
+
+  const trimmedColumnType = task.columnType.split(' ').join('')
+
+  const currentTaskRef = firebase
+    .firestore()
+    .collection(`users/${userId}/${trimmedColumnType}Tasks`)
+    .doc(task.id)
 
   const handleConfirmationModalSubmit = async (
     event: React.MouseEvent<HTMLButtonElement>

@@ -2,7 +2,7 @@ import * as React from 'react'
 import firebase from 'firebase/app'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { Card } from 'components/Card'
-import { ColumnType, TaskType } from 'types'
+import { ColumnType, Task } from 'types'
 import { AddTaskForm } from 'components/AddTaskForm'
 import { useAlert } from 'components/Alert/AlertStore'
 import { ConfirmationModal } from 'components/ConfirmationModal'
@@ -39,9 +39,13 @@ export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
 
   const userId = firebase.auth().currentUser?.uid
 
-  const tasksCollection = firebase.firestore().collection('tasks')
+  const trimmedColumnType = columnType.split(' ').join('')
 
-  const [tasks] = useCollectionData<TaskType>(tasksCollection, {
+  const tasksCollection = firebase
+    .firestore()
+    .collection(`users/${userId}/${trimmedColumnType}Tasks`)
+
+  const [tasks] = useCollectionData<Task>(tasksCollection, {
     idField: 'id',
   })
 
@@ -50,17 +54,13 @@ export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
     'success'
   )
 
-  const userTasks = tasks?.filter(
-    (task) => task.columnType === columnType && task.userId === userId
-  )
-
   const handleConfirmationModalSubmit = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault()
 
-    userTasks?.forEach(async ({ id }) => {
-      await firebase.firestore().collection('tasks').doc(id).delete()
+    tasks?.forEach(async ({ id }) => {
+      await tasksCollection.doc(id).delete()
     })
 
     addSuccessDeleteAllTasksAlert()
@@ -69,7 +69,7 @@ export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
   }
 
   const columnId = columnType.replace(/\s/g, '-')
-  const totalTasks = userTasks?.length || 0
+  const totalTasks = tasks?.length || 0
 
   return (
     <>
@@ -102,9 +102,9 @@ export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
               columnType={columnType}
             />
           )}
-          {userTasks &&
-            userTasks.length > 0 &&
-            userTasks.map((task) => (
+          {tasks &&
+            tasks.length > 0 &&
+            tasks.map((task) => (
               <Card
                 setMenuOpen={setIsCardMenuOpen}
                 isMenuOpen={isCardMenuOpen}

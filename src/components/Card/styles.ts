@@ -10,11 +10,11 @@ export const CardWrapper = styled.article`
   background-color: ${theme.LightBlue};
   border-radius: 0.5rem;
   min-height: 11rem;
-  width: 90%;
+  width: 100%;
   display: grid;
   grid-template-columns: 50% 50%;
   justify-items: center;
-  grid-template-rows: minmax(10%, auto) minmax(70%, auto) minmax(10%, auto);
+  grid-template-rows: minmax(10%, auto) minmax(60%, auto) minmax(10%, auto);
   grid-template-areas:
     'logo menuButton'
     'text text'

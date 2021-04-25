@@ -31,14 +31,19 @@ export const AddTaskForm = ({ setOpen, columnType }: TaskFormProps) => {
   })
 
   const userId = firebase.auth().currentUser?.uid
-  const tasksCollection = firebase.firestore().collection('tasks')
+
+  const trimmedColumnType = columnType.split(' ').join('')
+
+  const tasksCollection = firebase
+    .firestore()
+    .collection(`users/${userId}/${trimmedColumnType}Tasks`)
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     const newDate = new Date().toLocaleDateString('en-US')
+
     tasksCollection.add({
-      userId,
       columnType,
       text: addTaskText,
       createdAt: newDate,

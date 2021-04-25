@@ -29,7 +29,7 @@ export const useCreateUserWithEmailAndPassword = (
     setStatus('loading')
     try {
       const user = await auth.createUserWithEmailAndPassword(email, password)
-      await usersRef.add({
+      await usersRef.doc(user.user?.uid).set({
         name,
         email: user.user?.email,
       })

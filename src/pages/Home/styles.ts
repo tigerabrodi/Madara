@@ -28,6 +28,7 @@ export const HomeMain = styled.main`
 `
 
 export const Title = styled.h1`
+  text-align: center;
   font-size: 7rem;
   grid-area: title;
   font-family: ${theme.LibreBaskerville};

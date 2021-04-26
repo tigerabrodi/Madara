@@ -104,6 +104,10 @@ export const DeleteAllTasksButton = styled.button`
   cursor: pointer;
   justify-self: flex-end;
   ${focusStyles};
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
   ${media.phone} {
     justify-self: center;
   }

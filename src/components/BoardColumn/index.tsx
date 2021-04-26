@@ -1,11 +1,17 @@
 import * as React from 'react'
 import firebase from 'firebase/app'
-import { useCollectionData } from 'react-firebase-hooks/firestore'
+import { useDocumentData } from 'react-firebase-hooks/firestore'
 import { Card } from 'components/Card'
-import { ColumnType, Task } from 'types'
+import { ColumnType, Task, TaskFirestoreResult } from 'types'
 import { AddTaskForm } from 'components/AddTaskForm'
 import { useAlert } from 'components/Alert/AlertStore'
 import { ConfirmationModal } from 'components/ConfirmationModal'
+import {
+  DragDropContext,
+  Droppable,
+  DroppableProvided,
+  DropResult,
+} from 'react-beautiful-dnd'
 import {
   Column,
   ToggleFormButton,
@@ -15,6 +21,7 @@ import {
   Toggle,
   Delete,
   DeleteAllTasksButton,
+  DroppableCardList,
 } from './styles'
 
 type ColumnProps = {
@@ -41,13 +48,12 @@ export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
 
   const trimmedColumnType = columnType.split(' ').join('')
 
-  const tasksCollection = firebase
+  const taskDoc = firebase
     .firestore()
     .collection(`users/${userId}/${trimmedColumnType}Tasks`)
+    .doc(trimmedColumnType)
 
-  const [tasks] = useCollectionData<Task>(tasksCollection, {
-    idField: 'id',
-  })
+  const [taskDocResult] = useDocumentData<TaskFirestoreResult>(taskDoc)
 
   const addSuccessDeleteAllTasksAlert = useAlert(
     `You successfully deleted all tasks in ${columnType} column.`,
@@ -59,8 +65,8 @@ export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
   ) => {
     event.preventDefault()
 
-    tasks?.forEach(async ({ id }) => {
-      await tasksCollection.doc(id).delete()
+    taskDoc.set({
+      tasks: [],
     })
 
     addSuccessDeleteAllTasksAlert()
@@ -68,8 +74,38 @@ export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
     toggleConfirmationModal()
   }
 
+  const reorder = (tasks: Task[], startIndex: number, endIndex: number) => {
+    const result = Array.from(tasks)
+    const [removed] = result.splice(startIndex, 1)
+    result.splice(endIndex, 0, removed)
+
+    return result
+  }
+
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) {
+      return
+    }
+
+    if (result.destination.index === result.source.index) {
+      return
+    }
+
+    if (taskDocResult?.tasks) {
+      const newTasks = reorder(
+        taskDocResult.tasks,
+        result.source.index,
+        result.destination.index
+      )
+
+      taskDoc.set({
+        tasks: newTasks,
+      })
+    }
+  }
+
   const columnId = columnType.replace(/\s/g, '-')
-  const totalTasks = tasks?.length || 0
+  const totalTasks = taskDocResult?.tasks?.length || 0
 
   return (
     <>
@@ -92,6 +128,7 @@ export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
         <DeleteAllTasksButton
           aria-label={`Delete all tasks in ${columnType} column.`}
           onClick={toggleConfirmationModal}
+          disabled={!taskDocResult?.tasks.length}
         >
           <Delete aria-hidden="true" />
         </DeleteAllTasksButton>
@@ -102,17 +139,30 @@ export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
               columnType={columnType}
             />
           )}
-          {tasks &&
-            tasks.length > 0 &&
-            tasks.map((task) => (
-              <Card
-                setMenuOpen={setIsCardMenuOpen}
-                isMenuOpen={isCardMenuOpen}
-                toggleMenu={toggleCardMenu}
-                key={task.id}
-                task={task}
-              />
-            ))}
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId={`${trimmedColumnType}List`}>
+              {(provided: DroppableProvided) => (
+                <DroppableCardList
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >
+                  {taskDocResult?.tasks &&
+                    taskDocResult.tasks.length > 0 &&
+                    taskDocResult.tasks.map((task, index) => (
+                      <Card
+                        setMenuOpen={setIsCardMenuOpen}
+                        isMenuOpen={isCardMenuOpen}
+                        toggleMenu={toggleCardMenu}
+                        key={task.id}
+                        task={task}
+                        index={index}
+                      />
+                    ))}
+                  {provided.placeholder}
+                </DroppableCardList>
+              )}
+            </Droppable>
+          </DragDropContext>
         </Inner>
       </Column>
 

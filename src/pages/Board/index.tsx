@@ -1,10 +1,14 @@
 import * as React from 'react'
 import firebase from 'firebase/app'
-import { useCollectionData } from 'react-firebase-hooks/firestore'
+import { DropResult } from 'react-beautiful-dnd'
+import {
+  useCollectionData,
+  useDocumentData,
+} from 'react-firebase-hooks/firestore'
 import { BoardColumn } from 'components/BoardColumn'
 import { useMedia } from 'hooks/useMedia'
 import { useTabArrowSwitch } from 'hooks/useTabArrowSwitch'
-import { ColumnType } from 'types'
+import { ColumnType, Task, TaskFirestoreResult } from 'types'
 import {
   BoardMain,
   BoardWrapper,
@@ -17,6 +21,12 @@ import {
   TodoTab,
   TabList,
 } from './styles'
+
+enum TrimmedColumnTypeEnum {
+  InProgress = 'Inprogress',
+  Done = 'Done',
+  Todo = 'Todo',
+}
 
 export const Board = () => {
   const [columnType, setColumnType] = React.useState<ColumnType>('Todo')
@@ -39,6 +49,87 @@ export const Board = () => {
     return users.find(
       (user) => user.email.toLowerCase() === userEmail?.toLowerCase()
     )?.name
+  }
+
+  const userId = firebase.auth().currentUser?.uid
+
+  const todoTaskDoc = firebase
+    .firestore()
+    .collection(`users/${userId}/${TrimmedColumnTypeEnum.Todo}Tasks`)
+    .doc(TrimmedColumnTypeEnum.Todo)
+
+  const [todoTaskDocResult] = useDocumentData<TaskFirestoreResult>(todoTaskDoc)
+
+  const progressTaskDoc = firebase
+    .firestore()
+    .collection(`users/${userId}/${TrimmedColumnTypeEnum.InProgress}Tasks`)
+    .doc(TrimmedColumnTypeEnum.InProgress)
+
+  const [progressTaskDocResult] = useDocumentData<TaskFirestoreResult>(
+    progressTaskDoc
+  )
+
+  const doneTaskDoc = firebase
+    .firestore()
+    .collection(`users/${userId}/${TrimmedColumnTypeEnum.Done}Tasks`)
+    .doc(TrimmedColumnTypeEnum.Done)
+
+  const [doneTaskDocResult] = useDocumentData<TaskFirestoreResult>(doneTaskDoc)
+
+  const reorder = (tasks: Task[], startIndex: number, endIndex: number) => {
+    const result = Array.from(tasks)
+    const [removed] = result.splice(startIndex, 1)
+    result.splice(endIndex, 0, removed)
+
+    return result
+  }
+
+  const onDragEnd = (result: DropResult) => {
+    const { source, destination } = result
+
+    if (!destination) {
+      return
+    }
+
+    if (destination.index === source.index) {
+      return
+    }
+
+    console.log({ source, destination })
+
+    if (
+      TrimmedColumnTypeEnum.Todo === source.droppableId &&
+      source.droppableId === destination.droppableId
+    ) {
+      if (todoTaskDocResult) {
+        const newTasks = reorder(
+          todoTaskDocResult.tasks,
+          source.index,
+          destination.index
+        )
+
+        todoTaskDoc.set({
+          tasks: newTasks,
+        })
+      }
+    }
+
+    if (
+      TrimmedColumnTypeEnum.InProgress === source.droppableId &&
+      source.droppableId === destination.droppableId
+    ) {
+      if (progressTaskDocResult) {
+        const newTasks = reorder(
+          progressTaskDocResult.tasks,
+          source.index,
+          destination.index
+        )
+
+        progressTaskDoc.set({
+          tasks: newTasks,
+        })
+      }
+    }
   }
 
   return (
@@ -91,16 +182,30 @@ export const Board = () => {
           <BoardColumn
             columnType={isNotMobileLayout ? 'Todo' : columnType}
             isNotMobileLayout={isNotMobileLayout}
+            onDragEnd={onDragEnd}
+            tasks={
+              isNotMobileLayout
+                ? todoTaskDocResult?.tasks
+                : columnType === 'Todo'
+                ? todoTaskDocResult?.tasks
+                : columnType === 'In progress'
+                ? progressTaskDocResult?.tasks
+                : doneTaskDocResult?.tasks
+            }
           />
           {isNotMobileLayout && (
             <>
               <BoardColumn
                 columnType="In progress"
                 isNotMobileLayout={isNotMobileLayout}
+                onDragEnd={onDragEnd}
+                tasks={progressTaskDocResult?.tasks}
               />
               <BoardColumn
                 columnType="Done"
                 isNotMobileLayout={isNotMobileLayout}
+                onDragEnd={onDragEnd}
+                tasks={doneTaskDocResult?.tasks}
               />
             </>
           )}

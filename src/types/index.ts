@@ -1,5 +1,7 @@
 export type ColumnType = 'Todo' | 'In progress' | 'Done'
 
+export type TrimmedColumnType = 'Todo' | 'Inprogress' | 'Done'
+
 export type Task = {
   text: string
   createdAt: string
@@ -9,6 +11,7 @@ export type Task = {
 
 export type TaskFirestoreResult = {
   tasks: Task[]
+  columnType: ColumnType
 }
 
 export type Status = 'idle' | 'loading' | 'success' | 'error'

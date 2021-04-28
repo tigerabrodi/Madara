@@ -1,8 +1,7 @@
 import * as React from 'react'
 import firebase from 'firebase/app'
-import { useDocumentData } from 'react-firebase-hooks/firestore'
 import { Card } from 'components/Card'
-import { ColumnType, Task, TaskFirestoreResult } from 'types'
+import { ColumnType, TrimmedColumnType, Task } from 'types'
 import { AddTaskForm } from 'components/AddTaskForm'
 import { useAlert } from 'components/Alert/AlertStore'
 import { ConfirmationModal } from 'components/ConfirmationModal'
@@ -27,9 +26,16 @@ import {
 type ColumnProps = {
   columnType: ColumnType
   isNotMobileLayout: boolean
+  tasks: Task[] | undefined
+  onDragEnd: (result: DropResult) => void
 }
 
-export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
+export const BoardColumn = ({
+  columnType,
+  isNotMobileLayout,
+  onDragEnd,
+  tasks,
+}: ColumnProps) => {
   const [isAddTaskFormOpen, setIsAddTaskFormOpen] = React.useState(false)
   const [isCardMenuOpen, setIsCardMenuOpen] = React.useState(false)
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = React.useState(
@@ -44,16 +50,14 @@ export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
   const toggleConfirmationModal = () =>
     setIsConfirmationModalOpen(!isConfirmationModalOpen)
 
-  const userId = firebase.auth().currentUser?.uid
+  const trimmedColumnType = columnType.split(' ').join('') as TrimmedColumnType
 
-  const trimmedColumnType = columnType.split(' ').join('')
+  const userId = firebase.auth().currentUser?.uid
 
   const taskDoc = firebase
     .firestore()
     .collection(`users/${userId}/${trimmedColumnType}Tasks`)
     .doc(trimmedColumnType)
-
-  const [taskDocResult] = useDocumentData<TaskFirestoreResult>(taskDoc)
 
   const addSuccessDeleteAllTasksAlert = useAlert(
     `You successfully deleted all tasks in ${columnType} column.`,
@@ -74,38 +78,8 @@ export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
     toggleConfirmationModal()
   }
 
-  const reorder = (tasks: Task[], startIndex: number, endIndex: number) => {
-    const result = Array.from(tasks)
-    const [removed] = result.splice(startIndex, 1)
-    result.splice(endIndex, 0, removed)
-
-    return result
-  }
-
-  const onDragEnd = (result: DropResult) => {
-    if (!result.destination) {
-      return
-    }
-
-    if (result.destination.index === result.source.index) {
-      return
-    }
-
-    if (taskDocResult?.tasks) {
-      const newTasks = reorder(
-        taskDocResult.tasks,
-        result.source.index,
-        result.destination.index
-      )
-
-      taskDoc.set({
-        tasks: newTasks,
-      })
-    }
-  }
-
   const columnId = columnType.replace(/\s/g, '-')
-  const totalTasks = taskDocResult?.tasks?.length || 0
+  const totalTasks = tasks?.length || 0
 
   return (
     <>
@@ -128,7 +102,7 @@ export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
         <DeleteAllTasksButton
           aria-label={`Delete all tasks in ${columnType} column.`}
           onClick={toggleConfirmationModal}
-          disabled={!taskDocResult?.tasks.length}
+          disabled={!tasks?.length}
         >
           <Delete aria-hidden="true" />
         </DeleteAllTasksButton>
@@ -139,16 +113,16 @@ export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
               columnType={columnType}
             />
           )}
-          <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId={`${trimmedColumnType}List`}>
+          <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
+            <Droppable droppableId={`${trimmedColumnType}`}>
               {(provided: DroppableProvided) => (
                 <DroppableCardList
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                 >
-                  {taskDocResult?.tasks &&
-                    taskDocResult.tasks.length > 0 &&
-                    taskDocResult.tasks.map((task, index) => (
+                  {tasks &&
+                    tasks.length > 0 &&
+                    tasks.map((task, index) => (
                       <Card
                         setMenuOpen={setIsCardMenuOpen}
                         isMenuOpen={isCardMenuOpen}

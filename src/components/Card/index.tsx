@@ -121,7 +121,6 @@ export const Card = ({
       <Draggable draggableId={task.id} index={index}>
         {(provided) => (
           <CardWrapper
-            tabIndex={0}
             aria-label={`Task in ${task.columnType} column`}
             ref={provided.innerRef}
             {...provided.draggableProps}

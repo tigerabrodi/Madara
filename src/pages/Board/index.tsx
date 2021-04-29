@@ -95,8 +95,6 @@ export const Board = () => {
       return
     }
 
-    console.log({ source, destination })
-
     if (
       TrimmedColumnTypeEnum.Todo === source.droppableId &&
       source.droppableId === destination.droppableId
@@ -132,6 +130,18 @@ export const Board = () => {
     }
   }
 
+  const isTodoColumnType = columnType === 'Todo'
+  const isProgressColumnType = columnType === 'In progress'
+  const isDoneColumnType = columnType === 'Done'
+
+  const tasksForDynamicColumn = isNotMobileLayout
+    ? todoTaskDocResult?.tasks
+    : isTodoColumnType
+    ? todoTaskDocResult?.tasks
+    : isProgressColumnType
+    ? progressTaskDocResult?.tasks
+    : doneTaskDocResult?.tasks
+
   return (
     <>
       <BoardMain>
@@ -152,7 +162,7 @@ export const Board = () => {
               columnType={columnType}
               tabIndex={0}
               aria-controls="Todo"
-              aria-selected={columnType === 'Todo' ? 'true' : 'false'}
+              aria-selected={isTodoColumnType ? 'true' : 'false'}
             >
               Todo
             </TodoTab>
@@ -162,7 +172,7 @@ export const Board = () => {
               columnType={columnType}
               tabIndex={-1}
               aria-controls="In-progress"
-              aria-selected={columnType === 'In progress' ? 'true' : 'false'}
+              aria-selected={isProgressColumnType ? 'true' : 'false'}
             >
               In progress
             </InProgressTab>
@@ -172,7 +182,7 @@ export const Board = () => {
               columnType={columnType}
               tabIndex={-1}
               aria-controls="Done"
-              aria-selected={columnType === 'Done' ? 'true' : 'false'}
+              aria-selected={isDoneColumnType ? 'true' : 'false'}
             >
               Done
             </DoneTab>
@@ -183,15 +193,7 @@ export const Board = () => {
             columnType={isNotMobileLayout ? 'Todo' : columnType}
             isNotMobileLayout={isNotMobileLayout}
             onDragEnd={onDragEnd}
-            tasks={
-              isNotMobileLayout
-                ? todoTaskDocResult?.tasks
-                : columnType === 'Todo'
-                ? todoTaskDocResult?.tasks
-                : columnType === 'In progress'
-                ? progressTaskDocResult?.tasks
-                : doneTaskDocResult?.tasks
-            }
+            tasks={tasksForDynamicColumn}
           />
           {isNotMobileLayout && (
             <>

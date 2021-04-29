@@ -72,4 +72,88 @@ context('Desktop drag and drop functionality', () => {
         .trigger('keydown', { keyCode: keyCodes.space, force: true })
     })
   })
+
+  it('should reorder tasks between sections', () => {
+    cy.findByRole('region', { name: 'Todo column with 0 tasks' }).within(() => {
+      cy.findByText('Todo').should('exist')
+      cy.findByRole('button', { name: 'Add a task to this column.' }).click()
+      cy.findByRole('textbox', { name: 'Enter a task' }).type(todoTask.text, {
+        force: true,
+      })
+      cy.findByRole('button', { name: 'Add' }).click()
+
+      cy.findByRole('button', { name: 'Add a task to this column.' }).click()
+      cy.findByRole('textbox', { name: 'Enter a task' }).type(
+        secondTodoTask.text,
+        {
+          force: true,
+        }
+      )
+      cy.findByRole('button', { name: 'Add' }).click()
+    })
+
+    cy.findByRole('region', {
+      name: 'Todo column with 2 tasks',
+    }).within(() => {
+      cy.findAllByRole('button', { name: 'Task in Todo column' })
+        .first()
+        .focus()
+        .trigger('keydown', { keyCode: keyCodes.space })
+        .trigger('keydown', { keyCode: keyCodes.arrowRight, force: true })
+        .wait(timings.outOfTheWay * 1000)
+        .trigger('keydown', { keyCode: keyCodes.space, force: true })
+    })
+
+    cy.findByRole('region', {
+      name: 'In progress column with 1 tasks',
+    }).within(() => {
+      cy.findByRole('button', { name: 'Task in In progress column' }).within(
+        () => {
+          cy.findByText(secondTodoTask.text)
+            .focus()
+            .trigger('keydown', { keyCode: keyCodes.space })
+            .trigger('keydown', { keyCode: keyCodes.arrowRight, force: true })
+            .wait(timings.outOfTheWay * 1000)
+            .trigger('keydown', { keyCode: keyCodes.space, force: true })
+        }
+      )
+    })
+
+    cy.findByRole('region', {
+      name: 'Done column with 1 tasks',
+    }).within(() => {
+      cy.findByRole('button', { name: 'Task in Done column' }).within(() => {
+        cy.findByText(secondTodoTask.text)
+          .focus()
+          .trigger('keydown', { keyCode: keyCodes.space })
+          .trigger('keydown', { keyCode: keyCodes.arrowLeft, force: true })
+          .wait(timings.outOfTheWay * 1000)
+          .trigger('keydown', { keyCode: keyCodes.space, force: true })
+      })
+    })
+
+    cy.findByRole('region', {
+      name: 'In progress column with 1 tasks',
+    }).within(() => {
+      cy.findByRole('button', { name: 'Task in In progress column' }).within(
+        () => {
+          cy.findByText(secondTodoTask.text)
+            .focus()
+            .trigger('keydown', { keyCode: keyCodes.space })
+            .trigger('keydown', { keyCode: keyCodes.arrowLeft, force: true })
+            .wait(timings.outOfTheWay * 1000)
+            .trigger('keydown', { keyCode: keyCodes.space, force: true })
+        }
+      )
+    })
+
+    cy.findByRole('region', {
+      name: 'Todo column with 2 tasks',
+    }).within(() => {
+      cy.findAllByRole('button', { name: 'Task in In progress column' }).should(
+        'have.length',
+        2
+      )
+    })
+  })
 })

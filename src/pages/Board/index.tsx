@@ -1,6 +1,10 @@
 import * as React from 'react'
 import firebase from 'firebase/app'
-import { DropResult } from 'react-beautiful-dnd'
+import {
+  DraggableLocation,
+  DropResult,
+  DragDropContext,
+} from 'react-beautiful-dnd'
 import {
   useCollectionData,
   useDocumentData,
@@ -76,6 +80,126 @@ export const Board = () => {
 
   const [doneTaskDocResult] = useDocumentData<TaskFirestoreResult>(doneTaskDoc)
 
+  const move = (
+    droppableSource: DraggableLocation,
+    droppableDestination: DraggableLocation
+  ) => {
+    const fromTodoToProgress =
+      droppableSource.droppableId === TrimmedColumnTypeEnum.Todo &&
+      droppableDestination.droppableId === TrimmedColumnTypeEnum.InProgress
+    if (fromTodoToProgress) {
+      if (todoTaskDocResult) {
+        const todoClone = Array.from(todoTaskDocResult.tasks)
+        const progressClone = progressTaskDocResult
+          ? Array.from(progressTaskDocResult.tasks)
+          : []
+        const [removedTask] = todoClone.splice(droppableSource.index, 1)
+
+        const newTaskToProgress: Task = {
+          ...removedTask,
+          columnType: 'In progress',
+        }
+
+        progressClone.splice(droppableDestination.index, 0, newTaskToProgress)
+
+        todoTaskDoc.set({
+          tasks: todoClone,
+        })
+
+        progressTaskDoc.set({
+          tasks: progressClone,
+        })
+      }
+    }
+
+    const fromProgressToTodo =
+      droppableSource.droppableId === TrimmedColumnTypeEnum.InProgress &&
+      droppableDestination.droppableId === TrimmedColumnTypeEnum.Todo
+    if (fromProgressToTodo) {
+      if (progressTaskDocResult) {
+        const progressClone = Array.from(progressTaskDocResult.tasks)
+        const todoClone = todoTaskDocResult
+          ? Array.from(todoTaskDocResult.tasks)
+          : []
+
+        const [removedTask] = progressClone.splice(droppableSource.index, 1)
+
+        const newTaskToTodo: Task = {
+          ...removedTask,
+          columnType: 'Todo',
+        }
+
+        todoClone.splice(droppableDestination.index, 0, newTaskToTodo)
+
+        progressTaskDoc.set({
+          tasks: progressClone,
+        })
+
+        todoTaskDoc.set({
+          tasks: todoClone,
+        })
+      }
+    }
+
+    const fromProgressToDone =
+      droppableSource.droppableId === TrimmedColumnTypeEnum.InProgress &&
+      droppableDestination.droppableId === TrimmedColumnTypeEnum.Done
+    if (fromProgressToDone) {
+      if (progressTaskDocResult) {
+        const progressClone = Array.from(progressTaskDocResult.tasks)
+        const doneClone = doneTaskDocResult
+          ? Array.from(doneTaskDocResult.tasks)
+          : []
+
+        const [removedTask] = progressClone.splice(droppableSource.index, 1)
+
+        const newTaskToDone: Task = {
+          ...removedTask,
+          columnType: 'Done',
+        }
+
+        doneClone.splice(droppableDestination.index, 0, newTaskToDone)
+
+        progressTaskDoc.set({
+          tasks: progressClone,
+        })
+
+        doneTaskDoc.set({
+          tasks: doneClone,
+        })
+      }
+    }
+
+    const fromDoneToProgress =
+      droppableSource.droppableId === TrimmedColumnTypeEnum.Done &&
+      droppableDestination.droppableId === TrimmedColumnTypeEnum.InProgress
+    if (fromDoneToProgress) {
+      if (doneTaskDocResult) {
+        const doneClone = Array.from(doneTaskDocResult.tasks)
+        const progressClone = progressTaskDocResult
+          ? Array.from(progressTaskDocResult.tasks)
+          : []
+
+        const [removedTask] = doneClone.splice(droppableSource.index, 1)
+
+        const newTaskToProgress: Task = {
+          ...removedTask,
+          columnType: 'In progress',
+        }
+
+        progressClone.splice(droppableDestination.index, 0, newTaskToProgress)
+
+        doneTaskDoc.set({
+          tasks: doneClone,
+        })
+
+        progressTaskDoc.set({
+          tasks: progressClone,
+        })
+      }
+    }
+  }
+
   const reorder = (tasks: Task[], startIndex: number, endIndex: number) => {
     const result = Array.from(tasks)
     const [removed] = result.splice(startIndex, 1)
@@ -91,42 +215,62 @@ export const Board = () => {
       return
     }
 
-    if (destination.index === source.index) {
-      return
-    }
+    const isSameDroppableId = source.droppableId === destination.droppableId
+    if (isSameDroppableId) {
+      const isSamePosition = destination.index === source.index
+      if (isSamePosition) {
+        return
+      }
 
-    if (
-      TrimmedColumnTypeEnum.Todo === source.droppableId &&
-      source.droppableId === destination.droppableId
-    ) {
-      if (todoTaskDocResult) {
-        const newTasks = reorder(
-          todoTaskDocResult.tasks,
-          source.index,
-          destination.index
-        )
+      const isTodoColumn = TrimmedColumnTypeEnum.Todo === source.droppableId
+      if (isTodoColumn) {
+        if (todoTaskDocResult) {
+          const newTasks = reorder(
+            todoTaskDocResult.tasks,
+            source.index,
+            destination.index
+          )
 
-        todoTaskDoc.set({
-          tasks: newTasks,
-        })
+          todoTaskDoc.set({
+            tasks: newTasks,
+          })
+        }
+      }
+
+      const isProgressColumn =
+        TrimmedColumnTypeEnum.InProgress === source.droppableId
+      if (isProgressColumn) {
+        if (progressTaskDocResult) {
+          const newTasks = reorder(
+            progressTaskDocResult.tasks,
+            source.index,
+            destination.index
+          )
+
+          progressTaskDoc.set({
+            tasks: newTasks,
+          })
+        }
+      }
+
+      const isDoneColumn = TrimmedColumnTypeEnum.Done === source.droppableId
+      if (isDoneColumn) {
+        if (doneTaskDocResult) {
+          const newTasks = reorder(
+            doneTaskDocResult.tasks,
+            source.index,
+            destination.index
+          )
+
+          doneTaskDoc.set({
+            tasks: newTasks,
+          })
+        }
       }
     }
 
-    if (
-      TrimmedColumnTypeEnum.InProgress === source.droppableId &&
-      source.droppableId === destination.droppableId
-    ) {
-      if (progressTaskDocResult) {
-        const newTasks = reorder(
-          progressTaskDocResult.tasks,
-          source.index,
-          destination.index
-        )
-
-        progressTaskDoc.set({
-          tasks: newTasks,
-        })
-      }
+    if (source.droppableId !== destination.droppableId) {
+      move(source, destination)
     }
   }
 
@@ -189,28 +333,27 @@ export const Board = () => {
           </TabList>
         )}
         <BoardWrapper>
-          <BoardColumn
-            columnType={isNotMobileLayout ? 'Todo' : columnType}
-            isNotMobileLayout={isNotMobileLayout}
-            onDragEnd={onDragEnd}
-            tasks={tasksForDynamicColumn}
-          />
-          {isNotMobileLayout && (
-            <>
-              <BoardColumn
-                columnType="In progress"
-                isNotMobileLayout={isNotMobileLayout}
-                onDragEnd={onDragEnd}
-                tasks={progressTaskDocResult?.tasks}
-              />
-              <BoardColumn
-                columnType="Done"
-                isNotMobileLayout={isNotMobileLayout}
-                onDragEnd={onDragEnd}
-                tasks={doneTaskDocResult?.tasks}
-              />
-            </>
-          )}
+          <DragDropContext onDragEnd={onDragEnd}>
+            <BoardColumn
+              columnType={isNotMobileLayout ? 'Todo' : columnType}
+              isNotMobileLayout={isNotMobileLayout}
+              tasks={tasksForDynamicColumn}
+            />
+            {isNotMobileLayout && (
+              <>
+                <BoardColumn
+                  columnType="In progress"
+                  isNotMobileLayout={isNotMobileLayout}
+                  tasks={progressTaskDocResult?.tasks}
+                />
+                <BoardColumn
+                  columnType="Done"
+                  isNotMobileLayout={isNotMobileLayout}
+                  tasks={doneTaskDocResult?.tasks}
+                />
+              </>
+            )}
+          </DragDropContext>
         </BoardWrapper>
       </BoardMain>
     </>

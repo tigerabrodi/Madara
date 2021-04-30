@@ -26,7 +26,7 @@ import {
   TabList,
 } from './styles'
 
-enum TrimmedColumnTypeEnum {
+enum ETrimmedColumnType {
   InProgress = 'Inprogress',
   Done = 'Done',
   Todo = 'Todo',
@@ -59,15 +59,15 @@ export const Board = () => {
 
   const todoTaskDoc = firebase
     .firestore()
-    .collection(`users/${userId}/${TrimmedColumnTypeEnum.Todo}Tasks`)
-    .doc(TrimmedColumnTypeEnum.Todo)
+    .collection(`users/${userId}/${ETrimmedColumnType.Todo}Tasks`)
+    .doc(ETrimmedColumnType.Todo)
 
   const [todoTaskDocResult] = useDocumentData<TaskFirestoreResult>(todoTaskDoc)
 
   const progressTaskDoc = firebase
     .firestore()
-    .collection(`users/${userId}/${TrimmedColumnTypeEnum.InProgress}Tasks`)
-    .doc(TrimmedColumnTypeEnum.InProgress)
+    .collection(`users/${userId}/${ETrimmedColumnType.InProgress}Tasks`)
+    .doc(ETrimmedColumnType.InProgress)
 
   const [progressTaskDocResult] = useDocumentData<TaskFirestoreResult>(
     progressTaskDoc
@@ -75,8 +75,8 @@ export const Board = () => {
 
   const doneTaskDoc = firebase
     .firestore()
-    .collection(`users/${userId}/${TrimmedColumnTypeEnum.Done}Tasks`)
-    .doc(TrimmedColumnTypeEnum.Done)
+    .collection(`users/${userId}/${ETrimmedColumnType.Done}Tasks`)
+    .doc(ETrimmedColumnType.Done)
 
   const [doneTaskDocResult] = useDocumentData<TaskFirestoreResult>(doneTaskDoc)
 
@@ -85,8 +85,8 @@ export const Board = () => {
     droppableDestination: DraggableLocation
   ) => {
     const fromTodoToProgress =
-      droppableSource.droppableId === TrimmedColumnTypeEnum.Todo &&
-      droppableDestination.droppableId === TrimmedColumnTypeEnum.InProgress
+      droppableSource.droppableId === ETrimmedColumnType.Todo &&
+      droppableDestination.droppableId === ETrimmedColumnType.InProgress
     if (fromTodoToProgress) {
       if (todoTaskDocResult) {
         const todoClone = Array.from(todoTaskDocResult.tasks)
@@ -113,8 +113,8 @@ export const Board = () => {
     }
 
     const fromProgressToTodo =
-      droppableSource.droppableId === TrimmedColumnTypeEnum.InProgress &&
-      droppableDestination.droppableId === TrimmedColumnTypeEnum.Todo
+      droppableSource.droppableId === ETrimmedColumnType.InProgress &&
+      droppableDestination.droppableId === ETrimmedColumnType.Todo
     if (fromProgressToTodo) {
       if (progressTaskDocResult) {
         const progressClone = Array.from(progressTaskDocResult.tasks)
@@ -142,8 +142,8 @@ export const Board = () => {
     }
 
     const fromProgressToDone =
-      droppableSource.droppableId === TrimmedColumnTypeEnum.InProgress &&
-      droppableDestination.droppableId === TrimmedColumnTypeEnum.Done
+      droppableSource.droppableId === ETrimmedColumnType.InProgress &&
+      droppableDestination.droppableId === ETrimmedColumnType.Done
     if (fromProgressToDone) {
       if (progressTaskDocResult) {
         const progressClone = Array.from(progressTaskDocResult.tasks)
@@ -171,8 +171,8 @@ export const Board = () => {
     }
 
     const fromDoneToProgress =
-      droppableSource.droppableId === TrimmedColumnTypeEnum.Done &&
-      droppableDestination.droppableId === TrimmedColumnTypeEnum.InProgress
+      droppableSource.droppableId === ETrimmedColumnType.Done &&
+      droppableDestination.droppableId === ETrimmedColumnType.InProgress
     if (fromDoneToProgress) {
       if (doneTaskDocResult) {
         const doneClone = Array.from(doneTaskDocResult.tasks)
@@ -222,7 +222,7 @@ export const Board = () => {
         return
       }
 
-      const isTodoColumn = TrimmedColumnTypeEnum.Todo === source.droppableId
+      const isTodoColumn = ETrimmedColumnType.Todo === source.droppableId
       if (isTodoColumn) {
         if (todoTaskDocResult) {
           const newTasks = reorder(
@@ -238,7 +238,7 @@ export const Board = () => {
       }
 
       const isProgressColumn =
-        TrimmedColumnTypeEnum.InProgress === source.droppableId
+        ETrimmedColumnType.InProgress === source.droppableId
       if (isProgressColumn) {
         if (progressTaskDocResult) {
           const newTasks = reorder(
@@ -253,7 +253,7 @@ export const Board = () => {
         }
       }
 
-      const isDoneColumn = TrimmedColumnTypeEnum.Done === source.droppableId
+      const isDoneColumn = ETrimmedColumnType.Done === source.droppableId
       if (isDoneColumn) {
         if (doneTaskDocResult) {
           const newTasks = reorder(

@@ -5,12 +5,7 @@ import { ColumnType, TrimmedColumnType, Task } from 'types'
 import { AddTaskForm } from 'components/AddTaskForm'
 import { useAlert } from 'components/Alert/AlertStore'
 import { ConfirmationModal } from 'components/ConfirmationModal'
-import {
-  DragDropContext,
-  Droppable,
-  DroppableProvided,
-  DropResult,
-} from 'react-beautiful-dnd'
+import { Droppable, DroppableProvided } from 'react-beautiful-dnd'
 import {
   Column,
   ToggleFormButton,
@@ -27,13 +22,11 @@ type ColumnProps = {
   columnType: ColumnType
   isNotMobileLayout: boolean
   tasks: Task[] | undefined
-  onDragEnd: (result: DropResult) => void
 }
 
 export const BoardColumn = ({
   columnType,
   isNotMobileLayout,
-  onDragEnd,
   tasks,
 }: ColumnProps) => {
   const [isAddTaskFormOpen, setIsAddTaskFormOpen] = React.useState(false)
@@ -113,30 +106,28 @@ export const BoardColumn = ({
               columnType={columnType}
             />
           )}
-          <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
-            <Droppable droppableId={`${trimmedColumnType}`}>
-              {(provided: DroppableProvided) => (
-                <DroppableCardList
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                >
-                  {tasks &&
-                    tasks.length > 0 &&
-                    tasks.map((task, index) => (
-                      <Card
-                        setMenuOpen={setIsCardMenuOpen}
-                        isMenuOpen={isCardMenuOpen}
-                        toggleMenu={toggleCardMenu}
-                        key={task.id}
-                        task={task}
-                        index={index}
-                      />
-                    ))}
-                  {provided.placeholder}
-                </DroppableCardList>
-              )}
-            </Droppable>
-          </DragDropContext>
+          <Droppable droppableId={`${trimmedColumnType}`}>
+            {(provided: DroppableProvided) => (
+              <DroppableCardList
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                {tasks &&
+                  tasks.length > 0 &&
+                  tasks.map((task, index) => (
+                    <Card
+                      setMenuOpen={setIsCardMenuOpen}
+                      isMenuOpen={isCardMenuOpen}
+                      toggleMenu={toggleCardMenu}
+                      key={task.id}
+                      task={task}
+                      index={index}
+                    />
+                  ))}
+                {provided.placeholder}
+              </DroppableCardList>
+            )}
+          </Droppable>
         </Inner>
       </Column>
 

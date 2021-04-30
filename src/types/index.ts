@@ -11,7 +11,6 @@ export type Task = {
 
 export type TaskFirestoreResult = {
   tasks: Task[]
-  columnType: ColumnType
 }
 
 export type Status = 'idle' | 'loading' | 'success' | 'error'

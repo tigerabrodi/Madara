@@ -31,7 +31,7 @@ export const Column = styled.section`
     border-radius: 0.5rem;
     height: 90%;
     width: 30%;
-    max-width: 40rem;
+    max-width: 38rem;
     min-width: 35rem;
     grid-template-rows: 7%;
   }
@@ -104,6 +104,10 @@ export const DeleteAllTasksButton = styled.button`
   cursor: pointer;
   justify-self: flex-end;
   ${focusStyles};
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
   ${media.phone} {
     justify-self: center;
   }
@@ -129,4 +133,14 @@ export const Inner = styled.div<{ isFormOpen: boolean }>`
     css`
       justify-content: stretch;
     `}
+`
+
+export const DroppableCardList = styled.div`
+  width: 90%;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  row-gap: 1rem;
 `

@@ -5,16 +5,16 @@ import { ReactComponent as CardLogoSVG } from 'assets/card-logo.svg'
 import { ReactComponent as CardMenuSVG } from 'assets/card-menu.svg'
 import { media } from 'theme/media'
 
-export const CardWrapper = styled.article`
+export const CardWrapper = styled.div`
   position: relative;
   background-color: ${theme.LightBlue};
   border-radius: 0.5rem;
   min-height: 11rem;
-  width: 90%;
+  width: 100%;
   display: grid;
   grid-template-columns: 50% 50%;
   justify-items: center;
-  grid-template-rows: minmax(10%, auto) minmax(70%, auto) minmax(10%, auto);
+  grid-template-rows: minmax(10%, auto) minmax(60%, auto) minmax(10%, auto);
   grid-template-areas:
     'logo menuButton'
     'text text'
@@ -83,17 +83,25 @@ export const CardMenu = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  height: 15rem;
+  height: 16rem;
+  min-width: 12rem;
   width: 40%;
   background-color: ${theme.Blue};
   box-shadow: 0 0.2rem 1rem ${theme.DarkBlue};
   border-radius: 0.5rem;
-  top: 65%;
-  left: 76.2%;
+  left: 73.5%;
+  top: 98%;
   transform: translate(-50%, -50%);
+  ${media.custom(360)} {
+    left: 76%;
+  }
+  ${media.phone} {
+    left: 75.8%;
+  }
   ${media.desktop} {
-    top: 70%;
+    top: 102%;
     height: 17rem;
+    left: 76%;
   }
 `
 

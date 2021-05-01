@@ -1,12 +1,12 @@
 import { buildUser, buildTask } from '../support/generate'
 
-context('Desktop resolution user flow iteration 2, delete all tasks', () => {
+context('Desktop delete all tasks', () => {
   beforeEach(() => {
     cy.viewport(1280, 900)
     indexedDB.deleteDatabase('firebaseLocalStorageDb')
   })
 
-  it('delete all tasks', () => {
+  it('desktop delete all tasks', () => {
     const user = buildUser()
 
     const todoTask = buildTask()
@@ -47,7 +47,7 @@ context('Desktop resolution user flow iteration 2, delete all tasks', () => {
       })
 
       cy.findByRole('button', { name: 'Add' }).click()
-      cy.findByRole('article', { name: 'Task in Todo column' }).within(() => {
+      cy.findByRole('button', { name: 'Task in Todo column' }).within(() => {
         cy.findByText(todoTask.text).should('exist')
       })
     })
@@ -87,7 +87,7 @@ context('Desktop resolution user flow iteration 2, delete all tasks', () => {
     })
 
     cy.findByRole('region', { name: 'Todo column with 0 tasks' }).within(() => {
-      cy.findByRole('article').should('not.exist')
+      cy.findByRole('button').should('not.exist')
     })
 
     /* In progress */
@@ -103,7 +103,7 @@ context('Desktop resolution user flow iteration 2, delete all tasks', () => {
         )
 
         cy.findByRole('button', { name: 'Add' }).click()
-        cy.findByRole('article', { name: 'Task in In progress column' }).within(
+        cy.findByRole('button', { name: 'Task in In progress column' }).within(
           () => {
             cy.findByText(inProgressTask.text).should('exist')
           }
@@ -149,7 +149,7 @@ context('Desktop resolution user flow iteration 2, delete all tasks', () => {
 
     cy.findByRole('region', { name: 'In progress column with 0 tasks' }).within(
       () => {
-        cy.findByRole('article').should('not.exist')
+        cy.findByRole('button').should('not.exist')
       }
     )
   })

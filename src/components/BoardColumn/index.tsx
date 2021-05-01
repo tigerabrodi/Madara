@@ -1,11 +1,11 @@
 import * as React from 'react'
 import firebase from 'firebase/app'
-import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { Card } from 'components/Card'
-import { ColumnType, Task } from 'types'
+import { ColumnType, TrimmedColumnType, Task } from 'types'
 import { AddTaskForm } from 'components/AddTaskForm'
 import { useAlert } from 'components/Alert/AlertStore'
 import { ConfirmationModal } from 'components/ConfirmationModal'
+import { Droppable, DroppableProvided } from 'react-beautiful-dnd'
 import {
   Column,
   ToggleFormButton,
@@ -15,14 +15,20 @@ import {
   Toggle,
   Delete,
   DeleteAllTasksButton,
+  DroppableCardList,
 } from './styles'
 
 type ColumnProps = {
   columnType: ColumnType
   isNotMobileLayout: boolean
+  tasks: Task[] | undefined
 }
 
-export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
+export const BoardColumn = ({
+  columnType,
+  isNotMobileLayout,
+  tasks,
+}: ColumnProps) => {
   const [isAddTaskFormOpen, setIsAddTaskFormOpen] = React.useState(false)
   const [isCardMenuOpen, setIsCardMenuOpen] = React.useState(false)
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = React.useState(
@@ -37,17 +43,14 @@ export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
   const toggleConfirmationModal = () =>
     setIsConfirmationModalOpen(!isConfirmationModalOpen)
 
+  const trimmedColumnType = columnType.split(' ').join('') as TrimmedColumnType
+
   const userId = firebase.auth().currentUser?.uid
 
-  const trimmedColumnType = columnType.split(' ').join('')
-
-  const tasksCollection = firebase
+  const taskDoc = firebase
     .firestore()
     .collection(`users/${userId}/${trimmedColumnType}Tasks`)
-
-  const [tasks] = useCollectionData<Task>(tasksCollection, {
-    idField: 'id',
-  })
+    .doc(trimmedColumnType)
 
   const addSuccessDeleteAllTasksAlert = useAlert(
     `You successfully deleted all tasks in ${columnType} column.`,
@@ -59,8 +62,8 @@ export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
   ) => {
     event.preventDefault()
 
-    tasks?.forEach(async ({ id }) => {
-      await tasksCollection.doc(id).delete()
+    taskDoc.set({
+      tasks: [],
     })
 
     addSuccessDeleteAllTasksAlert()
@@ -92,6 +95,7 @@ export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
         <DeleteAllTasksButton
           aria-label={`Delete all tasks in ${columnType} column.`}
           onClick={toggleConfirmationModal}
+          disabled={!tasks?.length}
         >
           <Delete aria-hidden="true" />
         </DeleteAllTasksButton>
@@ -102,17 +106,28 @@ export const BoardColumn = ({ columnType, isNotMobileLayout }: ColumnProps) => {
               columnType={columnType}
             />
           )}
-          {tasks &&
-            tasks.length > 0 &&
-            tasks.map((task) => (
-              <Card
-                setMenuOpen={setIsCardMenuOpen}
-                isMenuOpen={isCardMenuOpen}
-                toggleMenu={toggleCardMenu}
-                key={task.id}
-                task={task}
-              />
-            ))}
+          <Droppable droppableId={`${trimmedColumnType}`}>
+            {(provided: DroppableProvided) => (
+              <DroppableCardList
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                {tasks &&
+                  tasks.length > 0 &&
+                  tasks.map((task, index) => (
+                    <Card
+                      setMenuOpen={setIsCardMenuOpen}
+                      isMenuOpen={isCardMenuOpen}
+                      toggleMenu={toggleCardMenu}
+                      key={task.id}
+                      task={task}
+                      index={index}
+                    />
+                  ))}
+                {provided.placeholder}
+              </DroppableCardList>
+            )}
+          </Droppable>
         </Inner>
       </Column>
 

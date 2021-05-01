@@ -1,6 +1,8 @@
 import * as React from 'react'
 import firebase from 'firebase/app'
-import { ColumnType } from 'types'
+import { useDocumentData } from 'react-firebase-hooks/firestore'
+import { v4 as uuidv4 } from 'uuid'
+import { ColumnType, TaskFirestoreResult } from 'types'
 import { useClickOutside } from 'hooks/useClickOutside'
 import { useTrapTabKey } from 'hooks/useTrapTabKey'
 import {
@@ -34,20 +36,30 @@ export const AddTaskForm = ({ setOpen, columnType }: TaskFormProps) => {
 
   const trimmedColumnType = columnType.split(' ').join('')
 
-  const tasksCollection = firebase
+  const taskDoc = firebase
     .firestore()
     .collection(`users/${userId}/${trimmedColumnType}Tasks`)
+    .doc(trimmedColumnType)
+
+  const [taskDocResult] = useDocumentData<TaskFirestoreResult>(taskDoc)
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    const newDate = new Date().toLocaleDateString('en-US')
+    const currentDate = new Date().toLocaleDateString('en-US')
 
-    tasksCollection.add({
+    const newTask = {
       columnType,
       text: addTaskText,
-      createdAt: newDate,
-    })
+      createdAt: currentDate,
+      id: uuidv4(),
+    }
+
+    const updatedTasks = taskDocResult
+      ? [newTask, ...taskDocResult.tasks]
+      : [newTask]
+
+    taskDoc.set({ tasks: updatedTasks })
 
     setOpen(false)
   }

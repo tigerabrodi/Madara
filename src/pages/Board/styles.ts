@@ -94,7 +94,7 @@ export const BoardWrapper = styled.div`
     column-gap: 2rem;
     padding: 0 2rem;
   }
-  ${media.desktop} {
+  ${media.custom(1080)} {
     overflow-x: auto;
     column-gap: 0;
     padding: 0;
@@ -124,6 +124,7 @@ const tabLinkStyles = css`
 const columnTypeHighlightStyles = css`
   text-decoration: underline;
   text-underline-offset: 0.2rem;
+  text-decoration-thickness: 0.2rem;
 `
 
 export const TodoTab = styled.button<{ columnType: ColumnType }>`

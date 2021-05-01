@@ -6,7 +6,7 @@ context('Mobile resolution user flow iteration 1', () => {
     indexedDB.deleteDatabase('firebaseLocalStorageDb')
   })
 
-  it('desktop complete user flow', () => {
+  it('mobile simple complete user flow', () => {
     const user = buildUser()
 
     const todoTask = buildTask()
@@ -52,7 +52,7 @@ context('Mobile resolution user flow iteration 1', () => {
         })
 
         cy.findByRole('button', { name: 'Add' }).click()
-        cy.findByRole('article', { name: 'Task in Todo column' }).within(() => {
+        cy.findByRole('button', { name: 'Task in Todo column' }).within(() => {
           cy.findByText(todoTask.text).should('exist')
           cy.findByRole('button', { name: 'Card menu' }).click()
           cy.findByRole('menu').within(() => {
@@ -72,7 +72,7 @@ context('Mobile resolution user flow iteration 1', () => {
     })
     cy.findByRole('tabpanel', { name: 'Todo column with 1 tasks' }).within(
       () => {
-        cy.findByRole('article', { name: 'Task in Todo column' }).within(() => {
+        cy.findByRole('button', { name: 'Task in Todo column' }).within(() => {
           cy.findByText(editedTodoTask.text).should('exist')
         })
       }
@@ -87,7 +87,7 @@ context('Mobile resolution user flow iteration 1', () => {
 
     cy.findByRole('tabpanel', { name: 'Todo column with 1 tasks' }).within(
       () => {
-        cy.findByRole('article', { name: 'Task in Todo column' }).within(() => {
+        cy.findByRole('button', { name: 'Task in Todo column' }).within(() => {
           cy.findByRole('button', { name: 'Card menu' }).click()
           cy.findByRole('menu').within(() => {
             cy.findByRole('menuitem', { name: 'Delete Task' }).click()
@@ -113,7 +113,7 @@ context('Mobile resolution user flow iteration 1', () => {
 
     cy.findByRole('tabpanel', { name: 'Todo column with 0 tasks' }).within(
       () => {
-        cy.findByRole('article').should('not.exist')
+        cy.findByRole('button').should('not.exist')
       }
     )
 
@@ -130,7 +130,7 @@ context('Mobile resolution user flow iteration 1', () => {
       }).type(inProgressTask.text, { force: true })
 
       cy.findByRole('button', { name: 'Add' }).click()
-      cy.findByRole('article', { name: 'Task in In progress column' }).within(
+      cy.findByRole('button', { name: 'Task in In progress column' }).within(
         () => {
           cy.findByText(inProgressTask.text).should('exist')
           cy.findByRole('button', { name: 'Card menu' }).click()
@@ -152,7 +152,7 @@ context('Mobile resolution user flow iteration 1', () => {
     cy.findByRole('tabpanel', {
       name: 'In progress column with 1 tasks',
     }).within(() => {
-      cy.findByRole('article', { name: 'Task in In progress column' }).within(
+      cy.findByRole('button', { name: 'Task in In progress column' }).within(
         () => {
           cy.findByText(editedInProgressTask.text).should('exist')
         }
@@ -169,7 +169,7 @@ context('Mobile resolution user flow iteration 1', () => {
     cy.findByRole('tabpanel', {
       name: 'In progress column with 1 tasks',
     }).within(() => {
-      cy.findByRole('article', { name: 'Task in In progress column' }).within(
+      cy.findByRole('button', { name: 'Task in In progress column' }).within(
         () => {
           cy.findByRole('button', { name: 'Card menu' }).click()
           cy.findByRole('menu').within(() => {
@@ -197,7 +197,7 @@ context('Mobile resolution user flow iteration 1', () => {
     cy.findByRole('tabpanel', {
       name: 'In progress column with 0 tasks',
     }).within(() => {
-      cy.findByRole('article').should('not.exist')
+      cy.findByRole('button').should('not.exist')
     })
 
     /* Done */
@@ -212,7 +212,7 @@ context('Mobile resolution user flow iteration 1', () => {
         })
 
         cy.findByRole('button', { name: 'Add' }).click()
-        cy.findByRole('article', { name: 'Task in Done column' }).within(() => {
+        cy.findByRole('button', { name: 'Task in Done column' }).within(() => {
           cy.findByText(doneTask.text).should('exist')
           cy.findByRole('button', { name: 'Card menu' }).click()
           cy.findByRole('menu').within(() => {
@@ -232,7 +232,7 @@ context('Mobile resolution user flow iteration 1', () => {
     })
     cy.findByRole('tabpanel', { name: 'Done column with 1 tasks' }).within(
       () => {
-        cy.findByRole('article', { name: 'Task in Done column' }).within(() => {
+        cy.findByRole('button', { name: 'Task in Done column' }).within(() => {
           cy.findByText(editedDoneTask.text).should('exist')
         })
       }
@@ -247,7 +247,7 @@ context('Mobile resolution user flow iteration 1', () => {
 
     cy.findByRole('tabpanel', { name: 'Done column with 1 tasks' }).within(
       () => {
-        cy.findByRole('article', { name: 'Task in Done column' }).within(() => {
+        cy.findByRole('button', { name: 'Task in Done column' }).within(() => {
           cy.findByRole('button', { name: 'Card menu' }).click()
           cy.findByRole('menu').within(() => {
             cy.findByRole('menuitem', { name: 'Delete Task' }).click()
@@ -274,7 +274,7 @@ context('Mobile resolution user flow iteration 1', () => {
 
     cy.findByRole('tabpanel', { name: 'Done column with 0 tasks' }).within(
       () => {
-        cy.findByRole('article').should('not.exist')
+        cy.findByRole('button').should('not.exist')
       }
     )
 

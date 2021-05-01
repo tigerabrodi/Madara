@@ -5,6 +5,7 @@ import {
   DropResult,
   DragDropContext,
 } from 'react-beautiful-dnd'
+import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types'
 import {
   useCollectionData,
   useDocumentData,
@@ -31,6 +32,8 @@ enum ETrimmedColumnType {
   Done = 'Done',
   Todo = 'Todo',
 }
+
+type DocumentData = firebase.firestore.DocumentReference<firebase.firestore.DocumentData>
 
 export const Board = () => {
   const [columnType, setColumnType] = React.useState<ColumnType>('Todo')
@@ -84,31 +87,46 @@ export const Board = () => {
     droppableSource: DraggableLocation,
     droppableDestination: DraggableLocation
   ) => {
+    const switchColumn = (
+      sourceDoc: DocumentData,
+      destDoc: DocumentData,
+      sourceDocResult: Data<TaskFirestoreResult, '', ''>,
+      destDocResult: Data<TaskFirestoreResult, '', ''> | undefined,
+      destColumnType: ColumnType
+    ) => {
+      const sourceClone = Array.from(sourceDocResult.tasks)
+      const destClone = destDocResult ? Array.from(destDocResult.tasks) : []
+
+      const [removedTask] = sourceClone.splice(droppableSource.index, 1)
+
+      const newTaskToProgress: Task = {
+        ...removedTask,
+        columnType: destColumnType,
+      }
+
+      destClone.splice(droppableDestination.index, 0, newTaskToProgress)
+
+      sourceDoc.set({
+        tasks: sourceClone,
+      })
+
+      destDoc.set({
+        tasks: destClone,
+      })
+    }
+
     const fromTodoToProgress =
       droppableSource.droppableId === ETrimmedColumnType.Todo &&
       droppableDestination.droppableId === ETrimmedColumnType.InProgress
     if (fromTodoToProgress) {
       if (todoTaskDocResult) {
-        const todoClone = Array.from(todoTaskDocResult.tasks)
-        const progressClone = progressTaskDocResult
-          ? Array.from(progressTaskDocResult.tasks)
-          : []
-        const [removedTask] = todoClone.splice(droppableSource.index, 1)
-
-        const newTaskToProgress: Task = {
-          ...removedTask,
-          columnType: 'In progress',
-        }
-
-        progressClone.splice(droppableDestination.index, 0, newTaskToProgress)
-
-        todoTaskDoc.set({
-          tasks: todoClone,
-        })
-
-        progressTaskDoc.set({
-          tasks: progressClone,
-        })
+        switchColumn(
+          todoTaskDoc,
+          progressTaskDoc,
+          todoTaskDocResult,
+          progressTaskDocResult,
+          'In progress'
+        )
       }
     }
 
@@ -117,27 +135,13 @@ export const Board = () => {
       droppableDestination.droppableId === ETrimmedColumnType.Todo
     if (fromProgressToTodo) {
       if (progressTaskDocResult) {
-        const progressClone = Array.from(progressTaskDocResult.tasks)
-        const todoClone = todoTaskDocResult
-          ? Array.from(todoTaskDocResult.tasks)
-          : []
-
-        const [removedTask] = progressClone.splice(droppableSource.index, 1)
-
-        const newTaskToTodo: Task = {
-          ...removedTask,
-          columnType: 'Todo',
-        }
-
-        todoClone.splice(droppableDestination.index, 0, newTaskToTodo)
-
-        progressTaskDoc.set({
-          tasks: progressClone,
-        })
-
-        todoTaskDoc.set({
-          tasks: todoClone,
-        })
+        switchColumn(
+          progressTaskDoc,
+          todoTaskDoc,
+          progressTaskDocResult,
+          todoTaskDocResult,
+          'Todo'
+        )
       }
     }
 
@@ -146,27 +150,13 @@ export const Board = () => {
       droppableDestination.droppableId === ETrimmedColumnType.Done
     if (fromProgressToDone) {
       if (progressTaskDocResult) {
-        const progressClone = Array.from(progressTaskDocResult.tasks)
-        const doneClone = doneTaskDocResult
-          ? Array.from(doneTaskDocResult.tasks)
-          : []
-
-        const [removedTask] = progressClone.splice(droppableSource.index, 1)
-
-        const newTaskToDone: Task = {
-          ...removedTask,
-          columnType: 'Done',
-        }
-
-        doneClone.splice(droppableDestination.index, 0, newTaskToDone)
-
-        progressTaskDoc.set({
-          tasks: progressClone,
-        })
-
-        doneTaskDoc.set({
-          tasks: doneClone,
-        })
+        switchColumn(
+          progressTaskDoc,
+          doneTaskDoc,
+          progressTaskDocResult,
+          doneTaskDocResult,
+          'Done'
+        )
       }
     }
 
@@ -175,27 +165,13 @@ export const Board = () => {
       droppableDestination.droppableId === ETrimmedColumnType.InProgress
     if (fromDoneToProgress) {
       if (doneTaskDocResult) {
-        const doneClone = Array.from(doneTaskDocResult.tasks)
-        const progressClone = progressTaskDocResult
-          ? Array.from(progressTaskDocResult.tasks)
-          : []
-
-        const [removedTask] = doneClone.splice(droppableSource.index, 1)
-
-        const newTaskToProgress: Task = {
-          ...removedTask,
-          columnType: 'In progress',
-        }
-
-        progressClone.splice(droppableDestination.index, 0, newTaskToProgress)
-
-        doneTaskDoc.set({
-          tasks: doneClone,
-        })
-
-        progressTaskDoc.set({
-          tasks: progressClone,
-        })
+        switchColumn(
+          doneTaskDoc,
+          progressTaskDoc,
+          doneTaskDocResult,
+          progressTaskDocResult,
+          'In progress'
+        )
       }
     }
   }

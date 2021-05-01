@@ -1,6 +1,6 @@
 import { build, fake } from '@jackfranklin/test-data-bot'
 
-type User = {
+export type User = {
   name: string
   email: string
   password: string

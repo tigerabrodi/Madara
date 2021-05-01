@@ -6,7 +6,7 @@ context('Desktop delete all tasks', () => {
     indexedDB.deleteDatabase('firebaseLocalStorageDb')
   })
 
-  it('delete all tasks', () => {
+  it('desktop delete all tasks', () => {
     const user = buildUser()
 
     const todoTask = buildTask()

@@ -6,7 +6,7 @@ context('Mobile resolution user flow iteration 2, delete all tasks', () => {
     indexedDB.deleteDatabase('firebaseLocalStorageDb')
   })
 
-  it('delete all tasks', () => {
+  it('mobile delete all tasks', () => {
     const user = buildUser()
 
     const todoTask = buildTask()
@@ -48,7 +48,7 @@ context('Mobile resolution user flow iteration 2, delete all tasks', () => {
         })
 
         cy.findByRole('button', { name: 'Add' }).click()
-        cy.findByRole('article', { name: 'Task in Todo column' }).within(() => {
+        cy.findByRole('button', { name: 'Task in Todo column' }).within(() => {
           cy.findByText(todoTask.text).should('exist')
         })
       }
@@ -92,7 +92,7 @@ context('Mobile resolution user flow iteration 2, delete all tasks', () => {
 
     cy.findByRole('tabpanel', { name: 'Todo column with 0 tasks' }).within(
       () => {
-        cy.findByRole('article').should('not.exist')
+        cy.findByRole('button').should('not.exist')
       }
     )
 
@@ -112,7 +112,7 @@ context('Mobile resolution user flow iteration 2, delete all tasks', () => {
       )
 
       cy.findByRole('button', { name: 'Add' }).click()
-      cy.findByRole('article', { name: 'Task in In progress column' }).within(
+      cy.findByRole('button', { name: 'Task in In progress column' }).within(
         () => {
           cy.findByText(inProgressTask.text).should('exist')
         }
@@ -158,7 +158,7 @@ context('Mobile resolution user flow iteration 2, delete all tasks', () => {
     cy.findByRole('tabpanel', {
       name: 'In progress column with 0 tasks',
     }).within(() => {
-      cy.findByRole('article').should('not.exist')
+      cy.findByRole('button').should('not.exist')
     })
   })
 })

@@ -1,12 +1,12 @@
 import * as React from 'react'
 import firebase from 'firebase/app'
 import { useDocumentData } from 'react-firebase-hooks/firestore'
+import { DraggableProvided } from 'react-beautiful-dnd'
 import { ConfirmationModal } from 'components/ConfirmationModal'
 import { EditModal } from 'components/EditModal'
 import { useClickOutside } from 'hooks/useClickOutside'
 import { useTrapTabKey } from 'hooks/useTrapTabKey'
 import { useAlert } from 'components/Alert/AlertStore'
-import { Draggable } from 'react-beautiful-dnd'
 import { Task, TaskFirestoreResult } from 'types'
 import {
   CardWrapper,
@@ -20,29 +20,21 @@ import {
 } from './styles'
 
 type CardProps = {
-  setMenuOpen: (state: boolean) => void
-  toggleMenu: () => void
-  isMenuOpen: boolean
   task: Task
-  index: number
+  provided: DraggableProvided
 }
 
-export const Card = ({
-  setMenuOpen,
-  isMenuOpen,
-  toggleMenu,
-  task,
-  index,
-}: CardProps) => {
+export const Card = ({ provided, task }: CardProps) => {
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = React.useState(
     false
   )
-
   const [isEditFormOpen, setIsEditFormOpen] = React.useState(false)
 
-  const [ref] = useClickOutside(() => setMenuOpen(false))
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false)
 
-  useTrapTabKey({ ref, setOpen: setMenuOpen, pause: !isMenuOpen })
+  const [ref] = useClickOutside(() => setIsMenuOpen(false))
+
+  useTrapTabKey({ ref, setOpen: setIsMenuOpen, pause: !isMenuOpen })
 
   const addSuccessDeleteAlert = useAlert(
     `You successfully deleted a task in ${task.columnType} column.`,
@@ -116,54 +108,52 @@ export const Card = ({
 
   const toggleEditModalForm = () => setIsEditFormOpen(!isEditFormOpen)
 
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
+
   return (
     <>
-      <Draggable draggableId={task.id} index={index}>
-        {(provided) => (
-          <CardWrapper
-            aria-label={`Task in ${task.columnType} column`}
-            ref={provided.innerRef}
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-          >
-            <CardLogo aria-hidden="true" />
-            <CardMenuButton
-              aria-label="Card menu"
-              aria-haspopup="menu"
+      <CardWrapper
+        aria-label={`Task in ${task.columnType} column`}
+        ref={provided.innerRef}
+        {...provided.draggableProps}
+        {...provided.dragHandleProps}
+      >
+        <CardLogo aria-hidden="true" />
+        <CardMenuButton
+          aria-label="Card menu"
+          aria-haspopup="menu"
+          onClick={(event) => {
+            event.stopPropagation()
+            toggleMenu()
+          }}
+        >
+          <CardMenuLogo aria-hidden="true" />
+        </CardMenuButton>
+        <CardText>{task.text}</CardText>
+        <CardDate>Created at {task.createdAt}</CardDate>
+        {isMenuOpen && (
+          <CardMenu role="menu" ref={ref}>
+            <CardMenuItem
+              role="menuitem"
               onClick={(event) => {
                 event.stopPropagation()
-                toggleMenu()
+                toggleEditModalForm()
               }}
             >
-              <CardMenuLogo aria-hidden="true" />
-            </CardMenuButton>
-            <CardText>{task.text}</CardText>
-            <CardDate>Created at {task.createdAt}</CardDate>
-            {isMenuOpen && (
-              <CardMenu role="menu" ref={ref}>
-                <CardMenuItem
-                  role="menuitem"
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    toggleEditModalForm()
-                  }}
-                >
-                  Edit Task
-                </CardMenuItem>
-                <CardMenuItem
-                  role="menuitem"
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    toggleConfirmationModal()
-                  }}
-                >
-                  Delete Task
-                </CardMenuItem>
-              </CardMenu>
-            )}
-          </CardWrapper>
+              Edit Task
+            </CardMenuItem>
+            <CardMenuItem
+              role="menuitem"
+              onClick={(event) => {
+                event.stopPropagation()
+                toggleConfirmationModal()
+              }}
+            >
+              Delete Task
+            </CardMenuItem>
+          </CardMenu>
         )}
-      </Draggable>
+      </CardWrapper>
       {isConfirmationModalOpen && (
         <ConfirmationModal
           setOpen={setIsConfirmationModalOpen}

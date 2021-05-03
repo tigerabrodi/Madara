@@ -32,9 +32,11 @@ export const Card = ({ provided, task }: CardProps) => {
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
 
+  const [isMenuOpenViaKey, setIsMenuOpenViaKey] = React.useState(false)
+
   const [ref] = useClickOutside(() => setIsMenuOpen(false))
 
-  useTrapTabKey({ ref, setOpen: setIsMenuOpen, pause: !isMenuOpen })
+  useTrapTabKey({ ref, setOpen: setIsMenuOpenViaKey, pause: !isMenuOpenViaKey })
 
   const addSuccessDeleteAlert = useAlert(
     `You successfully deleted a task in ${task.columnType} column.`,
@@ -110,6 +112,8 @@ export const Card = ({ provided, task }: CardProps) => {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
 
+  const toggleMenuViaKey = () => setIsMenuOpenViaKey(!isMenuOpenViaKey)
+
   return (
     <>
       <CardWrapper
@@ -122,6 +126,10 @@ export const Card = ({ provided, task }: CardProps) => {
         <CardMenuButton
           aria-label="Card menu"
           aria-haspopup="menu"
+          onKeyPress={(event) => {
+            event.stopPropagation()
+            toggleMenuViaKey()
+          }}
           onClick={(event) => {
             event.stopPropagation()
             toggleMenu()
@@ -131,7 +139,7 @@ export const Card = ({ provided, task }: CardProps) => {
         </CardMenuButton>
         <CardText>{task.text}</CardText>
         <CardDate>Created at {task.createdAt}</CardDate>
-        {isMenuOpen && (
+        {(isMenuOpen || isMenuOpenViaKey) && (
           <CardMenu role="menu" ref={ref}>
             <CardMenuItem
               role="menuitem"

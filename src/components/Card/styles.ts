@@ -5,7 +5,7 @@ import { ReactComponent as CardLogoSVG } from 'assets/card-logo.svg'
 import { ReactComponent as CardMenuSVG } from 'assets/card-menu.svg'
 import { media } from 'theme/media'
 
-export const CardWrapper = styled.div`
+export const CardWrapper = styled.article`
   position: relative;
   background-color: ${theme.LightBlue};
   border-radius: 0.5rem;

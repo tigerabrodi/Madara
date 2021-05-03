@@ -5,7 +5,7 @@ import { ColumnType, TrimmedColumnType, Task } from 'types'
 import { AddTaskForm } from 'components/AddTaskForm'
 import { useAlert } from 'components/Alert/AlertStore'
 import { ConfirmationModal } from 'components/ConfirmationModal'
-import { Droppable, DroppableProvided } from 'react-beautiful-dnd'
+import { Draggable, Droppable, DroppableProvided } from 'react-beautiful-dnd'
 import {
   Column,
   ToggleFormButton,
@@ -30,14 +30,12 @@ export const BoardColumn = ({
   tasks,
 }: ColumnProps) => {
   const [isAddTaskFormOpen, setIsAddTaskFormOpen] = React.useState(false)
-  const [isCardMenuOpen, setIsCardMenuOpen] = React.useState(false)
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = React.useState(
     false
   )
 
   const toggleFormButtonRef = React.useRef<HTMLButtonElement>(null)
 
-  const toggleCardMenu = () => setIsCardMenuOpen(!isCardMenuOpen)
   const toggleTaskForm = () => setIsAddTaskFormOpen(!isAddTaskFormOpen)
 
   const toggleConfirmationModal = () =>
@@ -115,14 +113,13 @@ export const BoardColumn = ({
                 {tasks &&
                   tasks.length > 0 &&
                   tasks.map((task, index) => (
-                    <Card
-                      setMenuOpen={setIsCardMenuOpen}
-                      isMenuOpen={isCardMenuOpen}
-                      toggleMenu={toggleCardMenu}
+                    <Draggable
                       key={task.id}
-                      task={task}
+                      draggableId={task.id}
                       index={index}
-                    />
+                    >
+                      {(provided) => <Card task={task} provided={provided} />}
+                    </Draggable>
                   ))}
                 {provided.placeholder}
               </DroppableCardList>

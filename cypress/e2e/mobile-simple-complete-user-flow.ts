@@ -19,28 +19,8 @@ context('Mobile resolution user flow iteration 1', () => {
     const editedDoneTask = buildTask()
 
     cy.visit('/')
-    cy.findByRole('heading', { name: 'Madara', level: 1 }).should('exist')
 
-    cy.findByLabelText('Enter Your Name').type(user.name, { force: true })
-    cy.findByLabelText('Enter Your Email').type(user.email, { force: true })
-    cy.findByLabelText('Enter Your Password').type(user.password, {
-      force: true,
-    })
-    cy.findByLabelText('Confirm Your Password').type(user.password, {
-      force: true,
-    })
-    cy.findByRole('button', { name: 'Sign Up' }).click()
-
-    cy.findByRole('alert').within(() => {
-      cy.findByRole('heading', { name: 'Success!' }).should('exist')
-      cy.findByText('You have successfully signed up.').should('exist')
-      cy.findByRole('button', { name: 'Close alert' }).click()
-    })
-
-    cy.findByRole('heading', {
-      name: `Welcome ${user.name}!`,
-      level: 1,
-    }).should('exist')
+    cy.registerUser(user)
 
     /* Todo */
     cy.findByRole('tabpanel', { name: 'Todo column with 0 tasks' }).within(

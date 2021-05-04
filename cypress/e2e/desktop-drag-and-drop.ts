@@ -39,12 +39,12 @@ context('Desktop drag and drop functionality', () => {
     cy.findByRole('region', {
       name: 'Todo column with 2 tasks',
     }).within(() => {
-      cy.findAllByRole('button', { name: 'Task in Todo column' })
+      cy.findAllByRole('article', { name: 'Task in Todo column' })
         .first()
         .within(() => {
           cy.findByText(secondTodoTask.text).should('exist')
         })
-      cy.findAllByRole('button', { name: 'Task in Todo column' })
+      cy.findAllByRole('article', { name: 'Task in Todo column' })
         .first()
         .focus()
         .trigger('keydown', { keyCode: keyCodes.space })
@@ -82,7 +82,7 @@ context('Desktop drag and drop functionality', () => {
     cy.findByRole('region', {
       name: 'Todo column with 2 tasks',
     }).within(() => {
-      cy.findAllByRole('button', { name: 'Task in Todo column' })
+      cy.findAllByRole('article', { name: 'Task in Todo column' })
         .first()
         .focus()
         .trigger('keydown', { keyCode: keyCodes.space })
@@ -95,7 +95,7 @@ context('Desktop drag and drop functionality', () => {
       name: 'In progress column with 1 tasks',
     }).within(() => {
       cy.findByText(secondTask.text).should('exist')
-      cy.findByRole('button', { name: 'Task in In progress column' })
+      cy.findByRole('article', { name: 'Task in In progress column' })
         .focus()
         .trigger('keydown', { keyCode: keyCodes.space })
         .trigger('keydown', { keyCode: keyCodes.arrowRight, force: true })
@@ -107,7 +107,7 @@ context('Desktop drag and drop functionality', () => {
       name: 'Done column with 1 tasks',
     }).within(() => {
       cy.findByText(secondTask.text).should('exist')
-      cy.findByRole('button', { name: 'Task in Done column' })
+      cy.findByRole('article', { name: 'Task in Done column' })
         .focus()
         .trigger('keydown', { keyCode: keyCodes.space })
         .trigger('keydown', { keyCode: keyCodes.arrowLeft, force: true })
@@ -119,7 +119,7 @@ context('Desktop drag and drop functionality', () => {
       name: 'In progress column with 1 tasks',
     }).within(() => {
       cy.findByText(secondTask.text).should('exist')
-      cy.findByRole('button', { name: 'Task in In progress column' })
+      cy.findByRole('article', { name: 'Task in In progress column' })
         .focus()
         .trigger('keydown', { keyCode: keyCodes.space })
         .trigger('keydown', { keyCode: keyCodes.arrowLeft, force: true })
@@ -130,7 +130,7 @@ context('Desktop drag and drop functionality', () => {
     cy.findByRole('region', {
       name: 'Todo column with 2 tasks',
     }).within(() => {
-      cy.findAllByRole('button', { name: 'Task in Todo column' }).should(
+      cy.findAllByRole('article', { name: 'Task in Todo column' }).should(
         'have.length',
         2
       )

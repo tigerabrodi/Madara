@@ -29,7 +29,7 @@ context('Mobile resolution user flow iteration 2, delete all tasks', () => {
         })
 
         cy.findByRole('button', { name: 'Add' }).click()
-        cy.findByRole('button', { name: 'Task in Todo column' }).within(() => {
+        cy.findByRole('article', { name: 'Task in Todo column' }).within(() => {
           cy.findByText(todoTask.text).should('exist')
         })
       }
@@ -93,7 +93,7 @@ context('Mobile resolution user flow iteration 2, delete all tasks', () => {
       )
 
       cy.findByRole('button', { name: 'Add' }).click()
-      cy.findByRole('button', { name: 'Task in In progress column' }).within(
+      cy.findByRole('article', { name: 'Task in In progress column' }).within(
         () => {
           cy.findByText(inProgressTask.text).should('exist')
         }

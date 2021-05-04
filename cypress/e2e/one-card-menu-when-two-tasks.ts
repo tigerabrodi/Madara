@@ -37,7 +37,7 @@ context('Desktop drag and drop functionality', () => {
     cy.findByRole('region', {
       name: 'Todo column with 2 tasks',
     }).within(() => {
-      cy.findAllByRole('button', { name: 'Task in Todo column' })
+      cy.findAllByRole('article', { name: 'Task in Todo column' })
         .first()
         .within(() => {
           cy.findByRole('button', { name: 'Card menu' }).click()

@@ -121,6 +121,7 @@ export const Card = ({ provided, task }: CardProps) => {
         ref={provided.innerRef}
         {...provided.draggableProps}
         {...provided.dragHandleProps}
+        role="article"
       >
         <CardLogo aria-hidden="true" />
         <CardMenuButton

@@ -21,10 +21,11 @@ import {
 
 type CardProps = {
   task: Task
+  isNotMobileLayout: boolean
   provided: DraggableProvided
 }
 
-export const Card = ({ provided, task }: CardProps) => {
+export const Card = ({ provided, isNotMobileLayout, task }: CardProps) => {
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = React.useState(
     false
   )
@@ -120,7 +121,7 @@ export const Card = ({ provided, task }: CardProps) => {
         aria-label={`Task in ${task.columnType} column`}
         ref={provided.innerRef}
         {...provided.draggableProps}
-        {...provided.dragHandleProps}
+        {...(isNotMobileLayout && provided.dragHandleProps)}
         role="article"
       >
         <CardLogo aria-hidden="true" />

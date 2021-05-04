@@ -118,7 +118,13 @@ export const BoardColumn = ({
                       draggableId={task.id}
                       index={index}
                     >
-                      {(provided) => <Card task={task} provided={provided} />}
+                      {(provided) => (
+                        <Card
+                          task={task}
+                          provided={provided}
+                          isNotMobileLayout={isNotMobileLayout}
+                        />
+                      )}
                     </Draggable>
                   ))}
                 {provided.placeholder}

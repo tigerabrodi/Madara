@@ -17,6 +17,10 @@ import {
   CardText,
   CardMenu,
   CardMenuItem,
+  CardReorderMenu,
+  MoveTaskButton,
+  MobileDragArea,
+  MobileDrag,
 } from './styles'
 
 type CardProps = {
@@ -163,6 +167,20 @@ export const Card = ({ provided, isNotMobileLayout, task }: CardProps) => {
             </CardMenuItem>
           </CardMenu>
         )}
+        <CardReorderMenu>
+          <MoveTaskButton
+            aria-label="Move current task to another column"
+            type="button"
+          >
+            Move to...
+          </MoveTaskButton>
+          <MobileDragArea
+            {...provided.dragHandleProps}
+            aria-label="Reorder current task"
+          >
+            <MobileDrag aria-hidden="true" />
+          </MobileDragArea>
+        </CardReorderMenu>
       </CardWrapper>
       {isConfirmationModalOpen && (
         <ConfirmationModal

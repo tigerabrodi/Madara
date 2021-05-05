@@ -12,7 +12,7 @@ export const EditModalWrapper = styled.div`
   top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 5;
+  z-index: 100;
   border-radius: 0.5rem;
   display: flex;
   flex-direction: column;

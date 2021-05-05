@@ -5,13 +5,13 @@ import { focusStyles } from 'styles'
 
 export const ConfirmationModal = styled.div`
   position: absolute;
+  z-index: 100;
   height: 20rem;
   max-width: 55rem;
   width: 95%;
   top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 5;
   background-color: ${theme.Blue};
   border-radius: 0.5rem;
   display: grid;

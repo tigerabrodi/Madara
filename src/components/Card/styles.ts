@@ -165,6 +165,7 @@ export const MobileDragArea = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  ${focusStyles};
 `
 
 export const MobileDrag = styled(MobileDragSVG)`

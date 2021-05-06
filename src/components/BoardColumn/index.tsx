@@ -16,6 +16,9 @@ import {
   Delete,
   DeleteAllTasksButton,
   DroppableCardList,
+  ReorderButton,
+  StartReorder,
+  StopReorder,
 } from './styles'
 
 type ColumnProps = {
@@ -34,9 +37,13 @@ export const BoardColumn = ({
     false
   )
 
+  const [isMobileDraggable, setIsMobileDraggable] = React.useState(false)
+
   const toggleFormButtonRef = React.useRef<HTMLButtonElement>(null)
 
   const toggleTaskForm = () => setIsAddTaskFormOpen(!isAddTaskFormOpen)
+
+  const toggleMobileDraggable = () => setIsMobileDraggable(!isMobileDraggable)
 
   const toggleConfirmationModal = () =>
     setIsConfirmationModalOpen(!isConfirmationModalOpen)
@@ -82,6 +89,18 @@ export const BoardColumn = ({
       >
         <TotalTasks aria-hidden="true">{totalTasks}</TotalTasks>
         <Status>{columnType}</Status>
+        <ReorderButton
+          aria-label="Reorder tasks"
+          aria-pressed={isMobileDraggable ? true : false}
+          onClick={toggleMobileDraggable}
+          disabled={!tasks?.length}
+        >
+          {isMobileDraggable ? (
+            <StopReorder aria-hidden="true" />
+          ) : (
+            <StartReorder aria-hidden="true" />
+          )}
+        </ReorderButton>
         <ToggleFormButton
           aria-label="Add a task to this column."
           aria-expanded={isAddTaskFormOpen ? 'true' : 'false'}
@@ -123,6 +142,7 @@ export const BoardColumn = ({
                           task={task}
                           provided={provided}
                           isNotMobileLayout={isNotMobileLayout}
+                          isMobileDraggable={isMobileDraggable}
                         />
                       )}
                     </Draggable>

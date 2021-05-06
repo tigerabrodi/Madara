@@ -26,10 +26,16 @@ import {
 type CardProps = {
   task: Task
   isNotMobileLayout: boolean
+  isMobileDraggable: boolean
   provided: DraggableProvided
 }
 
-export const Card = ({ provided, isNotMobileLayout, task }: CardProps) => {
+export const Card = ({
+  provided,
+  isNotMobileLayout,
+  task,
+  isMobileDraggable,
+}: CardProps) => {
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = React.useState(
     false
   )
@@ -123,6 +129,7 @@ export const Card = ({ provided, isNotMobileLayout, task }: CardProps) => {
     <>
       <CardWrapper
         aria-label={`Task in ${task.columnType} column`}
+        tabIndex={0}
         ref={provided.innerRef}
         {...provided.draggableProps}
         {...(isNotMobileLayout && provided.dragHandleProps)}
@@ -167,20 +174,22 @@ export const Card = ({ provided, isNotMobileLayout, task }: CardProps) => {
             </CardMenuItem>
           </CardMenu>
         )}
-        <CardReorderMenu>
-          <MoveTaskButton
-            aria-label="Move current task to another column"
-            type="button"
-          >
-            Move to...
-          </MoveTaskButton>
-          <MobileDragArea
-            {...provided.dragHandleProps}
-            aria-label="Reorder current task"
-          >
-            <MobileDrag aria-hidden="true" />
-          </MobileDragArea>
-        </CardReorderMenu>
+        {isMobileDraggable && (
+          <CardReorderMenu>
+            <MoveTaskButton
+              aria-label="Move current task to another column"
+              type="button"
+            >
+              Move to...
+            </MoveTaskButton>
+            <MobileDragArea
+              {...provided.dragHandleProps}
+              aria-label="Reorder current task"
+            >
+              <MobileDrag aria-hidden="true" />
+            </MobileDragArea>
+          </CardReorderMenu>
+        )}
       </CardWrapper>
       {isConfirmationModalOpen && (
         <ConfirmationModal

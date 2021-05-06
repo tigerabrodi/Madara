@@ -2,6 +2,8 @@ import styled, { css } from 'styled-components/macro'
 import { theme } from 'theme/theme'
 import { ReactComponent as AddSVG } from 'assets/add-tasks.svg'
 import { ReactComponent as DeleteSVG } from 'assets/delete-tasks.svg'
+import { ReactComponent as StopReorderSVG } from 'assets/stop-reorder.svg'
+import { ReactComponent as StartReorderSVG } from 'assets/start-reorder.svg'
 import { focusStyles } from 'styles'
 import { media } from 'theme/media'
 
@@ -76,7 +78,7 @@ export const ToggleFormButton = styled.button`
   border: none;
   display: flex;
   justify-self: flex-end;
-  margin-right: 2rem;
+  margin-right: 1.4rem;
   align-items: center;
   justify-content: space-evenly;
   cursor: pointer;
@@ -143,4 +145,40 @@ export const DroppableCardList = styled.div`
   align-items: center;
   justify-content: space-evenly;
   row-gap: 1rem;
+`
+
+export const ReorderButton = styled.button`
+  height: 6rem;
+  width: 6rem;
+  z-index: 10;
+  background-color: var(--lightBlue);
+  border-radius: 50%;
+  box-shadow: 0 0.1rem 0.5rem ${theme.Black};
+  position: fixed;
+  top: 91.5%;
+  left: 84%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: 0.2s;
+  ${media.phone} {
+    display: none;
+  }
+  ${focusStyles};
+  &:disabled {
+    opacity: 0.5;
+  }
+`
+
+export const StartReorder = styled(StartReorderSVG)`
+  height: 3.3rem;
+  width: 3.3rem;
+`
+
+export const StopReorder = styled(StopReorderSVG)`
+  height: 3rem;
+  width: 3rem;
 `

@@ -143,7 +143,7 @@ export const Card = ({
             event.stopPropagation()
             toggleMenuViaKey()
           }}
-          onClick={(event) => {
+          onMouseDown={(event) => {
             event.stopPropagation()
             toggleMenu()
           }}

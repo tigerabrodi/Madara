@@ -55,8 +55,6 @@ export const EditModal = ({
     setOpen,
   })
 
-  /* Tell users using ATs that textarea is still invalid due to only containing spaces and not an actual task */
-
   return (
     <>
       <EditModalWrapper
@@ -81,6 +79,7 @@ export const EditModal = ({
             name="Task"
             placeholder="Clean kitchen."
             aria-label="Edit your task"
+            aria-invalid={editTaskText.trim() === '' ? 'true' : 'false'}
             aria-required="true"
             onChange={handleEditTaskChange}
             value={editTaskText}

@@ -48,7 +48,7 @@ context('Mobile drag and drop', () => {
     cy.findByRole('tabpanel', {
       name: 'Todo column with 2 tasks',
     }).within(() => {
-      cy.findByRole('article', { name: 'Task in Todo column' })
+      cy.findAllByRole('article', { name: 'Task in Todo column' })
         .first()
         .within(() => {
           cy.findByRole('button', { name: 'Reorder current task' })
@@ -58,6 +58,20 @@ context('Mobile drag and drop', () => {
             .trigger('keydown', { keyCode: keyCodes.arrowDown, force: true })
             .wait(timings.outOfTheWay * 1000)
             .trigger('keydown', { keyCode: keyCodes.space, force: true })
+        })
+    })
+
+    cy.findByRole('button', { name: 'Reorder tasks' }).click()
+
+    cy.findByRole('tabpanel', {
+      name: 'Todo column with 2 tasks',
+    }).within(() => {
+      cy.findAllByRole('article', { name: 'Task in Todo column' })
+        .first()
+        .within(() => {
+          cy.findByRole('button', { name: 'Reorder current task' }).should(
+            'not.exist'
+          )
         })
     })
   })

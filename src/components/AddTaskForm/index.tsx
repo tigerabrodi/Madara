@@ -26,9 +26,10 @@ export const AddTaskForm = ({ setOpen, columnType }: TaskFormProps) => {
     setAddTaskText(event.target.value)
   }
 
-  const [ref] = useClickOutside<HTMLFormElement>(() => setOpen(false))
+  const [formRef] = useClickOutside<HTMLFormElement>(() => setOpen(false))
+
   const { firstButtonElementRef } = useTrapTabKey({
-    ref,
+    ref: formRef,
     setOpen,
   })
 
@@ -65,7 +66,7 @@ export const AddTaskForm = ({ setOpen, columnType }: TaskFormProps) => {
   }
 
   return (
-    <Form onSubmit={handleFormSubmit} ref={ref}>
+    <Form onSubmit={handleFormSubmit} ref={formRef}>
       <AddTaskTextarea
         aria-label="Enter a task"
         aria-required="true"

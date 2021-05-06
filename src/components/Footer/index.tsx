@@ -11,7 +11,7 @@ export const Footer = () => (
     <FooterText>
       Built With <Heart aria-label="love" role="img" /> by{' '}
       <FooterLink href="https://github.com/tigerabrodi" target="_blank">
-        Naruto's student
+        Tiger Abrodi
         <External aria-hidden="true" />
       </FooterLink>
     </FooterText>

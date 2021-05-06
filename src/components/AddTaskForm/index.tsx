@@ -27,7 +27,7 @@ export const AddTaskForm = ({ setOpen, columnType }: TaskFormProps) => {
   }
 
   const [ref] = useClickOutside<HTMLFormElement>(() => setOpen(false))
-  const { firstButtonElementRef, secondButtonElementRef } = useTrapTabKey({
+  const { firstButtonElementRef } = useTrapTabKey({
     ref,
     setOpen,
   })
@@ -73,11 +73,7 @@ export const AddTaskForm = ({ setOpen, columnType }: TaskFormProps) => {
         placeholder="Enter a task"
         onChange={handleAddTaskTextChange}
       />
-      <FormAddButton
-        type="submit"
-        disabled={addTaskText.trim() === ''}
-        ref={secondButtonElementRef}
-      >
+      <FormAddButton type="submit" disabled={addTaskText.trim() === ''}>
         Add
       </FormAddButton>
       <FormCancelButton

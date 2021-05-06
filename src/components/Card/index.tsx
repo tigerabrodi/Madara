@@ -45,9 +45,15 @@ export const Card = ({
 
   const [isMenuOpenViaKey, setIsMenuOpenViaKey] = React.useState(false)
 
-  const [ref] = useClickOutside(() => setIsMenuOpen(false))
+  const editButtonRef = React.useRef<HTMLButtonElement>(null)
 
-  useTrapTabKey({ ref, setOpen: setIsMenuOpenViaKey, pause: !isMenuOpenViaKey })
+  const [cardMenuRef] = useClickOutside(() => setIsMenuOpen(false))
+
+  useTrapTabKey({
+    ref: cardMenuRef,
+    setOpen: setIsMenuOpenViaKey,
+    pause: !isMenuOpenViaKey,
+  })
 
   const addSuccessDeleteAlert = useAlert(
     `You successfully deleted a task in ${task.columnType} column.`,
@@ -113,6 +119,8 @@ export const Card = ({
       addSuccessEditAlert()
 
       toggleEditModalForm()
+
+      editButtonRef.current?.focus()
     }
   }
 
@@ -153,13 +161,14 @@ export const Card = ({
         <CardText>{task.text}</CardText>
         <CardDate>Created at {task.createdAt}</CardDate>
         {(isMenuOpen || isMenuOpenViaKey) && (
-          <CardMenu role="menu" ref={ref}>
+          <CardMenu role="menu" ref={cardMenuRef}>
             <CardMenuItem
               role="menuitem"
               onClick={(event) => {
                 event.stopPropagation()
                 toggleEditModalForm()
               }}
+              ref={editButtonRef}
             >
               Edit Task
             </CardMenuItem>

@@ -46,11 +46,7 @@ export const EditModal = ({
 
   const [ref] = useClickOutside(() => setOpen(false))
 
-  const {
-    firstButtonElementRef,
-    secondButtonElementRef,
-    thirdButtonElementRef,
-  } = useTrapTabKey({
+  const { firstButtonElementRef, secondButtonElementRef } = useTrapTabKey({
     ref,
     setOpen,
   })
@@ -86,7 +82,6 @@ export const EditModal = ({
           />
           <EditConfirmButton
             type="submit"
-            ref={thirdButtonElementRef}
             disabled={editTaskText.trim() === ''}
           >
             Edit

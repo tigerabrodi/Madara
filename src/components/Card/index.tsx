@@ -46,7 +46,7 @@ export const Card = ({
 
   const [isMenuOpenViaKey, setIsMenuOpenViaKey] = React.useState(false)
 
-  const [isMoveTaskModalOpen] = React.useState(true)
+  const [isMoveTaskModalOpen, setIsMoveTaskModalOpen] = React.useState(false)
 
   const editButtonRef = React.useRef<HTMLButtonElement>(null)
 
@@ -132,9 +132,13 @@ export const Card = ({
 
   const toggleEditModalForm = () => setIsEditFormOpen(!isEditFormOpen)
 
+  const toggleMoveTaskModal = () => setIsMoveTaskModalOpen(!isMoveTaskModalOpen)
+
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
 
   const toggleMenuViaKey = () => setIsMenuOpenViaKey(!isMenuOpenViaKey)
+
+  const isCardMenuOpen = isMenuOpen || isMenuOpenViaKey
 
   return (
     <>
@@ -163,7 +167,7 @@ export const Card = ({
         </CardMenuButton>
         <CardText>{task.text}</CardText>
         <CardDate>Created at {task.createdAt}</CardDate>
-        {(isMenuOpen || isMenuOpenViaKey) && (
+        {isCardMenuOpen && (
           <CardMenu role="menu" ref={cardMenuRef}>
             <CardMenuItem
               role="menuitem"
@@ -191,6 +195,7 @@ export const Card = ({
             <MoveTaskButton
               aria-label="Move current task to another column"
               type="button"
+              onClick={toggleMoveTaskModal}
             >
               Move to...
             </MoveTaskButton>

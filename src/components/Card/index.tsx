@@ -220,12 +220,14 @@ export const Card = ({
         <EditModal
           setOpen={setIsEditFormOpen}
           onSuccess={handleEditModalSubmit}
-          toggleModal={toggleEditModalForm}
           taskText={task.text}
         />
       )}
       {isMoveTaskModalOpen && (
-        <MoveTaskModal setOpen={setIsMoveTaskModalOpen} />
+        <MoveTaskModal
+          setOpen={setIsMoveTaskModalOpen}
+          taskType={task.columnType}
+        />
       )}
     </>
   )

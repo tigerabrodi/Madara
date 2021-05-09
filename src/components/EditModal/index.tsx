@@ -17,7 +17,6 @@ import {
 
 type EditModalProps = {
   setOpen: (state: boolean) => void
-  toggleModal: () => void
   taskText: string
   onSuccess: (
     event: React.FormEvent<HTMLFormElement>,
@@ -25,12 +24,7 @@ type EditModalProps = {
   ) => Promise<void>
 }
 
-export const EditModal = ({
-  toggleModal,
-  taskText,
-  setOpen,
-  onSuccess,
-}: EditModalProps) => {
+export const EditModal = ({ taskText, setOpen, onSuccess }: EditModalProps) => {
   const [editTaskText, setEditTaskText] = React.useState(taskText)
 
   const handleEditTaskChange = (
@@ -41,7 +35,7 @@ export const EditModal = ({
 
   const handleCancel = (event: React.MouseEvent) => {
     event.stopPropagation()
-    toggleModal()
+    setOpen(false)
   }
 
   const [editModalRef] = useClickOutside(() => setOpen(false))

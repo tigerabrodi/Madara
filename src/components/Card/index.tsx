@@ -224,7 +224,9 @@ export const Card = ({
           taskText={task.text}
         />
       )}
-      {isMoveTaskModalOpen && <MoveTaskModal />}
+      {isMoveTaskModalOpen && (
+        <MoveTaskModal setOpen={setIsMoveTaskModalOpen} />
+      )}
     </>
   )
 }

@@ -53,9 +53,15 @@ export const MoveTaskModal = ({ setOpen, taskType }: MoveTaskModalProps) => {
           </MoveTaskModalCloseButton>
         </MoveTaskModalHeader>
         <MoveTaskModalBody>
-          <MoveTaskModalButton>To do</MoveTaskModalButton>
-          <MoveTaskModalButton>In progress</MoveTaskModalButton>
-          <MoveTaskModalButton>Done</MoveTaskModalButton>
+          <MoveTaskModalButton disabled={taskType === 'Todo'}>
+            To do
+          </MoveTaskModalButton>
+          <MoveTaskModalButton disabled={taskType === 'In progress'}>
+            In progress
+          </MoveTaskModalButton>
+          <MoveTaskModalButton disabled={taskType === 'Done'}>
+            Done
+          </MoveTaskModalButton>
         </MoveTaskModalBody>
       </MoveTaskModalWrapper>
       <ModalOverlay aria-hidden="true" />

@@ -44,10 +44,10 @@ export const EditModal = ({
     toggleModal()
   }
 
-  const [ref] = useClickOutside(() => setOpen(false))
+  const [editModalRef] = useClickOutside(() => setOpen(false))
 
   const { firstButtonElementRef, secondButtonElementRef } = useTrapTabKey({
-    ref,
+    ref: editModalRef,
     setOpen,
   })
 
@@ -56,7 +56,7 @@ export const EditModal = ({
       <EditModalWrapper
         role="dialog"
         aria-labelledby="editDialogTitle"
-        ref={ref}
+        ref={editModalRef}
       >
         <EditModalHeader>
           <EditTitle id="editDialogTitle">Edit task</EditTitle>

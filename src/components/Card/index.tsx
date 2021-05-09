@@ -3,10 +3,11 @@ import firebase from 'firebase/app'
 import { useDocumentData } from 'react-firebase-hooks/firestore'
 import { DraggableProvided } from 'react-beautiful-dnd'
 import { ConfirmationModal } from 'components/ConfirmationModal'
-import { EditModal } from 'components/EditModal'
 import { useClickOutside } from 'hooks/useClickOutside'
 import { useTrapTabKey } from 'hooks/useTrapTabKey'
 import { useAlert } from 'components/Alert/AlertStore'
+import { MoveTaskModal } from 'components/MoveTaskModal'
+import { EditModal } from 'components/EditModal'
 import { Task, TaskFirestoreResult } from 'types'
 import {
   CardWrapper,
@@ -44,6 +45,8 @@ export const Card = ({
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
 
   const [isMenuOpenViaKey, setIsMenuOpenViaKey] = React.useState(false)
+
+  const [isMoveTaskModalOpen] = React.useState(true)
 
   const editButtonRef = React.useRef<HTMLButtonElement>(null)
 
@@ -216,6 +219,7 @@ export const Card = ({
           taskText={task.text}
         />
       )}
+      {isMoveTaskModalOpen && <MoveTaskModal />}
     </>
   )
 }

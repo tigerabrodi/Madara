@@ -150,7 +150,7 @@ export const DroppableCardList = styled.div`
 export const ReorderButton = styled.button`
   height: 6rem;
   width: 6rem;
-  z-index: 10;
+  z-index: 50;
   background-color: var(--lightBlue);
   border-radius: 50%;
   box-shadow: 0 0.1rem 0.5rem ${theme.Black};

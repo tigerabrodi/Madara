@@ -151,7 +151,7 @@ export const MoveTaskButton = styled.button`
   font-weight: 600;
   font-family: ${theme.SourceSansPro};
   margin-left: 1.5rem;
-  width: 7.5rem;
+  width: 7.7rem;
   height: 2.8rem;
   border-radius: 0.2rem;
   box-shadow: 0 0.1rem 0.3rem -0.1rem ${theme.Black};

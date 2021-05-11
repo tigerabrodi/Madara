@@ -18,7 +18,9 @@ type MoveTaskModalProps = {
 }
 
 export const MoveTaskModal = ({ setOpen, taskType }: MoveTaskModalProps) => {
-  const [moveTaskModalRef] = useClickOutside(() => setOpen(false))
+  const { containerRef: moveTaskModalRef } = useClickOutside(() =>
+    setOpen(false)
+  )
 
   const { firstButtonElementRef } = useTrapTabKey({
     ref: moveTaskModalRef,

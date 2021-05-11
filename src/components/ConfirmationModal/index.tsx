@@ -23,7 +23,7 @@ export const ConfirmationModal = ({
   text,
   onSuccess,
 }: ConfirmationModalProps) => {
-  const [modalRef] = useClickOutside(() => setOpen(false))
+  const { containerRef: modalRef } = useClickOutside(() => setOpen(false))
 
   const { firstButtonElementRef } = useTrapTabKey({ ref: modalRef, setOpen })
 

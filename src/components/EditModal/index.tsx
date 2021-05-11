@@ -38,7 +38,7 @@ export const EditModal = ({ taskText, setOpen, onSuccess }: EditModalProps) => {
     setOpen(false)
   }
 
-  const [editModalRef] = useClickOutside(() => setOpen(false))
+  const { containerRef: editModalRef } = useClickOutside(() => setOpen(false))
 
   const { firstButtonElementRef, secondButtonElementRef } = useTrapTabKey({
     ref: editModalRef,

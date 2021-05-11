@@ -50,7 +50,10 @@ export const Card = ({
 
   const editButtonRef = React.useRef<HTMLButtonElement>(null)
 
-  const [cardMenuRef] = useClickOutside(() => setIsMenuOpen(false))
+  const {
+    containerRef: cardMenuRef,
+    firstButtonRef: cardMenuButtonRef,
+  } = useClickOutside(() => setIsMenuOpen(false))
 
   useTrapTabKey({
     ref: cardMenuRef,
@@ -162,6 +165,7 @@ export const Card = ({
             event.stopPropagation()
             toggleMenu()
           }}
+          ref={cardMenuButtonRef}
         >
           <CardMenuLogo aria-hidden="true" />
         </CardMenuButton>

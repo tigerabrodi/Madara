@@ -133,6 +133,10 @@ context('Mobile drag and drop', () => {
       cy.findByRole('button', { name: 'In progress' }).click()
     })
 
+    cy.findByRole('dialog', {
+      name: 'Move task in Todo column to another column',
+    }).should('not.exist')
+
     cy.findByRole('tabpanel', {
       name: 'In progress column with 1 tasks',
     }).within(() => {

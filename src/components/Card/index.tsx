@@ -70,15 +70,9 @@ export const Card = ({
     pause: !isMenuOpenViaKey,
   })
 
-  const addSuccessDeleteAlert = useAlert(
-    `You successfully deleted a task in ${task.columnType} column.`,
-    'success'
-  )
+  const addSuccessDeleteAlert = useAlert('success')
 
-  const addSuccessEditAlert = useAlert(
-    `You successfully edited a task in ${task.columnType} column.`,
-    'success'
-  )
+  const addSuccessEditAlert = useAlert('success')
 
   const userId = firebase.auth().currentUser?.uid
 
@@ -103,7 +97,9 @@ export const Card = ({
         tasks: newTasks,
       })
 
-      addSuccessDeleteAlert()
+      addSuccessDeleteAlert(
+        `You successfully deleted a task in ${task.columnType} column.`
+      )
 
       toggleConfirmationModal()
     }
@@ -131,7 +127,9 @@ export const Card = ({
         tasks: tasksCopy,
       })
 
-      addSuccessEditAlert()
+      addSuccessEditAlert(
+        `You successfully edited a task in ${task.columnType} column.`
+      )
 
       toggleEditModalForm()
 

@@ -23,10 +23,10 @@ export const useAlertStore = create<AlertState>((set) => ({
     })),
 }))
 
-export const useAlert = (message: string, type: AlertType) => {
+export const useAlert = (type: AlertType) => {
   const { addAlert, removeAlert } = useAlertStore()
 
-  const addAlertComponent = () => {
+  const addAlertComponent = (message: string) => {
     const alert: Alert = {
       message,
       type,

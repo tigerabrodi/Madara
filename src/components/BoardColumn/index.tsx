@@ -64,10 +64,7 @@ export const BoardColumn = ({
     .collection(`users/${userId}/${trimmedColumnType}Tasks`)
     .doc(trimmedColumnType)
 
-  const addSuccessDeleteAllTasksAlert = useAlert(
-    `You successfully deleted all tasks in ${columnType} column.`,
-    'success'
-  )
+  const addSuccessDeleteAllTasksAlert = useAlert('success')
 
   const handleConfirmationModalSubmit = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -78,7 +75,9 @@ export const BoardColumn = ({
       tasks: [],
     })
 
-    addSuccessDeleteAllTasksAlert()
+    addSuccessDeleteAllTasksAlert(
+      `You successfully deleted all tasks in ${columnType} column.`
+    )
 
     toggleConfirmationModal()
   }

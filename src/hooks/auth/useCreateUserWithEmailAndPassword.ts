@@ -14,10 +14,7 @@ export const useCreateUserWithEmailAndPassword = (
   const [signUpError, setSignUpError] = React.useState<FirebaseError>()
   const [status, setStatus] = React.useState<Status>('idle')
 
-  const signUpSuccessAlert = useAlert(
-    'You have successfully signed up.',
-    'success'
-  )
+  const signUpSuccessAlert = useAlert('success')
 
   const usersRef = firebase.firestore().collection('users')
 
@@ -34,7 +31,7 @@ export const useCreateUserWithEmailAndPassword = (
         email: user.user?.email,
       })
       setStatus('success')
-      signUpSuccessAlert()
+      signUpSuccessAlert('You have successfully signed up.')
     } catch (error) {
       setStatus('error')
       setSignUpError(error)

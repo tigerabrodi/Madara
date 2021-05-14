@@ -137,6 +137,14 @@ context('Mobile drag and drop', () => {
       name: 'Move task in Todo column to another column',
     }).should('not.exist')
 
+    cy.findByRole('alert').within(() => {
+      cy.findByRole('heading', { name: 'Success!' }).should('exist')
+      cy.findByText(
+        'Successfully moved task from the column Todo to In progress'
+      ).should('exist')
+      cy.findByRole('button', { name: 'Close alert' }).click()
+    })
+
     cy.findByRole('tabpanel', {
       name: 'In progress column with 1 tasks',
     }).within(() => {

@@ -83,11 +83,120 @@ export const Board = () => {
 
   const [doneTaskDocResult] = useDocumentData<TaskFirestoreResult>(doneTaskDoc)
 
+  const onMoveTask = (
+    sourceColumnType: ColumnType,
+    sourceTaskIndex: number,
+    destColumnType: ColumnType,
+    setMoveTaskModalOpen: (state: boolean) => void
+  ) => {
+    const switchColumnMobile = (
+      sourceDoc: DocumentData,
+      destDoc: DocumentData,
+      sourceDocResult: Data<TaskFirestoreResult, '', ''> | undefined,
+      destDocResult: Data<TaskFirestoreResult, '', ''> | undefined,
+      destColumnType: ColumnType
+    ) => {
+      const sourceClone = Array.from(sourceDocResult!.tasks)
+
+      const destClone = destDocResult ? Array.from(destDocResult.tasks) : []
+
+      const [removedTask] = sourceClone.splice(sourceTaskIndex, 1)
+
+      const newTaskToDest: Task = {
+        ...removedTask,
+        columnType: destColumnType,
+      }
+
+      destClone.unshift(newTaskToDest)
+
+      sourceDoc.set({
+        tasks: sourceClone,
+      })
+
+      destDoc.set({
+        tasks: destClone,
+      })
+    }
+
+    const isSourceTodoColumn = sourceColumnType === 'Todo'
+    if (isSourceTodoColumn) {
+      if (destColumnType === 'In progress') {
+        switchColumnMobile(
+          todoTaskDoc,
+          progressTaskDoc,
+          todoTaskDocResult,
+          progressTaskDocResult,
+          destColumnType
+        )
+      }
+
+      if (destColumnType === 'Done') {
+        switchColumnMobile(
+          todoTaskDoc,
+          doneTaskDoc,
+          todoTaskDocResult,
+          doneTaskDocResult,
+          destColumnType
+        )
+      }
+    }
+
+    const isSourceProgressColumn = sourceColumnType === 'In progress'
+    if (isSourceProgressColumn) {
+      if (destColumnType === 'Todo') {
+        switchColumnMobile(
+          progressTaskDoc,
+          todoTaskDoc,
+          progressTaskDocResult,
+          todoTaskDocResult,
+          destColumnType
+        )
+      }
+
+      if (destColumnType === 'Done') {
+        switchColumnMobile(
+          progressTaskDoc,
+          doneTaskDoc,
+          progressTaskDocResult,
+          doneTaskDocResult,
+          destColumnType
+        )
+      }
+    }
+
+    const isSourceDoneColumn = sourceColumnType === 'Done'
+    if (isSourceDoneColumn) {
+      if (destColumnType === 'Todo') {
+        switchColumnMobile(
+          doneTaskDoc,
+          todoTaskDoc,
+          doneTaskDocResult,
+          todoTaskDocResult,
+          destColumnType
+        )
+      }
+
+      if (destColumnType === 'In progress') {
+        switchColumnMobile(
+          doneTaskDoc,
+          progressTaskDoc,
+          doneTaskDocResult,
+          progressTaskDocResult,
+          destColumnType
+        )
+      }
+    }
+
+    setColumnType(destColumnType)
+
+    setMoveTaskModalOpen(true)
+  }
+
   const move = (
     droppableSource: DraggableLocation,
     droppableDestination: DraggableLocation
   ) => {
-    const switchColumn = (
+    const switchColumnDesktop = (
       sourceDoc: DocumentData,
       destDoc: DocumentData,
       sourceDocResult: Data<TaskFirestoreResult, '', ''>,
@@ -120,7 +229,7 @@ export const Board = () => {
       droppableDestination.droppableId === ETrimmedColumnType.InProgress
     if (fromTodoToProgress) {
       if (todoTaskDocResult) {
-        switchColumn(
+        switchColumnDesktop(
           todoTaskDoc,
           progressTaskDoc,
           todoTaskDocResult,
@@ -135,7 +244,7 @@ export const Board = () => {
       droppableDestination.droppableId === ETrimmedColumnType.Todo
     if (fromProgressToTodo) {
       if (progressTaskDocResult) {
-        switchColumn(
+        switchColumnDesktop(
           progressTaskDoc,
           todoTaskDoc,
           progressTaskDocResult,
@@ -150,7 +259,7 @@ export const Board = () => {
       droppableDestination.droppableId === ETrimmedColumnType.Done
     if (fromProgressToDone) {
       if (progressTaskDocResult) {
-        switchColumn(
+        switchColumnDesktop(
           progressTaskDoc,
           doneTaskDoc,
           progressTaskDocResult,
@@ -165,7 +274,7 @@ export const Board = () => {
       droppableDestination.droppableId === ETrimmedColumnType.InProgress
     if (fromDoneToProgress) {
       if (doneTaskDocResult) {
-        switchColumn(
+        switchColumnDesktop(
           doneTaskDoc,
           progressTaskDoc,
           doneTaskDocResult,
@@ -314,6 +423,7 @@ export const Board = () => {
               columnType={isNotMobileLayout ? 'Todo' : columnType}
               isNotMobileLayout={isNotMobileLayout}
               tasks={tasksForDynamicColumn}
+              onMoveTask={onMoveTask}
             />
             {isNotMobileLayout && (
               <>
@@ -321,11 +431,13 @@ export const Board = () => {
                   columnType="In progress"
                   isNotMobileLayout={isNotMobileLayout}
                   tasks={progressTaskDocResult?.tasks}
+                  onMoveTask={onMoveTask}
                 />
                 <BoardColumn
                   columnType="Done"
                   isNotMobileLayout={isNotMobileLayout}
                   tasks={doneTaskDocResult?.tasks}
+                  onMoveTask={onMoveTask}
                 />
               </>
             )}

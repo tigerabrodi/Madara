@@ -8,7 +8,7 @@ import { useTrapTabKey } from 'hooks/useTrapTabKey'
 import { useAlert } from 'components/Alert/AlertStore'
 import { MoveTaskModal } from 'components/MoveTaskModal'
 import { EditModal } from 'components/EditModal'
-import { Task, TaskFirestoreResult } from 'types'
+import { ColumnType, Task, TaskFirestoreResult } from 'types'
 import {
   CardWrapper,
   CardMenuButton,
@@ -29,13 +29,22 @@ type CardProps = {
   isNotMobileLayout: boolean
   isMobileDraggable: boolean
   provided: DraggableProvided
+  onMoveTask: (
+    sourceTaskType: ColumnType,
+    sourceTaskIndex: number,
+    destTaskType: ColumnType,
+    setMoveTaskModalOpen: (state: boolean) => void
+  ) => void
+  taskIndex: number
 }
 
 export const Card = ({
   provided,
   isNotMobileLayout,
   task,
+  taskIndex,
   isMobileDraggable,
+  onMoveTask,
 }: CardProps) => {
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = React.useState(
     false
@@ -229,6 +238,8 @@ export const Card = ({
       )}
       {isMoveTaskModalOpen && (
         <MoveTaskModal
+          onSuccess={onMoveTask}
+          taskIndex={taskIndex}
           setOpen={setIsMoveTaskModalOpen}
           taskType={task.columnType}
         />

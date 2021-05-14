@@ -25,12 +25,19 @@ type ColumnProps = {
   columnType: ColumnType
   isNotMobileLayout: boolean
   tasks: Task[] | undefined
+  onMoveTask: (
+    sourceTaskType: ColumnType,
+    sourceTaskIndex: number,
+    destTaskType: ColumnType,
+    setMoveTaskModalOpen: (state: boolean) => void
+  ) => void
 }
 
 export const BoardColumn = ({
   columnType,
   isNotMobileLayout,
   tasks,
+  onMoveTask,
 }: ColumnProps) => {
   const [isAddTaskFormOpen, setIsAddTaskFormOpen] = React.useState(false)
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = React.useState(
@@ -140,6 +147,8 @@ export const BoardColumn = ({
                       {(provided) => (
                         <Card
                           task={task}
+                          onMoveTask={onMoveTask}
+                          taskIndex={index}
                           provided={provided}
                           isNotMobileLayout={isNotMobileLayout}
                           isMobileDraggable={isMobileDraggable}

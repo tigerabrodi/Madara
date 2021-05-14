@@ -14,10 +14,22 @@ import {
 
 type MoveTaskModalProps = {
   setOpen: (state: boolean) => void
+  onSuccess: (
+    sourceTaskType: ColumnType,
+    sourceTaskIndex: number,
+    destTaskType: ColumnType,
+    setMoveTaskModalOpen: (state: boolean) => void
+  ) => void
+  taskIndex: number
   taskType: ColumnType
 }
 
-export const MoveTaskModal = ({ setOpen, taskType }: MoveTaskModalProps) => {
+export const MoveTaskModal = ({
+  setOpen,
+  taskType,
+  taskIndex,
+  onSuccess,
+}: MoveTaskModalProps) => {
   const { containerRef: moveTaskModalRef } = useClickOutside(() =>
     setOpen(false)
   )
@@ -55,13 +67,24 @@ export const MoveTaskModal = ({ setOpen, taskType }: MoveTaskModalProps) => {
           </MoveTaskModalCloseButton>
         </MoveTaskModalHeader>
         <MoveTaskModalBody>
-          <MoveTaskModalButton disabled={taskType === 'Todo'}>
+          <MoveTaskModalButton
+            disabled={taskType === 'Todo'}
+            onClick={() => onSuccess(taskType, taskIndex, 'Todo', setOpen)}
+          >
             To do
           </MoveTaskModalButton>
-          <MoveTaskModalButton disabled={taskType === 'In progress'}>
+          <MoveTaskModalButton
+            disabled={taskType === 'In progress'}
+            onClick={() =>
+              onSuccess(taskType, taskIndex, 'In progress', setOpen)
+            }
+          >
             In progress
           </MoveTaskModalButton>
-          <MoveTaskModalButton disabled={taskType === 'Done'}>
+          <MoveTaskModalButton
+            disabled={taskType === 'Done'}
+            onClick={() => onSuccess(taskType, taskIndex, 'Done', setOpen)}
+          >
             Done
           </MoveTaskModalButton>
         </MoveTaskModalBody>

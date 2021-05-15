@@ -150,7 +150,7 @@ context('Mobile drag and drop', () => {
     }).within(() => {
       cy.findByRole('article', { name: 'Task in In progress column' }).within(
         () => {
-          cy.findByText(todoTask.text)
+          cy.findByText(secondTodoTask.text)
         }
       )
     })

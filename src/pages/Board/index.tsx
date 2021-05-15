@@ -195,7 +195,7 @@ export const Board = () => {
     setMoveTaskModalOpen(false)
 
     switchColumnSuccessAlert(
-      `Successfully moved task from the column ${sourceColumnType} to ${destColumnType}`
+      `Successfully moved task from ${sourceColumnType.toLowerCase()} column to ${destColumnType.toLowerCase()} column.`
     )
   }
 

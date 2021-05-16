@@ -39,6 +39,10 @@ type DocumentData = firebase.firestore.DocumentReference<firebase.firestore.Docu
 export const Board = () => {
   const [columnType, setColumnType] = React.useState<ColumnType>('Todo')
 
+  const [isMobileDraggable, setIsMobileDraggable] = React.useState(false)
+
+  const toggleMobileDraggable = () => setIsMobileDraggable(!isMobileDraggable)
+
   const isNotMobileLayout = useMedia('min', '425')
 
   const tabListRef = useTabArrowSwitch()
@@ -85,6 +89,11 @@ export const Board = () => {
     .doc(ETrimmedColumnType.Done)
 
   const [doneTaskDocResult] = useDocumentData<TaskFirestoreResult>(doneTaskDoc)
+
+  const switchColumnType = (type: ColumnType) => {
+    setColumnType(type)
+    setIsMobileDraggable(false)
+  }
 
   const onMoveTask = (
     sourceColumnType: ColumnType,
@@ -190,7 +199,7 @@ export const Board = () => {
       }
     }
 
-    setColumnType(destColumnType)
+    switchColumnType(destColumnType)
 
     setMoveTaskModalOpen(false)
 
@@ -394,7 +403,7 @@ export const Board = () => {
           >
             <TodoTab
               role="tab"
-              onClick={() => setColumnType('Todo')}
+              onClick={() => switchColumnType('Todo')}
               columnType={columnType}
               tabIndex={0}
               aria-controls="Todo"
@@ -404,7 +413,7 @@ export const Board = () => {
             </TodoTab>
             <InProgressTab
               role="tab"
-              onClick={() => setColumnType('In progress')}
+              onClick={() => switchColumnType('In progress')}
               columnType={columnType}
               tabIndex={-1}
               aria-controls="In-progress"
@@ -414,7 +423,7 @@ export const Board = () => {
             </InProgressTab>
             <DoneTab
               role="tab"
-              onClick={() => setColumnType('Done')}
+              onClick={() => switchColumnType('Done')}
               columnType={columnType}
               tabIndex={-1}
               aria-controls="Done"
@@ -431,6 +440,8 @@ export const Board = () => {
               isNotMobileLayout={isNotMobileLayout}
               tasks={tasksForDynamicColumn}
               onMoveTask={onMoveTask}
+              isMobileDraggable={isMobileDraggable}
+              toggleMobileDraggable={toggleMobileDraggable}
             />
             {isNotMobileLayout && (
               <>
@@ -439,12 +450,16 @@ export const Board = () => {
                   isNotMobileLayout={isNotMobileLayout}
                   tasks={progressTaskDocResult?.tasks}
                   onMoveTask={onMoveTask}
+                  isMobileDraggable={isMobileDraggable}
+                  toggleMobileDraggable={toggleMobileDraggable}
                 />
                 <BoardColumn
                   columnType="Done"
                   isNotMobileLayout={isNotMobileLayout}
                   tasks={doneTaskDocResult?.tasks}
                   onMoveTask={onMoveTask}
+                  isMobileDraggable={isMobileDraggable}
+                  toggleMobileDraggable={toggleMobileDraggable}
                 />
               </>
             )}

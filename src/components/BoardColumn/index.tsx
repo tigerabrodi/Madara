@@ -31,6 +31,8 @@ type ColumnProps = {
     destTaskType: ColumnType,
     setMoveTaskModalOpen: (state: boolean) => void
   ) => void
+  isMobileDraggable: boolean
+  toggleMobileDraggable: () => void
 }
 
 export const BoardColumn = ({
@@ -38,19 +40,17 @@ export const BoardColumn = ({
   isNotMobileLayout,
   tasks,
   onMoveTask,
+  isMobileDraggable,
+  toggleMobileDraggable,
 }: ColumnProps) => {
   const [isAddTaskFormOpen, setIsAddTaskFormOpen] = React.useState(false)
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = React.useState(
     false
   )
 
-  const [isMobileDraggable, setIsMobileDraggable] = React.useState(false)
-
   const toggleFormButtonRef = React.useRef<HTMLButtonElement>(null)
 
   const toggleTaskForm = () => setIsAddTaskFormOpen(!isAddTaskFormOpen)
-
-  const toggleMobileDraggable = () => setIsMobileDraggable(!isMobileDraggable)
 
   const toggleConfirmationModal = () =>
     setIsConfirmationModalOpen(!isConfirmationModalOpen)

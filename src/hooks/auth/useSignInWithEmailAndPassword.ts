@@ -10,10 +10,7 @@ export const useSignInWithEmailAndPassword = (
   const [signInError, setSignInError] = useState<firebase.FirebaseError>()
   const [status, setStatus] = useState<Status>('idle')
 
-  const signInSuccessAlert = useAlert(
-    'You have successfully signed in.',
-    'success'
-  )
+  const signInSuccessAlert = useAlert('success')
 
   const signInWithEmailAndPassword = async (
     email: string,
@@ -22,7 +19,7 @@ export const useSignInWithEmailAndPassword = (
     setStatus('loading')
     try {
       await auth.signInWithEmailAndPassword(email, password)
-      signInSuccessAlert()
+      signInSuccessAlert('You have successfully signed in.')
       setStatus('success')
     } catch (error) {
       setSignInError(error)

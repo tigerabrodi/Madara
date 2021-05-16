@@ -23,9 +23,9 @@ export const ConfirmationModal = ({
   text,
   onSuccess,
 }: ConfirmationModalProps) => {
-  const [ref] = useClickOutside(() => setOpen(false))
+  const { containerRef: modalRef } = useClickOutside(() => setOpen(false))
 
-  const { firstButtonElementRef } = useTrapTabKey({ ref, setOpen })
+  const { firstButtonElementRef } = useTrapTabKey({ ref: modalRef, setOpen })
 
   const handleCancel = (event: React.MouseEvent) => {
     event.stopPropagation()
@@ -40,7 +40,7 @@ export const ConfirmationModal = ({
         aria-labelledby="modalTitle"
         aria-describedby="modalDesc"
         tabIndex={0}
-        ref={ref}
+        ref={modalRef}
       >
         <ConfirmationTitle id="modalTitle">Are you sure?</ConfirmationTitle>
         <ConfirmationText id="modalDesc">{text}</ConfirmationText>

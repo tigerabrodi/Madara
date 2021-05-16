@@ -16,18 +16,32 @@ import {
   Delete,
   DeleteAllTasksButton,
   DroppableCardList,
+  ReorderButton,
+  StartReorder,
+  StopReorder,
 } from './styles'
 
 type ColumnProps = {
   columnType: ColumnType
   isNotMobileLayout: boolean
   tasks: Task[] | undefined
+  onMoveTask: (
+    sourceTaskType: ColumnType,
+    sourceTaskIndex: number,
+    destTaskType: ColumnType,
+    setMoveTaskModalOpen: (state: boolean) => void
+  ) => void
+  isMobileDraggable: boolean
+  toggleMobileDraggable: () => void
 }
 
 export const BoardColumn = ({
   columnType,
   isNotMobileLayout,
   tasks,
+  onMoveTask,
+  isMobileDraggable,
+  toggleMobileDraggable,
 }: ColumnProps) => {
   const [isAddTaskFormOpen, setIsAddTaskFormOpen] = React.useState(false)
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = React.useState(
@@ -50,10 +64,7 @@ export const BoardColumn = ({
     .collection(`users/${userId}/${trimmedColumnType}Tasks`)
     .doc(trimmedColumnType)
 
-  const addSuccessDeleteAllTasksAlert = useAlert(
-    `You successfully deleted all tasks in ${columnType} column.`,
-    'success'
-  )
+  const addSuccessDeleteAllTasksAlert = useAlert('success')
 
   const handleConfirmationModalSubmit = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -64,7 +75,9 @@ export const BoardColumn = ({
       tasks: [],
     })
 
-    addSuccessDeleteAllTasksAlert()
+    addSuccessDeleteAllTasksAlert(
+      `You successfully deleted all tasks in ${columnType} column.`
+    )
 
     toggleConfirmationModal()
   }
@@ -82,6 +95,18 @@ export const BoardColumn = ({
       >
         <TotalTasks aria-hidden="true">{totalTasks}</TotalTasks>
         <Status>{columnType}</Status>
+        <ReorderButton
+          aria-label="Reorder tasks"
+          aria-pressed={isMobileDraggable ? true : false}
+          onClick={toggleMobileDraggable}
+          disabled={!tasks?.length}
+        >
+          {isMobileDraggable ? (
+            <StopReorder aria-hidden="true" />
+          ) : (
+            <StartReorder aria-hidden="true" />
+          )}
+        </ReorderButton>
         <ToggleFormButton
           aria-label="Add a task to this column."
           aria-expanded={isAddTaskFormOpen ? 'true' : 'false'}
@@ -118,7 +143,16 @@ export const BoardColumn = ({
                       draggableId={task.id}
                       index={index}
                     >
-                      {(provided) => <Card task={task} provided={provided} />}
+                      {(provided) => (
+                        <Card
+                          task={task}
+                          onMoveTask={onMoveTask}
+                          taskIndex={index}
+                          provided={provided}
+                          isNotMobileLayout={isNotMobileLayout}
+                          isMobileDraggable={isMobileDraggable}
+                        />
+                      )}
                     </Draggable>
                   ))}
                 {provided.placeholder}

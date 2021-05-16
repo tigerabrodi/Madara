@@ -14,6 +14,7 @@ import { BoardColumn } from 'components/BoardColumn'
 import { useMedia } from 'hooks/useMedia'
 import { useTabArrowSwitch } from 'hooks/useTabArrowSwitch'
 import { ColumnType, Task, TaskFirestoreResult } from 'types'
+import { useAlert } from 'components/Alert/AlertStore'
 import {
   BoardMain,
   BoardWrapper,
@@ -38,6 +39,10 @@ type DocumentData = firebase.firestore.DocumentReference<firebase.firestore.Docu
 export const Board = () => {
   const [columnType, setColumnType] = React.useState<ColumnType>('Todo')
 
+  const [isMobileDraggable, setIsMobileDraggable] = React.useState(false)
+
+  const toggleMobileDraggable = () => setIsMobileDraggable(!isMobileDraggable)
+
   const isNotMobileLayout = useMedia('min', '425')
 
   const tabListRef = useTabArrowSwitch()
@@ -57,6 +62,8 @@ export const Board = () => {
       (user) => user.email.toLowerCase() === userEmail?.toLowerCase()
     )?.name
   }
+
+  const switchColumnSuccessAlert = useAlert('success')
 
   const userId = firebase.auth().currentUser?.uid
 
@@ -83,11 +90,129 @@ export const Board = () => {
 
   const [doneTaskDocResult] = useDocumentData<TaskFirestoreResult>(doneTaskDoc)
 
+  const switchColumnType = (type: ColumnType) => {
+    setColumnType(type)
+    setIsMobileDraggable(false)
+  }
+
+  const onMoveTask = (
+    sourceColumnType: ColumnType,
+    sourceTaskIndex: number,
+    destColumnType: ColumnType,
+    setMoveTaskModalOpen: (state: boolean) => void
+  ) => {
+    const switchColumnMobile = (
+      sourceDoc: DocumentData,
+      destDoc: DocumentData,
+      sourceDocResult: Data<TaskFirestoreResult, '', ''> | undefined,
+      destDocResult: Data<TaskFirestoreResult, '', ''> | undefined,
+      destColumnType: ColumnType
+    ) => {
+      const sourceClone = Array.from(sourceDocResult!.tasks)
+
+      const destClone = destDocResult ? Array.from(destDocResult.tasks) : []
+
+      const [removedTask] = sourceClone.splice(sourceTaskIndex, 1)
+
+      const newTaskToDest: Task = {
+        ...removedTask,
+        columnType: destColumnType,
+      }
+
+      destClone.unshift(newTaskToDest)
+
+      sourceDoc.set({
+        tasks: sourceClone,
+      })
+
+      destDoc.set({
+        tasks: destClone,
+      })
+    }
+
+    const isSourceTodoColumn = sourceColumnType === 'Todo'
+    if (isSourceTodoColumn) {
+      if (destColumnType === 'In progress') {
+        switchColumnMobile(
+          todoTaskDoc,
+          progressTaskDoc,
+          todoTaskDocResult,
+          progressTaskDocResult,
+          destColumnType
+        )
+      }
+
+      if (destColumnType === 'Done') {
+        switchColumnMobile(
+          todoTaskDoc,
+          doneTaskDoc,
+          todoTaskDocResult,
+          doneTaskDocResult,
+          destColumnType
+        )
+      }
+    }
+
+    const isSourceProgressColumn = sourceColumnType === 'In progress'
+    if (isSourceProgressColumn) {
+      if (destColumnType === 'Todo') {
+        switchColumnMobile(
+          progressTaskDoc,
+          todoTaskDoc,
+          progressTaskDocResult,
+          todoTaskDocResult,
+          destColumnType
+        )
+      }
+
+      if (destColumnType === 'Done') {
+        switchColumnMobile(
+          progressTaskDoc,
+          doneTaskDoc,
+          progressTaskDocResult,
+          doneTaskDocResult,
+          destColumnType
+        )
+      }
+    }
+
+    const isSourceDoneColumn = sourceColumnType === 'Done'
+    if (isSourceDoneColumn) {
+      if (destColumnType === 'Todo') {
+        switchColumnMobile(
+          doneTaskDoc,
+          todoTaskDoc,
+          doneTaskDocResult,
+          todoTaskDocResult,
+          destColumnType
+        )
+      }
+
+      if (destColumnType === 'In progress') {
+        switchColumnMobile(
+          doneTaskDoc,
+          progressTaskDoc,
+          doneTaskDocResult,
+          progressTaskDocResult,
+          destColumnType
+        )
+      }
+    }
+
+    switchColumnType(destColumnType)
+
+    setMoveTaskModalOpen(false)
+
+    switchColumnSuccessAlert(
+      `Successfully moved task from ${sourceColumnType.toLowerCase()} column to ${destColumnType.toLowerCase()} column.`
+    )
+  }
+
   const move = (
     droppableSource: DraggableLocation,
     droppableDestination: DraggableLocation
   ) => {
-    const switchColumn = (
+    const switchColumnDesktop = (
       sourceDoc: DocumentData,
       destDoc: DocumentData,
       sourceDocResult: Data<TaskFirestoreResult, '', ''>,
@@ -120,7 +245,7 @@ export const Board = () => {
       droppableDestination.droppableId === ETrimmedColumnType.InProgress
     if (fromTodoToProgress) {
       if (todoTaskDocResult) {
-        switchColumn(
+        switchColumnDesktop(
           todoTaskDoc,
           progressTaskDoc,
           todoTaskDocResult,
@@ -135,7 +260,7 @@ export const Board = () => {
       droppableDestination.droppableId === ETrimmedColumnType.Todo
     if (fromProgressToTodo) {
       if (progressTaskDocResult) {
-        switchColumn(
+        switchColumnDesktop(
           progressTaskDoc,
           todoTaskDoc,
           progressTaskDocResult,
@@ -150,7 +275,7 @@ export const Board = () => {
       droppableDestination.droppableId === ETrimmedColumnType.Done
     if (fromProgressToDone) {
       if (progressTaskDocResult) {
-        switchColumn(
+        switchColumnDesktop(
           progressTaskDoc,
           doneTaskDoc,
           progressTaskDocResult,
@@ -165,7 +290,7 @@ export const Board = () => {
       droppableDestination.droppableId === ETrimmedColumnType.InProgress
     if (fromDoneToProgress) {
       if (doneTaskDocResult) {
-        switchColumn(
+        switchColumnDesktop(
           doneTaskDoc,
           progressTaskDoc,
           doneTaskDocResult,
@@ -278,7 +403,7 @@ export const Board = () => {
           >
             <TodoTab
               role="tab"
-              onClick={() => setColumnType('Todo')}
+              onClick={() => switchColumnType('Todo')}
               columnType={columnType}
               tabIndex={0}
               aria-controls="Todo"
@@ -288,7 +413,7 @@ export const Board = () => {
             </TodoTab>
             <InProgressTab
               role="tab"
-              onClick={() => setColumnType('In progress')}
+              onClick={() => switchColumnType('In progress')}
               columnType={columnType}
               tabIndex={-1}
               aria-controls="In-progress"
@@ -298,7 +423,7 @@ export const Board = () => {
             </InProgressTab>
             <DoneTab
               role="tab"
-              onClick={() => setColumnType('Done')}
+              onClick={() => switchColumnType('Done')}
               columnType={columnType}
               tabIndex={-1}
               aria-controls="Done"
@@ -314,6 +439,9 @@ export const Board = () => {
               columnType={isNotMobileLayout ? 'Todo' : columnType}
               isNotMobileLayout={isNotMobileLayout}
               tasks={tasksForDynamicColumn}
+              onMoveTask={onMoveTask}
+              isMobileDraggable={isMobileDraggable}
+              toggleMobileDraggable={toggleMobileDraggable}
             />
             {isNotMobileLayout && (
               <>
@@ -321,11 +449,17 @@ export const Board = () => {
                   columnType="In progress"
                   isNotMobileLayout={isNotMobileLayout}
                   tasks={progressTaskDocResult?.tasks}
+                  onMoveTask={onMoveTask}
+                  isMobileDraggable={isMobileDraggable}
+                  toggleMobileDraggable={toggleMobileDraggable}
                 />
                 <BoardColumn
                   columnType="Done"
                   isNotMobileLayout={isNotMobileLayout}
                   tasks={doneTaskDocResult?.tasks}
+                  onMoveTask={onMoveTask}
+                  isMobileDraggable={isMobileDraggable}
+                  toggleMobileDraggable={toggleMobileDraggable}
                 />
               </>
             )}

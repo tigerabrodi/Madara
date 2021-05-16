@@ -1,22 +1,28 @@
 import * as React from 'react'
 import { useEventListener } from './useEventListener'
 
-type CheckFN = (elTarget: Node) => boolean
 type Callback = () => void
 
 export const useClickOutside = <T extends HTMLElement = HTMLDivElement>(
-  callback: Callback,
-  checkFn?: CheckFN
+  callback: Callback
 ) => {
   const containerRef = React.useRef<T>(null)
+  const firstButtonRef = React.useRef<HTMLButtonElement>(null)
+
   const handleOutsideClick = (event: Event) => {
-    checkFn =
-      checkFn ||
-      ((elTarget) => !containerRef.current?.contains(elTarget as Node))
-    if (checkFn(event.target as Node)) {
+    const isOutsideContainerElement = !containerRef.current?.contains(
+      event.target as Node
+    )
+
+    const isFirstButtonTarget =
+      event.target === firstButtonRef.current ||
+      firstButtonRef.current?.contains(event.target as Node)
+
+    if (isOutsideContainerElement && !isFirstButtonTarget) {
       callback()
     }
   }
   useEventListener(handleOutsideClick)
-  return [containerRef]
+
+  return { containerRef, firstButtonRef }
 }

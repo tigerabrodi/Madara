@@ -5,14 +5,11 @@ import { useAlert } from 'components/Alert/AlertStore'
 export const Navigation = () => {
   const auth = firebase.auth()
 
-  const signOutSuccessAlert = useAlert(
-    'You have successfully signed out.',
-    'success'
-  )
+  const signOutSuccessAlert = useAlert('success')
 
   const onSignOut = () => {
     auth.signOut()
-    signOutSuccessAlert()
+    signOutSuccessAlert('You have successfully signed out.')
   }
 
   return (

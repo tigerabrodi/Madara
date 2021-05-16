@@ -2,6 +2,7 @@ import styled from 'styled-components/macro'
 import { theme } from 'theme/theme'
 import { focusStyles } from 'styles'
 import { ReactComponent as CardLogoSVG } from 'assets/card-logo.svg'
+import { ReactComponent as MobileDragSVG } from 'assets/mobile-drag.svg'
 import { ReactComponent as CardMenuSVG } from 'assets/card-menu.svg'
 import { media } from 'theme/media'
 
@@ -124,4 +125,49 @@ export const CardMenuItem = styled.button`
     }
   }
   ${focusStyles};
+`
+
+export const CardReorderMenu = styled.div`
+  position: absolute;
+  background-color: ${theme.Blue};
+  top: 0;
+  right: 0;
+  height: 100%;
+  border: 0.2rem solid ${theme.Black};
+  z-index: 20;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 60%;
+  justify-content: space-between;
+  border-bottom-right-radius: 0.4rem;
+  border-top-right-radius: 0.4rem;
+`
+
+export const MoveTaskButton = styled.button`
+  border: none;
+  background-color: ${theme.LightBlue};
+  color: ${theme.Blue};
+  font-weight: 600;
+  font-family: ${theme.SourceSansPro};
+  margin-left: 1.5rem;
+  width: 7.7rem;
+  height: 2.8rem;
+  border-radius: 0.2rem;
+  box-shadow: 0 0.1rem 0.3rem -0.1rem ${theme.Black};
+  font-size: 1.5rem;
+  ${focusStyles};
+`
+
+export const MobileDragArea = styled.div`
+  height: 100%;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  ${focusStyles};
+`
+
+export const MobileDrag = styled(MobileDragSVG)`
+  width: 70%;
 `

@@ -17,7 +17,6 @@ import {
 
 type EditModalProps = {
   setOpen: (state: boolean) => void
-  toggleModal: () => void
   taskText: string
   onSuccess: (
     event: React.FormEvent<HTMLFormElement>,
@@ -25,12 +24,7 @@ type EditModalProps = {
   ) => Promise<void>
 }
 
-export const EditModal = ({
-  toggleModal,
-  taskText,
-  setOpen,
-  onSuccess,
-}: EditModalProps) => {
+export const EditModal = ({ taskText, setOpen, onSuccess }: EditModalProps) => {
   const [editTaskText, setEditTaskText] = React.useState(taskText)
 
   const handleEditTaskChange = (
@@ -41,28 +35,22 @@ export const EditModal = ({
 
   const handleCancel = (event: React.MouseEvent) => {
     event.stopPropagation()
-    toggleModal()
+    setOpen(false)
   }
 
-  const [ref] = useClickOutside(() => setOpen(false))
+  const { containerRef: editModalRef } = useClickOutside(() => setOpen(false))
 
-  const {
-    firstButtonElementRef,
-    secondButtonElementRef,
-    thirdButtonElementRef,
-  } = useTrapTabKey({
-    ref,
+  const { firstButtonElementRef, secondButtonElementRef } = useTrapTabKey({
+    ref: editModalRef,
     setOpen,
   })
-
-  /* Tell users using ATs that textarea is still invalid due to only containing spaces and not an actual task */
 
   return (
     <>
       <EditModalWrapper
         role="dialog"
         aria-labelledby="editDialogTitle"
-        ref={ref}
+        ref={editModalRef}
       >
         <EditModalHeader>
           <EditTitle id="editDialogTitle">Edit task</EditTitle>
@@ -81,13 +69,13 @@ export const EditModal = ({
             name="Task"
             placeholder="Clean kitchen."
             aria-label="Edit your task"
+            aria-invalid={editTaskText.trim() === '' ? 'true' : 'false'}
             aria-required="true"
             onChange={handleEditTaskChange}
             value={editTaskText}
           />
           <EditConfirmButton
             type="submit"
-            ref={thirdButtonElementRef}
             disabled={editTaskText.trim() === ''}
           >
             Edit

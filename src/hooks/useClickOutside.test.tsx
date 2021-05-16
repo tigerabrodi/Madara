@@ -14,7 +14,10 @@ const DummyComponent = () => {
     toggleModal()
   }
 
-  const [modalRef] = useClickOutside(() => setIsModalOpen(false))
+  const {
+    containerRef: modalRef,
+    firstButtonRef: firstButtonElementRef,
+  } = useClickOutside(() => setIsModalOpen(false))
 
   return (
     <>
@@ -29,6 +32,9 @@ const DummyComponent = () => {
           Toggle Modal Button
         </button>
         <button type="button">Outside Button</button>
+        <button ref={firstButtonElementRef} type="button">
+          Outside Button that should not close modal
+        </button>
       </div>
     </>
   )
@@ -50,7 +56,7 @@ const setup = () => {
 test('should open modal and close it when click outside', () => {
   setup()
 
-  userEvent.click(screen.getByRole('button', { name: /Outside Button/i }))
+  userEvent.click(screen.getByRole('button', { name: 'Outside Button' }))
 
   expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument()
 })
@@ -77,4 +83,16 @@ test('should open modal and not close it when clicked on heading', () => {
   userEvent.click(modalHeading)
 
   expect(modal).toBeInTheDocument()
+})
+
+test('should open modal and not close it when clicked on outside button with second ref', () => {
+  setup()
+
+  userEvent.click(
+    screen.getByRole('button', {
+      name: 'Outside Button that should not close modal',
+    })
+  )
+
+  expect(screen.queryByRole('alertdialog')).toBeInTheDocument()
 })

@@ -3,11 +3,12 @@ import firebase from 'firebase/app'
 import { useDocumentData } from 'react-firebase-hooks/firestore'
 import { DraggableProvided } from 'react-beautiful-dnd'
 import { ConfirmationModal } from 'components/ConfirmationModal'
-import { EditModal } from 'components/EditModal'
 import { useClickOutside } from 'hooks/useClickOutside'
 import { useTrapTabKey } from 'hooks/useTrapTabKey'
 import { useAlert } from 'components/Alert/AlertStore'
-import { Task, TaskFirestoreResult } from 'types'
+import { MoveTaskModal } from 'components/MoveTaskModal'
+import { EditModal } from 'components/EditModal'
+import { ColumnType, Task, TaskFirestoreResult } from 'types'
 import {
   CardWrapper,
   CardMenuButton,
@@ -17,14 +18,34 @@ import {
   CardText,
   CardMenu,
   CardMenuItem,
+  CardReorderMenu,
+  MoveTaskButton,
+  MobileDragArea,
+  MobileDrag,
 } from './styles'
 
 type CardProps = {
   task: Task
+  isNotMobileLayout: boolean
+  isMobileDraggable: boolean
   provided: DraggableProvided
+  onMoveTask: (
+    sourceTaskType: ColumnType,
+    sourceTaskIndex: number,
+    destTaskType: ColumnType,
+    setMoveTaskModalOpen: (state: boolean) => void
+  ) => void
+  taskIndex: number
 }
 
-export const Card = ({ provided, task }: CardProps) => {
+export const Card = ({
+  provided,
+  isNotMobileLayout,
+  task,
+  taskIndex,
+  isMobileDraggable,
+  onMoveTask,
+}: CardProps) => {
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = React.useState(
     false
   )
@@ -34,19 +55,24 @@ export const Card = ({ provided, task }: CardProps) => {
 
   const [isMenuOpenViaKey, setIsMenuOpenViaKey] = React.useState(false)
 
-  const [ref] = useClickOutside(() => setIsMenuOpen(false))
+  const [isMoveTaskModalOpen, setIsMoveTaskModalOpen] = React.useState(false)
 
-  useTrapTabKey({ ref, setOpen: setIsMenuOpenViaKey, pause: !isMenuOpenViaKey })
+  const editButtonRef = React.useRef<HTMLButtonElement>(null)
 
-  const addSuccessDeleteAlert = useAlert(
-    `You successfully deleted a task in ${task.columnType} column.`,
-    'success'
-  )
+  const {
+    containerRef: cardMenuRef,
+    firstButtonRef: cardMenuButtonRef,
+  } = useClickOutside(() => setIsMenuOpen(false))
 
-  const addSuccessEditAlert = useAlert(
-    `You successfully edited a task in ${task.columnType} column.`,
-    'success'
-  )
+  useTrapTabKey({
+    ref: cardMenuRef,
+    setOpen: setIsMenuOpenViaKey,
+    pause: !isMenuOpenViaKey,
+  })
+
+  const addSuccessDeleteAlert = useAlert('success')
+
+  const addSuccessEditAlert = useAlert('success')
 
   const userId = firebase.auth().currentUser?.uid
 
@@ -71,7 +97,9 @@ export const Card = ({ provided, task }: CardProps) => {
         tasks: newTasks,
       })
 
-      addSuccessDeleteAlert()
+      addSuccessDeleteAlert(
+        `You successfully deleted a task in ${task.columnType} column.`
+      )
 
       toggleConfirmationModal()
     }
@@ -99,9 +127,13 @@ export const Card = ({ provided, task }: CardProps) => {
         tasks: tasksCopy,
       })
 
-      addSuccessEditAlert()
+      addSuccessEditAlert(
+        `You successfully edited a task in ${task.columnType} column.`
+      )
 
       toggleEditModalForm()
+
+      editButtonRef.current?.focus()
     }
   }
 
@@ -110,17 +142,22 @@ export const Card = ({ provided, task }: CardProps) => {
 
   const toggleEditModalForm = () => setIsEditFormOpen(!isEditFormOpen)
 
+  const toggleMoveTaskModal = () => setIsMoveTaskModalOpen(!isMoveTaskModalOpen)
+
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
 
   const toggleMenuViaKey = () => setIsMenuOpenViaKey(!isMenuOpenViaKey)
+
+  const isCardMenuOpen = isMenuOpen || isMenuOpenViaKey
 
   return (
     <>
       <CardWrapper
         aria-label={`Task in ${task.columnType} column`}
+        tabIndex={0}
         ref={provided.innerRef}
         {...provided.draggableProps}
-        {...provided.dragHandleProps}
+        {...(isNotMobileLayout && provided.dragHandleProps)}
         role="article"
       >
         <CardLogo aria-hidden="true" />
@@ -131,23 +168,25 @@ export const Card = ({ provided, task }: CardProps) => {
             event.stopPropagation()
             toggleMenuViaKey()
           }}
-          onClick={(event) => {
+          onMouseDown={(event) => {
             event.stopPropagation()
             toggleMenu()
           }}
+          ref={cardMenuButtonRef}
         >
           <CardMenuLogo aria-hidden="true" />
         </CardMenuButton>
         <CardText>{task.text}</CardText>
         <CardDate>Created at {task.createdAt}</CardDate>
-        {(isMenuOpen || isMenuOpenViaKey) && (
-          <CardMenu role="menu" ref={ref}>
+        {isCardMenuOpen && (
+          <CardMenu role="menu" ref={cardMenuRef}>
             <CardMenuItem
               role="menuitem"
               onClick={(event) => {
                 event.stopPropagation()
                 toggleEditModalForm()
               }}
+              ref={editButtonRef}
             >
               Edit Task
             </CardMenuItem>
@@ -162,6 +201,23 @@ export const Card = ({ provided, task }: CardProps) => {
             </CardMenuItem>
           </CardMenu>
         )}
+        {isMobileDraggable && (
+          <CardReorderMenu>
+            <MoveTaskButton
+              aria-label="Move current task to another column"
+              type="button"
+              onClick={toggleMoveTaskModal}
+            >
+              Move to...
+            </MoveTaskButton>
+            <MobileDragArea
+              {...provided.dragHandleProps}
+              aria-label="Reorder current task"
+            >
+              <MobileDrag aria-hidden="true" />
+            </MobileDragArea>
+          </CardReorderMenu>
+        )}
       </CardWrapper>
       {isConfirmationModalOpen && (
         <ConfirmationModal
@@ -175,8 +231,15 @@ export const Card = ({ provided, task }: CardProps) => {
         <EditModal
           setOpen={setIsEditFormOpen}
           onSuccess={handleEditModalSubmit}
-          toggleModal={toggleEditModalForm}
           taskText={task.text}
+        />
+      )}
+      {isMoveTaskModalOpen && (
+        <MoveTaskModal
+          onSuccess={onMoveTask}
+          taskIndex={taskIndex}
+          setOpen={setIsMoveTaskModalOpen}
+          taskType={task.columnType}
         />
       )}
     </>

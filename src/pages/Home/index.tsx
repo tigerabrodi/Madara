@@ -120,7 +120,7 @@ export const Home = () => {
   }
 
   return (
-    <HomeMain>
+    <HomeMain isLoginMode={isLoginMode}>
       <Title>Madara</Title>
       <Subtitle>Manage Your Tasks</Subtitle>
       <ToolBar role="toolbar" aria-label="Sign In or Sign Up">
@@ -140,7 +140,12 @@ export const Home = () => {
           Login
         </ToolBarButton>
       </ToolBar>
-      <Form onSubmit={handleSubmit} autoComplete="off" noValidate>
+      <Form
+        onSubmit={handleSubmit}
+        isLoginMode={isLoginMode}
+        autoComplete="off"
+        noValidate
+      >
         <FormTitle> {isLoginMode ? 'Sign In' : 'Sign Up'} </FormTitle>
         {!isLoginMode && (
           <FormGroup>
@@ -167,7 +172,7 @@ export const Home = () => {
           </FormGroup>
         )}
 
-        <FormGroup>
+        <FormGroup isLoginMode={isLoginMode}>
           <Label htmlFor="email">Enter Your Email</Label>
           <Input
             type="email"
@@ -203,7 +208,7 @@ export const Home = () => {
           )}
         </FormGroup>
 
-        <FormGroup>
+        <FormGroup isLoginMode={isLoginMode}>
           <Label htmlFor="password">Enter Your Password</Label>
           <Input
             type={shouldShowPassword ? 'text' : 'password'}

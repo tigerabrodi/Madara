@@ -5,7 +5,7 @@ import { theme } from '../../theme/theme'
 import { ReactComponent as WarningSVG } from 'assets/warning.svg'
 import { ReactComponent as SmallSpinnerSVG } from 'assets/small-spinner.svg'
 
-export const HomeMain = styled.main`
+export const HomeMain = styled.main<{ isLoginMode: boolean }>`
   grid-area: main;
   display: grid;
   width: 100%;
@@ -19,11 +19,23 @@ export const HomeMain = styled.main`
   padding-bottom: 5rem;
   align-items: flex-end;
   height: 110rem;
-  grid-template-rows: 9% 2% 12% 77%;
+  grid-template-rows: 9% 2% 10% 79%;
+  ${(props) =>
+    props.isLoginMode &&
+    css`
+      height: 80rem;
+      grid-template-rows: 13% 3% 12% 73%;
+    `};
   ${media.phone} {
+    align-items: flex-start;
     height: 120rem;
     grid-template-rows: 11% 4% 12% 73%;
-    align-items: flex-start;
+    ${(props) =>
+      props.isLoginMode &&
+      css`
+        height: calc(100vh - 8rem);
+        grid-template-rows: 13% 4% 12% 71%;
+      `};
   }
 `
 
@@ -51,7 +63,7 @@ export const Subtitle = styled.p`
   }
 `
 
-export const Form = styled.form`
+export const Form = styled.form<{ isLoginMode: boolean }>`
   grid-area: form;
   height: 100%;
   align-self: flex-start;
@@ -64,7 +76,7 @@ export const Form = styled.form`
   justify-content: space-evenly;
   width: 95%;
   ${media.custom(900)} {
-    width: 85rem;
+    width: ${(props) => (props.isLoginMode ? '75rem' : '85rem')};
   }
 `
 
@@ -72,7 +84,7 @@ export const ToolBar = styled.div`
   grid-area: toolbar;
   width: 35rem;
   max-width: 90vw;
-  height: 90%;
+  height: 10rem;
   background-color: ${theme.Blue};
   align-self: flex-end;
   border-radius: 0.2em;
@@ -135,11 +147,11 @@ export const FormTitle = styled.h2`
   padding-top: 3rem;
   font-size: 4rem;
   ${media.phone} {
-    padding-top: 1rem;
+    padding-top: 2rem;
   }
 `
 
-export const FormGroup = styled.div`
+export const FormGroup = styled.div<{ isLoginMode?: boolean }>`
   position: relative;
   width: 90%;
   height: 15rem;
@@ -152,10 +164,10 @@ export const FormGroup = styled.div`
   justify-items: center;
   ${media.phone} {
     width: 80%;
-    height: 14rem;
+    height: 15rem;
   }
   ${media.custom(700)} {
-    width: 60%;
+    width: ${(props) => (props.isLoginMode ? '70%' : '60%')};
   }
 `
 
@@ -219,6 +231,12 @@ export const ShowPasswordButton = styled.button`
       box-shadow: 0 0.1rem 0.3rem ${theme.Blue};
       transform: translate(-50%, -50%);
     }
+  }
+  ${media.custom(360)} {
+    left: 88%;
+  }
+  ${media.phone} {
+    left: 91%;
   }
   ${media.custom(900)} {
     left: 93%;

@@ -44,9 +44,8 @@ export const BoardColumn = ({
   toggleMobileDraggable,
 }: ColumnProps) => {
   const [isAddTaskFormOpen, setIsAddTaskFormOpen] = React.useState(false)
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = React.useState(
-    false
-  )
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
+    React.useState(false)
 
   const toggleFormButtonRef = React.useRef<HTMLButtonElement>(null)
 

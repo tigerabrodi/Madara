@@ -46,9 +46,8 @@ export const Card = ({
   isMobileDraggable,
   onMoveTask,
 }: CardProps) => {
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = React.useState(
-    false
-  )
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
+    React.useState(false)
   const [isEditFormOpen, setIsEditFormOpen] = React.useState(false)
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
@@ -59,10 +58,8 @@ export const Card = ({
 
   const editButtonRef = React.useRef<HTMLButtonElement>(null)
 
-  const {
-    containerRef: cardMenuRef,
-    firstButtonRef: cardMenuButtonRef,
-  } = useClickOutside(() => setIsMenuOpen(false))
+  const { containerRef: cardMenuRef, firstButtonRef: cardMenuButtonRef } =
+    useClickOutside(() => setIsMenuOpen(false))
 
   useTrapTabKey({
     ref: cardMenuRef,

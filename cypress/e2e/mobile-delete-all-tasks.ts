@@ -32,12 +32,7 @@ context('Mobile resolution user flow iteration 2, delete all tasks', () => {
         cy.findByRole('article', { name: 'Task in Todo column' }).within(() => {
           cy.findByText(todoTask.text).should('exist')
         })
-      }
-    )
 
-    cy.findByRole('tabpanel', { name: 'Todo column with 1 tasks' }).within(
-      () => {
-        cy.findByText('Todo').should('exist')
         cy.findByRole('button', { name: 'Add a task to this column.' }).click()
         cy.findByRole('textbox', { name: 'Enter a task' }).type(
           secondTodoTask.text,

@@ -34,6 +34,7 @@ export const BoardMain = styled.main`
 `
 
 export const Title = styled.h1`
+  text-align: center;
   font-size: 2.5rem;
   grid-area: title;
   font-family: ${theme.LibreBaskerville};

@@ -33,6 +33,7 @@ context('Desktop drag and drop functionality', () => {
           force: true,
         }
       )
+
       cy.findByRole('button', { name: 'Add' }).click()
     })
 

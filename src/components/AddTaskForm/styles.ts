@@ -31,8 +31,9 @@ export const AddTaskTextarea = styled.textarea`
   font-weight: 600;
   transition: 0.2s;
   &::placeholder {
+    font-style: italic;
     color: ${theme.Blue};
-    opacity: 0.7;
+    opacity: 1;
   }
   &:focus {
     outline: none;

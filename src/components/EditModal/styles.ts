@@ -129,6 +129,7 @@ export const EditTextarea = styled.textarea`
   &::placeholder {
     color: ${theme.Blue};
     font-style: italic;
+    opacity: 1;
   }
   &:focus {
     outline: none;

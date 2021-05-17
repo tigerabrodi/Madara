@@ -15,7 +15,7 @@ export const CardWrapper = styled.article`
   display: grid;
   grid-template-columns: 50% 50%;
   justify-items: center;
-  grid-template-rows: minmax(10%, auto) minmax(60%, auto) minmax(10%, auto);
+  grid-template-rows: 2.5rem minmax(60%, auto) 1rem;
   grid-template-areas:
     'logo menuButton'
     'text text'
@@ -58,21 +58,19 @@ export const CardMenuLogo = styled(CardMenuSVG)`
 export const CardText = styled.p`
   grid-area: text;
   font-weight: 600;
-  max-width: 90%;
   justify-self: flex-start;
   align-self: flex-start;
-  padding: 1.2rem 1rem 0.5rem 1.5rem;
+  padding: 0.5rem 2rem 1.8rem 1.6rem;
   font-family: ${theme.SourceSansPro};
   font-size: 1.8rem;
-  padding-right: 2rem;
   color: ${theme.Blue};
 `
 
 export const CardDate = styled.p`
   grid-area: date;
   justify-self: start;
-  margin-left: 1.5rem;
-  margin-bottom: 1rem;
+  margin-left: 1.6rem;
+  margin-bottom: 2.5rem;
   font-family: ${theme.SourceSansPro};
   font-size: 1.3rem;
   color: ${theme.Blue};
@@ -80,6 +78,9 @@ export const CardDate = styled.p`
 
 export const CardMenu = styled.div`
   position: absolute;
+  top: 0;
+  right: 0;
+  transform: translateX(-1.3rem) translateY(3.4rem);
   z-index: 10;
   display: flex;
   flex-direction: column;
@@ -91,19 +92,8 @@ export const CardMenu = styled.div`
   background-color: ${theme.Blue};
   box-shadow: 0 0.2rem 1rem ${theme.DarkBlue};
   border-radius: 0.5rem;
-  left: 73.5%;
-  top: 98%;
-  transform: translate(-50%, -50%);
-  ${media.custom(360)} {
-    left: 76%;
-  }
-  ${media.phone} {
-    left: 75.8%;
-  }
   ${media.desktop} {
-    top: 102%;
     height: 17rem;
-    left: 76%;
   }
 `
 

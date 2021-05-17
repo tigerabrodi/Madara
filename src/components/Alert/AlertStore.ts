@@ -36,7 +36,7 @@ export const useAlert = (type: AlertType) => {
     addAlert(alert)
     setTimeout(() => {
       removeAlert(alert.id)
-    }, 3000)
+    }, 3500)
   }
 
   return addAlertComponent

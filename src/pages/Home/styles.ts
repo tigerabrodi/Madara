@@ -197,6 +197,7 @@ export const Input = styled.input`
   &::placeholder {
     font-style: italic;
     color: ${theme.Blue};
+    opacity: 1;
   }
   &:focus {
     outline: none;

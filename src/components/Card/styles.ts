@@ -58,10 +58,9 @@ export const CardMenuLogo = styled(CardMenuSVG)`
 export const CardText = styled.p`
   grid-area: text;
   font-weight: 600;
-  max-width: 90%;
   justify-self: flex-start;
   align-self: flex-start;
-  padding: 1.2rem 1rem 0.5rem 1.5rem;
+  padding: 0.5rem 1rem 0.5rem 1.5rem;
   font-family: ${theme.SourceSansPro};
   font-size: 1.8rem;
   padding-right: 2rem;

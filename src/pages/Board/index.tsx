@@ -34,7 +34,8 @@ enum ETrimmedColumnType {
   Todo = 'Todo',
 }
 
-type DocumentData = firebase.firestore.DocumentReference<firebase.firestore.DocumentData>
+type DocumentData =
+  firebase.firestore.DocumentReference<firebase.firestore.DocumentData>
 
 export const Board = () => {
   const [columnType, setColumnType] = React.useState<ColumnType>('Todo')
@@ -50,10 +51,11 @@ export const Board = () => {
   const userEmail = firebase.auth().currentUser?.email
   const usersCollection = firebase.firestore().collection('users')
 
-  const [users] = useCollectionData<{
-    email: string
-    name: string
-  }>(usersCollection)
+  const [users] =
+    useCollectionData<{
+      email: string
+      name: string
+    }>(usersCollection)
 
   const getCurrentUserName = (
     users: Array<{ email: string; name: string }>
@@ -79,9 +81,8 @@ export const Board = () => {
     .collection(`users/${userId}/${ETrimmedColumnType.InProgress}Tasks`)
     .doc(ETrimmedColumnType.InProgress)
 
-  const [progressTaskDocResult] = useDocumentData<TaskFirestoreResult>(
-    progressTaskDoc
-  )
+  const [progressTaskDocResult] =
+    useDocumentData<TaskFirestoreResult>(progressTaskDoc)
 
   const doneTaskDoc = firebase
     .firestore()

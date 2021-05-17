@@ -67,12 +67,8 @@ export const Home = () => {
   const handleSubmit = async (event: React.SyntheticEvent<UserFormElement>) => {
     event.preventDefault()
 
-    const {
-      name,
-      password,
-      email,
-      confirmPassword,
-    } = event.currentTarget.elements
+    const { name, password, email, confirmPassword } =
+      event.currentTarget.elements
 
     const canUserSignUp = () => {
       const isNameInvalid = !name.value || (name.value && name.value.length < 2)

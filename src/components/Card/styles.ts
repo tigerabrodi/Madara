@@ -80,7 +80,7 @@ export const CardMenu = styled.div`
   position: absolute;
   top: 0;
   right: 0;
-  transform: translateX(-1.3rem) translateY(3.2rem);
+  transform: translateX(-1.3rem) translateY(3.4rem);
   z-index: 10;
   display: flex;
   flex-direction: column;

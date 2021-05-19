@@ -1,5 +1,6 @@
 import * as React from 'react'
 import firebase from 'firebase/app'
+import { ATOnlyText } from 'styles'
 import { useDocumentData } from 'react-firebase-hooks/firestore'
 import { DraggableProvided } from 'react-beautiful-dnd'
 import { ConfirmationModal } from 'components/ConfirmationModal'
@@ -141,11 +142,15 @@ export const Card = ({
 
   const toggleMoveTaskModal = () => setIsMoveTaskModalOpen(!isMoveTaskModalOpen)
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
+  const toggleMenu = (isDisabled: boolean) =>
+    !isDisabled && setIsMenuOpen(!isMenuOpen)
 
-  const toggleMenuViaKey = () => setIsMenuOpenViaKey(!isMenuOpenViaKey)
+  const toggleMenuViaKey = (isDisabled: boolean) =>
+    !isDisabled && setIsMenuOpenViaKey(!isMenuOpenViaKey)
 
   const isCardMenuOpen = isMenuOpen || isMenuOpenViaKey
+
+  const isCardMenuDisabled = isMobileDraggable
 
   return (
     <>
@@ -161,18 +166,25 @@ export const Card = ({
         <CardMenuButton
           aria-label="Card menu"
           aria-haspopup="menu"
+          aria-disabled={isCardMenuDisabled ? 'true' : 'false'}
+          aria-describedby={
+            isCardMenuDisabled ? 'menu-button-disabled-text-id' : undefined
+          }
           onKeyPress={(event) => {
             event.stopPropagation()
-            toggleMenuViaKey()
+            toggleMenuViaKey(isCardMenuDisabled)
           }}
           onMouseDown={(event) => {
             event.stopPropagation()
-            toggleMenu()
+            toggleMenu(isCardMenuDisabled)
           }}
           ref={cardMenuButtonRef}
         >
           <CardMenuLogo aria-hidden="true" />
         </CardMenuButton>
+        <ATOnlyText id="menu-button-disabled-text-id">
+          Button is disabled since currently tasks are being reordered
+        </ATOnlyText>
         <CardText>{task.text}</CardText>
         <CardDate>Created at {task.createdAt}</CardDate>
         {isCardMenuOpen && (

@@ -6,7 +6,7 @@ import { focusStyles } from 'styles'
 export const ConfirmationModal = styled.div`
   position: absolute;
   z-index: 100;
-  height: 20rem;
+  height: 21rem;
   max-width: 55rem;
   width: 95%;
   top: 30%;
@@ -19,12 +19,12 @@ export const ConfirmationModal = styled.div`
     'title title'
     'text text'
     'confirm cancel';
-  grid-template-rows: 23% 32% 45%;
+  grid-template-rows: 26% 32% 42%;
   align-items: center;
   justify-items: center;
   ${focusStyles};
   ${media.custom(360)} {
-    height: 25rem;
+    height: 26rem;
   }
   ${media.phone} {
     height: 30rem;

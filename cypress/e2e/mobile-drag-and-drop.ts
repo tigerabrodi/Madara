@@ -126,7 +126,7 @@ context('Mobile drag and drop', () => {
     })
 
     cy.findByRole('dialog', {
-      name: 'Move task in Todo column to another column',
+      name: 'Move task from Todo column to another column',
     }).within(() => {
       cy.findByRole('button', { name: 'To do' }).should('be.disabled')
 
@@ -134,7 +134,7 @@ context('Mobile drag and drop', () => {
     })
 
     cy.findByRole('dialog', {
-      name: 'Move task in Todo column to another column',
+      name: 'Move task from Todo column to another column',
     }).should('not.exist')
 
     cy.findByRole('alert').within(() => {

@@ -54,7 +54,7 @@ export const MoveTaskModal = ({
         <MoveTaskModalHeader>
           <MoveTaskModalTitle
             id="moveTaskDialogTitle"
-            aria-label={`Move task in ${taskType} column to another column`}
+            aria-label={`Move task from ${taskType} column to another column`}
           >
             Move task to column
           </MoveTaskModalTitle>

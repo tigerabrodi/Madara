@@ -51,8 +51,8 @@ export const BoardColumn = ({
 
   const toggleTaskForm = () => setIsAddTaskFormOpen(!isAddTaskFormOpen)
 
-  const toggleConfirmationModal = () =>
-    setIsConfirmationModalOpen(!isConfirmationModalOpen)
+  const toggleConfirmationModal = (isDisabled = false) =>
+    !isDisabled && setIsConfirmationModalOpen(!isConfirmationModalOpen)
 
   const trimmedColumnType = columnType.split(' ').join('') as TrimmedColumnType
 
@@ -83,6 +83,8 @@ export const BoardColumn = ({
 
   const columnId = columnType.replace(/\s/g, '-')
   const totalTasks = tasks?.length || 0
+
+  const hasNoTasks = !tasks?.length
 
   return (
     <>
@@ -116,8 +118,8 @@ export const BoardColumn = ({
         </ToggleFormButton>
         <DeleteAllTasksButton
           aria-label={`Delete all tasks in ${columnType} column.`}
-          onClick={toggleConfirmationModal}
-          disabled={!tasks?.length}
+          onClick={() => toggleConfirmationModal(hasNoTasks)}
+          aria-disabled={hasNoTasks ? 'true' : 'false'}
         >
           <Delete aria-hidden="true" />
         </DeleteAllTasksButton>

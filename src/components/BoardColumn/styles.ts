@@ -106,7 +106,8 @@ export const DeleteAllTasksButton = styled.button`
   cursor: pointer;
   justify-self: flex-end;
   ${focusStyles};
-  &:disabled {
+
+  &[aria-disabled='true'] {
     cursor: not-allowed;
     opacity: 0.5;
   }

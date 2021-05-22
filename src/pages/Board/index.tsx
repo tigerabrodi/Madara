@@ -101,8 +101,13 @@ export const Board = () => {
     sourceColumnType: ColumnType,
     sourceTaskIndex: number,
     destColumnType: ColumnType,
-    setMoveTaskModalOpen: (state: boolean) => void
+    setMoveTaskModalOpen: (state: boolean) => void,
+    isDisabled = false
   ) => {
+    if (isDisabled) {
+      return
+    }
+
     const switchColumnMobile = (
       sourceDoc: DocumentData,
       destDoc: DocumentData,

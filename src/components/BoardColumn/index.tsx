@@ -30,7 +30,8 @@ type ColumnProps = {
     sourceTaskType: ColumnType,
     sourceTaskIndex: number,
     destTaskType: ColumnType,
-    setMoveTaskModalOpen: (state: boolean) => void
+    setMoveTaskModalOpen: (state: boolean) => void,
+    isDisabled: boolean
   ) => void
   isMobileDraggable: boolean
   toggleMobileDraggable: (isDisabled: boolean) => void

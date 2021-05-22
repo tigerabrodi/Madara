@@ -6,6 +6,7 @@ import { AddTaskForm } from 'components/AddTaskForm'
 import { useAlert } from 'components/Alert/AlertStore'
 import { ConfirmationModal } from 'components/ConfirmationModal'
 import { Draggable, Droppable, DroppableProvided } from 'react-beautiful-dnd'
+import { ATOnlyText } from 'styles'
 import {
   Column,
   ToggleFormButton,
@@ -120,9 +121,15 @@ export const BoardColumn = ({
           aria-label={`Delete all tasks in ${columnType} column.`}
           onClick={() => toggleConfirmationModal(hasNoTasks)}
           aria-disabled={hasNoTasks ? 'true' : 'false'}
+          aria-describedby={hasNoTasks ? 'has-no-tasks-delete' : undefined}
         >
           <Delete aria-hidden="true" />
         </DeleteAllTasksButton>
+        {hasNoTasks && (
+          <ATOnlyText id="has-no-tasks-delete">
+            Button is disabled because no tasks exist in this column.
+          </ATOnlyText>
+        )}
         <Inner isFormOpen={isAddTaskFormOpen}>
           {isAddTaskFormOpen && (
             <AddTaskForm

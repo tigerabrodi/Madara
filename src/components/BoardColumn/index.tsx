@@ -32,7 +32,7 @@ type ColumnProps = {
     setMoveTaskModalOpen: (state: boolean) => void
   ) => void
   isMobileDraggable: boolean
-  toggleMobileDraggable: () => void
+  toggleMobileDraggable: (isDisabled: boolean) => void
 }
 
 export const BoardColumn = ({
@@ -99,8 +99,8 @@ export const BoardColumn = ({
         <ReorderButton
           aria-label="Reorder tasks"
           aria-pressed={isMobileDraggable ? true : false}
-          onClick={toggleMobileDraggable}
-          disabled={!tasks?.length}
+          onClick={() => toggleMobileDraggable(hasNoTasks)}
+          aria-disabled={hasNoTasks}
         >
           {isMobileDraggable ? (
             <StopReorder aria-hidden="true" />

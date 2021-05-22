@@ -42,7 +42,8 @@ export const Board = () => {
 
   const [isMobileDraggable, setIsMobileDraggable] = React.useState(false)
 
-  const toggleMobileDraggable = () => setIsMobileDraggable(!isMobileDraggable)
+  const toggleMobileDraggable = (isDisabled = false) =>
+    !isDisabled && setIsMobileDraggable(!isMobileDraggable)
 
   const isNotMobileLayout = useMedia('min', '425')
 

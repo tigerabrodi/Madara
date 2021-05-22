@@ -109,7 +109,6 @@ export const DeleteAllTasksButton = styled.button`
 
   &[aria-disabled='true'] {
     cursor: not-allowed;
-    opacity: 0.5;
   }
   ${media.phone} {
     justify-self: center;
@@ -169,9 +168,6 @@ export const ReorderButton = styled.button`
     display: none;
   }
   ${focusStyles};
-  &:disabled {
-    opacity: 0.5;
-  }
 `
 
 export const StartReorder = styled(StartReorderSVG)`

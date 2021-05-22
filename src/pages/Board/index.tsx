@@ -42,7 +42,8 @@ export const Board = () => {
 
   const [isMobileDraggable, setIsMobileDraggable] = React.useState(false)
 
-  const toggleMobileDraggable = () => setIsMobileDraggable(!isMobileDraggable)
+  const toggleMobileDraggable = (isDisabled = false) =>
+    !isDisabled && setIsMobileDraggable(!isMobileDraggable)
 
   const isNotMobileLayout = useMedia('min', '425')
 
@@ -100,8 +101,13 @@ export const Board = () => {
     sourceColumnType: ColumnType,
     sourceTaskIndex: number,
     destColumnType: ColumnType,
-    setMoveTaskModalOpen: (state: boolean) => void
+    setMoveTaskModalOpen: (state: boolean) => void,
+    isDisabled = false
   ) => {
+    if (isDisabled) {
+      return
+    }
+
     const switchColumnMobile = (
       sourceDoc: DocumentData,
       destDoc: DocumentData,

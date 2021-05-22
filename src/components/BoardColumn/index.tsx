@@ -6,6 +6,7 @@ import { AddTaskForm } from 'components/AddTaskForm'
 import { useAlert } from 'components/Alert/AlertStore'
 import { ConfirmationModal } from 'components/ConfirmationModal'
 import { Draggable, Droppable, DroppableProvided } from 'react-beautiful-dnd'
+import { ATOnlyText } from 'styles'
 import {
   Column,
   ToggleFormButton,
@@ -29,10 +30,11 @@ type ColumnProps = {
     sourceTaskType: ColumnType,
     sourceTaskIndex: number,
     destTaskType: ColumnType,
-    setMoveTaskModalOpen: (state: boolean) => void
+    setMoveTaskModalOpen: (state: boolean) => void,
+    isDisabled: boolean
   ) => void
   isMobileDraggable: boolean
-  toggleMobileDraggable: () => void
+  toggleMobileDraggable: (isDisabled: boolean) => void
 }
 
 export const BoardColumn = ({
@@ -51,8 +53,8 @@ export const BoardColumn = ({
 
   const toggleTaskForm = () => setIsAddTaskFormOpen(!isAddTaskFormOpen)
 
-  const toggleConfirmationModal = () =>
-    setIsConfirmationModalOpen(!isConfirmationModalOpen)
+  const toggleConfirmationModal = (isDisabled = false) =>
+    !isDisabled && setIsConfirmationModalOpen(!isConfirmationModalOpen)
 
   const trimmedColumnType = columnType.split(' ').join('') as TrimmedColumnType
 
@@ -84,6 +86,8 @@ export const BoardColumn = ({
   const columnId = columnType.replace(/\s/g, '-')
   const totalTasks = tasks?.length || 0
 
+  const hasNoTasks = !tasks?.length
+
   return (
     <>
       <Column
@@ -97,8 +101,9 @@ export const BoardColumn = ({
         <ReorderButton
           aria-label="Reorder tasks"
           aria-pressed={isMobileDraggable ? true : false}
-          onClick={toggleMobileDraggable}
-          disabled={!tasks?.length}
+          onClick={() => toggleMobileDraggable(hasNoTasks)}
+          aria-disabled={hasNoTasks}
+          aria-describedby={hasNoTasks ? 'has-no-tasks-reorder' : undefined}
         >
           {isMobileDraggable ? (
             <StopReorder aria-hidden="true" />
@@ -106,6 +111,11 @@ export const BoardColumn = ({
             <StartReorder aria-hidden="true" />
           )}
         </ReorderButton>
+        {hasNoTasks && (
+          <ATOnlyText id="has-no-tasks-reorder">
+            Button is disabled because no tasks exist in this column.
+          </ATOnlyText>
+        )}
         <ToggleFormButton
           aria-label="Add a task to this column."
           aria-expanded={isAddTaskFormOpen ? 'true' : 'false'}
@@ -116,11 +126,17 @@ export const BoardColumn = ({
         </ToggleFormButton>
         <DeleteAllTasksButton
           aria-label={`Delete all tasks in ${columnType} column.`}
-          onClick={toggleConfirmationModal}
-          disabled={!tasks?.length}
+          onClick={() => toggleConfirmationModal(hasNoTasks)}
+          aria-disabled={hasNoTasks ? 'true' : 'false'}
+          aria-describedby={hasNoTasks ? 'has-no-tasks-delete' : undefined}
         >
           <Delete aria-hidden="true" />
         </DeleteAllTasksButton>
+        {hasNoTasks && (
+          <ATOnlyText id="has-no-tasks-delete">
+            Button is disabled because no tasks exist in this column.
+          </ATOnlyText>
+        )}
         <Inner isFormOpen={isAddTaskFormOpen}>
           {isAddTaskFormOpen && (
             <AddTaskForm

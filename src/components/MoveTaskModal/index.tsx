@@ -18,7 +18,8 @@ type MoveTaskModalProps = {
     sourceTaskType: ColumnType,
     sourceTaskIndex: number,
     destTaskType: ColumnType,
-    setMoveTaskModalOpen: (state: boolean) => void
+    setMoveTaskModalOpen: (state: boolean) => void,
+    isDisabled: boolean
   ) => void
   taskIndex: number
   taskType: ColumnType
@@ -44,6 +45,12 @@ export const MoveTaskModal = ({
     setOpen(false)
   }
 
+  const isTodoType = taskType === 'Todo'
+
+  const isProgressType = taskType === 'In progress'
+
+  const isDoneType = taskType === 'Done'
+
   return (
     <>
       <MoveTaskModalWrapper
@@ -54,7 +61,7 @@ export const MoveTaskModal = ({
         <MoveTaskModalHeader>
           <MoveTaskModalTitle
             id="moveTaskDialogTitle"
-            aria-label={`Move task in ${taskType} column to another column`}
+            aria-label={`Move task from ${taskType} column to another column`}
           >
             Move task to column
           </MoveTaskModalTitle>
@@ -68,22 +75,32 @@ export const MoveTaskModal = ({
         </MoveTaskModalHeader>
         <MoveTaskModalBody>
           <MoveTaskModalButton
-            disabled={taskType === 'Todo'}
-            onClick={() => onSuccess(taskType, taskIndex, 'Todo', setOpen)}
+            onClick={() =>
+              onSuccess(taskType, taskIndex, 'Todo', setOpen, isTodoType)
+            }
+            aria-disabled={isTodoType ? 'true' : 'false'}
           >
             To do
           </MoveTaskModalButton>
           <MoveTaskModalButton
-            disabled={taskType === 'In progress'}
             onClick={() =>
-              onSuccess(taskType, taskIndex, 'In progress', setOpen)
+              onSuccess(
+                taskType,
+                taskIndex,
+                'In progress',
+                setOpen,
+                isProgressType
+              )
             }
+            aria-disabled={isProgressType ? 'true' : 'false'}
           >
             In progress
           </MoveTaskModalButton>
           <MoveTaskModalButton
-            disabled={taskType === 'Done'}
-            onClick={() => onSuccess(taskType, taskIndex, 'Done', setOpen)}
+            onClick={() =>
+              onSuccess(taskType, taskIndex, 'Done', setOpen, isDoneType)
+            }
+            aria-disabled={isDoneType ? 'true' : 'false'}
           >
             Done
           </MoveTaskModalButton>

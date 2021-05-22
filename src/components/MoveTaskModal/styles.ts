@@ -90,7 +90,7 @@ export const MoveTaskModalButton = styled.button`
   width: 21rem;
   font-size: 1.8rem;
   border-radius: 0.3rem;
-  &:disabled {
+  &[aria-disabled='true'] {
     opacity: 0.3;
   }
   ${focusStyles};

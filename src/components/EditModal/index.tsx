@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ModalOverlay } from 'styles'
+import { ATOnlyText, ModalOverlay } from 'styles'
 import { useClickOutside } from 'hooks/useClickOutside'
 import { useTrapTabKey } from 'hooks/useTrapTabKey'
 import {
@@ -20,7 +20,8 @@ type EditModalProps = {
   taskText: string
   onSuccess: (
     event: React.FormEvent<HTMLFormElement>,
-    text: string
+    text: string,
+    isDisabled: boolean
   ) => Promise<void>
 }
 
@@ -45,6 +46,8 @@ export const EditModal = ({ taskText, setOpen, onSuccess }: EditModalProps) => {
     setOpen,
   })
 
+  const isTextEmpty = editTaskText.trim() === ''
+
   return (
     <>
       <EditModalWrapper
@@ -62,27 +65,36 @@ export const EditModal = ({ taskText, setOpen, onSuccess }: EditModalProps) => {
             <EditClose aria-hidden="true" />
           </EditCloseButton>
         </EditModalHeader>
-        <EditModalForm onSubmit={(event) => onSuccess(event, editTaskText)}>
+        <EditModalForm
+          onSubmit={(event) => onSuccess(event, editTaskText, isTextEmpty)}
+        >
           <EditLabel htmlFor="taskText">Task</EditLabel>
           <EditTextarea
             id="taskText"
             name="Task"
             placeholder="Clean kitchen."
             aria-label="Edit your task"
-            aria-invalid={editTaskText.trim() === '' ? 'true' : 'false'}
+            aria-invalid={isTextEmpty ? 'true' : 'false'}
             aria-required="true"
             onChange={handleEditTaskChange}
             value={editTaskText}
           />
           <EditConfirmButton
             type="submit"
-            disabled={editTaskText.trim() === ''}
+            aria-disabled={isTextEmpty ? 'true' : 'false'}
+            aria-describedby={isTextEmpty ? 'is-text-empty' : undefined}
           >
             Edit
           </EditConfirmButton>
+          {isTextEmpty && (
+            <ATOnlyText id="is-text-empty">
+              Button is disabled because text is empty.
+            </ATOnlyText>
+          )}
           <EditCancelButton
             onClick={handleCancel}
             type="button"
+            aria-disabled="false"
             ref={secondButtonElementRef}
           >
             Cancel

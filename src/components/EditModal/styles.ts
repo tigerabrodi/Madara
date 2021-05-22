@@ -164,14 +164,16 @@ const editModalButtonStyles = css`
     height: 4rem;
   }
   ${media.tablet} {
-    &:hover:not(:disabled) {
-      color: ${theme.Blue};
-      box-shadow: 0 0.2rem 0.3rem ${theme.DarkBlue};
-      transform: translateY(-0.1rem);
-    }
-    &:active:not(:disabled) {
-      box-shadow: 0 0.2rem 0.1rem ${theme.DarkBlue};
-      transform: translateY(0.1rem);
+    &[aria-disabled='false'] {
+      &:hover {
+        color: ${theme.Blue};
+        box-shadow: 0 0.2rem 0.3rem ${theme.DarkBlue};
+        transform: translateY(-0.1rem);
+      }
+      &:active {
+        box-shadow: 0 0.2rem 0.1rem ${theme.DarkBlue};
+        transform: translateY(0.1rem);
+      }
     }
   }
 `
@@ -183,9 +185,10 @@ export const EditConfirmButton = styled.button`
   grid-area: confirm;
   border: 0.2rem solid ${theme.Green};
   color: ${theme.Green};
-  &:disabled {
+  &[aria-disabled='true'] {
     opacity: 0.3;
     box-shadow: none;
+    cursor: not-allowed;
   }
   ${media.custom(360)} {
     margin-right: 1.7rem;
@@ -194,9 +197,11 @@ export const EditConfirmButton = styled.button`
     margin-right: 3.2rem;
   }
   ${media.tablet} {
-    &:hover:not(:disabled) {
-      cursor: pointer;
-      background-color: ${theme.Green};
+    &[aria-disabled='false'] {
+      &:hover {
+        cursor: pointer;
+        background-color: ${theme.Green};
+      }
     }
   }
 `

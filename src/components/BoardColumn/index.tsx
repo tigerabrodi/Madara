@@ -102,6 +102,7 @@ export const BoardColumn = ({
           aria-pressed={isMobileDraggable ? true : false}
           onClick={() => toggleMobileDraggable(hasNoTasks)}
           aria-disabled={hasNoTasks}
+          aria-describedby={hasNoTasks ? 'has-no-tasks-reorder' : undefined}
         >
           {isMobileDraggable ? (
             <StopReorder aria-hidden="true" />
@@ -109,6 +110,11 @@ export const BoardColumn = ({
             <StartReorder aria-hidden="true" />
           )}
         </ReorderButton>
+        {hasNoTasks && (
+          <ATOnlyText id="has-no-tasks-reorder">
+            Button is disabled because no tasks exist in this column.
+          </ATOnlyText>
+        )}
         <ToggleFormButton
           aria-label="Add a task to this column."
           aria-expanded={isAddTaskFormOpen ? 'true' : 'false'}

@@ -56,14 +56,17 @@ const formButtonStyles = css`
     box-shadow: none;
   }
   ${media.tablet} {
-    &:hover {
-      color: ${theme.Blue};
-      box-shadow: 0 0.2rem 0.3rem ${theme.DarkBlue};
-      transform: translateY(-0.1rem);
-    }
-    &:active {
-      box-shadow: 0 0.2rem 0.1rem ${theme.DarkBlue};
-      transform: translateY(0.1rem);
+    &[aria-disabled='false'] {
+      &:hover {
+        color: ${theme.Blue};
+        box-shadow: 0 0.2rem 0.3rem ${theme.DarkBlue};
+        transform: translateY(-0.1rem);
+      }
+
+      &:active {
+        box-shadow: 0 0.2rem 0.1rem ${theme.DarkBlue};
+        transform: translateY(0.1rem);
+      }
     }
   }
 `
@@ -73,14 +76,17 @@ export const FormAddButton = styled.button`
   grid-area: addButton;
   border: 0.2rem solid ${theme.Green};
   color: ${theme.Green};
-  &:disabled {
+  &[aria-disabled='true'] {
+    cursor: not-allowed;
     box-shadow: none;
     opacity: 0.3;
   }
   ${media.tablet} {
-    &:hover:not(:disabled) {
-      cursor: pointer;
-      background-color: ${theme.Green};
+    &[aria-disabled='false'] {
+      &:hover {
+        cursor: pointer;
+        background-color: ${theme.Green};
+      }
     }
   }
 `

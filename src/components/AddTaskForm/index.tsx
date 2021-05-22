@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { ColumnType, TaskFirestoreResult } from 'types'
 import { useClickOutside } from 'hooks/useClickOutside'
 import { useTrapTabKey } from 'hooks/useTrapTabKey'
+import { ATOnlyText } from 'styles'
 import {
   Form,
   AddTaskTextarea,
@@ -46,8 +47,15 @@ export const AddTaskForm = ({ setOpen, columnType }: TaskFormProps) => {
 
   const [taskDocResult] = useDocumentData<TaskFirestoreResult>(taskDoc)
 
-  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (
+    event: React.FormEvent<HTMLFormElement>,
+    isDisabled = false
+  ) => {
     event.preventDefault()
+
+    if (isDisabled) {
+      return
+    }
 
     const currentDate = new Date().toLocaleDateString('en-US')
 
@@ -67,8 +75,13 @@ export const AddTaskForm = ({ setOpen, columnType }: TaskFormProps) => {
     setOpen(false)
   }
 
+  const isTextEmpty = addTaskText.trim() === ''
+
   return (
-    <Form onSubmit={handleFormSubmit} ref={formRef}>
+    <Form
+      onSubmit={(event) => handleFormSubmit(event, isTextEmpty)}
+      ref={formRef}
+    >
       <AddTaskTextarea
         aria-label="Enter a task"
         aria-required="true"
@@ -76,11 +89,21 @@ export const AddTaskForm = ({ setOpen, columnType }: TaskFormProps) => {
         placeholder="Enter a task"
         onChange={handleAddTaskTextChange}
       />
-      <FormAddButton type="submit" disabled={addTaskText.trim() === ''}>
+      <FormAddButton
+        type="submit"
+        aria-disabled={isTextEmpty ? 'true' : 'false'}
+        aria-describedby={isTextEmpty ? 'is-text-empty' : undefined}
+      >
         Add
       </FormAddButton>
+      {isTextEmpty && (
+        <ATOnlyText id="is-text-empty">
+          Button is disabled because text is empty.
+        </ATOnlyText>
+      )}
       <FormCancelButton
         type="button"
+        aria-disabled="false"
         onClick={() => setOpen(false)}
         ref={firstButtonElementRef}
       >

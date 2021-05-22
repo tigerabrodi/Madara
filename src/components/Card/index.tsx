@@ -105,9 +105,14 @@ export const Card = ({
 
   const handleEditModalSubmit = async (
     event: React.FormEvent<HTMLFormElement>,
-    taskText: string
+    taskText: string,
+    isDisabled = false
   ) => {
     event.preventDefault()
+
+    if (isDisabled) {
+      return
+    }
 
     if (taskDocResult) {
       const tasksCopy = taskDocResult.tasks.slice()

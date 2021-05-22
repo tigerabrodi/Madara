@@ -128,8 +128,6 @@ context('Mobile drag and drop', () => {
     cy.findByRole('dialog', {
       name: 'Move task from Todo column to another column',
     }).within(() => {
-      cy.findByRole('button', { name: 'To do' }).should('be.disabled')
-
       cy.findByRole('button', { name: 'In progress' }).click()
     })
 

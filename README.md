@@ -24,7 +24,9 @@ This project uses 7 environment variables, which you can retrieve after creating
 <br>
 Create a `.env.development.local` file in the root folder. 💫
 <br>
+<br>
 The environment variables it should have:
+<br>
 <br>
 `REACT_APP_API_KEY`
 <br>

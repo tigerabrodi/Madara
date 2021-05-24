@@ -58,8 +58,6 @@ export const Card = ({
 
   const [isMoveTaskModalOpen, setIsMoveTaskModalOpen] = React.useState(false)
 
-  const editButtonRef = React.useRef<HTMLButtonElement>(null)
-
   const { containerRef: cardMenuRef, firstButtonRef: cardMenuButtonRef } =
     useClickOutside(() => setIsMenuOpen(false))
 
@@ -137,7 +135,8 @@ export const Card = ({
 
       toggleEditModalForm()
 
-      editButtonRef.current?.focus()
+      setIsMenuOpen(false)
+      setIsMenuOpenViaKey(false)
     }
   }
 
@@ -188,9 +187,11 @@ export const Card = ({
         >
           <CardMenuLogo aria-hidden="true" />
         </CardMenuButton>
-        <ATOnlyText id="menu-button-disabled-text-id">
-          Button is disabled since currently tasks are being reordered
-        </ATOnlyText>
+        {isCardMenuDisabled && (
+          <ATOnlyText id="menu-button-disabled-text-id">
+            Button is disabled since currently tasks are being reordered
+          </ATOnlyText>
+        )}
         <CardText>{task.text}</CardText>
         <CardDate>Created at {task.createdAt}</CardDate>
         {isCardMenuOpen && (
@@ -201,7 +202,6 @@ export const Card = ({
                 event.stopPropagation()
                 toggleEditModalForm()
               }}
-              ref={editButtonRef}
             >
               Edit Task
             </CardMenuItem>

@@ -116,6 +116,7 @@ export const EditLabel = styled.label`
 export const EditTextarea = styled.textarea`
   grid-area: textarea;
   background-color: ${theme.LightBlue};
+  border: none;
   height: 95%;
   width: 90%;
   font-weight: 600;

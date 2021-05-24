@@ -20,6 +20,7 @@ export const Form = styled.form`
 
 export const AddTaskTextarea = styled.textarea`
   grid-area: textarea;
+  border: none;
   height: 100%;
   width: 100%;
   background: ${theme.White};

@@ -25,7 +25,9 @@ export const AlertWrapper = styled.div`
     '. message message message .';
   align-items: center;
   justify-items: center;
-  ${focusStyles};
+  &:focus {
+    outline: none;
+  }
   ${media.phone} {
     grid-template-columns: 25% 15% 20% 30% 10%;
     top: 11%;

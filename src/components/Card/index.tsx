@@ -134,6 +134,9 @@ export const Card = ({
       )
 
       toggleEditModalForm()
+
+      setIsMenuOpen(false)
+      setIsMenuOpenViaKey(false)
     }
   }
 

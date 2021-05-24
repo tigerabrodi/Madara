@@ -188,9 +188,11 @@ export const Card = ({
         >
           <CardMenuLogo aria-hidden="true" />
         </CardMenuButton>
-        <ATOnlyText id="menu-button-disabled-text-id">
-          Button is disabled since currently tasks are being reordered
-        </ATOnlyText>
+        {isCardMenuDisabled && (
+          <ATOnlyText id="menu-button-disabled-text-id">
+            Button is disabled since currently tasks are being reordered
+          </ATOnlyText>
+        )}
         <CardText>{task.text}</CardText>
         <CardDate>Created at {task.createdAt}</CardDate>
         {isCardMenuOpen && (

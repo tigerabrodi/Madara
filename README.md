@@ -21,6 +21,7 @@ I'm really happy right now to have finally finished it, sometimes it felt like i
 A flickering that happens when you reorder the tasks.
 This is because I'm using Firebase Firestore, the option to update a single index of an array doesn't exist, and the solution was to modify the whole array of tasks and then update it. 😐
 <br>
+<br>
 Nevertheless, I'm happy with this project, it was a journey that taught me a lot about Accessibility. 😁
 
 ## Installation 🛠️

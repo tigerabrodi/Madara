@@ -58,8 +58,6 @@ export const Card = ({
 
   const [isMoveTaskModalOpen, setIsMoveTaskModalOpen] = React.useState(false)
 
-  const editButtonRef = React.useRef<HTMLButtonElement>(null)
-
   const { containerRef: cardMenuRef, firstButtonRef: cardMenuButtonRef } =
     useClickOutside(() => setIsMenuOpen(false))
 
@@ -136,8 +134,6 @@ export const Card = ({
       )
 
       toggleEditModalForm()
-
-      editButtonRef.current?.focus()
     }
   }
 
@@ -203,7 +199,6 @@ export const Card = ({
                 event.stopPropagation()
                 toggleEditModalForm()
               }}
-              ref={editButtonRef}
             >
               Edit Task
             </CardMenuItem>

@@ -12,6 +12,8 @@ The past 3 months were a deep dive into Accessibility, so throughout the process
 
 My favorite part with this project, aside from the Accessibility stuff I've learned, was implementing the Drag and Drop feature 🥳
 
+It was also really fun writing the various custom hooks 👏
+
 My main inspiration for this project was Github Project 😁
 
 I'm really happy right now to have finally finished it, sometimes it felt like it was never gonna be finished due to the number of accessibility improvements you can make 🦊 🔥 🎊 🎉
@@ -56,6 +58,11 @@ The environment variables it should have:
 - Building: React, TypeScript, Styled-Components, Zustand, React Beautiful DnD, React Firebase Hooks & Firebase :sunglasses:
 - Integration Tests: Jest and React Testing Library :blue_heart:
 - E2E Tests: Cypress :metal:
+
+## Demo 🎥
+https://user-images.githubusercontent.com/49603590/119859414-a8ac1380-bf15-11eb-972c-d4a7b3c229dd.mp4
+
+
 
 ## License :nerd_face:
 

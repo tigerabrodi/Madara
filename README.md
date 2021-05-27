@@ -60,7 +60,8 @@ The environment variables it should have:
 - E2E Tests: Cypress :metal:
 
 ## Demo 🎥
-https://user-images.githubusercontent.com/49603590/119859414-a8ac1380-bf15-11eb-972c-d4a7b3c229dd.mp4
+
+https://user-images.githubusercontent.com/49603590/119859711-eb6deb80-bf15-11eb-9629-dd920d99ec4f.mp4
 
 
 

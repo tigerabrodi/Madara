@@ -8,14 +8,12 @@ import {
   AlertWrapper,
 } from './styles'
 
-type AlertItemProps = {
+type AlertProps = {
   removeAlert: () => void
   message: string
 }
 
-/* TODO Rename alert close button name in tests */
-
-const AlertItem = ({ message, removeAlert }: AlertItemProps) => {
+const Alert = ({ message, removeAlert }: AlertProps) => {
   return (
     <AlertWrapper role="alert">
       <AlertIcon title="check" aria-hidden="true" />
@@ -30,7 +28,7 @@ const AlertItem = ({ message, removeAlert }: AlertItemProps) => {
 
 export const toast = (message: string) =>
   reactHotToast((toast) => (
-    <AlertItem
+    <Alert
       message={message}
       removeAlert={() => reactHotToast.dismiss(toast.id)}
     />

@@ -63,7 +63,7 @@ context('Mobile resolution user flow, delete all tasks', () => {
       cy.findByText(
         'You successfully deleted all tasks in Todo column.'
       ).should('exist')
-      cy.findByRole('button', { name: 'Close alert' }).click()
+      cy.findByRole('button', { name: 'Close' }).click()
     })
 
     cy.findByRole('tabpanel', { name: 'Todo column with 0 tasks' }).within(
@@ -128,7 +128,7 @@ context('Mobile resolution user flow, delete all tasks', () => {
       cy.findByText(
         'You successfully deleted all tasks in In progress column.'
       ).should('exist')
-      cy.findByRole('button', { name: 'Close alert' }).click()
+      cy.findByRole('button', { name: 'Close' }).click()
     })
 
     cy.findByRole('tabpanel', {

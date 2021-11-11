@@ -58,7 +58,7 @@ context('Desktop resolution user flow', () => {
       cy.findByText('You successfully edited a task in Todo column.').should(
         'exist'
       )
-      cy.findByRole('button', { name: 'Close alert' }).click()
+      cy.findByRole('button', { name: 'Close' }).click()
     })
 
     cy.findByRole('region', { name: 'Todo column with 1 tasks' }).within(() => {
@@ -81,7 +81,7 @@ context('Desktop resolution user flow', () => {
       cy.findByText('You successfully deleted a task in Todo column.').should(
         'exist'
       )
-      cy.findByRole('button', { name: 'Close alert' }).click()
+      cy.findByRole('button', { name: 'Close' }).click()
     })
 
     cy.findByRole('region', { name: 'Todo column with 0 tasks' }).within(() => {
@@ -132,7 +132,7 @@ context('Desktop resolution user flow', () => {
       cy.findByText(
         'You successfully edited a task in In progress column.'
       ).should('exist')
-      cy.findByRole('button', { name: 'Close alert' }).click()
+      cy.findByRole('button', { name: 'Close' }).click()
     })
 
     cy.findByRole('region', { name: 'In progress column with 1 tasks' }).within(
@@ -159,7 +159,7 @@ context('Desktop resolution user flow', () => {
       cy.findByText(
         'You successfully deleted a task in In progress column.'
       ).should('exist')
-      cy.findByRole('button', { name: 'Close alert' }).click()
+      cy.findByRole('button', { name: 'Close' }).click()
     })
 
     cy.findByRole('region', { name: 'In progress column with 0 tasks' }).within(
@@ -204,7 +204,7 @@ context('Desktop resolution user flow', () => {
       cy.findByText('You successfully edited a task in Done column.').should(
         'exist'
       )
-      cy.findByRole('button', { name: 'Close alert' }).click()
+      cy.findByRole('button', { name: 'Close' }).click()
     })
 
     cy.findByRole('region', { name: 'Done column with 1 tasks' }).within(() => {
@@ -227,7 +227,7 @@ context('Desktop resolution user flow', () => {
       cy.findByText('You successfully deleted a task in Done column.').should(
         'exist'
       )
-      cy.findByRole('button', { name: 'Close alert' }).click()
+      cy.findByRole('button', { name: 'Close' }).click()
     })
 
     cy.findByRole('region', { name: 'Done column with 0 tasks' }).within(() => {
@@ -238,7 +238,7 @@ context('Desktop resolution user flow', () => {
     cy.findByRole('alert').within(() => {
       cy.findByRole('heading', { name: 'Success!' }).should('exist')
       cy.findByText('You have successfully signed out.').should('exist')
-      cy.findByRole('button', { name: 'Close alert' }).click()
+      cy.findByRole('button', { name: 'Close' }).click()
     })
 
     cy.findByLabelText('Enter Your Name').type(user.name, { force: true })
@@ -273,7 +273,7 @@ context('Desktop resolution user flow', () => {
     cy.findByRole('alert').within(() => {
       cy.findByRole('heading', { name: 'Success!' }).should('exist')
       cy.findByText('You have successfully signed in.').should('exist')
-      cy.findByRole('button', { name: 'Close alert' }).click()
+      cy.findByRole('button', { name: 'Close' }).click()
     })
 
     cy.findByRole('heading', {

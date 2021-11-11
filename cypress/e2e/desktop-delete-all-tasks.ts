@@ -61,7 +61,7 @@ context('Desktop delete all tasks', () => {
       cy.findByText(
         'You successfully deleted all tasks in Todo column.'
       ).should('exist')
-      cy.findByRole('button', { name: 'Close alert' }).click()
+      cy.findByRole('button', { name: 'Close' }).click()
     })
 
     cy.findByRole('region', { name: 'Todo column with 0 tasks' }).within(() => {
@@ -122,7 +122,7 @@ context('Desktop delete all tasks', () => {
       cy.findByText(
         'You successfully deleted all tasks in In progress column.'
       ).should('exist')
-      cy.findByRole('button', { name: 'Close alert' }).click()
+      cy.findByRole('button', { name: 'Close' }).click()
     })
 
     cy.findByRole('region', { name: 'In progress column with 0 tasks' }).within(

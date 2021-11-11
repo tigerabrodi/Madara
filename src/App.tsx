@@ -19,6 +19,15 @@ firebase.initializeApp({
   measurementId: process.env.REACT_APP_API_MEASUREMENT_ID,
 })
 
+const toastOptions = {
+  duration: 3500,
+  style: {
+    boxShadow: 'none',
+    backgroundColor: 'transparent',
+    display: 'revert',
+  },
+}
+
 const auth = firebase.auth()
 
 const App = () => {
@@ -29,7 +38,7 @@ const App = () => {
       <Navigation />
       {user ? <Board /> : <Home />}
       <Footer />
-      <Toaster position="top-center" toastOptions={{ duration: 3500 }} />
+      <Toaster position="top-center" toastOptions={toastOptions} />
     </AppProviders>
   )
 }

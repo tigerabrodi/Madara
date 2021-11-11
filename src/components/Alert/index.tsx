@@ -15,7 +15,7 @@ type AlertProps = {
 
 const Alert = ({ message, removeAlert }: AlertProps) => {
   return (
-    <AlertWrapper role="alert">
+    <AlertWrapper>
       <AlertIcon title="check" aria-hidden="true" />
       <AlertStatus>Success!</AlertStatus>
       <AlertCloseButton aria-label="Close" onClick={() => removeAlert()}>

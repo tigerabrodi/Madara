@@ -6,15 +6,10 @@ import { focusStyles } from 'styles'
 import { media } from 'theme/media'
 
 export const AlertWrapper = styled.div`
-  position: absolute;
-  z-index: 10;
-  top: 10%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 90vw;
   max-width: 85rem;
-  height: 10rem;
   min-width: 31rem;
+  height: 10rem;
   border: 0.2rem solid ${theme.DarkGreen};
   background-color: ${theme.Green};
   box-shadow: 0 0.1rem 0.5rem ${theme.DarkGreen};
@@ -30,7 +25,6 @@ export const AlertWrapper = styled.div`
   }
   ${media.phone} {
     grid-template-columns: 25% 15% 20% 30% 10%;
-    top: 11%;
   }
   ${media.tablet} {
     grid-template-columns: 25% 15% 20% 20% 20%;

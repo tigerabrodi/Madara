@@ -1,6 +1,6 @@
 import { buildUser, buildTask } from '../support/generate'
 
-context('Mobile resolution user flow iteration 2, delete all tasks', () => {
+context('Mobile resolution user flow, delete all tasks', () => {
   beforeEach(() => {
     cy.viewport(375, 667)
     indexedDB.deleteDatabase('firebaseLocalStorageDb')

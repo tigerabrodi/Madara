@@ -135,7 +135,7 @@ context('Mobile drag and drop', () => {
       name: 'Move task from Todo column to another column',
     }).should('not.exist')
 
-    cy.findByRole('alert').within(() => {
+    cy.findByRole('status').within(() => {
       cy.findByRole('heading', { name: 'Success!' }).should('exist')
       cy.findByText(
         'Successfully moved task from todo column to in progress column.'

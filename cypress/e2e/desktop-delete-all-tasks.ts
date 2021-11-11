@@ -56,7 +56,7 @@ context('Desktop delete all tasks', () => {
       cy.findByRole('button', { name: 'Yes' }).click({ force: true })
     })
 
-    cy.findByRole('alert').within(() => {
+    cy.findByRole('status').within(() => {
       cy.findByRole('heading', { name: 'Success!' }).should('exist')
       cy.findByText(
         'You successfully deleted all tasks in Todo column.'
@@ -117,7 +117,7 @@ context('Desktop delete all tasks', () => {
       cy.findByRole('button', { name: 'Yes' }).click({ force: true })
     })
 
-    cy.findByRole('alert').within(() => {
+    cy.findByRole('status').within(() => {
       cy.findByRole('heading', { name: 'Success!' }).should('exist')
       cy.findByText(
         'You successfully deleted all tasks in In progress column.'

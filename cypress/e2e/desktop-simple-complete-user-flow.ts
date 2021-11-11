@@ -53,7 +53,7 @@ context('Desktop resolution user flow', () => {
         cy.findByText(editedTodoTask.text).should('exist')
       })
     })
-    cy.findByRole('alert').within(() => {
+    cy.findByRole('status').within(() => {
       cy.findByRole('heading', { name: 'Success!' }).should('exist')
       cy.findByText('You successfully edited a task in Todo column.').should(
         'exist'
@@ -76,7 +76,8 @@ context('Desktop resolution user flow', () => {
       ).should('exist')
       cy.findByRole('button', { name: 'Yes' }).click({ force: true })
     })
-    cy.findByRole('alert').within(() => {
+    cy.wait(500)
+    cy.findByRole('status').within(() => {
       cy.findByRole('heading', { name: 'Success!' }).should('exist')
       cy.findByText('You successfully deleted a task in Todo column.').should(
         'exist'
@@ -127,7 +128,8 @@ context('Desktop resolution user flow', () => {
         )
       }
     )
-    cy.findByRole('alert').within(() => {
+    cy.wait(500)
+    cy.findByRole('status').within(() => {
       cy.findByRole('heading', { name: 'Success!' }).should('exist')
       cy.findByText(
         'You successfully edited a task in In progress column.'
@@ -154,7 +156,9 @@ context('Desktop resolution user flow', () => {
       ).should('exist')
       cy.findByRole('button', { name: 'Yes' }).click({ force: true })
     })
-    cy.findByRole('alert').within(() => {
+
+    cy.wait(500)
+    cy.findByRole('status').within(() => {
       cy.findByRole('heading', { name: 'Success!' }).should('exist')
       cy.findByText(
         'You successfully deleted a task in In progress column.'
@@ -199,7 +203,9 @@ context('Desktop resolution user flow', () => {
         cy.findByText(editedDoneTask.text).should('exist')
       })
     })
-    cy.findByRole('alert').within(() => {
+
+    cy.wait(500)
+    cy.findByRole('status').within(() => {
       cy.findByRole('heading', { name: 'Success!' }).should('exist')
       cy.findByText('You successfully edited a task in Done column.').should(
         'exist'
@@ -222,7 +228,9 @@ context('Desktop resolution user flow', () => {
       ).should('exist')
       cy.findByRole('button', { name: 'Yes' }).click({ force: true })
     })
-    cy.findByRole('alert').within(() => {
+
+    cy.wait(500)
+    cy.findByRole('status').within(() => {
       cy.findByRole('heading', { name: 'Success!' }).should('exist')
       cy.findByText('You successfully deleted a task in Done column.').should(
         'exist'
@@ -235,7 +243,9 @@ context('Desktop resolution user flow', () => {
     })
 
     cy.findByRole('button', { name: 'Logout' }).click()
-    cy.findByRole('alert').within(() => {
+
+    cy.wait(500)
+    cy.findByRole('status').within(() => {
       cy.findByRole('heading', { name: 'Success!' }).should('exist')
       cy.findByText('You have successfully signed out.').should('exist')
       cy.findByRole('button', { name: 'Close' }).click()
@@ -270,7 +280,7 @@ context('Desktop resolution user flow', () => {
 
     cy.wait(500)
 
-    cy.findByRole('alert').within(() => {
+    cy.findByRole('status').within(() => {
       cy.findByRole('heading', { name: 'Success!' }).should('exist')
       cy.findByText('You have successfully signed in.').should('exist')
       cy.findByRole('button', { name: 'Close' }).click()

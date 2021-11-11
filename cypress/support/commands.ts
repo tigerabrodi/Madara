@@ -33,7 +33,7 @@ const registerUser = (user: User) => {
   })
   cy.findByRole('button', { name: 'Sign Up' }).click()
 
-  cy.findByRole('alert').within(() => {
+  cy.findByRole('status').within(() => {
     cy.findByRole('heading', { name: 'Success!' }).should('exist')
     cy.findByText('You have successfully signed up.').should('exist')
     cy.findByRole('button', { name: 'Close' }).click()

@@ -1,18 +1,37 @@
-import * as React from 'react'
-import { AlertItem } from './AlertItem'
-import { useAlertStore } from './AlertStore'
+import { toast as reactHotToast } from 'react-hot-toast'
+import {
+  AlertClose,
+  AlertCloseButton,
+  AlertIcon,
+  AlertMessage,
+  AlertStatus,
+  AlertWrapper,
+} from './styles'
 
-export const Alert = ({ children }: { children: React.ReactNode }) => {
-  const alerts = useAlertStore((state) => state.alerts)
-  const removeAlert = useAlertStore((state) => state.removeAlert)
+type AlertItemProps = {
+  removeAlert: () => void
+  message: string
+}
 
+/* TODO Rename alert close button name in tests */
+
+const AlertItem = ({ message, removeAlert }: AlertItemProps) => {
   return (
-    <React.Fragment>
-      {alerts.length > 0 &&
-        alerts.map((alert) => (
-          <AlertItem alert={alert} removeAlert={removeAlert} key={alert.id} />
-        ))}
-      {children}
-    </React.Fragment>
+    <AlertWrapper role="alert">
+      <AlertIcon title="check" aria-hidden="true" />
+      <AlertStatus>Success!</AlertStatus>
+      <AlertCloseButton aria-label="Close" onClick={() => removeAlert()}>
+        <AlertClose aria-hidden="true" />
+      </AlertCloseButton>
+      <AlertMessage>{message}</AlertMessage>
+    </AlertWrapper>
   )
 }
+
+export const toast = (message: string) =>
+  reactHotToast((toast) => (
+    <AlertItem
+      message={message}
+      removeAlert={() => reactHotToast.dismiss(toast.id)}
+    />
+  ))

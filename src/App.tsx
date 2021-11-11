@@ -2,13 +2,12 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
-
 import { Footer } from 'components/Footer'
 import { AppProviders } from 'context'
 import { Home } from 'pages/Home'
 import { Board } from 'pages/Board'
-import { Alert } from 'components/Alert'
 import { Navigation } from 'components/Navigation'
+import { Toaster } from 'react-hot-toast'
 
 firebase.initializeApp({
   apiKey: process.env.REACT_APP_API_KEY,
@@ -27,13 +26,10 @@ const App = () => {
 
   return (
     <AppProviders>
-      <>
-        <Alert>
-          <Navigation />
-          {user ? <Board /> : <Home />}
-          <Footer />
-        </Alert>
-      </>
+      <Navigation />
+      {user ? <Board /> : <Home />}
+      <Footer />
+      <Toaster position="top-center" toastOptions={{ duration: 3500 }} />
     </AppProviders>
   )
 }

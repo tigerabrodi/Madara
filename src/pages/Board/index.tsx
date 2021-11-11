@@ -14,7 +14,6 @@ import { BoardColumn } from 'components/BoardColumn'
 import { useMedia } from 'hooks/useMedia'
 import { useTabArrowSwitch } from 'hooks/useTabArrowSwitch'
 import { ColumnType, Task, TaskFirestoreResult } from 'types'
-import { useAlert } from 'components/Alert/AlertStore'
 import {
   BoardMain,
   BoardWrapper,
@@ -27,6 +26,7 @@ import {
   TodoTab,
   TabList,
 } from './styles'
+import { toast } from 'components/Alert'
 
 enum ETrimmedColumnType {
   InProgress = 'Inprogress',
@@ -65,8 +65,6 @@ export const Board = () => {
       (user) => user.email.toLowerCase() === userEmail?.toLowerCase()
     )?.name
   }
-
-  const switchColumnSuccessAlert = useAlert('success')
 
   const userId = firebase.auth().currentUser?.uid
 
@@ -210,7 +208,7 @@ export const Board = () => {
 
     setMoveTaskModalOpen(false)
 
-    switchColumnSuccessAlert(
+    toast(
       `Successfully moved task from ${sourceColumnType.toLowerCase()} column to ${destColumnType.toLowerCase()} column.`
     )
   }

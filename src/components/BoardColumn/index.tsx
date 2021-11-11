@@ -3,7 +3,6 @@ import firebase from 'firebase/app'
 import { Card } from 'components/Card'
 import { ColumnType, TrimmedColumnType, Task } from 'types'
 import { AddTaskForm } from 'components/AddTaskForm'
-import { useAlert } from 'components/Alert/AlertStore'
 import { ConfirmationModal } from 'components/ConfirmationModal'
 import { Draggable, Droppable, DroppableProvided } from 'react-beautiful-dnd'
 import { ATOnlyText } from 'styles'
@@ -21,6 +20,7 @@ import {
   StartReorder,
   StopReorder,
 } from './styles'
+import { toast } from 'components/Alert'
 
 type ColumnProps = {
   columnType: ColumnType
@@ -65,8 +65,6 @@ export const BoardColumn = ({
     .collection(`users/${userId}/${trimmedColumnType}Tasks`)
     .doc(trimmedColumnType)
 
-  const addSuccessDeleteAllTasksAlert = useAlert('success')
-
   const handleConfirmationModalSubmit = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
@@ -76,9 +74,7 @@ export const BoardColumn = ({
       tasks: [],
     })
 
-    addSuccessDeleteAllTasksAlert(
-      `You successfully deleted all tasks in ${columnType} column.`
-    )
+    toast(`You successfully deleted all tasks in ${columnType} column.`)
 
     toggleConfirmationModal()
   }

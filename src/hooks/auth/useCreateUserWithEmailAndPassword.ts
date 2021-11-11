@@ -1,20 +1,18 @@
 import * as React from 'react'
 import firebase from 'firebase/app'
-import { useAlert } from 'components/Alert/AlertStore'
 import { Status } from 'types'
 import {
   EmailAndPasswordActionHook,
   FirebaseAuth,
   FirebaseError,
 } from './types'
+import { toast } from 'components/Alert'
 
 export const useCreateUserWithEmailAndPassword = (
   auth: FirebaseAuth
 ): EmailAndPasswordActionHook => {
   const [signUpError, setSignUpError] = React.useState<FirebaseError>()
   const [status, setStatus] = React.useState<Status>('idle')
-
-  const signUpSuccessAlert = useAlert('success')
 
   const usersRef = firebase.firestore().collection('users')
 
@@ -31,7 +29,7 @@ export const useCreateUserWithEmailAndPassword = (
         email: user.user?.email,
       })
       setStatus('success')
-      signUpSuccessAlert('You have successfully signed up.')
+      toast('You have successfully signed up.')
     } catch (error) {
       setStatus('error')
       setSignUpError(error as FirebaseError)

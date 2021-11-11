@@ -6,7 +6,6 @@ import { DraggableProvided } from 'react-beautiful-dnd'
 import { ConfirmationModal } from 'components/ConfirmationModal'
 import { useClickOutside } from 'hooks/useClickOutside'
 import { useTrapTabKey } from 'hooks/useTrapTabKey'
-import { useAlert } from 'components/Alert/AlertStore'
 import { MoveTaskModal } from 'components/MoveTaskModal'
 import { EditModal } from 'components/EditModal'
 import { ColumnType, Task, TaskFirestoreResult } from 'types'
@@ -24,6 +23,7 @@ import {
   MobileDragArea,
   MobileDrag,
 } from './styles'
+import { toast } from 'components/Alert'
 
 type CardProps = {
   task: Task
@@ -67,10 +67,6 @@ export const Card = ({
     pause: !isMenuOpenViaKey,
   })
 
-  const addSuccessDeleteAlert = useAlert('success')
-
-  const addSuccessEditAlert = useAlert('success')
-
   const userId = firebase.auth().currentUser?.uid
 
   const trimmedColumnType = task.columnType.split(' ').join('')
@@ -94,9 +90,7 @@ export const Card = ({
         tasks: newTasks,
       })
 
-      addSuccessDeleteAlert(
-        `You successfully deleted a task in ${task.columnType} column.`
-      )
+      toast(`You successfully deleted a task in ${task.columnType} column.`)
 
       toggleConfirmationModal()
     }
@@ -129,9 +123,7 @@ export const Card = ({
         tasks: tasksCopy,
       })
 
-      addSuccessEditAlert(
-        `You successfully edited a task in ${task.columnType} column.`
-      )
+      toast(`You successfully edited a task in ${task.columnType} column.`)
 
       toggleEditModalForm()
 

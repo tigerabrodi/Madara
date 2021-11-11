@@ -34,7 +34,7 @@ export const useCreateUserWithEmailAndPassword = (
       signUpSuccessAlert('You have successfully signed up.')
     } catch (error) {
       setStatus('error')
-      setSignUpError(error)
+      setSignUpError(error as FirebaseError)
       setTimeout(() => {
         setSignUpError(undefined)
       }, 3000)

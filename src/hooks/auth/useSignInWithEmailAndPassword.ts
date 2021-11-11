@@ -1,13 +1,13 @@
 import { useState, useMemo } from 'react'
 import firebase from 'firebase/app'
-import { EmailAndPasswordActionHook } from './types'
+import { EmailAndPasswordActionHook, FirebaseError } from './types'
 import { Status } from 'types'
 import { useAlert } from 'components/Alert/AlertStore'
 
 export const useSignInWithEmailAndPassword = (
   auth: firebase.auth.Auth
 ): EmailAndPasswordActionHook => {
-  const [signInError, setSignInError] = useState<firebase.FirebaseError>()
+  const [signInError, setSignInError] = useState<FirebaseError>()
   const [status, setStatus] = useState<Status>('idle')
 
   const signInSuccessAlert = useAlert('success')
@@ -22,7 +22,7 @@ export const useSignInWithEmailAndPassword = (
       signInSuccessAlert('You have successfully signed in.')
       setStatus('success')
     } catch (error) {
-      setSignInError(error)
+      setSignInError(error as FirebaseError)
       setStatus('error')
       setTimeout(() => {
         setSignInError(undefined)

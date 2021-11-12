@@ -101,6 +101,10 @@ export const BoardWrapper = styled.div`
     column-gap: 0;
     padding: 0;
   }
+  ${media.desktop} {
+    align-items: flex-end;
+    height: 96%;
+  }
 `
 
 export const TabList = styled.div`

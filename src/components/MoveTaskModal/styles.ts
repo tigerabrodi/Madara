@@ -6,18 +6,17 @@ import { ReactComponent as CloseSVG } from 'assets/close.svg'
 
 export const MoveTaskModalWrapper = styled.div`
   position: absolute;
-  top: 35%;
-  height: 22rem;
-  width: 95%;
+  margin: auto;
+  top: 15%;
+  height: 300px;
   max-width: 33rem;
-  left: 50%;
-  transform: translate(-50%, -50%);
   z-index: 100;
   border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
+  width: 90%;
   ${focusStyles};
 `
 
@@ -36,8 +35,8 @@ export const MoveTaskModalTitle = styled.h1`
   font-family: ${theme.SourceSansPro};
   color: ${theme.LightBlue};
   font-weight: 600;
-  font-size: 1.8rem;
   margin-left: 2rem;
+  font-size: 2.2rem;
   ${media.custom(360)} {
     margin-left: 3.3rem;
   }
@@ -49,12 +48,12 @@ export const MoveTaskModalTitle = styled.h1`
 export const MoveTaskModalCloseButton = styled.button`
   border: none;
   background-color: transparent;
-  width: 1.2rem;
-  height: 1.2rem;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  margin-right: 2rem;
+  height: 15px;
+  width: 15px;
+  margin-right: 23px;
   ${media.phone} {
     margin-right: 3rem;
   }
@@ -86,10 +85,10 @@ export const MoveTaskModalButton = styled.button`
   color: ${theme.Blue};
   box-shadow: 0 0.1rem 0.2rem ${theme.Black};
   font-weight: 600;
-  height: 3rem;
   width: 21rem;
-  font-size: 1.8rem;
   border-radius: 0.3rem;
+  font-size: 2.3rem;
+  height: 42px;
   &[aria-disabled='true'] {
     opacity: 0.3;
   }

@@ -255,8 +255,10 @@ export const ErrorMessage = styled.span<{ isLoginMode?: boolean }>`
       transform: translate(0);
       animation: ${errorAnim2} 0.2s forwards;
     `}
-
   ${media.phone} {
+    font-size: 1.5rem;
+  }
+  ${media.tablet} {
     font-size: 2rem;
     ${(props) =>
       props.isLoginMode &&
@@ -327,4 +329,8 @@ export const WarningIcon = styled(WarningSVG)`
   height: 1.6rem;
   width: 1.6rem;
   margin-left: 1rem;
+  ${media.tablet} {
+    height: 2.2rem;
+    width: 2.2rem;
+  }
 `

@@ -58,8 +58,8 @@ export const Form = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  width: 95%;
   padding-bottom: 20px;
+  width: min(95%, 800px);
 `
 
 export const ToolBar = styled.div`
@@ -79,7 +79,7 @@ export const ToolBar = styled.div`
   height: 65px;
   ${media.phone} {
     height: 80px;
-    width: min(60rem, 90%);
+    width: min(70rem, 90%);
   }
 `
 

@@ -16,7 +16,7 @@ export const BoardMain = styled.main`
     'tablist tablist tablist'
     'board board board';
 
-  grid-template-rows: 10% 5% 10% 75%;
+  grid-template-rows: 11% 4% 10% 75%;
   justify-items: center;
   align-items: center;
   ${media.phone} {
@@ -39,6 +39,7 @@ export const Title = styled.h1`
   grid-area: title;
   font-family: ${theme.LibreBaskerville};
   color: ${theme.Blue};
+  line-height: 1.4;
   ${media.phone} {
     font-size: 6.4rem;
   }
@@ -112,7 +113,7 @@ export const TabList = styled.div`
 `
 
 const tabLinkStyles = css`
-  font-size: 2rem;
+  font-size: 2.2rem;
   background-color: transparent;
   color: ${theme.Blue};
   font-family: ${theme.SourceSansPro};

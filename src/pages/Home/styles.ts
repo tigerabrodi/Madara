@@ -256,7 +256,7 @@ const errorAnim2Tablet = keyframes`
 `
 
 export const ErrorMessage = styled.span<{ isLoginMode?: boolean }>`
-  font-size: 1.9rem;
+  font-size: 1.2rem;
   font-family: ${theme.SourceSansPro};
   font-weight: bold;
   grid-area: errorMessage;
@@ -298,6 +298,7 @@ export const SubmitButton = styled.button`
   font-size: 2rem;
   height: 45px;
   width: 105px;
+  margin-top: 10px;
   ${focusStyles};
   ${media.tablet} {
     box-shadow: none;
@@ -336,7 +337,7 @@ export const SmallSpinner = styled(SmallSpinnerSVG)`
 
 export const WarningIcon = styled(WarningSVG)`
   fill: ${theme.Pink};
-  height: 2rem;
-  width: 2rem;
+  height: 1.6rem;
+  width: 1.6rem;
   margin-left: 1rem;
 `

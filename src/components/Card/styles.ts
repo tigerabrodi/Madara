@@ -128,7 +128,7 @@ export const CardReorderMenu = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 60%;
+  width: 70%;
   justify-content: space-between;
   border-bottom-right-radius: 0.4rem;
   border-top-right-radius: 0.4rem;
@@ -141,11 +141,11 @@ export const MoveTaskButton = styled.button`
   font-weight: 600;
   font-family: ${theme.SourceSansPro};
   margin-left: 1.5rem;
-  width: 7.7rem;
-  height: 2.8rem;
   border-radius: 0.2rem;
   box-shadow: 0 0.1rem 0.3rem -0.1rem ${theme.Black};
-  font-size: 1.5rem;
+  width: 97px;
+  height: 37px;
+  font-size: 1.7rem;
   ${focusStyles};
 `
 

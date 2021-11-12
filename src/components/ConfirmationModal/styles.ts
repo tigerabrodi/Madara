@@ -9,9 +9,8 @@ export const ConfirmationModal = styled.div`
   height: 21rem;
   max-width: 55rem;
   width: 95%;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 15%;
+  margin: auto;
   background-color: ${theme.Blue};
   border-radius: 0.5rem;
   display: grid;

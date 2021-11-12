@@ -17,23 +17,7 @@ export const HomeMain = styled.main<{ isLoginMode: boolean }>`
   justify-items: center;
   padding-bottom: 5rem;
   align-items: flex-end;
-  ${(props) =>
-    props.isLoginMode &&
-    css`
-      height: 80rem;
-      grid-template-rows: 13% 3% 12% 73%;
-    `};
-  ${media.phone} {
-    align-items: flex-start;
-    height: 120rem;
-    grid-template-rows: 11% 4% 12% 73%;
-    ${(props) =>
-      props.isLoginMode &&
-      css`
-        height: calc(100vh - 8rem);
-        grid-template-rows: 13% 4% 12% 71%;
-      `};
-  }
+  min-height: calc(100vh - 8rem);
 `
 
 export const Title = styled.h1`
@@ -45,7 +29,8 @@ export const Title = styled.h1`
   font-size: 5rem;
   margin-top: 10px;
   ${media.phone} {
-    font-size: 9.6rem;
+    margin-top: 20px;
+    font-size: 9rem;
   }
 `
 
@@ -58,6 +43,7 @@ export const Subtitle = styled.p`
   font-size: 2.2rem;
   ${media.phone} {
     font-size: 3.5rem;
+    margin-bottom: 20px;
   }
 `
 
@@ -97,6 +83,7 @@ export const ToolBar = styled.div`
   ${media.phone} {
     width: 60rem;
     max-width: 90%;
+    height: 80px;
   }
 `
 
@@ -133,7 +120,10 @@ export const ToolBarButton = styled.button<{
           ${toolbarButtonHighlightStyles}
         `
       : null};
-  ${media.tablet} {
+  ${media.phone} {
+    font-size: 2.5rem;
+    width: 120px;
+    height: 55px;
     &:hover {
       ${toolbarButtonHighlightStyles}
     }
@@ -146,7 +136,8 @@ export const FormTitle = styled.h2`
   font-size: 3rem;
   padding-top: 3.5rem;
   ${media.phone} {
-    padding-top: 2rem;
+    padding-top: 50px;
+    font-size: 4rem;
   }
 `
 
@@ -165,11 +156,8 @@ export const FormGroup = styled.div<{ isLoginMode?: boolean }>`
     margin-top: 15px;
   }
   ${media.phone} {
-    width: 80%;
-    height: 15rem;
-  }
-  ${media.custom(700)} {
-    width: ${(props) => (props.isLoginMode ? '70%' : '60%')};
+    width: 70%;
+    height: 160px;
   }
 `
 
@@ -181,6 +169,9 @@ export const Label = styled.label`
   justify-self: start;
   align-self: center;
   font-size: 1.8rem;
+  ${media.phone} {
+    font-size: 2.3rem;
+  }
 `
 
 export const Input = styled.input`
@@ -206,7 +197,9 @@ export const Input = styled.input`
     box-shadow: 0 0 0.5rem ${theme.Black};
   }
   ${media.phone} {
-    padding-left: 2rem;
+    font-size: 1.8rem;
+    padding-left: 1.3rem;
+    height: 90%;
   }
 `
 
@@ -225,6 +218,9 @@ export const ShowPasswordButton = styled.button`
   font-size: 1.2rem;
   padding: 6px 10px;
   ${focusStyles};
+  ${media.phone} {
+    font-size: 1.7rem;
+  }
   ${media.tablet} {
     &:hover {
       box-shadow: 0 0.2rem 0.5rem ${theme.Blue};
@@ -300,6 +296,11 @@ export const SubmitButton = styled.button`
   width: 105px;
   margin-top: 10px;
   ${focusStyles};
+  ${media.phone} {
+    font-size: 2.8rem;
+    width: 145px;
+    height: 60px;
+  }
   ${media.tablet} {
     box-shadow: none;
     &:hover {

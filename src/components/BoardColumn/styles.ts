@@ -37,6 +37,11 @@ export const Column = styled.section`
     min-width: 35rem;
     grid-template-rows: 7%;
   }
+  ${media.desktop} {
+    height: 97%;
+    max-width: 400px;
+    row-gap: 10px;
+  }
 `
 
 export const TotalTasks = styled.span`
@@ -144,7 +149,10 @@ export const DroppableCardList = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  row-gap: 1rem;
+  row-gap: 10px;
+  ${media.desktop} {
+    row-gap: 15px;
+  }
 `
 
 export const ReorderButton = styled.button`

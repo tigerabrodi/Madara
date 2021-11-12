@@ -5,7 +5,7 @@ import { theme } from '../../theme/theme'
 import { ReactComponent as WarningSVG } from 'assets/warning.svg'
 import { ReactComponent as SmallSpinnerSVG } from 'assets/small-spinner.svg'
 
-export const HomeMain = styled.main<{ isLoginMode: boolean }>`
+export const HomeMain = styled.main`
   grid-area: main;
   display: grid;
   width: 100%;
@@ -47,7 +47,7 @@ export const Subtitle = styled.p`
   }
 `
 
-export const Form = styled.form<{ isLoginMode: boolean }>`
+export const Form = styled.form`
   grid-area: form;
   height: 100%;
   align-self: flex-start;
@@ -60,9 +60,6 @@ export const Form = styled.form<{ isLoginMode: boolean }>`
   justify-content: space-evenly;
   width: 95%;
   padding-bottom: 20px;
-  ${media.custom(900)} {
-    width: ${(props) => (props.isLoginMode ? '75rem' : '85rem')};
-  }
 `
 
 export const ToolBar = styled.div`
@@ -94,10 +91,7 @@ const toolbarButtonHighlightStyles = css`
   box-shadow: 0 0.1rem 0.3rem ${theme.Black};
 `
 
-export const ToolBarButton = styled.button<{
-  isRegisterButton?: boolean
-  isLoginMode: boolean
-}>`
+export const ToolBarButton = styled.button`
   font-weight: 600;
   background-color: transparent;
   border: 0.2rem solid ${theme.LightBlue};
@@ -110,16 +104,9 @@ export const ToolBarButton = styled.button<{
   width: 90px;
   font-size: 1.8rem;
   ${focusStyles};
-  ${(props) =>
-    !props.isLoginMode && props.isRegisterButton
-      ? css`
-          ${toolbarButtonHighlightStyles}
-        `
-      : props.isLoginMode && !props.isRegisterButton
-      ? css`
-          ${toolbarButtonHighlightStyles}
-        `
-      : null};
+  &[aria-pressed='true'] {
+    ${toolbarButtonHighlightStyles}
+  }
   ${media.phone} {
     font-size: 2.5rem;
     width: 120px;
@@ -141,7 +128,7 @@ export const FormTitle = styled.h2`
   }
 `
 
-export const FormGroup = styled.div<{ isLoginMode?: boolean }>`
+export const FormGroup = styled.div`
   position: relative;
   width: 90%;
   display: grid;

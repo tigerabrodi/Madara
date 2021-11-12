@@ -78,9 +78,8 @@ export const ToolBar = styled.div`
   align-items: center;
   height: 65px;
   ${media.phone} {
-    width: 60rem;
-    max-width: 90%;
     height: 80px;
+    width: min(60rem, 90%);
   }
 `
 

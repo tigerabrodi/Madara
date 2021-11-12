@@ -72,8 +72,6 @@ export const Status = styled.h2`
 
 export const ToggleFormButton = styled.button`
   grid-area: toggleFormButton;
-  width: 2.5rem;
-  height: 2.5rem;
   background: transparent;
   border: none;
   display: flex;
@@ -82,6 +80,8 @@ export const ToggleFormButton = styled.button`
   align-items: center;
   justify-content: space-evenly;
   cursor: pointer;
+  width: 27px;
+  height: 27px;
   ${focusStyles};
   ${media.phone} {
     justify-self: center;
@@ -155,15 +155,16 @@ export const ReorderButton = styled.button`
   border-radius: 50%;
   box-shadow: 0 0.1rem 0.5rem ${theme.Black};
   position: fixed;
-  top: 91.5%;
-  left: 84%;
   border: none;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  transform: translate(-50%, -50%);
   cursor: pointer;
   transition: 0.2s;
+  top: 80%;
+  bottom: 0;
+  right: 7%;
+  margin: auto;
   ${media.phone} {
     display: none;
   }
@@ -176,6 +177,6 @@ export const StartReorder = styled(StartReorderSVG)`
 `
 
 export const StopReorder = styled(StopReorderSVG)`
-  height: 3rem;
-  width: 3rem;
+  height: 27px;
+  width: 27px;
 `

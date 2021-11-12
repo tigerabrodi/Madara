@@ -8,16 +8,15 @@ export const EditModalWrapper = styled.div`
   position: absolute;
   width: 95%;
   max-width: 45rem;
-  height: 27rem;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   z-index: 100;
   border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
+  margin: auto;
+  top: 15%;
+  height: 300px;
   ${media.phone} {
     height: 35rem;
   }
@@ -120,13 +119,13 @@ export const EditTextarea = styled.textarea`
   height: 95%;
   width: 90%;
   font-weight: 600;
-  font-size: 1.6rem;
   font-family: ${theme.SourceSansPro};
   color: ${theme.Blue};
   padding-left: 0.5rem;
   padding-top: 0.5rem;
   padding-right: 1rem;
   border-radius: 0.5rem;
+  font-size: 1.8rem;
   &::placeholder {
     color: ${theme.Blue};
     font-style: italic;

@@ -10,13 +10,11 @@ export const Navigation = () => {
     toast('You have successfully signed out.')
   }
 
-  return (
+  return auth.currentUser ? (
     <nav>
-      {auth.currentUser && (
-        <LogoutButton aria-label="Logout" onClick={onSignOut}>
-          <Logout aria-hidden="true" />
-        </LogoutButton>
-      )}
+      <LogoutButton aria-label="Logout" onClick={onSignOut}>
+        <Logout aria-hidden="true" />
+      </LogoutButton>
     </nav>
-  )
+  ) : null
 }

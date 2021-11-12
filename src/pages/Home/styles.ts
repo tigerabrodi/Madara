@@ -60,6 +60,9 @@ export const Form = styled.form`
   justify-content: space-evenly;
   padding-bottom: 20px;
   width: min(95%, 800px);
+  ${media.phone} {
+    min-height: 700px;
+  }
 `
 
 export const ToolBar = styled.div`
@@ -78,7 +81,7 @@ export const ToolBar = styled.div`
   align-items: center;
   height: 65px;
   ${media.phone} {
-    height: 80px;
+    height: 100px;
     width: min(70rem, 90%);
   }
 `

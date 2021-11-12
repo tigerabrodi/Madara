@@ -10,41 +10,40 @@ export const LogoutButton = styled.button`
   z-index: 50;
   background-color: var(--lightBlue);
   border-radius: 50%;
-  box-shadow: 0 0.1rem 0.5rem ${theme.Black};
+  box-shadow: 0 1px 5px ${theme.Black};
   position: fixed;
-  top: 91.5%;
-  left: 16%;
   border: none;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  transform: translate(-50%, -50%);
   cursor: pointer;
   transition: 0.2s;
+  transform: translate(0);
+  top: 80%;
+  left: 7%;
+  margin: auto;
+  bottom: 0;
 
   ${media.phone} {
     position: absolute;
-    top: 4.8rem;
-    left: 5rem;
+    top: 95px;
+    left: 40px;
+    margin: revert;
     &:hover {
-      box-shadow: 0 0.1rem 1rem ${theme.Black};
+      box-shadow: 0 2px 8px ${theme.Black};
+      transform: translateY(-0.2rem);
+    }
+
+    &:active {
+      box-shadow: 0 1px 5px ${theme.Black};
+      transform: translateY(0);
     }
   }
 
   ${media.desktop} {
-    box-shadow: none;
-    border-radius: 0;
-    height: 4.6rem;
-    width: 4.6rem;
-    background-color: transparent;
-    top: 4.5%;
-    left: 96%;
-    &:hover {
-      box-shadow: none;
-      svg {
-        transform: translateY(-0.2rem);
-      }
-    }
+    left: revert;
+    top: 40px;
+    right: 50px;
   }
   ${focusStyles};
 `
@@ -55,10 +54,4 @@ export const Logout = styled(LogoutSVG)`
   position: relative;
   left: 3px;
   transition: 0.2s;
-
-  ${media.desktop} {
-    left: 0;
-    height: 100%;
-    width: 100%;
-  }
 `

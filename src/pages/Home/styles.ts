@@ -15,11 +15,8 @@ export const HomeMain = styled.main<{ isLoginMode: boolean }>`
     'toolbar'
     'form';
   justify-items: center;
-  row-gap: 1rem;
   padding-bottom: 5rem;
   align-items: flex-end;
-  height: 110rem;
-  grid-template-rows: 9% 2% 10% 79%;
   ${(props) =>
     props.isLoginMode &&
     css`
@@ -41,11 +38,12 @@ export const HomeMain = styled.main<{ isLoginMode: boolean }>`
 
 export const Title = styled.h1`
   text-align: center;
-  font-size: 7rem;
   grid-area: title;
   font-family: ${theme.LibreBaskerville};
   color: ${theme.Blue};
   align-self: flex-end;
+  font-size: 5rem;
+  margin-top: 10px;
   ${media.phone} {
     font-size: 9.6rem;
   }
@@ -54,10 +52,10 @@ export const Title = styled.h1`
 export const Subtitle = styled.p`
   grid-area: subtitle;
   font-family: ${theme.SourceSansPro};
-  font-size: 3.3rem;
   font-weight: 600;
   color: ${theme.Blue};
   text-decoration: underline;
+  font-size: 2.2rem;
   ${media.phone} {
     font-size: 3.5rem;
   }
@@ -75,6 +73,7 @@ export const Form = styled.form<{ isLoginMode: boolean }>`
   align-items: center;
   justify-content: space-evenly;
   width: 95%;
+  padding-bottom: 20px;
   ${media.custom(900)} {
     width: ${(props) => (props.isLoginMode ? '75rem' : '85rem')};
   }
@@ -84,7 +83,6 @@ export const ToolBar = styled.div`
   grid-area: toolbar;
   width: 35rem;
   max-width: 90vw;
-  height: 10rem;
   background-color: ${theme.Blue};
   align-self: flex-end;
   border-radius: 0.2em;
@@ -95,6 +93,7 @@ export const ToolBar = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  height: 65px;
   ${media.phone} {
     width: 60rem;
     max-width: 90%;
@@ -112,9 +111,6 @@ export const ToolBarButton = styled.button<{
   isRegisterButton?: boolean
   isLoginMode: boolean
 }>`
-  width: 13rem;
-  height: 6rem;
-  font-size: 2.5rem;
   font-weight: 600;
   background-color: transparent;
   border: 0.2rem solid ${theme.LightBlue};
@@ -123,6 +119,9 @@ export const ToolBarButton = styled.button<{
   font-family: ${theme.SourceSansPro};
   cursor: pointer;
   transition: 0.2s;
+  height: 40px;
+  width: 90px;
+  font-size: 1.8rem;
   ${focusStyles};
   ${(props) =>
     !props.isLoginMode && props.isRegisterButton
@@ -144,8 +143,8 @@ export const ToolBarButton = styled.button<{
 export const FormTitle = styled.h2`
   font-family: ${theme.LibreBaskerville};
   color: ${theme.White};
-  padding-top: 3rem;
-  font-size: 4rem;
+  font-size: 3rem;
+  padding-top: 3.5rem;
   ${media.phone} {
     padding-top: 2rem;
   }
@@ -154,7 +153,6 @@ export const FormTitle = styled.h2`
 export const FormGroup = styled.div<{ isLoginMode?: boolean }>`
   position: relative;
   width: 90%;
-  height: 15rem;
   display: grid;
   grid-template-areas:
     'label'
@@ -162,6 +160,10 @@ export const FormGroup = styled.div<{ isLoginMode?: boolean }>`
     'errorMessage';
   grid-template-rows: 1fr 1fr 1fr;
   justify-items: center;
+  height: 130px;
+  &:first-of-type {
+    margin-top: 15px;
+  }
   ${media.phone} {
     width: 80%;
     height: 15rem;
@@ -175,14 +177,13 @@ export const Label = styled.label`
   grid-area: label;
   color: ${theme.White};
   font-weight: bold;
-  font-size: 2.5rem;
   font-family: ${theme.SourceSansPro};
   justify-self: start;
   align-self: center;
+  font-size: 1.8rem;
 `
 
 export const Input = styled.input`
-  height: 100%;
   align-self: center;
   border: none;
   border-radius: 0.2rem;
@@ -191,9 +192,10 @@ export const Input = styled.input`
   width: 100%;
   color: ${theme.Blue};
   padding-left: 1rem;
-  font-size: 2rem;
   font-family: ${theme.SourceSansPro};
   font-weight: bold;
+  font-size: 1.5rem;
+  height: 40px;
   &::placeholder {
     font-style: italic;
     color: ${theme.Blue};
@@ -210,37 +212,28 @@ export const Input = styled.input`
 
 export const ShowPasswordButton = styled.button`
   top: 50%;
-  left: 87%;
-  padding: 0.7rem 1rem;
+  right: 0;
+  transform: translate(-10px, -50%);
   box-shadow: 0 0.1rem 0.3rem ${theme.Blue};
   font-weight: bold;
   position: absolute;
-  transform: translate(-50%, -50%);
   color: ${theme.Blue};
-  font-size: 1.5rem;
   background-color: transparent;
   border: none;
   cursor: pointer;
   transition: 0.1s;
+  font-size: 1.2rem;
+  padding: 6px 10px;
   ${focusStyles};
   ${media.tablet} {
     &:hover {
       box-shadow: 0 0.2rem 0.5rem ${theme.Blue};
-      transform: translate(-50%, -55%);
+      transform: translate(-10px, -55%);
     }
     &:active {
       box-shadow: 0 0.1rem 0.3rem ${theme.Blue};
-      transform: translate(-50%, -50%);
+      transform: translate(-10px, -50%);
     }
-  }
-  ${media.custom(360)} {
-    left: 88%;
-  }
-  ${media.phone} {
-    left: 91%;
-  }
-  ${media.custom(900)} {
-    left: 93%;
   }
 `
 
@@ -293,20 +286,18 @@ export const ErrorMessage = styled.span<{ isLoginMode?: boolean }>`
 `
 
 export const SubmitButton = styled.button`
-  position: relative;
   font-family: ${theme.SourceSansPro};
   background-color: ${theme.White};
   color: ${theme.Blue};
   border: none;
-  width: 15rem;
-  height: 6rem;
   font-weight: bold;
-  font-size: 2.5rem;
   cursor: pointer;
   box-shadow: 0 0.1rem 0.2rem black;
   transition: transform 0.2s, box-shadow 0.4s;
-  top: -1rem;
   border-radius: 0.2rem;
+  font-size: 2rem;
+  height: 45px;
+  width: 105px;
   ${focusStyles};
   ${media.tablet} {
     box-shadow: none;

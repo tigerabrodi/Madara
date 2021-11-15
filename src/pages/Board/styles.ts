@@ -130,6 +130,7 @@ const columnTypeHighlightStyles = css`
   text-decoration: underline;
   text-underline-offset: 0.2rem;
   text-decoration-thickness: 0.2rem;
+  transform: scale(1.02);
 `
 
 export const TodoTab = styled.button<{ columnType: ColumnType }>`

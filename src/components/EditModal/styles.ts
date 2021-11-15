@@ -7,18 +7,24 @@ import { ReactComponent as EditCloseSVG } from 'assets/close.svg'
 export const EditModalWrapper = styled.div`
   position: absolute;
   width: 95%;
-  max-width: 45rem;
+  max-width: 450px;
   z-index: 100;
-  border-radius: 0.5rem;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  margin: auto;
-  top: 15%;
   height: 300px;
+  top: 37%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   ${media.phone} {
-    height: 35rem;
+    height: 350px;
+  }
+  ${media.tablet} {
+    max-width: 700px;
+    height: 450px;
+    top: 33%;
   }
   ${focusStyles};
 `
@@ -59,15 +65,19 @@ export const EditTitle = styled.h1`
   color: ${theme.LightBlue};
   font-weight: 600;
   font-size: 1.8rem;
-  margin-left: 2rem;
+  margin-left: 20px;
   ${media.custom(360)} {
-    margin-left: 3.3rem;
+    margin-left: 33px;
   }
   ${media.custom(410)} {
-    margin-left: 3.7rem;
+    margin-left: 37px;
   }
   ${media.phone} {
-    margin-left: 4.3rem;
+    margin-left: 43px;
+  }
+  ${media.tablet} {
+    margin-left: 65px;
+    font-size: 2.4rem;
   }
 `
 
@@ -79,11 +89,21 @@ export const EditCloseButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  margin-right: 2rem;
+  margin-right: 20px;
   ${media.phone} {
-    margin-right: 3rem;
+    margin-right: 30px;
   }
   cursor: pointer;
+  ${media.tablet} {
+    width: 18px;
+    height: 18px;
+    margin-right: 35px;
+    transition: transform 0.3s ease-out;
+    &:hover {
+      transition: transform 0.17s ease-out;
+      transform: rotate(0.5turn);
+    }
+  }
   ${focusStyles};
 `
 
@@ -93,7 +113,7 @@ export const EditClose = styled(EditCloseSVG)`
 `
 
 export const EditLabel = styled.label`
-  padding-left: 2rem;
+  margin-left: 20px;
   grid-area: label;
   font-family: ${theme.SourceSansPro};
   font-weight: 600;
@@ -102,13 +122,17 @@ export const EditLabel = styled.label`
   align-self: center;
   justify-self: flex-start;
   ${media.custom(360)} {
-    padding-left: 3.5rem;
+    margin-left: 35px;
   }
   ${media.custom(400)} {
-    padding-left: 4rem;
+    margin-left: 40px;
   }
   ${media.phone} {
-    padding-left: 4.5rem;
+    margin-left: 45px;
+  }
+  ${media.tablet} {
+    margin-left: 68px;
+    font-size: 2.2rem;
   }
 `
 
@@ -133,7 +157,7 @@ export const EditTextarea = styled.textarea`
   }
   &:focus {
     outline: none;
-    box-shadow: 0 0.3rem 0.4rem ${theme.DarkBlue};
+    box-shadow: 0 3px 4px ${theme.DarkBlue};
   }
   ${media.custom(360)} {
     height: 100%;
@@ -142,18 +166,23 @@ export const EditTextarea = styled.textarea`
   ${media.phone} {
     font-size: 1.8rem;
   }
+  ${media.tablet} {
+    font-size: 2.2rem;
+    padding-left: 10px;
+    padding-top: 8px;
+  }
 `
 
 const editModalButtonStyles = css`
   width: 80%;
   font-family: ${theme.SourceSansPro};
   font-weight: 600;
-  height: 3.5rem;
-  border-radius: 0.2rem;
+  height: 35px;
+  border-radius: 2px;
   background-color: transparent;
   transition: 0.2s;
   font-size: 1.8rem;
-  box-shadow: 0 0.1rem 0.3rem black;
+  box-shadow: 0 1px 3px black;
   ${focusStyles};
   ${media.custom(360)} {
     width: 70%;
@@ -161,19 +190,24 @@ const editModalButtonStyles = css`
   ${media.phone} {
     box-shadow: none;
     width: 65%;
-    height: 4rem;
+    height: 40px;
   }
   ${media.tablet} {
     &[aria-disabled='false'] {
       &:hover {
         color: ${theme.Blue};
-        box-shadow: 0 0.2rem 0.3rem ${theme.DarkBlue};
-        transform: translateY(-0.1rem);
+        box-shadow: 0 2px 3px ${theme.DarkBlue};
+        transform: translateY(-1px);
       }
       &:active {
-        box-shadow: 0 0.2rem 0.1rem ${theme.DarkBlue};
-        transform: translateY(0.1rem);
+        box-shadow: 0 2px 1px ${theme.DarkBlue};
+        transform: translateY(1px);
       }
+      width: 150px;
+      height: 50px;
+      font-size: 2.3rem;
+      justify-self: center;
+      margin: 0;
     }
   }
 `
@@ -202,6 +236,7 @@ export const EditConfirmButton = styled.button`
         cursor: pointer;
         background-color: ${theme.Green};
       }
+      margin-left: 20px;
     }
   }
 `
@@ -224,5 +259,6 @@ export const EditCancelButton = styled.button`
     &:hover {
       background-color: ${theme.Pink};
     }
+    margin-right: 20px;
   }
 `

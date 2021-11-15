@@ -28,7 +28,7 @@ import {
 } from './styles'
 import { toast } from 'components/Alert'
 
-enum ETrimmedColumnType {
+enum EnumColumnTypesTrimmed {
   InProgress = 'Inprogress',
   Done = 'Done',
   Todo = 'Todo',
@@ -69,23 +69,23 @@ export const Board = () => {
 
   const todoTaskDoc = firebase
     .firestore()
-    .collection(`users/${userId}/${ETrimmedColumnType.Todo}Tasks`)
-    .doc(ETrimmedColumnType.Todo)
+    .collection(`users/${userId}/${EnumColumnTypesTrimmed.Todo}Tasks`)
+    .doc(EnumColumnTypesTrimmed.Todo)
 
   const [todoTaskDocResult] = useDocumentData<TaskFirestoreResult>(todoTaskDoc)
 
   const progressTaskDoc = firebase
     .firestore()
-    .collection(`users/${userId}/${ETrimmedColumnType.InProgress}Tasks`)
-    .doc(ETrimmedColumnType.InProgress)
+    .collection(`users/${userId}/${EnumColumnTypesTrimmed.InProgress}Tasks`)
+    .doc(EnumColumnTypesTrimmed.InProgress)
 
   const [progressTaskDocResult] =
     useDocumentData<TaskFirestoreResult>(progressTaskDoc)
 
   const doneTaskDoc = firebase
     .firestore()
-    .collection(`users/${userId}/${ETrimmedColumnType.Done}Tasks`)
-    .doc(ETrimmedColumnType.Done)
+    .collection(`users/${userId}/${EnumColumnTypesTrimmed.Done}Tasks`)
+    .doc(EnumColumnTypesTrimmed.Done)
 
   const [doneTaskDocResult] = useDocumentData<TaskFirestoreResult>(doneTaskDoc)
 
@@ -245,8 +245,8 @@ export const Board = () => {
     }
 
     const fromTodoToProgress =
-      droppableSource.droppableId === ETrimmedColumnType.Todo &&
-      droppableDestination.droppableId === ETrimmedColumnType.InProgress
+      droppableSource.droppableId === EnumColumnTypesTrimmed.Todo &&
+      droppableDestination.droppableId === EnumColumnTypesTrimmed.InProgress
     if (fromTodoToProgress) {
       if (todoTaskDocResult) {
         switchColumnDesktop(
@@ -260,8 +260,8 @@ export const Board = () => {
     }
 
     const fromProgressToTodo =
-      droppableSource.droppableId === ETrimmedColumnType.InProgress &&
-      droppableDestination.droppableId === ETrimmedColumnType.Todo
+      droppableSource.droppableId === EnumColumnTypesTrimmed.InProgress &&
+      droppableDestination.droppableId === EnumColumnTypesTrimmed.Todo
     if (fromProgressToTodo) {
       if (progressTaskDocResult) {
         switchColumnDesktop(
@@ -275,8 +275,8 @@ export const Board = () => {
     }
 
     const fromProgressToDone =
-      droppableSource.droppableId === ETrimmedColumnType.InProgress &&
-      droppableDestination.droppableId === ETrimmedColumnType.Done
+      droppableSource.droppableId === EnumColumnTypesTrimmed.InProgress &&
+      droppableDestination.droppableId === EnumColumnTypesTrimmed.Done
     if (fromProgressToDone) {
       if (progressTaskDocResult) {
         switchColumnDesktop(
@@ -290,8 +290,8 @@ export const Board = () => {
     }
 
     const fromDoneToProgress =
-      droppableSource.droppableId === ETrimmedColumnType.Done &&
-      droppableDestination.droppableId === ETrimmedColumnType.InProgress
+      droppableSource.droppableId === EnumColumnTypesTrimmed.Done &&
+      droppableDestination.droppableId === EnumColumnTypesTrimmed.InProgress
     if (fromDoneToProgress) {
       if (doneTaskDocResult) {
         switchColumnDesktop(
@@ -327,7 +327,7 @@ export const Board = () => {
         return
       }
 
-      const isTodoColumn = ETrimmedColumnType.Todo === source.droppableId
+      const isTodoColumn = EnumColumnTypesTrimmed.Todo === source.droppableId
       if (isTodoColumn) {
         if (todoTaskDocResult) {
           const newTasks = reorder(
@@ -343,7 +343,7 @@ export const Board = () => {
       }
 
       const isProgressColumn =
-        ETrimmedColumnType.InProgress === source.droppableId
+        EnumColumnTypesTrimmed.InProgress === source.droppableId
       if (isProgressColumn) {
         if (progressTaskDocResult) {
           const newTasks = reorder(
@@ -358,7 +358,7 @@ export const Board = () => {
         }
       }
 
-      const isDoneColumn = ETrimmedColumnType.Done === source.droppableId
+      const isDoneColumn = EnumColumnTypesTrimmed.Done === source.droppableId
       if (isDoneColumn) {
         if (doneTaskDocResult) {
           const newTasks = reorder(

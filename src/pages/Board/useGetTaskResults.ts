@@ -1,7 +1,6 @@
 import firebase from 'firebase/app'
-import { EnumColumnTypesTrimmed } from 'lib/types'
 import { useDocumentData } from 'react-firebase-hooks/firestore'
-import { TaskFirestoreResult } from 'types'
+import { TaskFirestoreResult, EnumColumnTypesTrimmed } from 'types'
 
 export const useGetTaskResults = () => {
   const userId = firebase.auth().currentUser?.uid

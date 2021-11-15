@@ -5,7 +5,13 @@ import {
 } from 'react-beautiful-dnd'
 import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types'
 import { BoardColumn } from 'components/BoardColumn'
-import { ColumnType, Task, TaskFirestoreResult } from 'types'
+import {
+  ColumnType,
+  Task,
+  TaskFirestoreResult,
+  EnumColumnTypesTrimmed,
+  DocumentData,
+} from 'types'
 import {
   BoardMain,
   BoardWrapper,
@@ -19,7 +25,6 @@ import {
   TabList,
 } from './styles'
 import { toast } from 'components/Alert'
-import { EnumColumnTypesTrimmed, DocumentData } from 'lib/types'
 import { useBoardState } from './useBoardState'
 import { useGetTaskResults } from './useGetTaskResults'
 import { switchColumnMobile } from './utils'

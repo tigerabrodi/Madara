@@ -1,6 +1,5 @@
-import { DocumentData } from 'lib/types'
 import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types'
-import { ColumnType, Task, TaskFirestoreResult } from 'types'
+import { ColumnType, Task, TaskFirestoreResult, DocumentData } from 'types'
 
 type Params = {
   sourceDoc: DocumentData

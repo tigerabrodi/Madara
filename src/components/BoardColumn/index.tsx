@@ -1,7 +1,7 @@
 import * as React from 'react'
 import firebase from 'firebase/app'
 import { Card } from 'components/Card'
-import { ColumnType, TrimmedColumnType, Task } from 'types'
+import { ColumnType, Task } from 'types'
 import { AddTaskForm } from 'components/AddTaskForm'
 import { ConfirmationModal } from 'components/ConfirmationModal'
 import { Draggable, Droppable, DroppableProvided } from 'react-beautiful-dnd'
@@ -21,6 +21,7 @@ import {
   StopReorder,
 } from './styles'
 import { toast } from 'components/Alert'
+import { trimString } from 'lib/utils'
 
 type ColumnProps = {
   columnType: ColumnType
@@ -56,7 +57,7 @@ export const BoardColumn = ({
   const toggleConfirmationModal = (isDisabled = false) =>
     !isDisabled && setIsConfirmationModalOpen(!isConfirmationModalOpen)
 
-  const trimmedColumnType = columnType.split(' ').join('') as TrimmedColumnType
+  const trimmedColumnType = trimString(columnType)
 
   const userId = firebase.auth().currentUser?.uid
 

@@ -12,7 +12,7 @@ import {
   FormAddButton,
   FormCancelButton,
 } from './styles'
-import { assertIsNotDisabled } from 'lib/utils'
+import { assertIsNotDisabled, trimString } from 'lib/utils'
 
 type TaskFormProps = {
   setOpen: (state: boolean) => void
@@ -39,7 +39,7 @@ export const AddTaskForm = ({ setOpen, columnType }: TaskFormProps) => {
 
   const userId = firebase.auth().currentUser?.uid
 
-  const trimmedColumnType = columnType.split(' ').join('')
+  const trimmedColumnType = trimString(columnType)
 
   const taskDoc = firebase
     .firestore()

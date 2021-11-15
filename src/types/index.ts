@@ -2,8 +2,6 @@ import firebase from 'firebase/app'
 
 export type ColumnType = 'Todo' | 'In progress' | 'Done'
 
-export type TrimmedColumnType = 'Todo' | 'Inprogress' | 'Done'
-
 export type Task = {
   text: string
   createdAt: string

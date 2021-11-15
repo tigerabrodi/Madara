@@ -24,7 +24,7 @@ import {
   MobileDrag,
 } from './styles'
 import { toast } from 'components/Alert'
-import { assertIsNotDisabled } from 'lib/utils'
+import { assertIsNotDisabled, trimString } from 'lib/utils'
 
 type CardProps = {
   task: Task
@@ -70,7 +70,7 @@ export const Card = ({
 
   const userId = firebase.auth().currentUser?.uid
 
-  const trimmedColumnType = task.columnType.split(' ').join('')
+  const trimmedColumnType = trimString(task.columnType)
 
   const taskDoc = firebase
     .firestore()

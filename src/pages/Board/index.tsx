@@ -31,15 +31,12 @@ import { EnumColumnTypesTrimmed, DocumentData } from 'lib/types'
 
 export const Board = () => {
   const [columnType, setColumnType] = React.useState<ColumnType>('Todo')
-
   const [isMobileDraggable, setIsMobileDraggable] = React.useState(false)
+  const isNotMobileLayout = useMedia('min', '425')
+  const tabListRef = useTabArrowSwitch()
 
   const toggleMobileDraggable = (isDisabled = false) =>
     !isDisabled && setIsMobileDraggable(!isMobileDraggable)
-
-  const isNotMobileLayout = useMedia('min', '425')
-
-  const tabListRef = useTabArrowSwitch()
 
   const userEmail = firebase.auth().currentUser?.email
   const usersCollection = firebase.firestore().collection('users')
@@ -58,19 +55,16 @@ export const Board = () => {
   }
 
   const userId = firebase.auth().currentUser?.uid
-
   const todoTaskDoc = firebase
     .firestore()
     .collection(`users/${userId}/${EnumColumnTypesTrimmed.Todo}Tasks`)
     .doc(EnumColumnTypesTrimmed.Todo)
-
   const [todoTaskDocResult] = useDocumentData<TaskFirestoreResult>(todoTaskDoc)
 
   const progressTaskDoc = firebase
     .firestore()
     .collection(`users/${userId}/${EnumColumnTypesTrimmed.InProgress}Tasks`)
     .doc(EnumColumnTypesTrimmed.InProgress)
-
   const [progressTaskDocResult] =
     useDocumentData<TaskFirestoreResult>(progressTaskDoc)
 
@@ -78,7 +72,6 @@ export const Board = () => {
     .firestore()
     .collection(`users/${userId}/${EnumColumnTypesTrimmed.Done}Tasks`)
     .doc(EnumColumnTypesTrimmed.Done)
-
   const [doneTaskDocResult] = useDocumentData<TaskFirestoreResult>(doneTaskDoc)
 
   const switchColumnType = (type: ColumnType) => {

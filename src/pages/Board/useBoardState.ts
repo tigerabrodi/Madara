@@ -14,6 +14,11 @@ export const useBoardState = () => {
   const toggleMobileDraggable = (isDisabled = false) =>
     !isDisabled && setIsMobileDraggable(!isMobileDraggable)
 
+  const switchColumnType = (type: ColumnType) => {
+    setColumnType(type)
+    setIsMobileDraggable(false)
+  }
+
   const userEmail = firebase.auth().currentUser?.email
   const usersCollection = firebase.firestore().collection('users')
 
@@ -32,13 +37,12 @@ export const useBoardState = () => {
 
   return {
     columnType,
-    setColumnType,
     isNotMobileLayout,
     tabListRef,
     isMobileDraggable,
     toggleMobileDraggable,
     getCurrentUserName,
     users,
-    setIsMobileDraggable,
+    switchColumnType,
   }
 }

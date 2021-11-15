@@ -26,14 +26,13 @@ import { useGetTaskResults } from './useGetTaskResults'
 export const Board = () => {
   const {
     columnType,
-    setColumnType,
     isNotMobileLayout,
     tabListRef,
     isMobileDraggable,
     toggleMobileDraggable,
     getCurrentUserName,
     users,
-    setIsMobileDraggable,
+    switchColumnType,
   } = useBoardState()
 
   const {
@@ -44,11 +43,6 @@ export const Board = () => {
     todoTaskDoc,
     progressTaskDoc,
   } = useGetTaskResults()
-
-  const switchColumnType = (type: ColumnType) => {
-    setColumnType(type)
-    setIsMobileDraggable(false)
-  }
 
   const onMoveTask = (
     sourceColumnType: ColumnType,

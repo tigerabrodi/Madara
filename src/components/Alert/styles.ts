@@ -75,6 +75,7 @@ export const AlertCloseButton = styled.button`
   align-items: center;
   justify-content: space-evenly;
   transition: 0.1s;
+  will-change: transform;
   cursor: pointer;
   ${focusStyles};
   ${media.phone} {

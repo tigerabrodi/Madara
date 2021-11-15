@@ -81,6 +81,7 @@ const confirmationModalButtonStyles = css`
   border-radius: 0.2rem;
   background-color: transparent;
   transition: 0.2s;
+  will-change: transform;
   cursor: pointer;
   ${focusStyles};
   ${media.custom(360)} {

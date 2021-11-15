@@ -90,6 +90,7 @@ export const EditCloseButton = styled.button`
   align-items: center;
   justify-content: space-evenly;
   margin-right: 20px;
+  will-change: transform;
   ${media.phone} {
     margin-right: 30px;
   }
@@ -182,6 +183,7 @@ const editModalButtonStyles = css`
   background-color: transparent;
   transition: 0.2s;
   font-size: 1.8rem;
+  will-change: transform;
   box-shadow: 0 1px 3px black;
   ${focusStyles};
   ${media.custom(360)} {

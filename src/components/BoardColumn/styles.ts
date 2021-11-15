@@ -168,7 +168,6 @@ export const ReorderButton = styled.button`
   align-items: center;
   justify-content: space-evenly;
   cursor: pointer;
-  transition: 0.2s;
   top: 80%;
   bottom: 0;
   right: 7%;

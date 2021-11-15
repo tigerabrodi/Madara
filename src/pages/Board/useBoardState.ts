@@ -15,7 +15,6 @@ export const useBoardState = () => {
     !isDisabled && setIsMobileDraggable(!isMobileDraggable)
 
   const userEmail = firebase.auth().currentUser?.email
-  const userId = firebase.auth().currentUser?.uid
   const usersCollection = firebase.firestore().collection('users')
 
   const [users] = useCollectionData<{
@@ -38,7 +37,6 @@ export const useBoardState = () => {
     tabListRef,
     isMobileDraggable,
     toggleMobileDraggable,
-    userId,
     getCurrentUserName,
     users,
     setIsMobileDraggable,

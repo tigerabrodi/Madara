@@ -1,11 +1,9 @@
-import firebase from 'firebase/app'
 import {
   DraggableLocation,
   DropResult,
   DragDropContext,
 } from 'react-beautiful-dnd'
 import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types'
-import { useDocumentData } from 'react-firebase-hooks/firestore'
 import { BoardColumn } from 'components/BoardColumn'
 import { ColumnType, Task, TaskFirestoreResult } from 'types'
 import {
@@ -23,6 +21,7 @@ import {
 import { toast } from 'components/Alert'
 import { EnumColumnTypesTrimmed, DocumentData } from 'lib/types'
 import { useBoardState } from './useBoardState'
+import { useGetTaskResults } from './useGetTaskResults'
 
 export const Board = () => {
   const {
@@ -32,30 +31,19 @@ export const Board = () => {
     tabListRef,
     isMobileDraggable,
     toggleMobileDraggable,
-    userId,
     getCurrentUserName,
     users,
     setIsMobileDraggable,
   } = useBoardState()
 
-  const todoTaskDoc = firebase
-    .firestore()
-    .collection(`users/${userId}/${EnumColumnTypesTrimmed.Todo}Tasks`)
-    .doc(EnumColumnTypesTrimmed.Todo)
-  const [todoTaskDocResult] = useDocumentData<TaskFirestoreResult>(todoTaskDoc)
-
-  const progressTaskDoc = firebase
-    .firestore()
-    .collection(`users/${userId}/${EnumColumnTypesTrimmed.InProgress}Tasks`)
-    .doc(EnumColumnTypesTrimmed.InProgress)
-  const [progressTaskDocResult] =
-    useDocumentData<TaskFirestoreResult>(progressTaskDoc)
-
-  const doneTaskDoc = firebase
-    .firestore()
-    .collection(`users/${userId}/${EnumColumnTypesTrimmed.Done}Tasks`)
-    .doc(EnumColumnTypesTrimmed.Done)
-  const [doneTaskDocResult] = useDocumentData<TaskFirestoreResult>(doneTaskDoc)
+  const {
+    doneTaskDocResult,
+    todoTaskDocResult,
+    progressTaskDocResult,
+    doneTaskDoc,
+    todoTaskDoc,
+    progressTaskDoc,
+  } = useGetTaskResults()
 
   const switchColumnType = (type: ColumnType) => {
     setColumnType(type)

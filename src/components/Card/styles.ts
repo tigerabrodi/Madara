@@ -1,4 +1,4 @@
-import styled from 'styled-components/macro'
+import styled, { keyframes } from 'styled-components/macro'
 import { theme } from 'theme/theme'
 import { focusStyles } from 'styles'
 import { ReactComponent as CardLogoSVG } from 'assets/card-logo.svg'
@@ -76,6 +76,15 @@ export const CardDate = styled.p`
   color: ${theme.Blue};
 `
 
+const fadeDown = keyframes`
+    from {
+      clip-path: polygon(-5% -5%, 105% 0%, 110% 0%, -5% 0%);
+    } 
+
+    to {
+      clip-path: polygon(-5% -5%, 105% 0%, 110% 110%, 0% 110%);
+    }
+`
 export const CardMenu = styled.div`
   position: absolute;
   top: 0;
@@ -90,8 +99,9 @@ export const CardMenu = styled.div`
   min-width: 12rem;
   width: 40%;
   background-color: ${theme.Blue};
-  box-shadow: 0 0.2rem 1rem ${theme.DarkBlue};
+  box-shadow: 0 2px 5px ${theme.DarkBlue};
   border-radius: 0.5rem;
+  animation: ${fadeDown} 0.2s ease-out both;
   ${media.desktop} {
     height: 17rem;
   }

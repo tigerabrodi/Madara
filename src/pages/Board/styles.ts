@@ -86,7 +86,6 @@ export const BoardWrapper = styled.div`
   width: 100%;
   grid-area: board;
   display: flex;
-  align-items: flex-end;
   justify-content: space-evenly;
   height: 100%;
   align-items: center;

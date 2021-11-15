@@ -22,6 +22,7 @@ import { toast } from 'components/Alert'
 import { EnumColumnTypesTrimmed, DocumentData } from 'lib/types'
 import { useBoardState } from './useBoardState'
 import { useGetTaskResults } from './useGetTaskResults'
+import { switchColumnMobile } from './utils'
 
 export const Board = () => {
   const {
@@ -55,35 +56,6 @@ export const Board = () => {
       return
     }
 
-    const switchColumnMobile = (
-      sourceDoc: DocumentData,
-      destDoc: DocumentData,
-      sourceDocResult: Data<TaskFirestoreResult, '', ''> | undefined,
-      destDocResult: Data<TaskFirestoreResult, '', ''> | undefined,
-      destColumnType: ColumnType
-    ) => {
-      const sourceClone = Array.from(sourceDocResult!.tasks)
-
-      const destClone = destDocResult ? Array.from(destDocResult.tasks) : []
-
-      const [removedTask] = sourceClone.splice(sourceTaskIndex, 1)
-
-      const newTaskToDest: Task = {
-        ...removedTask,
-        columnType: destColumnType,
-      }
-
-      destClone.unshift(newTaskToDest)
-
-      sourceDoc.set({
-        tasks: sourceClone,
-      })
-
-      destDoc.set({
-        tasks: destClone,
-      })
-    }
-
     const isSourceTodoColumn = sourceColumnType === 'Todo'
     if (isSourceTodoColumn) {
       if (destColumnType === 'In progress') {
@@ -92,7 +64,8 @@ export const Board = () => {
           progressTaskDoc,
           todoTaskDocResult,
           progressTaskDocResult,
-          destColumnType
+          destColumnType,
+          sourceTaskIndex
         )
       }
 
@@ -102,7 +75,8 @@ export const Board = () => {
           doneTaskDoc,
           todoTaskDocResult,
           doneTaskDocResult,
-          destColumnType
+          destColumnType,
+          sourceTaskIndex
         )
       }
     }
@@ -115,7 +89,8 @@ export const Board = () => {
           todoTaskDoc,
           progressTaskDocResult,
           todoTaskDocResult,
-          destColumnType
+          destColumnType,
+          sourceTaskIndex
         )
       }
 
@@ -125,7 +100,8 @@ export const Board = () => {
           doneTaskDoc,
           progressTaskDocResult,
           doneTaskDocResult,
-          destColumnType
+          destColumnType,
+          sourceTaskIndex
         )
       }
     }
@@ -138,7 +114,8 @@ export const Board = () => {
           todoTaskDoc,
           doneTaskDocResult,
           todoTaskDocResult,
-          destColumnType
+          destColumnType,
+          sourceTaskIndex
         )
       }
 
@@ -148,7 +125,8 @@ export const Board = () => {
           progressTaskDoc,
           doneTaskDocResult,
           progressTaskDocResult,
-          destColumnType
+          destColumnType,
+          sourceTaskIndex
         )
       }
     }

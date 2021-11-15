@@ -2,23 +2,34 @@ import { DocumentData } from 'lib/types'
 import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types'
 import { ColumnType, Task, TaskFirestoreResult } from 'types'
 
-export const switchColumnMobile = (
-  sourceDoc: DocumentData,
-  destDoc: DocumentData,
-  sourceDocResult: Data<TaskFirestoreResult, '', ''> | undefined,
-  destDocResult: Data<TaskFirestoreResult, '', ''> | undefined,
-  destColumnType: ColumnType,
+type Params = {
+  sourceDoc: DocumentData
+  destinationDoc: DocumentData
+  sourceDocResult: Data<TaskFirestoreResult, '', ''> | undefined
+  destinationDocResult: Data<TaskFirestoreResult, '', ''> | undefined
+  destinationColumnType: ColumnType
   sourceTaskIndex: number
-) => {
+}
+
+export const switchColumnMobile = ({
+  sourceDoc,
+  destinationColumnType,
+  sourceDocResult,
+  sourceTaskIndex,
+  destinationDoc,
+  destinationDocResult,
+}: Params) => {
   const sourceClone = Array.from(sourceDocResult!.tasks)
 
-  const destClone = destDocResult ? Array.from(destDocResult.tasks) : []
+  const destClone = destinationDocResult
+    ? Array.from(destinationDocResult.tasks)
+    : []
 
   const [removedTask] = sourceClone.splice(sourceTaskIndex, 1)
 
   const newTaskToDest: Task = {
     ...removedTask,
-    columnType: destColumnType,
+    columnType: destinationColumnType,
   }
 
   destClone.unshift(newTaskToDest)
@@ -27,7 +38,7 @@ export const switchColumnMobile = (
     tasks: sourceClone,
   })
 
-  destDoc.set({
+  destinationDoc.set({
     tasks: destClone,
   })
 }

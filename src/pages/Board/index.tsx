@@ -48,7 +48,7 @@ export const Board = () => {
   const onMoveTask = (
     sourceColumnType: ColumnType,
     sourceTaskIndex: number,
-    destColumnType: ColumnType,
+    destinationColumnType: ColumnType,
     setMoveTaskModalOpen: (state: boolean) => void,
     isDisabled = false
   ) => {
@@ -58,85 +58,85 @@ export const Board = () => {
 
     const isSourceTodoColumn = sourceColumnType === 'Todo'
     if (isSourceTodoColumn) {
-      if (destColumnType === 'In progress') {
-        switchColumnMobile(
-          todoTaskDoc,
-          progressTaskDoc,
-          todoTaskDocResult,
-          progressTaskDocResult,
-          destColumnType,
-          sourceTaskIndex
-        )
+      if (destinationColumnType === 'In progress') {
+        switchColumnMobile({
+          sourceDoc: todoTaskDoc,
+          sourceDocResult: todoTaskDocResult,
+          destinationDoc: progressTaskDoc,
+          destinationDocResult: progressTaskDocResult,
+          destinationColumnType,
+          sourceTaskIndex,
+        })
       }
 
-      if (destColumnType === 'Done') {
-        switchColumnMobile(
-          todoTaskDoc,
-          doneTaskDoc,
-          todoTaskDocResult,
-          doneTaskDocResult,
-          destColumnType,
-          sourceTaskIndex
-        )
+      if (destinationColumnType === 'Done') {
+        switchColumnMobile({
+          sourceDoc: todoTaskDoc,
+          sourceDocResult: todoTaskDocResult,
+          destinationDoc: doneTaskDoc,
+          destinationDocResult: doneTaskDocResult,
+          destinationColumnType,
+          sourceTaskIndex,
+        })
       }
     }
 
     const isSourceProgressColumn = sourceColumnType === 'In progress'
     if (isSourceProgressColumn) {
-      if (destColumnType === 'Todo') {
-        switchColumnMobile(
-          progressTaskDoc,
-          todoTaskDoc,
-          progressTaskDocResult,
-          todoTaskDocResult,
-          destColumnType,
-          sourceTaskIndex
-        )
+      if (destinationColumnType === 'Todo') {
+        switchColumnMobile({
+          sourceDoc: progressTaskDoc,
+          sourceDocResult: progressTaskDocResult,
+          destinationDoc: todoTaskDoc,
+          destinationDocResult: todoTaskDocResult,
+          destinationColumnType,
+          sourceTaskIndex,
+        })
       }
 
-      if (destColumnType === 'Done') {
-        switchColumnMobile(
-          progressTaskDoc,
-          doneTaskDoc,
-          progressTaskDocResult,
-          doneTaskDocResult,
-          destColumnType,
-          sourceTaskIndex
-        )
+      if (destinationColumnType === 'Done') {
+        switchColumnMobile({
+          sourceDoc: progressTaskDoc,
+          sourceDocResult: progressTaskDocResult,
+          destinationDoc: doneTaskDoc,
+          destinationDocResult: doneTaskDocResult,
+          destinationColumnType,
+          sourceTaskIndex,
+        })
       }
     }
 
     const isSourceDoneColumn = sourceColumnType === 'Done'
     if (isSourceDoneColumn) {
-      if (destColumnType === 'Todo') {
-        switchColumnMobile(
-          doneTaskDoc,
-          todoTaskDoc,
-          doneTaskDocResult,
-          todoTaskDocResult,
-          destColumnType,
-          sourceTaskIndex
-        )
+      if (destinationColumnType === 'Todo') {
+        switchColumnMobile({
+          sourceDoc: doneTaskDoc,
+          sourceDocResult: doneTaskDocResult,
+          destinationDoc: todoTaskDoc,
+          destinationDocResult: todoTaskDocResult,
+          destinationColumnType,
+          sourceTaskIndex,
+        })
       }
 
-      if (destColumnType === 'In progress') {
-        switchColumnMobile(
-          doneTaskDoc,
-          progressTaskDoc,
-          doneTaskDocResult,
-          progressTaskDocResult,
-          destColumnType,
-          sourceTaskIndex
-        )
+      if (destinationColumnType === 'In progress') {
+        switchColumnMobile({
+          sourceDoc: doneTaskDoc,
+          sourceDocResult: doneTaskDocResult,
+          destinationDoc: progressTaskDoc,
+          destinationDocResult: progressTaskDocResult,
+          destinationColumnType,
+          sourceTaskIndex,
+        })
       }
     }
 
-    switchColumnType(destColumnType)
+    switchColumnType(destinationColumnType)
 
     setMoveTaskModalOpen(false)
 
     toast(
-      `Successfully moved task from ${sourceColumnType.toLowerCase()} column to ${destColumnType.toLowerCase()} column.`
+      `Successfully moved task from ${sourceColumnType.toLowerCase()} column to ${destinationColumnType.toLowerCase()} column.`
     )
   }
 

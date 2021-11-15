@@ -64,7 +64,7 @@ export const TotalTasks = styled.span`
 export const Status = styled.h2`
   grid-area: status;
   justify-self: flex-start;
-  font-size: 2rem;
+  font-size: 2.2rem;
   border-radius: 0.5rem;
   padding-left: 1rem;
   font-weight: 600;

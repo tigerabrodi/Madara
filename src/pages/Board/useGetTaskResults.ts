@@ -28,7 +28,7 @@ export const useGetTaskResults = () => {
     .doc(EnumColumnTypesTrimmed.Done)
   const [doneTaskDocResult] = useDocumentData<TaskFirestoreResult>(doneTaskDoc)
 
-  const moveTask = (
+  const desktopMoveTask = (
     droppableSource: DraggableLocation,
     droppableDestination: DraggableLocation
   ) => {
@@ -112,6 +112,6 @@ export const useGetTaskResults = () => {
     doneTaskDoc,
     progressTaskDoc,
     todoTaskDoc,
-    moveTask,
+    desktopMoveTask,
   }
 }

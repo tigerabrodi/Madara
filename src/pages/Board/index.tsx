@@ -43,7 +43,7 @@ export const Board = () => {
     moveTask,
   } = useGetTaskResults()
 
-  const onMoveTask = (
+  const handleMobileMoveTask = (
     sourceColumnType: ColumnType,
     sourceTaskIndex: number,
     destinationColumnType: ColumnType,
@@ -265,7 +265,7 @@ export const Board = () => {
               columnType={isNotMobileLayout ? 'Todo' : columnType}
               isNotMobileLayout={isNotMobileLayout}
               tasks={tasksForMobileColumn}
-              onMoveTask={onMoveTask}
+              handleMobileMoveTask={handleMobileMoveTask}
               isMobileDraggable={isMobileDraggable}
               toggleMobileDraggable={toggleMobileDraggable}
             />
@@ -275,7 +275,7 @@ export const Board = () => {
                   columnType="In progress"
                   isNotMobileLayout={isNotMobileLayout}
                   tasks={progressTaskDocResult?.tasks}
-                  onMoveTask={onMoveTask}
+                  handleMobileMoveTask={handleMobileMoveTask}
                   isMobileDraggable={isMobileDraggable}
                   toggleMobileDraggable={toggleMobileDraggable}
                 />
@@ -283,7 +283,7 @@ export const Board = () => {
                   columnType="Done"
                   isNotMobileLayout={isNotMobileLayout}
                   tasks={doneTaskDocResult?.tasks}
-                  onMoveTask={onMoveTask}
+                  handleMobileMoveTask={handleMobileMoveTask}
                   isMobileDraggable={isMobileDraggable}
                   toggleMobileDraggable={toggleMobileDraggable}
                 />

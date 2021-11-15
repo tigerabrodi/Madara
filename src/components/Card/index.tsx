@@ -31,7 +31,7 @@ type CardProps = {
   isNotMobileLayout: boolean
   isMobileDraggable: boolean
   provided: DraggableProvided
-  onMoveTask: (
+  handleMobileMoveTask: (
     sourceTaskType: ColumnType,
     sourceTaskIndex: number,
     destTaskType: ColumnType,
@@ -47,7 +47,7 @@ export const Card = ({
   task,
   taskIndex,
   isMobileDraggable,
-  onMoveTask,
+  handleMobileMoveTask,
 }: CardProps) => {
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
     React.useState(false)
@@ -242,7 +242,7 @@ export const Card = ({
       )}
       {isMoveTaskModalOpen && (
         <MoveTaskModal
-          onSuccess={onMoveTask}
+          onSuccess={handleMobileMoveTask}
           taskIndex={taskIndex}
           setOpen={setIsMoveTaskModalOpen}
           taskType={task.columnType}

@@ -26,7 +26,7 @@ type ColumnProps = {
   columnType: ColumnType
   isNotMobileLayout: boolean
   tasks: Task[] | undefined
-  onMoveTask: (
+  handleMobileMoveTask: (
     sourceTaskType: ColumnType,
     sourceTaskIndex: number,
     destTaskType: ColumnType,
@@ -41,7 +41,7 @@ export const BoardColumn = ({
   columnType,
   isNotMobileLayout,
   tasks,
-  onMoveTask,
+  handleMobileMoveTask,
   isMobileDraggable,
   toggleMobileDraggable,
 }: ColumnProps) => {
@@ -157,7 +157,7 @@ export const BoardColumn = ({
                       {(provided) => (
                         <Card
                           task={task}
-                          onMoveTask={onMoveTask}
+                          handleMobileMoveTask={handleMobileMoveTask}
                           taskIndex={index}
                           provided={provided}
                           isNotMobileLayout={isNotMobileLayout}

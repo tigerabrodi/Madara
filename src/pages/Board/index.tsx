@@ -28,6 +28,7 @@ import { toast } from 'components/Alert'
 import { useBoardState } from './useBoardState'
 import { useGetTaskResults } from './useGetTaskResults'
 import { switchColumnMobile } from './utils'
+import { assertIsNotDisabled } from 'lib/utils'
 
 export const Board = () => {
   const {
@@ -57,9 +58,7 @@ export const Board = () => {
     setMoveTaskModalOpen: (state: boolean) => void,
     isDisabled = false
   ) => {
-    if (isDisabled) {
-      return
-    }
+    assertIsNotDisabled(isDisabled)
 
     const isSourceTodoColumn = sourceColumnType === 'Todo'
     if (isSourceTodoColumn) {

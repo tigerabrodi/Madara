@@ -24,6 +24,7 @@ import {
   MobileDrag,
 } from './styles'
 import { toast } from 'components/Alert'
+import { assertIsNotDisabled } from 'lib/utils'
 
 type CardProps = {
   task: Task
@@ -103,9 +104,7 @@ export const Card = ({
   ) => {
     event.preventDefault()
 
-    if (isDisabled) {
-      return
-    }
+    assertIsNotDisabled(isDisabled)
 
     if (taskDocResult) {
       const tasksCopy = taskDocResult.tasks.slice()

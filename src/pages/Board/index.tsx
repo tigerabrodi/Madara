@@ -27,7 +27,7 @@ import {
 import { toast } from 'components/Alert'
 import { useBoardState } from './useBoardState'
 import { useGetTaskResults } from './useGetTaskResults'
-import { switchColumnMobile } from './utils'
+import { reorderTasks, switchColumnMobile } from './utils'
 import { assertIsNotDisabled } from 'lib/utils'
 
 export const Board = () => {
@@ -237,14 +237,6 @@ export const Board = () => {
     }
   }
 
-  const reorder = (tasks: Task[], startIndex: number, endIndex: number) => {
-    const result = Array.from(tasks)
-    const [removed] = result.splice(startIndex, 1)
-    result.splice(endIndex, 0, removed)
-
-    return result
-  }
-
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result
 
@@ -262,7 +254,7 @@ export const Board = () => {
       const isTodoColumn = EnumColumnTypesTrimmed.Todo === source.droppableId
       if (isTodoColumn) {
         if (todoTaskDocResult) {
-          const newTasks = reorder(
+          const newTasks = reorderTasks(
             todoTaskDocResult.tasks,
             source.index,
             destination.index
@@ -278,7 +270,7 @@ export const Board = () => {
         EnumColumnTypesTrimmed.InProgress === source.droppableId
       if (isProgressColumn) {
         if (progressTaskDocResult) {
-          const newTasks = reorder(
+          const newTasks = reorderTasks(
             progressTaskDocResult.tasks,
             source.index,
             destination.index
@@ -293,7 +285,7 @@ export const Board = () => {
       const isDoneColumn = EnumColumnTypesTrimmed.Done === source.droppableId
       if (isDoneColumn) {
         if (doneTaskDocResult) {
-          const newTasks = reorder(
+          const newTasks = reorderTasks(
             doneTaskDocResult.tasks,
             source.index,
             destination.index

@@ -3,10 +3,14 @@ import * as React from 'react'
 type TrapTabKeyParams = {
   ref: React.RefObject<HTMLElement>
   setOpen: (state: boolean) => void
-  pause?: boolean
+  shouldPause?: boolean
 }
 
-export const useTrapTabKey = ({ ref, setOpen, pause }: TrapTabKeyParams) => {
+export const useTrapTabKey = ({
+  ref,
+  setOpen,
+  shouldPause,
+}: TrapTabKeyParams) => {
   const prevFocusedElementRef = React.useRef<HTMLElement | null>(null)
 
   const firstButtonElementRef = React.useRef<HTMLButtonElement>(null)
@@ -14,7 +18,7 @@ export const useTrapTabKey = ({ ref, setOpen, pause }: TrapTabKeyParams) => {
   const thirdButtonElementRef = React.useRef<HTMLButtonElement>(null)
 
   React.useEffect(() => {
-    if (pause) {
+    if (shouldPause) {
       return
     }
 
@@ -86,7 +90,7 @@ export const useTrapTabKey = ({ ref, setOpen, pause }: TrapTabKeyParams) => {
 
     ref.current?.addEventListener('keydown', trapTabKey)
     return () => document.removeEventListener('keydown', trapTabKey)
-  }, [pause])
+  }, [shouldPause])
 
   return {
     firstButtonElementRef,

@@ -65,7 +65,7 @@ export const Card = ({
   useTrapTabKey({
     ref: cardMenuRef,
     setOpen: setIsMenuOpenViaKey,
-    pause: !isMenuOpenViaKey,
+    shouldPause: !isMenuOpenViaKey,
   })
 
   const userId = firebase.auth().currentUser?.uid

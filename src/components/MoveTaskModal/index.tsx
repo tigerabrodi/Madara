@@ -46,9 +46,7 @@ export const MoveTaskModal = ({
   }
 
   const isTodoType = taskType === 'Todo'
-
   const isProgressType = taskType === 'In progress'
-
   const isDoneType = taskType === 'Done'
 
   return (

@@ -1,12 +1,23 @@
-import styled, { css } from 'styled-components/macro'
+import styled, { css, keyframes } from 'styled-components/macro'
 import { theme } from 'theme/theme'
 import { focusStyles } from 'styles'
 import { media } from 'theme/media'
 
+const fadeDown = keyframes`
+    from {
+      clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+      height: 3rem;
+    } 
+
+    to {
+      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+      height: 15rem;
+    }
+`
+
 export const Form = styled.form`
   background: transparent;
   width: 90%;
-  height: 15rem;
   display: grid;
   grid-template-areas:
     'textarea textarea'
@@ -16,6 +27,7 @@ export const Form = styled.form`
   align-items: center;
   row-gap: 1rem;
   margin-bottom: 1.5rem;
+  animation: ${fadeDown} 0.2s ease-out both;
 `
 
 export const AddTaskTextarea = styled.textarea`

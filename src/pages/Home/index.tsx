@@ -70,7 +70,7 @@ export const Home = () => {
     const { name, password, email, confirmPassword } =
       event.currentTarget.elements
 
-    const canUserSignUp = () => {
+    const handleValidation = () => {
       const isNameInvalid = !name.value || (name.value && name.value.length < 2)
       if (isNameInvalid) {
         setIsNameError(true)
@@ -109,7 +109,7 @@ export const Home = () => {
     if (isLoginMode) {
       signInWithEmailAndPassword(email.value, password.value)
     } else {
-      if (canUserSignUp() === true) {
+      if (handleValidation() === true) {
         createUserWithEmailAndPassword(email.value, password.value, name.value)
       }
     }

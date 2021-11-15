@@ -14,10 +14,8 @@ const DummyComponent = () => {
     toggleModal()
   }
 
-  const {
-    containerRef: modalRef,
-    firstButtonRef: firstButtonElementRef,
-  } = useClickOutside(() => setIsModalOpen(false))
+  const { containerRef: modalRef, firstButtonRef: firstButtonElementRef } =
+    useClickOutside(() => setIsModalOpen(false))
 
   return (
     <>

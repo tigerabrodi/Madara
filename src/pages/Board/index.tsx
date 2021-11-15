@@ -30,6 +30,8 @@ import { useGetTaskResults } from './useGetTaskResults'
 import { reorderTasks, switchColumnMobile } from './utils'
 import { assertIsNotDisabled } from 'lib/utils'
 
+const { Done, InProgress, Todo } = EnumColumnTypesTrimmed
+
 export const Board = () => {
   const {
     columnType,
@@ -177,8 +179,8 @@ export const Board = () => {
     }
 
     const fromTodoToProgress =
-      droppableSource.droppableId === EnumColumnTypesTrimmed.Todo &&
-      droppableDestination.droppableId === EnumColumnTypesTrimmed.InProgress
+      droppableSource.droppableId === Todo &&
+      droppableDestination.droppableId === InProgress
     if (fromTodoToProgress) {
       if (todoTaskDocResult) {
         switchColumnDesktop(
@@ -192,8 +194,8 @@ export const Board = () => {
     }
 
     const fromProgressToTodo =
-      droppableSource.droppableId === EnumColumnTypesTrimmed.InProgress &&
-      droppableDestination.droppableId === EnumColumnTypesTrimmed.Todo
+      droppableSource.droppableId === InProgress &&
+      droppableDestination.droppableId === Todo
     if (fromProgressToTodo) {
       if (progressTaskDocResult) {
         switchColumnDesktop(
@@ -207,8 +209,8 @@ export const Board = () => {
     }
 
     const fromProgressToDone =
-      droppableSource.droppableId === EnumColumnTypesTrimmed.InProgress &&
-      droppableDestination.droppableId === EnumColumnTypesTrimmed.Done
+      droppableSource.droppableId === InProgress &&
+      droppableDestination.droppableId === Done
     if (fromProgressToDone) {
       if (progressTaskDocResult) {
         switchColumnDesktop(
@@ -222,8 +224,8 @@ export const Board = () => {
     }
 
     const fromDoneToProgress =
-      droppableSource.droppableId === EnumColumnTypesTrimmed.Done &&
-      droppableDestination.droppableId === EnumColumnTypesTrimmed.InProgress
+      droppableSource.droppableId === Done &&
+      droppableDestination.droppableId === InProgress
     if (fromDoneToProgress) {
       if (doneTaskDocResult) {
         switchColumnDesktop(
@@ -251,7 +253,7 @@ export const Board = () => {
         return
       }
 
-      const isTodoColumn = EnumColumnTypesTrimmed.Todo === source.droppableId
+      const isTodoColumn = Todo === source.droppableId
       if (isTodoColumn) {
         if (todoTaskDocResult) {
           const newTasks = reorderTasks(
@@ -266,8 +268,7 @@ export const Board = () => {
         }
       }
 
-      const isProgressColumn =
-        EnumColumnTypesTrimmed.InProgress === source.droppableId
+      const isProgressColumn = InProgress === source.droppableId
       if (isProgressColumn) {
         if (progressTaskDocResult) {
           const newTasks = reorderTasks(
@@ -282,7 +283,7 @@ export const Board = () => {
         }
       }
 
-      const isDoneColumn = EnumColumnTypesTrimmed.Done === source.droppableId
+      const isDoneColumn = Done === source.droppableId
       if (isDoneColumn) {
         if (doneTaskDocResult) {
           const newTasks = reorderTasks(

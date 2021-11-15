@@ -5,12 +5,12 @@ import { media } from 'theme/media'
 
 const fadeDown = keyframes`
     from {
-      clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+      clip-path: polygon(-5% -5%, 105% -5%, 105% -5%, -5% -5%);
       height: 3rem;
     } 
 
     to {
-      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+      clip-path: polygon(-5% -5%, 105% -5%, 105% 105%, -5% 105%);
       height: 15rem;
     }
 `

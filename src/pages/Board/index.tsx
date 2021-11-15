@@ -1,4 +1,3 @@
-import * as React from 'react'
 import firebase from 'firebase/app'
 import {
   DraggableLocation,
@@ -6,13 +5,8 @@ import {
   DragDropContext,
 } from 'react-beautiful-dnd'
 import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types'
-import {
-  useCollectionData,
-  useDocumentData,
-} from 'react-firebase-hooks/firestore'
+import { useDocumentData } from 'react-firebase-hooks/firestore'
 import { BoardColumn } from 'components/BoardColumn'
-import { useMedia } from 'hooks/useMedia'
-import { useTabArrowSwitch } from 'hooks/useTabArrowSwitch'
 import { ColumnType, Task, TaskFirestoreResult } from 'types'
 import {
   BoardMain,
@@ -28,33 +22,22 @@ import {
 } from './styles'
 import { toast } from 'components/Alert'
 import { EnumColumnTypesTrimmed, DocumentData } from 'lib/types'
+import { useBoardState } from './useBoardState'
 
 export const Board = () => {
-  const [columnType, setColumnType] = React.useState<ColumnType>('Todo')
-  const [isMobileDraggable, setIsMobileDraggable] = React.useState(false)
-  const isNotMobileLayout = useMedia('min', '425')
-  const tabListRef = useTabArrowSwitch()
+  const {
+    columnType,
+    setColumnType,
+    isNotMobileLayout,
+    tabListRef,
+    isMobileDraggable,
+    toggleMobileDraggable,
+    userId,
+    getCurrentUserName,
+    users,
+    setIsMobileDraggable,
+  } = useBoardState()
 
-  const toggleMobileDraggable = (isDisabled = false) =>
-    !isDisabled && setIsMobileDraggable(!isMobileDraggable)
-
-  const userEmail = firebase.auth().currentUser?.email
-  const usersCollection = firebase.firestore().collection('users')
-
-  const [users] = useCollectionData<{
-    email: string
-    name: string
-  }>(usersCollection)
-
-  const getCurrentUserName = (
-    users: Array<{ email: string; name: string }>
-  ) => {
-    return users.find(
-      (user) => user.email.toLowerCase() === userEmail?.toLowerCase()
-    )?.name
-  }
-
-  const userId = firebase.auth().currentUser?.uid
   const todoTaskDoc = firebase
     .firestore()
     .collection(`users/${userId}/${EnumColumnTypesTrimmed.Todo}Tasks`)

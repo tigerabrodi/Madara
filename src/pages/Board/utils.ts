@@ -1,13 +1,19 @@
+import { DraggableLocation } from 'react-beautiful-dnd'
 import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types'
 import { ColumnType, Task, TaskFirestoreResult, DocumentData } from 'types'
 
-type Params = {
+type SwitchMobileColumnParams = {
   sourceDoc: DocumentData
   destinationDoc: DocumentData
   sourceDocResult: Data<TaskFirestoreResult, '', ''> | undefined
   destinationDocResult: Data<TaskFirestoreResult, '', ''> | undefined
   destinationColumnType: ColumnType
   sourceTaskIndex: number
+}
+
+type SwitchDesktopColumnParams = SwitchMobileColumnParams & {
+  droppableSource: DraggableLocation
+  droppableDestination: DraggableLocation
 }
 
 export const switchColumnMobile = ({
@@ -17,7 +23,7 @@ export const switchColumnMobile = ({
   sourceTaskIndex,
   destinationDoc,
   destinationDocResult,
-}: Params) => {
+}: SwitchMobileColumnParams) => {
   const sourceClone = Array.from(sourceDocResult!.tasks)
 
   const destClone = destinationDocResult
@@ -32,6 +38,38 @@ export const switchColumnMobile = ({
   }
 
   destClone.unshift(newTaskToDest)
+
+  sourceDoc.set({
+    tasks: sourceClone,
+  })
+
+  destinationDoc.set({
+    tasks: destClone,
+  })
+}
+
+export const switchColumnDesktop = ({
+  destinationColumnType,
+  destinationDoc,
+  destinationDocResult,
+  sourceDocResult,
+  sourceDoc,
+  droppableDestination,
+  droppableSource,
+}: SwitchDesktopColumnParams) => {
+  const sourceClone = Array.from(sourceDocResult!.tasks)
+  const destClone = destinationDocResult
+    ? Array.from(destinationDocResult.tasks)
+    : []
+
+  const [removedTask] = sourceClone.splice(droppableSource.index, 1)
+
+  const newTaskToProgress: Task = {
+    ...removedTask,
+    columnType: destinationColumnType,
+  }
+
+  destClone.splice(droppableDestination.index, 0, newTaskToProgress)
 
   sourceDoc.set({
     tasks: sourceClone,

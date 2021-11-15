@@ -3,15 +3,8 @@ import {
   DropResult,
   DragDropContext,
 } from 'react-beautiful-dnd'
-import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types'
 import { BoardColumn } from 'components/BoardColumn'
-import {
-  ColumnType,
-  Task,
-  TaskFirestoreResult,
-  EnumColumnTypesTrimmed,
-  DocumentData,
-} from 'types'
+import { ColumnType, EnumColumnTypesTrimmed } from 'types'
 import {
   BoardMain,
   BoardWrapper,
@@ -27,7 +20,7 @@ import {
 import { toast } from 'components/Alert'
 import { useBoardState } from './useBoardState'
 import { useGetTaskResults } from './useGetTaskResults'
-import { reorderTasks, switchColumnMobile } from './utils'
+import { reorderTasks, switchColumnDesktop, switchColumnMobile } from './utils'
 import { assertIsNotDisabled } from 'lib/utils'
 
 const { Done, InProgress, Todo } = EnumColumnTypesTrimmed
@@ -150,46 +143,21 @@ export const Board = () => {
     droppableSource: DraggableLocation,
     droppableDestination: DraggableLocation
   ) => {
-    const switchColumnDesktop = (
-      sourceDoc: DocumentData,
-      destDoc: DocumentData,
-      sourceDocResult: Data<TaskFirestoreResult, '', ''>,
-      destDocResult: Data<TaskFirestoreResult, '', ''> | undefined,
-      destColumnType: ColumnType
-    ) => {
-      const sourceClone = Array.from(sourceDocResult.tasks)
-      const destClone = destDocResult ? Array.from(destDocResult.tasks) : []
-
-      const [removedTask] = sourceClone.splice(droppableSource.index, 1)
-
-      const newTaskToProgress: Task = {
-        ...removedTask,
-        columnType: destColumnType,
-      }
-
-      destClone.splice(droppableDestination.index, 0, newTaskToProgress)
-
-      sourceDoc.set({
-        tasks: sourceClone,
-      })
-
-      destDoc.set({
-        tasks: destClone,
-      })
-    }
-
     const fromTodoToProgress =
       droppableSource.droppableId === Todo &&
       droppableDestination.droppableId === InProgress
     if (fromTodoToProgress) {
       if (todoTaskDocResult) {
-        switchColumnDesktop(
-          todoTaskDoc,
-          progressTaskDoc,
-          todoTaskDocResult,
-          progressTaskDocResult,
-          'In progress'
-        )
+        switchColumnDesktop({
+          sourceDoc: todoTaskDoc,
+          sourceDocResult: todoTaskDocResult,
+          destinationDoc: progressTaskDoc,
+          destinationDocResult: progressTaskDocResult,
+          destinationColumnType: 'In progress',
+          sourceTaskIndex: droppableSource.index,
+          droppableDestination,
+          droppableSource,
+        })
       }
     }
 
@@ -198,13 +166,16 @@ export const Board = () => {
       droppableDestination.droppableId === Todo
     if (fromProgressToTodo) {
       if (progressTaskDocResult) {
-        switchColumnDesktop(
-          progressTaskDoc,
-          todoTaskDoc,
-          progressTaskDocResult,
-          todoTaskDocResult,
-          'Todo'
-        )
+        switchColumnDesktop({
+          sourceDoc: progressTaskDoc,
+          sourceDocResult: progressTaskDocResult,
+          destinationDoc: todoTaskDoc,
+          destinationDocResult: todoTaskDocResult,
+          destinationColumnType: 'Todo',
+          sourceTaskIndex: droppableSource.index,
+          droppableDestination,
+          droppableSource,
+        })
       }
     }
 
@@ -213,13 +184,16 @@ export const Board = () => {
       droppableDestination.droppableId === Done
     if (fromProgressToDone) {
       if (progressTaskDocResult) {
-        switchColumnDesktop(
-          progressTaskDoc,
-          doneTaskDoc,
-          progressTaskDocResult,
-          doneTaskDocResult,
-          'Done'
-        )
+        switchColumnDesktop({
+          sourceDoc: progressTaskDoc,
+          sourceDocResult: progressTaskDocResult,
+          destinationDoc: doneTaskDoc,
+          destinationDocResult: doneTaskDocResult,
+          destinationColumnType: 'Done',
+          sourceTaskIndex: droppableSource.index,
+          droppableDestination,
+          droppableSource,
+        })
       }
     }
 
@@ -228,13 +202,16 @@ export const Board = () => {
       droppableDestination.droppableId === InProgress
     if (fromDoneToProgress) {
       if (doneTaskDocResult) {
-        switchColumnDesktop(
-          doneTaskDoc,
-          progressTaskDoc,
-          doneTaskDocResult,
-          progressTaskDocResult,
-          'In progress'
-        )
+        switchColumnDesktop({
+          sourceDoc: doneTaskDoc,
+          sourceDocResult: doneTaskDocResult,
+          destinationDoc: progressTaskDoc,
+          destinationDocResult: progressTaskDocResult,
+          destinationColumnType: 'In progress',
+          sourceTaskIndex: droppableSource.index,
+          droppableDestination,
+          droppableSource,
+        })
       }
     }
   }

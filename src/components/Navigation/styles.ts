@@ -17,24 +17,27 @@ export const LogoutButton = styled.button`
   align-items: center;
   justify-content: space-evenly;
   cursor: pointer;
-  transition: 0.2s;
   transform: translate(0);
   top: 80%;
   left: 7%;
   margin: auto;
   bottom: 0;
+  will-change: transform;
 
   ${media.phone} {
     position: absolute;
     top: 95px;
     left: 40px;
     margin: revert;
+    transition: 0.3s all ease-out;
     &:hover {
-      box-shadow: 0 2px 8px ${theme.Black};
-      transform: translateY(-0.2rem);
+      transition: 0.2s all ease-out;
+      box-shadow: 0 1px 8px ${theme.Black};
+      transform: translateY(-2px);
     }
 
     &:active {
+      transition: 0.1s all ease-out;
       box-shadow: 0 1px 5px ${theme.Black};
       transform: translateY(0);
     }

@@ -52,11 +52,10 @@ export const Board = () => {
   const userEmail = firebase.auth().currentUser?.email
   const usersCollection = firebase.firestore().collection('users')
 
-  const [users] =
-    useCollectionData<{
-      email: string
-      name: string
-    }>(usersCollection)
+  const [users] = useCollectionData<{
+    email: string
+    name: string
+  }>(usersCollection)
 
   const getCurrentUserName = (
     users: Array<{ email: string; name: string }>
@@ -384,7 +383,7 @@ export const Board = () => {
   const isProgressColumnType = columnType === 'In progress'
   const isDoneColumnType = columnType === 'Done'
 
-  const tasksForDynamicColumn = isNotMobileLayout
+  const tasksForMobileColumn = isNotMobileLayout
     ? todoTaskDocResult?.tasks
     : isTodoColumnType
     ? todoTaskDocResult?.tasks
@@ -443,7 +442,7 @@ export const Board = () => {
             <BoardColumn
               columnType={isNotMobileLayout ? 'Todo' : columnType}
               isNotMobileLayout={isNotMobileLayout}
-              tasks={tasksForDynamicColumn}
+              tasks={tasksForMobileColumn}
               onMoveTask={onMoveTask}
               isMobileDraggable={isMobileDraggable}
               toggleMobileDraggable={toggleMobileDraggable}

@@ -22,18 +22,19 @@ import {
 } from './styles'
 import { toast } from 'components/Alert'
 import { trimString } from 'lib/utils'
+import { MobileMoveTaskParams } from 'pages/Board'
 
 type ColumnProps = {
   columnType: ColumnType
   isNotMobileLayout: boolean
   tasks: Task[] | undefined
-  mobileMoveTask: (
-    sourceTaskType: ColumnType,
-    sourceTaskIndex: number,
-    destTaskType: ColumnType,
-    setMoveTaskModalOpen: (state: boolean) => void,
-    isDisabled: boolean
-  ) => void
+  mobileMoveTask: ({
+    sourceColumnType,
+    sourceTaskIndex,
+    destinationColumnType,
+    setMoveTaskModalOpen,
+    isDisabled,
+  }: MobileMoveTaskParams) => void
   isMobileDraggable: boolean
   toggleMobileDraggable: (isDisabled: boolean) => void
 }

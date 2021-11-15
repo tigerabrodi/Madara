@@ -17,9 +17,16 @@ import { toast } from 'components/Alert'
 import { useBoardState } from './useBoardState'
 import { useGetTaskResults } from './useGetTaskResults'
 import { reorderTasks, switchColumnMobile } from './utils'
-import { assertIsNotDisabled } from 'lib/utils'
 
 const { Done, InProgress, Todo } = EnumColumnTypesTrimmed
+
+export type MobileMoveTaskParams = {
+  sourceColumnType: ColumnType
+  sourceTaskIndex: number
+  destinationColumnType: ColumnType
+  setMoveTaskModalOpen: (state: boolean) => void
+  isDisabled: boolean
+}
 
 export const Board = () => {
   const {
@@ -43,14 +50,14 @@ export const Board = () => {
     desktopMoveTask,
   } = useGetTaskResults()
 
-  const mobileMoveTask = (
-    sourceColumnType: ColumnType,
-    sourceTaskIndex: number,
-    destinationColumnType: ColumnType,
-    setMoveTaskModalOpen: (state: boolean) => void,
-    isDisabled = false
-  ) => {
-    assertIsNotDisabled(isDisabled)
+  const mobileMoveTask = ({
+    isDisabled,
+    sourceColumnType,
+    sourceTaskIndex,
+    destinationColumnType,
+    setMoveTaskModalOpen,
+  }: MobileMoveTaskParams) => {
+    if (isDisabled) return
 
     const isSourceTodoColumn = sourceColumnType === 'Todo'
     if (isSourceTodoColumn) {

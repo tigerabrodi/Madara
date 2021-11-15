@@ -1,5 +1,6 @@
 import { useClickOutside } from 'hooks/useClickOutside'
 import { useTrapTabKey } from 'hooks/useTrapTabKey'
+import { MobileMoveTaskParams } from 'pages/Board'
 import { ModalOverlay } from 'styles'
 import { ColumnType } from 'types'
 import {
@@ -14,13 +15,13 @@ import {
 
 type MoveTaskModalProps = {
   setOpen: (state: boolean) => void
-  onSuccess: (
-    sourceTaskType: ColumnType,
-    sourceTaskIndex: number,
-    destTaskType: ColumnType,
-    setMoveTaskModalOpen: (state: boolean) => void,
-    isDisabled: boolean
-  ) => void
+  onSuccess: ({
+    sourceColumnType,
+    sourceTaskIndex,
+    destinationColumnType,
+    setMoveTaskModalOpen,
+    isDisabled,
+  }: MobileMoveTaskParams) => void
   taskIndex: number
   taskType: ColumnType
 }
@@ -74,7 +75,13 @@ export const MoveTaskModal = ({
         <MoveTaskModalBody>
           <MoveTaskModalButton
             onClick={() =>
-              onSuccess(taskType, taskIndex, 'Todo', setOpen, isTodoType)
+              onSuccess({
+                sourceColumnType: taskType,
+                isDisabled: isTodoType,
+                destinationColumnType: 'Todo',
+                setMoveTaskModalOpen: setOpen,
+                sourceTaskIndex: taskIndex,
+              })
             }
             aria-disabled={isTodoType ? 'true' : 'false'}
           >
@@ -82,13 +89,13 @@ export const MoveTaskModal = ({
           </MoveTaskModalButton>
           <MoveTaskModalButton
             onClick={() =>
-              onSuccess(
-                taskType,
-                taskIndex,
-                'In progress',
-                setOpen,
-                isProgressType
-              )
+              onSuccess({
+                sourceColumnType: taskType,
+                isDisabled: isProgressType,
+                destinationColumnType: 'In progress',
+                setMoveTaskModalOpen: setOpen,
+                sourceTaskIndex: taskIndex,
+              })
             }
             aria-disabled={isProgressType ? 'true' : 'false'}
           >
@@ -96,7 +103,13 @@ export const MoveTaskModal = ({
           </MoveTaskModalButton>
           <MoveTaskModalButton
             onClick={() =>
-              onSuccess(taskType, taskIndex, 'Done', setOpen, isDoneType)
+              onSuccess({
+                sourceColumnType: taskType,
+                isDisabled: isDoneType,
+                destinationColumnType: 'Done',
+                setMoveTaskModalOpen: setOpen,
+                sourceTaskIndex: taskIndex,
+              })
             }
             aria-disabled={isDoneType ? 'true' : 'false'}
           >

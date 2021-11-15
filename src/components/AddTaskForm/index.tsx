@@ -12,7 +12,7 @@ import {
   FormAddButton,
   FormCancelButton,
 } from './styles'
-import { assertIsNotDisabled, trimString } from 'lib/utils'
+import { trimString } from 'lib/utils'
 
 type TaskFormProps = {
   setOpen: (state: boolean) => void
@@ -54,7 +54,7 @@ export const AddTaskForm = ({ setOpen, columnType }: TaskFormProps) => {
   ) => {
     event.preventDefault()
 
-    assertIsNotDisabled(isDisabled)
+    if (isDisabled) return
 
     const currentDate = new Date().toLocaleDateString('en-US')
 

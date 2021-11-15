@@ -8,7 +8,7 @@ import { useClickOutside } from 'hooks/useClickOutside'
 import { useTrapTabKey } from 'hooks/useTrapTabKey'
 import { MoveTaskModal } from 'components/MoveTaskModal'
 import { EditModal } from 'components/EditModal'
-import { ColumnType, Task, TaskFirestoreResult } from 'types'
+import { Task, TaskFirestoreResult } from 'types'
 import {
   CardWrapper,
   CardMenuButton,
@@ -24,20 +24,21 @@ import {
   MobileDrag,
 } from './styles'
 import { toast } from 'components/Alert'
-import { assertIsNotDisabled, trimString } from 'lib/utils'
+import { trimString } from 'lib/utils'
+import { MobileMoveTaskParams } from 'pages/Board'
 
 type CardProps = {
   task: Task
   isNotMobileLayout: boolean
   isMobileDraggable: boolean
   provided: DraggableProvided
-  mobileMoveTask: (
-    sourceTaskType: ColumnType,
-    sourceTaskIndex: number,
-    destTaskType: ColumnType,
-    setMoveTaskModalOpen: (state: boolean) => void,
-    isDisabled: boolean
-  ) => void
+  mobileMoveTask: ({
+    sourceColumnType,
+    sourceTaskIndex,
+    destinationColumnType,
+    setMoveTaskModalOpen,
+    isDisabled,
+  }: MobileMoveTaskParams) => void
   taskIndex: number
 }
 
@@ -104,7 +105,7 @@ export const Card = ({
   ) => {
     event.preventDefault()
 
-    assertIsNotDisabled(isDisabled)
+    if (isDisabled) return
 
     if (taskDocResult) {
       const tasksCopy = taskDocResult.tasks.slice()

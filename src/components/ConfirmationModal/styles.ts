@@ -9,8 +9,9 @@ export const ConfirmationModal = styled.div`
   height: 21rem;
   max-width: 55rem;
   width: 95%;
-  top: 15%;
-  margin: auto;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-color: ${theme.Blue};
   border-radius: 0.5rem;
   display: grid;
@@ -28,6 +29,10 @@ export const ConfirmationModal = styled.div`
   ${media.phone} {
     height: 30rem;
   }
+  ${media.tablet} {
+    height: 40rem;
+    max-width: 75rem;
+  }
 `
 
 export const ConfirmationTitle = styled.h1`
@@ -42,6 +47,9 @@ export const ConfirmationTitle = styled.h1`
   }
   ${media.phone} {
     font-size: 4.8rem;
+  }
+  ${media.tablet} {
+    font-size: 6rem;
   }
 `
 
@@ -58,6 +66,9 @@ export const ConfirmationText = styled.p`
   }
   ${media.phone} {
     font-size: 3rem;
+  }
+  ${media.tablet} {
+    font-size: 4rem;
   }
 `
 
@@ -80,7 +91,6 @@ const confirmationModalButtonStyles = css`
   ${media.phone} {
     height: 5.2rem;
     width: 16rem;
-    align-self: center;
   }
   ${media.tablet} {
     &:hover {
@@ -92,6 +102,8 @@ const confirmationModalButtonStyles = css`
       box-shadow: 0 0.2rem 0.1rem ${theme.DarkBlue};
       transform: translateY(0.1rem);
     }
+    height: 65px;
+    font-size: 3.5rem;
   }
 `
 
@@ -104,6 +116,8 @@ export const ConfirmButton = styled.button`
     &:hover {
       background-color: ${theme.Green};
     }
+    margin-left: auto;
+    margin-right: 60px;
   }
 `
 
@@ -116,5 +130,7 @@ export const CancelButton = styled.button`
     &:hover {
       background-color: ${theme.Pink};
     }
+    margin-right: auto;
+    margin-left: 60px;
   }
 `

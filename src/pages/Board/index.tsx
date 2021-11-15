@@ -27,15 +27,7 @@ import {
   TabList,
 } from './styles'
 import { toast } from 'components/Alert'
-
-enum EnumColumnTypesTrimmed {
-  InProgress = 'Inprogress',
-  Done = 'Done',
-  Todo = 'Todo',
-}
-
-type DocumentData =
-  firebase.firestore.DocumentReference<firebase.firestore.DocumentData>
+import { EnumColumnTypesTrimmed, DocumentData } from 'lib/types'
 
 export const Board = () => {
   const [columnType, setColumnType] = React.useState<ColumnType>('Todo')

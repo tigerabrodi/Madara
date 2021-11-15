@@ -1,8 +1,4 @@
-import {
-  DraggableLocation,
-  DropResult,
-  DragDropContext,
-} from 'react-beautiful-dnd'
+import { DropResult, DragDropContext } from 'react-beautiful-dnd'
 import { BoardColumn } from 'components/BoardColumn'
 import { ColumnType, EnumColumnTypesTrimmed } from 'types'
 import {
@@ -20,7 +16,7 @@ import {
 import { toast } from 'components/Alert'
 import { useBoardState } from './useBoardState'
 import { useGetTaskResults } from './useGetTaskResults'
-import { reorderTasks, switchColumnDesktop, switchColumnMobile } from './utils'
+import { reorderTasks, switchColumnMobile } from './utils'
 import { assertIsNotDisabled } from 'lib/utils'
 
 const { Done, InProgress, Todo } = EnumColumnTypesTrimmed
@@ -44,6 +40,7 @@ export const Board = () => {
     doneTaskDoc,
     todoTaskDoc,
     progressTaskDoc,
+    moveTask,
   } = useGetTaskResults()
 
   const onMoveTask = (
@@ -139,83 +136,6 @@ export const Board = () => {
     )
   }
 
-  const move = (
-    droppableSource: DraggableLocation,
-    droppableDestination: DraggableLocation
-  ) => {
-    const fromTodoToProgress =
-      droppableSource.droppableId === Todo &&
-      droppableDestination.droppableId === InProgress
-    if (fromTodoToProgress) {
-      if (todoTaskDocResult) {
-        switchColumnDesktop({
-          sourceDoc: todoTaskDoc,
-          sourceDocResult: todoTaskDocResult,
-          destinationDoc: progressTaskDoc,
-          destinationDocResult: progressTaskDocResult,
-          destinationColumnType: 'In progress',
-          sourceTaskIndex: droppableSource.index,
-          droppableDestination,
-          droppableSource,
-        })
-      }
-    }
-
-    const fromProgressToTodo =
-      droppableSource.droppableId === InProgress &&
-      droppableDestination.droppableId === Todo
-    if (fromProgressToTodo) {
-      if (progressTaskDocResult) {
-        switchColumnDesktop({
-          sourceDoc: progressTaskDoc,
-          sourceDocResult: progressTaskDocResult,
-          destinationDoc: todoTaskDoc,
-          destinationDocResult: todoTaskDocResult,
-          destinationColumnType: 'Todo',
-          sourceTaskIndex: droppableSource.index,
-          droppableDestination,
-          droppableSource,
-        })
-      }
-    }
-
-    const fromProgressToDone =
-      droppableSource.droppableId === InProgress &&
-      droppableDestination.droppableId === Done
-    if (fromProgressToDone) {
-      if (progressTaskDocResult) {
-        switchColumnDesktop({
-          sourceDoc: progressTaskDoc,
-          sourceDocResult: progressTaskDocResult,
-          destinationDoc: doneTaskDoc,
-          destinationDocResult: doneTaskDocResult,
-          destinationColumnType: 'Done',
-          sourceTaskIndex: droppableSource.index,
-          droppableDestination,
-          droppableSource,
-        })
-      }
-    }
-
-    const fromDoneToProgress =
-      droppableSource.droppableId === Done &&
-      droppableDestination.droppableId === InProgress
-    if (fromDoneToProgress) {
-      if (doneTaskDocResult) {
-        switchColumnDesktop({
-          sourceDoc: doneTaskDoc,
-          sourceDocResult: doneTaskDocResult,
-          destinationDoc: progressTaskDoc,
-          destinationDocResult: progressTaskDocResult,
-          destinationColumnType: 'In progress',
-          sourceTaskIndex: droppableSource.index,
-          droppableDestination,
-          droppableSource,
-        })
-      }
-    }
-  }
-
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result
 
@@ -277,7 +197,7 @@ export const Board = () => {
     }
 
     if (source.droppableId !== destination.droppableId) {
-      move(source, destination)
+      moveTask(source, destination)
     }
   }
 

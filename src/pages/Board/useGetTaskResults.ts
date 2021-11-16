@@ -58,80 +58,108 @@ export const useGetTaskResults = () => {
       droppableSource.droppableId === Todo &&
       droppableDestination.droppableId === InProgress
     if (fromTodoToProgress) {
-      if (todoTaskDocResult) {
-        switchColumnDesktop({
-          sourceDoc: todoTaskDoc,
-          sourceTasks: todoTasks,
-          setSourceTasks: setTodoTasks,
-          destinationDoc: progressTaskDoc,
-          destinationTasks: progressTasks,
-          setDestinationTasks: setProgressTasks,
-          destinationColumnType: 'In progress',
-          sourceTaskIndex: droppableSource.index,
-          droppableDestination,
-          droppableSource,
-        })
-      }
+      switchColumnDesktop({
+        sourceDoc: todoTaskDoc,
+        sourceTasks: todoTasks,
+        setSourceTasks: setTodoTasks,
+        destinationDoc: progressTaskDoc,
+        destinationTasks: progressTasks,
+        setDestinationTasks: setProgressTasks,
+        destinationColumnType: 'In progress',
+        sourceTaskIndex: droppableSource.index,
+        droppableDestination,
+        droppableSource,
+      })
     }
 
     const fromProgressToTodo =
       droppableSource.droppableId === InProgress &&
       droppableDestination.droppableId === Todo
     if (fromProgressToTodo) {
-      if (progressTaskDocResult) {
-        switchColumnDesktop({
-          sourceDoc: progressTaskDoc,
-          sourceTasks: progressTasks,
-          setSourceTasks: setProgressTasks,
-          destinationDoc: todoTaskDoc,
-          destinationTasks: todoTasks,
-          setDestinationTasks: setTodoTasks,
-          destinationColumnType: 'Todo',
-          sourceTaskIndex: droppableSource.index,
-          droppableDestination,
-          droppableSource,
-        })
-      }
+      switchColumnDesktop({
+        sourceDoc: progressTaskDoc,
+        sourceTasks: progressTasks,
+        setSourceTasks: setProgressTasks,
+        destinationDoc: todoTaskDoc,
+        destinationTasks: todoTasks,
+        setDestinationTasks: setTodoTasks,
+        destinationColumnType: 'Todo',
+        sourceTaskIndex: droppableSource.index,
+        droppableDestination,
+        droppableSource,
+      })
     }
 
     const fromProgressToDone =
       droppableSource.droppableId === InProgress &&
       droppableDestination.droppableId === Done
     if (fromProgressToDone) {
-      if (progressTaskDocResult) {
-        switchColumnDesktop({
-          sourceDoc: progressTaskDoc,
-          sourceTasks: progressTasks,
-          setSourceTasks: setProgressTasks,
-          destinationDoc: doneTaskDoc,
-          destinationTasks: doneTasks,
-          setDestinationTasks: setDoneTasks,
-          destinationColumnType: 'Done',
-          sourceTaskIndex: droppableSource.index,
-          droppableDestination,
-          droppableSource,
-        })
-      }
+      switchColumnDesktop({
+        sourceDoc: progressTaskDoc,
+        sourceTasks: progressTasks,
+        setSourceTasks: setProgressTasks,
+        destinationDoc: doneTaskDoc,
+        destinationTasks: doneTasks,
+        setDestinationTasks: setDoneTasks,
+        destinationColumnType: 'Done',
+        sourceTaskIndex: droppableSource.index,
+        droppableDestination,
+        droppableSource,
+      })
     }
 
     const fromDoneToProgress =
       droppableSource.droppableId === Done &&
       droppableDestination.droppableId === InProgress
     if (fromDoneToProgress) {
-      if (doneTaskDocResult) {
-        switchColumnDesktop({
-          sourceDoc: doneTaskDoc,
-          sourceTasks: doneTasks,
-          setSourceTasks: setDoneTasks,
-          destinationDoc: progressTaskDoc,
-          destinationTasks: progressTasks,
-          setDestinationTasks: setProgressTasks,
-          destinationColumnType: 'In progress',
-          sourceTaskIndex: droppableSource.index,
-          droppableDestination,
-          droppableSource,
-        })
-      }
+      switchColumnDesktop({
+        sourceDoc: doneTaskDoc,
+        sourceTasks: doneTasks,
+        setSourceTasks: setDoneTasks,
+        destinationDoc: progressTaskDoc,
+        destinationTasks: progressTasks,
+        setDestinationTasks: setProgressTasks,
+        destinationColumnType: 'In progress',
+        sourceTaskIndex: droppableSource.index,
+        droppableDestination,
+        droppableSource,
+      })
+    }
+
+    const fromDoneToTodo =
+      droppableSource.droppableId === Done &&
+      droppableDestination.droppableId === Todo
+    if (fromDoneToTodo) {
+      switchColumnDesktop({
+        sourceDoc: doneTaskDoc,
+        sourceTasks: doneTasks,
+        setSourceTasks: setDoneTasks,
+        destinationDoc: todoTaskDoc,
+        destinationTasks: todoTasks,
+        setDestinationTasks: setTodoTasks,
+        destinationColumnType: 'Todo',
+        sourceTaskIndex: droppableSource.index,
+        droppableDestination,
+        droppableSource,
+      })
+    }
+
+    const fromTodoToDone =
+      droppableSource.droppableId === Todo &&
+      droppableDestination.droppableId === Done
+    if (fromTodoToDone) {
+      switchColumnDesktop({
+        sourceDoc: todoTaskDoc,
+        sourceTasks: todoTasks,
+        setSourceTasks: setTodoTasks,
+        destinationDoc: doneTaskDoc,
+        destinationTasks: doneTasks,
+        setDestinationTasks: setDoneTasks,
+        destinationColumnType: 'Done',
+        sourceTaskIndex: droppableSource.index,
+        droppableDestination,
+        droppableSource,
+      })
     }
   }
 

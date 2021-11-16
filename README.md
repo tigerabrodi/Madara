@@ -18,14 +18,6 @@ My main inspiration for this project was Github Project 😁
 
 I'm really happy right now to have finally finished it, sometimes it felt like it was never gonna be finished due to the number of accessibility improvements you can make 🦊 🔥 🎊 🎉
 
-## Known Behaviour / Bug 🤧
-
-A flickering that happens when you reorder the tasks.
-This is because I'm using Firebase Firestore, the option to update a single index of an array doesn't exist, and the solution was to modify the whole array of tasks and then update it. 😐
-<br>
-<br>
-Nevertheless, I'm happy with this project, it was a journey that taught me a lot about Accessibility. 😁
-
 ## Installation 🛠️
 
 After cloning the project, you need to run `yarn` 🔧
@@ -61,8 +53,7 @@ The environment variables it should have:
 
 ## Demo 🎥
 
-https://user-images.githubusercontent.com/49603590/119859711-eb6deb80-bf15-11eb-9629-dd920d99ec4f.mp4
-
+https://user-images.githubusercontent.com/49603590/142065013-0caef348-8f8d-4d55-8c8a-f0c45ff81890.mp4
 
 
 ## License :nerd_face:

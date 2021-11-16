@@ -23,6 +23,7 @@ import {
 import { toast } from 'components/Alert'
 import { trimString } from 'lib/utils'
 import { MobileMoveTaskParams } from 'pages/Board'
+import { useSetTasks } from 'hooks/useSetTasks'
 
 type ColumnProps = {
   columnType: ColumnType
@@ -51,6 +52,8 @@ export const BoardColumn = ({
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
     React.useState(false)
 
+  const setTasks = useSetTasks()
+
   const toggleFormButtonRef = React.useRef<HTMLButtonElement>(null)
 
   const toggleTaskForm = () => setIsAddTaskFormOpen(!isAddTaskFormOpen)
@@ -71,6 +74,7 @@ export const BoardColumn = ({
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault()
+    setTasks(columnType, [])
 
     taskDoc.set({
       tasks: [],

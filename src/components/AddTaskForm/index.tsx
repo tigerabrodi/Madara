@@ -13,6 +13,8 @@ import {
   FormCancelButton,
 } from './styles'
 import { trimString } from 'lib/utils'
+import { useStore } from 'lib/store'
+import { useSetTasks } from 'hooks/useSetTasks'
 
 type TaskFormProps = {
   setOpen: (state: boolean) => void
@@ -21,6 +23,8 @@ type TaskFormProps = {
 
 export const AddTaskForm = ({ setOpen, columnType }: TaskFormProps) => {
   const [addTaskText, setAddTaskText] = React.useState('')
+  const { todoTasks, progressTasks, doneTasks } = useStore()
+  const setTasks = useSetTasks()
 
   const handleAddTaskTextChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -64,6 +68,15 @@ export const AddTaskForm = ({ setOpen, columnType }: TaskFormProps) => {
       createdAt: currentDate,
       id: uuidv4(),
     }
+
+    const storeTasks =
+      columnType === 'Todo'
+        ? todoTasks
+        : columnType === 'In progress'
+        ? progressTasks
+        : doneTasks
+
+    setTasks(columnType, [newTask, ...storeTasks])
 
     const updatedTasks = taskDocResult
       ? [newTask, ...taskDocResult.tasks]

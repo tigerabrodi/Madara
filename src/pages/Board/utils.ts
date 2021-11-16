@@ -1,12 +1,13 @@
 import { DraggableLocation } from 'react-beautiful-dnd'
-import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types'
-import { ColumnType, Task, TaskFirestoreResult, DocumentData } from 'types'
+import { ColumnType, Task, DocumentData } from 'types'
 
 type SwitchMobileColumnParams = {
   sourceDoc: DocumentData
   destinationDoc: DocumentData
-  sourceDocResult: Data<TaskFirestoreResult, '', ''> | undefined
-  destinationDocResult: Data<TaskFirestoreResult, '', ''> | undefined
+  sourceTasks: Task[]
+  setSourceTasks: (sourceTasks: Task[]) => void
+  setDestinationTasks: (destinationTasks: Task[]) => void
+  destinationTasks: Task[]
   destinationColumnType: ColumnType
   sourceTaskIndex: number
 }
@@ -19,16 +20,16 @@ type SwitchDesktopColumnParams = SwitchMobileColumnParams & {
 export const switchColumnMobile = ({
   sourceDoc,
   destinationColumnType,
-  sourceDocResult,
+  sourceTasks,
   sourceTaskIndex,
   destinationDoc,
-  destinationDocResult,
+  destinationTasks,
+  setDestinationTasks,
+  setSourceTasks,
 }: SwitchMobileColumnParams) => {
-  const sourceClone = Array.from(sourceDocResult!.tasks)
+  const sourceClone = Array.from(sourceTasks)
 
-  const destClone = destinationDocResult
-    ? Array.from(destinationDocResult.tasks)
-    : []
+  const destClone = destinationTasks
 
   const [removedTask] = sourceClone.splice(sourceTaskIndex, 1)
 
@@ -39,10 +40,12 @@ export const switchColumnMobile = ({
 
   destClone.unshift(newTaskToDest)
 
+  setSourceTasks(sourceClone)
+  setDestinationTasks(destClone)
+
   sourceDoc.set({
     tasks: sourceClone,
   })
-
   destinationDoc.set({
     tasks: destClone,
   })
@@ -51,16 +54,16 @@ export const switchColumnMobile = ({
 export const switchColumnDesktop = ({
   destinationColumnType,
   destinationDoc,
-  destinationDocResult,
-  sourceDocResult,
+  destinationTasks,
+  sourceTasks,
   sourceDoc,
   droppableDestination,
   droppableSource,
+  setDestinationTasks,
+  setSourceTasks,
 }: SwitchDesktopColumnParams) => {
-  const sourceClone = Array.from(sourceDocResult!.tasks)
-  const destClone = destinationDocResult
-    ? Array.from(destinationDocResult.tasks)
-    : []
+  const sourceClone = Array.from(sourceTasks)
+  const destClone = destinationTasks
 
   const [removedTask] = sourceClone.splice(droppableSource.index, 1)
 
@@ -71,10 +74,12 @@ export const switchColumnDesktop = ({
 
   destClone.splice(droppableDestination.index, 0, newTaskToProgress)
 
+  setSourceTasks(sourceClone)
+  setDestinationTasks(destClone)
+
   sourceDoc.set({
     tasks: sourceClone,
   })
-
   destinationDoc.set({
     tasks: destClone,
   })

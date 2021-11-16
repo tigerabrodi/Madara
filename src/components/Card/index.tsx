@@ -1,14 +1,13 @@
 import * as React from 'react'
 import firebase from 'firebase/app'
 import { ATOnlyText } from 'styles'
-import { useDocumentData } from 'react-firebase-hooks/firestore'
 import { DraggableProvided } from 'react-beautiful-dnd'
 import { ConfirmationModal } from 'components/ConfirmationModal'
 import { useClickOutside } from 'hooks/useClickOutside'
 import { useTrapTabKey } from 'hooks/useTrapTabKey'
 import { MoveTaskModal } from 'components/MoveTaskModal'
 import { EditModal } from 'components/EditModal'
-import { Task, TaskFirestoreResult } from 'types'
+import { Task } from 'types'
 import {
   CardWrapper,
   CardMenuButton,
@@ -26,6 +25,7 @@ import {
 import { toast } from 'components/Alert'
 import { trimString } from 'lib/utils'
 import { MobileMoveTaskParams } from 'pages/Board'
+import { useStore } from 'lib/store'
 
 type CardProps = {
   task: Task
@@ -53,12 +53,18 @@ export const Card = ({
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
     React.useState(false)
   const [isEditFormOpen, setIsEditFormOpen] = React.useState(false)
-
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
-
   const [isMenuOpenViaKey, setIsMenuOpenViaKey] = React.useState(false)
-
   const [isMoveTaskModalOpen, setIsMoveTaskModalOpen] = React.useState(false)
+
+  const {
+    todoTasks,
+    setTodoTasks,
+    doneTasks,
+    setDoneTasks,
+    progressTasks,
+    setProgressTasks,
+  } = useStore()
 
   const { containerRef: cardMenuRef, firstButtonRef: cardMenuButtonRef } =
     useClickOutside(() => setIsMenuOpen(false))
@@ -78,24 +84,42 @@ export const Card = ({
     .collection(`users/${userId}/${trimmedColumnType}Tasks`)
     .doc(trimmedColumnType)
 
-  const [taskDocResult] = useDocumentData<TaskFirestoreResult>(taskDoc)
-
   const handleConfirmationModalSubmit = async (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault()
+    let newTasks: Task[] = []
+    switch (task.columnType) {
+      case 'Todo':
+        newTasks = todoTasks.filter(({ id }) => id !== task.id)
+        setTodoTasks(newTasks)
+        await taskDoc.update({
+          tasks: newTasks,
+        })
+        break
 
-    if (taskDocResult) {
-      const newTasks = taskDocResult.tasks.filter(({ id }) => id !== task.id)
+      case 'In progress':
+        newTasks = progressTasks.filter(({ id }) => id !== task.id)
+        setProgressTasks(newTasks)
+        await taskDoc.update({
+          tasks: newTasks,
+        })
+        break
 
-      await taskDoc.update({
-        tasks: newTasks,
-      })
-
-      toast(`You successfully deleted a task in ${task.columnType} column.`)
-
-      toggleConfirmationModal()
+      case 'Done':
+        newTasks = doneTasks.filter(({ id }) => id !== task.id)
+        setDoneTasks(newTasks)
+        await taskDoc.update({
+          tasks: newTasks,
+        })
+        break
+      default:
+        break
     }
+
+    toast(`You successfully deleted a task in ${task.columnType} column.`)
+
+    toggleConfirmationModal()
   }
 
   const handleEditModalSubmit = async (
@@ -107,46 +131,82 @@ export const Card = ({
 
     if (isDisabled) return
 
-    if (taskDocResult) {
-      const tasksCopy = taskDocResult.tasks.slice()
+    switch (task.columnType) {
+      case 'Todo':
+        const todoTasksCopy = todoTasks.slice()
+        const indexOfCurrentTodoTask = todoTasksCopy.findIndex(
+          ({ id }) => id === task.id
+        )
+        const modifiedCurrentTodoTask = {
+          ...todoTasksCopy[indexOfCurrentTodoTask],
+          text: taskText,
+        }
+        todoTasksCopy[indexOfCurrentTodoTask] = modifiedCurrentTodoTask
 
-      const indexOfCurrentTask = tasksCopy.findIndex(({ id }) => id === task.id)
+        setTodoTasks(todoTasksCopy)
+        await taskDoc.update({
+          tasks: todoTasksCopy,
+        })
+        break
 
-      const modifiedCurrentTask = {
-        ...tasksCopy[indexOfCurrentTask],
-        text: taskText,
-      }
+      case 'In progress':
+        const progressTasksCopy = progressTasks.slice()
+        const indexOfCurrentProgressTask = progressTasksCopy.findIndex(
+          ({ id }) => id === task.id
+        )
+        const modifiedCurrentProgressTask = {
+          ...progressTasksCopy[indexOfCurrentProgressTask],
+          text: taskText,
+        }
 
-      tasksCopy[indexOfCurrentTask] = modifiedCurrentTask
+        progressTasksCopy[indexOfCurrentProgressTask] =
+          modifiedCurrentProgressTask
 
-      await taskDoc.update({
-        tasks: tasksCopy,
-      })
+        setProgressTasks(progressTasksCopy)
+        await taskDoc.update({
+          tasks: progressTasksCopy,
+        })
+        break
 
-      toast(`You successfully edited a task in ${task.columnType} column.`)
+      case 'Done':
+        const doneTasksCopy = doneTasks.slice()
+        const indexOfCurrentDoneTask = doneTasksCopy.findIndex(
+          ({ id }) => id === task.id
+        )
+        const modifiedCurrentDoneTask = {
+          ...doneTasksCopy[indexOfCurrentDoneTask],
+          text: taskText,
+        }
 
-      toggleEditModalForm()
+        doneTasksCopy[indexOfCurrentDoneTask] = modifiedCurrentDoneTask
 
-      setIsMenuOpen(false)
-      setIsMenuOpenViaKey(false)
+        setDoneTasks(doneTasksCopy)
+        await taskDoc.update({
+          tasks: doneTasksCopy,
+        })
+        break
+      default:
+        break
     }
+
+    toast(`You successfully edited a task in ${task.columnType} column.`)
+
+    toggleEditModalForm()
+
+    setIsMenuOpen(false)
+    setIsMenuOpenViaKey(false)
   }
 
   const toggleConfirmationModal = () =>
     setIsConfirmationModalOpen(!isConfirmationModalOpen)
-
   const toggleEditModalForm = () => setIsEditFormOpen(!isEditFormOpen)
-
   const toggleMoveTaskModal = () => setIsMoveTaskModalOpen(!isMoveTaskModalOpen)
-
   const toggleMenu = (isDisabled: boolean) =>
     !isDisabled && setIsMenuOpen(!isMenuOpen)
-
   const toggleMenuViaKey = (isDisabled: boolean) =>
     !isDisabled && setIsMenuOpenViaKey(!isMenuOpenViaKey)
 
   const isCardMenuOpen = isMenuOpen || isMenuOpenViaKey
-
   const isCardMenuDisabled = isMobileDraggable
 
   return (

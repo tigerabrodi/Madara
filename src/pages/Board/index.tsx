@@ -17,6 +17,8 @@ import { toast } from 'components/Alert'
 import { useBoardState } from './useBoardState'
 import { useGetTaskResults } from './useGetTaskResults'
 import { reorderTasks, switchColumnMobile } from './utils'
+import { useStore } from 'lib/store'
+import { useSetTasks } from 'hooks/useSetTasks'
 
 const { Done, InProgress, Todo } = EnumColumnTypesTrimmed
 
@@ -40,15 +42,19 @@ export const Board = () => {
     switchColumnType,
   } = useBoardState()
 
+  const { doneTaskDoc, todoTaskDoc, progressTaskDoc, desktopMoveTask } =
+    useGetTaskResults()
+
   const {
-    doneTaskDocResult,
-    todoTaskDocResult,
-    progressTaskDocResult,
-    doneTaskDoc,
-    todoTaskDoc,
-    progressTaskDoc,
-    desktopMoveTask,
-  } = useGetTaskResults()
+    todoTasks,
+    progressTasks,
+    doneTasks,
+    setTodoTasks,
+    setProgressTasks,
+    setDoneTasks,
+  } = useStore()
+
+  const setTasks = useSetTasks()
 
   const mobileMoveTask = ({
     isDisabled,
@@ -64,9 +70,11 @@ export const Board = () => {
       if (destinationColumnType === 'In progress') {
         switchColumnMobile({
           sourceDoc: todoTaskDoc,
-          sourceDocResult: todoTaskDocResult,
+          sourceTasks: todoTasks,
+          setSourceTasks: setTodoTasks,
           destinationDoc: progressTaskDoc,
-          destinationDocResult: progressTaskDocResult,
+          setDestinationTasks: setProgressTasks,
+          destinationTasks: progressTasks,
           destinationColumnType,
           sourceTaskIndex,
         })
@@ -75,9 +83,11 @@ export const Board = () => {
       if (destinationColumnType === 'Done') {
         switchColumnMobile({
           sourceDoc: todoTaskDoc,
-          sourceDocResult: todoTaskDocResult,
+          sourceTasks: todoTasks,
+          setSourceTasks: setTodoTasks,
           destinationDoc: doneTaskDoc,
-          destinationDocResult: doneTaskDocResult,
+          destinationTasks: doneTasks,
+          setDestinationTasks: setDoneTasks,
           destinationColumnType,
           sourceTaskIndex,
         })
@@ -89,9 +99,11 @@ export const Board = () => {
       if (destinationColumnType === 'Todo') {
         switchColumnMobile({
           sourceDoc: progressTaskDoc,
-          sourceDocResult: progressTaskDocResult,
+          sourceTasks: progressTasks,
+          setSourceTasks: setProgressTasks,
           destinationDoc: todoTaskDoc,
-          destinationDocResult: todoTaskDocResult,
+          destinationTasks: todoTasks,
+          setDestinationTasks: setTodoTasks,
           destinationColumnType,
           sourceTaskIndex,
         })
@@ -100,9 +112,11 @@ export const Board = () => {
       if (destinationColumnType === 'Done') {
         switchColumnMobile({
           sourceDoc: progressTaskDoc,
-          sourceDocResult: progressTaskDocResult,
+          sourceTasks: progressTasks,
+          setSourceTasks: setProgressTasks,
           destinationDoc: doneTaskDoc,
-          destinationDocResult: doneTaskDocResult,
+          destinationTasks: doneTasks,
+          setDestinationTasks: setDoneTasks,
           destinationColumnType,
           sourceTaskIndex,
         })
@@ -114,9 +128,11 @@ export const Board = () => {
       if (destinationColumnType === 'Todo') {
         switchColumnMobile({
           sourceDoc: doneTaskDoc,
-          sourceDocResult: doneTaskDocResult,
+          sourceTasks: doneTasks,
+          setSourceTasks: setDoneTasks,
           destinationDoc: todoTaskDoc,
-          destinationDocResult: todoTaskDocResult,
+          destinationTasks: todoTasks,
+          setDestinationTasks: setTodoTasks,
           destinationColumnType,
           sourceTaskIndex,
         })
@@ -125,9 +141,11 @@ export const Board = () => {
       if (destinationColumnType === 'In progress') {
         switchColumnMobile({
           sourceDoc: doneTaskDoc,
-          sourceDocResult: doneTaskDocResult,
+          sourceTasks: doneTasks,
+          setSourceTasks: setDoneTasks,
           destinationDoc: progressTaskDoc,
-          destinationDocResult: progressTaskDocResult,
+          destinationTasks: progressTasks,
+          setDestinationTasks: setProgressTasks,
           destinationColumnType,
           sourceTaskIndex,
         })
@@ -159,47 +177,47 @@ export const Board = () => {
 
       const isTodoColumn = Todo === source.droppableId
       if (isTodoColumn) {
-        if (todoTaskDocResult) {
-          const newTasks = reorderTasks(
-            todoTaskDocResult.tasks,
-            source.index,
-            destination.index
-          )
+        const newTasks = reorderTasks(
+          todoTasks,
+          source.index,
+          destination.index
+        )
 
-          todoTaskDoc.set({
-            tasks: newTasks,
-          })
-        }
+        setTasks('Todo', newTasks)
+
+        todoTaskDoc.set({
+          tasks: newTasks,
+        })
       }
 
       const isProgressColumn = InProgress === source.droppableId
       if (isProgressColumn) {
-        if (progressTaskDocResult) {
-          const newTasks = reorderTasks(
-            progressTaskDocResult.tasks,
-            source.index,
-            destination.index
-          )
+        const newTasks = reorderTasks(
+          progressTasks,
+          source.index,
+          destination.index
+        )
 
-          progressTaskDoc.set({
-            tasks: newTasks,
-          })
-        }
+        setTasks('In progress', newTasks)
+
+        progressTaskDoc.set({
+          tasks: newTasks,
+        })
       }
 
       const isDoneColumn = Done === source.droppableId
       if (isDoneColumn) {
-        if (doneTaskDocResult) {
-          const newTasks = reorderTasks(
-            doneTaskDocResult.tasks,
-            source.index,
-            destination.index
-          )
+        const newTasks = reorderTasks(
+          doneTasks,
+          source.index,
+          destination.index
+        )
 
-          doneTaskDoc.set({
-            tasks: newTasks,
-          })
-        }
+        setTasks('Done', newTasks)
+
+        doneTaskDoc.set({
+          tasks: newTasks,
+        })
       }
     }
 
@@ -213,12 +231,12 @@ export const Board = () => {
   const isDoneColumnType = columnType === 'Done'
 
   const tasksForMobileColumn = isNotMobileLayout
-    ? todoTaskDocResult?.tasks
+    ? todoTasks
     : isTodoColumnType
-    ? todoTaskDocResult?.tasks
+    ? todoTasks
     : isProgressColumnType
-    ? progressTaskDocResult?.tasks
-    : doneTaskDocResult?.tasks
+    ? progressTasks
+    : doneTasks
 
   return (
     <>
@@ -281,7 +299,7 @@ export const Board = () => {
                 <BoardColumn
                   columnType="In progress"
                   isNotMobileLayout={isNotMobileLayout}
-                  tasks={progressTaskDocResult?.tasks}
+                  tasks={progressTasks}
                   mobileMoveTask={mobileMoveTask}
                   isMobileDraggable={isMobileDraggable}
                   toggleMobileDraggable={toggleMobileDraggable}
@@ -289,7 +307,7 @@ export const Board = () => {
                 <BoardColumn
                   columnType="Done"
                   isNotMobileLayout={isNotMobileLayout}
-                  tasks={doneTaskDocResult?.tasks}
+                  tasks={doneTasks}
                   mobileMoveTask={mobileMoveTask}
                   isMobileDraggable={isMobileDraggable}
                   toggleMobileDraggable={toggleMobileDraggable}

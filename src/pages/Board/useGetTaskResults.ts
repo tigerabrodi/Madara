@@ -1,6 +1,8 @@
+import * as React from 'react'
 import firebase from 'firebase/app'
+import { useStore } from 'lib/store'
 import { DraggableLocation } from 'react-beautiful-dnd'
-import { useDocumentData } from 'react-firebase-hooks/firestore'
+import { useDocumentDataOnce } from 'react-firebase-hooks/firestore'
 import { TaskFirestoreResult, EnumColumnTypesTrimmed } from 'types'
 import { switchColumnDesktop } from './utils'
 
@@ -8,25 +10,45 @@ const { Done, InProgress, Todo } = EnumColumnTypesTrimmed
 
 export const useGetTaskResults = () => {
   const userId = firebase.auth().currentUser?.uid
+  const {
+    setDoneTasks,
+    setTodoTasks,
+    setProgressTasks,
+    todoTasks,
+    progressTasks,
+    doneTasks,
+  } = useStore()
 
   const todoTaskDoc = firebase
     .firestore()
     .collection(`users/${userId}/${EnumColumnTypesTrimmed.Todo}Tasks`)
     .doc(EnumColumnTypesTrimmed.Todo)
-  const [todoTaskDocResult] = useDocumentData<TaskFirestoreResult>(todoTaskDoc)
+  const [todoTaskDocResult, areTodoTasksLoading] =
+    useDocumentDataOnce<TaskFirestoreResult>(todoTaskDoc)
 
   const progressTaskDoc = firebase
     .firestore()
     .collection(`users/${userId}/${EnumColumnTypesTrimmed.InProgress}Tasks`)
     .doc(EnumColumnTypesTrimmed.InProgress)
-  const [progressTaskDocResult] =
-    useDocumentData<TaskFirestoreResult>(progressTaskDoc)
+  const [progressTaskDocResult, areProgressTasksLoading] =
+    useDocumentDataOnce<TaskFirestoreResult>(progressTaskDoc)
 
   const doneTaskDoc = firebase
     .firestore()
     .collection(`users/${userId}/${EnumColumnTypesTrimmed.Done}Tasks`)
     .doc(EnumColumnTypesTrimmed.Done)
-  const [doneTaskDocResult] = useDocumentData<TaskFirestoreResult>(doneTaskDoc)
+  const [doneTaskDocResult, areDoneTasksLoading] =
+    useDocumentDataOnce<TaskFirestoreResult>(doneTaskDoc)
+
+  React.useEffect(() => {
+    if (areTodoTasksLoading || areProgressTasksLoading || areDoneTasksLoading) {
+      return
+    }
+
+    setTodoTasks(todoTaskDocResult?.tasks ?? [])
+    setProgressTasks(progressTaskDocResult?.tasks ?? [])
+    setDoneTasks(doneTaskDocResult?.tasks ?? [])
+  }, [areTodoTasksLoading, areProgressTasksLoading, areDoneTasksLoading])
 
   const desktopMoveTask = (
     droppableSource: DraggableLocation,
@@ -39,9 +61,11 @@ export const useGetTaskResults = () => {
       if (todoTaskDocResult) {
         switchColumnDesktop({
           sourceDoc: todoTaskDoc,
-          sourceDocResult: todoTaskDocResult,
+          sourceTasks: todoTasks,
+          setSourceTasks: setTodoTasks,
           destinationDoc: progressTaskDoc,
-          destinationDocResult: progressTaskDocResult,
+          destinationTasks: progressTasks,
+          setDestinationTasks: setProgressTasks,
           destinationColumnType: 'In progress',
           sourceTaskIndex: droppableSource.index,
           droppableDestination,
@@ -57,9 +81,11 @@ export const useGetTaskResults = () => {
       if (progressTaskDocResult) {
         switchColumnDesktop({
           sourceDoc: progressTaskDoc,
-          sourceDocResult: progressTaskDocResult,
+          sourceTasks: progressTasks,
+          setSourceTasks: setProgressTasks,
           destinationDoc: todoTaskDoc,
-          destinationDocResult: todoTaskDocResult,
+          destinationTasks: todoTasks,
+          setDestinationTasks: setTodoTasks,
           destinationColumnType: 'Todo',
           sourceTaskIndex: droppableSource.index,
           droppableDestination,
@@ -75,9 +101,11 @@ export const useGetTaskResults = () => {
       if (progressTaskDocResult) {
         switchColumnDesktop({
           sourceDoc: progressTaskDoc,
-          sourceDocResult: progressTaskDocResult,
+          sourceTasks: progressTasks,
+          setSourceTasks: setProgressTasks,
           destinationDoc: doneTaskDoc,
-          destinationDocResult: doneTaskDocResult,
+          destinationTasks: doneTasks,
+          setDestinationTasks: setDoneTasks,
           destinationColumnType: 'Done',
           sourceTaskIndex: droppableSource.index,
           droppableDestination,
@@ -93,9 +121,11 @@ export const useGetTaskResults = () => {
       if (doneTaskDocResult) {
         switchColumnDesktop({
           sourceDoc: doneTaskDoc,
-          sourceDocResult: doneTaskDocResult,
+          sourceTasks: doneTasks,
+          setSourceTasks: setDoneTasks,
           destinationDoc: progressTaskDoc,
-          destinationDocResult: progressTaskDocResult,
+          destinationTasks: progressTasks,
+          setDestinationTasks: setProgressTasks,
           destinationColumnType: 'In progress',
           sourceTaskIndex: droppableSource.index,
           droppableDestination,
